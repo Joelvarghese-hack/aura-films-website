@@ -3,444 +3,1915 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aura Films — We Frame Your Story</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <title>Aura Films — Modern Wedding Photography</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
     :root {
-      --orange: #e8a748;
-      --orange-glow: rgba(232,167,72,0.18);
-      --cream: #F9F0E1;
-      --black: #1B120B;
-      --soft: #100e0c;
-      --muted: rgba(249,240,225,0.42);
+      --padding: 20px;
+      --margin: 20px;
+      --font-primary: "Cormorant Garamond", serif;
+      --font-secondary: "Jost", sans-serif;
+      --font-cursive: "Great Vibes", cursive;
+      --link-color: #D4962A;
+      --primary-color: #4b4d44;
+      --secondary-color: #d2d4c7;
+      --lightest-color: #f8f5f2;
+      --header-height: 80px;
+      --border-radius: 0.6rem;
     }
-    html { overflow-x: hidden; scroll-behavior: auto; }
-    body { font-family: 'DM Sans', sans-serif; background: var(--soft); color: var(--cream); cursor: none; overflow-x: hidden; }
 
-    /* CURSOR */
-    #cdot { position:fixed;top:0;left:0;z-index:9999;width:7px;height:7px;background:var(--orange);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%); }
-    #cring { position:fixed;top:0;left:0;z-index:9998;width:38px;height:38px;border:1px solid rgba(232,167,72,.45);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);transition:width .4s cubic-bezier(.23,1,.32,1),height .4s cubic-bezier(.23,1,.32,1),border-color .3s; }
-    body.ch #cdot { width:11px;height:11px; }
-    body.ch #cring { width:60px;height:60px;border-color:rgba(232,167,72,.8); }
+    html { overflow-x: hidden; scroll-behavior: smooth; }
 
-    /* GRAIN */
-    #grain { position:fixed;inset:0;z-index:8900;pointer-events:none;opacity:.033;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E") repeat; background-size:180px 180px; animation:gs .12s steps(1) infinite; }
-    @keyframes gs { 0%{background-position:0 0}10%{background-position:-20% -15%}20%{background-position:18% 22%}30%{background-position:-8% 40%}40%{background-position:33% -18%}50%{background-position:-22% 12%}60%{background-position:44% 28%}70%{background-position:-14% -35%}80%{background-position:26% 38%}90%{background-position:-30% 8%}100%{background-position:10% -20%} }
+    body {
+      font-family: var(--font-secondary);
+      background-color: var(--lightest-color);
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px 200px;
+      color: var(--primary-color);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
 
-    /* PROGRESS */
-    #prog { position:fixed;top:0;left:0;z-index:9500;height:2px;background:var(--orange);width:0%;transition:width .08s linear; }
+    /* ============ NAV ============ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--header-height);
+      background: rgba(248,245,242,0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      border-bottom: 1px solid rgba(75,77,68,0.08);
+    }
 
-    /* PRELOADER */
-    #pre { position:fixed;inset:0;z-index:10000;background:#0e0b08;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px; }
-    #pre-word { font-family:'Cormorant Garamond',serif;font-size:clamp(64px,12vw,140px);font-weight:700;letter-spacing:-.02em;color:var(--cream);display:flex; }
-    #pre-word span { display:inline-block;transform:translateY(110%); }
-    #pre-sub { font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--orange);opacity:0;font-family:'DM Sans',sans-serif; }
-    #pre-line { width:180px;height:1px;background:rgba(249,240,225,.08);overflow:hidden; }
-    #pre-line::after { content:'';display:block;height:100%;width:0;background:var(--orange);animation:pl 1.9s cubic-bezier(.77,0,.18,1) .2s forwards; }
-    @keyframes pl { to { width:100%; } }
+    .nav-logo {
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
 
-    /* NAV */
-    nav { position:fixed;top:0;left:0;right:0;z-index:8000;display:flex;align-items:center;justify-content:space-between;padding:30px 52px;transition:padding .5s ease,background .5s ease,backdrop-filter .5s ease; }
-    nav.sc { padding:17px 52px;background:rgba(27,18,11,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(232,167,72,.07); }
-    .nlogo { font-family:'Cormorant Garamond',serif;font-size:27px;font-weight:700;color:var(--cream);text-decoration:none;letter-spacing:-.01em;line-height:1;display:flex;flex-direction:column;align-items:center; }
-    .nlogo small { font-size:8.5px;letter-spacing:.28em;font-family:'DM Sans',sans-serif;font-weight:300;color:var(--orange);margin-top:2px; }
-    .nlinks { display:flex;gap:40px;list-style:none; }
-    .nlinks a { font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(249,240,225,.6);text-decoration:none;position:relative;transition:color .3s; }
-    .nlinks a::after { content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--orange);transition:width .35s cubic-bezier(.77,0,.18,1); }
-    .nlinks a:hover { color:var(--cream); }
-    .nlinks a:hover::after { width:100%; }
-    .ncta { font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--black);background:var(--orange);border:none;padding:12px 26px;cursor:none;font-family:'DM Sans',sans-serif;font-weight:500;transition:opacity .3s,transform .35s cubic-bezier(.23,1,.32,1); }
-    .ncta:hover { opacity:.82;transform:translateY(-1px); }
+    .nav-logo img {
+      height: 52px;
+      width: auto;
+      display: block;
+    }
 
-    /* HERO */
-    #hero { position:relative;height:100vh;min-height:680px;display:flex;align-items:center;overflow:hidden; }
-    .hbg { position:absolute;inset:0;background:radial-gradient(ellipse 65% 85% at 72% 45%,rgba(232,167,72,.07) 0%,transparent 70%),radial-gradient(ellipse 45% 55% at 18% 78%,rgba(232,167,72,.04) 0%,transparent 60%),linear-gradient(135deg,#0b0906 0%,#1B120B 55%,#0d0b09 100%); }
-    .himg { position:absolute;inset:0;background:url('https://placehold.co/1920x1080/1B120B/1e1409') center/cover;opacity:.15;filter:grayscale(100%) contrast(1.15);transform:scale(1.08); }
-    .hlb { position:absolute;left:0;right:0;height:56px;background:var(--soft);z-index:2; }
-    .hlb.top { top:0; } .hlb.bot { bottom:0; }
-    .hcontent { position:relative;z-index:3;padding:0 68px;width:100%; }
-    .hey { font-size:10px;letter-spacing:.42em;text-transform:uppercase;color:var(--orange);margin-bottom:30px;display:flex;align-items:center;gap:16px;opacity:0; }
-    .hey::before { content:'';width:36px;height:1px;background:var(--orange); }
-    .hh1 { font-family:'Cormorant Garamond',serif;font-size:clamp(76px,11.5vw,168px);font-weight:700;line-height:.88;letter-spacing:-.035em;color:var(--cream);margin-bottom:40px; }
-    .hh1 .wd { display:block;overflow:hidden; }
-    .hh1 .wd span { display:block;transform:translateY(110%); }
-    .hh1 em { font-style:italic;color:var(--orange); }
-    .hsub { font-size:14px;line-height:1.75;color:var(--muted);max-width:360px;opacity:0;margin-bottom:50px; }
-    .hact { display:flex;align-items:center;gap:32px;opacity:0; }
-    .btn-p { display:inline-flex;align-items:center;gap:12px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-family:'DM Sans',sans-serif;font-weight:500;color:var(--black);background:var(--orange);padding:16px 34px;text-decoration:none;transition:opacity .3s,transform .35s cubic-bezier(.23,1,.32,1); }
-    .btn-p:hover { opacity:.82;transform:translateY(-2px); }
-    .btn-g { display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-family:'DM Sans',sans-serif;font-weight:400;color:var(--muted);text-decoration:none;transition:color .3s; }
-    .btn-g:hover { color:var(--cream); }
-    .btn-g .arr { width:26px;height:1px;background:currentColor;position:relative;transition:width .35s cubic-bezier(.23,1,.32,1); }
-    .btn-g:hover .arr { width:42px; }
-    .btn-g .arr::after { content:'';position:absolute;right:0;top:50%;transform:translate(0,-50%) rotate(45deg);width:6px;height:6px;border-right:1px solid currentColor;border-top:1px solid currentColor; }
-    .hscroll { position:absolute;bottom:76px;right:68px;z-index:3;display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0; }
-    .hscroll span { font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);writing-mode:vertical-rl; }
-    .hline { width:1px;height:56px;background:rgba(249,240,225,.12);overflow:hidden;position:relative; }
-    .hline::after { content:'';position:absolute;top:-100%;left:0;width:100%;height:100%;background:var(--orange);animation:sd 2s ease infinite 2.8s; }
-    @keyframes sd { 0%{top:-100%}100%{top:100%} }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      list-style: none;
+    }
 
-    /* MARQUEE */
-    .mq { border-top:1px solid rgba(232,167,72,.1);border-bottom:1px solid rgba(232,167,72,.1);overflow:hidden;background:rgba(232,167,72,.025); }
-    .mqt { display:flex;animation:mqs 24s linear infinite;white-space:nowrap; }
-    .mqt:hover { animation-play-state:paused; }
-    @keyframes mqs { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-    .mqi { display:flex;align-items:center;gap:28px;padding:19px 28px;flex-shrink:0; }
-    .mqtext { font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--muted); }
-    .mqdot { width:4px;height:4px;background:var(--orange);border-radius:50%;flex-shrink:0; }
+    .nav-links a {
+      font-family: var(--font-secondary);
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.2s ease;
+      position: relative;
+    }
 
-    /* SECTION LABEL */
-    .slabel { font-size:9px;letter-spacing:.45em;text-transform:uppercase;color:var(--orange);display:flex;align-items:center;gap:13px;margin-bottom:22px; }
-    .slabel::before { content:'';width:26px;height:1px;background:var(--orange); }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0; right: 0;
+      height: 1px;
+      background: var(--link-color);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
 
-    /* WORK */
-    #work { padding:116px 68px; }
-    .whead { display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:60px; }
-    .wh1 { font-family:'Cormorant Garamond',serif;font-size:clamp(50px,6.5vw,92px);font-weight:700;line-height:.92;letter-spacing:-.035em;color:var(--cream); }
-    .wh1 em { font-style:italic;color:var(--orange); }
-    .wcnt { font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);padding-bottom:8px; }
-    .wgrid { display:grid;grid-template-columns:1fr 1fr;gap:3px; }
-    .wcard { position:relative;overflow:hidden;background:#0b0906;cursor:none; }
-    .wcard:first-child { grid-row:span 2; }
-    .wimg { width:100%;height:100%;min-height:340px;object-fit:cover;display:block;filter:grayscale(55%) contrast(1.1);transition:filter .65s ease,transform .85s cubic-bezier(.23,1,.32,1); }
-    .wcard:first-child .wimg { min-height:720px; }
-    .wcard:hover .wimg { filter:grayscale(15%) contrast(1.1);transform:scale(1.05); }
-    .wov { position:absolute;inset:0;background:linear-gradient(to top,rgba(27,18,11,.92) 0%,rgba(27,18,11,.18) 50%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:34px;opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s cubic-bezier(.23,1,.32,1); }
-    .wcard:hover .wov { opacity:1;transform:translateY(0); }
-    .wcat { font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--orange);margin-bottom:8px; }
-    .wtitle { font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--cream);line-height:1.1; }
-    .wnum { position:absolute;top:22px;right:22px;font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;color:rgba(249,240,225,.28);letter-spacing:.1em; }
+    .nav-links a:hover { color: var(--link-color); }
+    .nav-links a:hover::after { transform: scaleX(1); }
 
-    /* SERVICES */
-    #services { padding:116px 68px;background:linear-gradient(to bottom,var(--soft),#0f0d0b); }
-    .sh1 { font-family:'Cormorant Garamond',serif;font-size:clamp(46px,5.8vw,84px);font-weight:700;line-height:.92;letter-spacing:-.035em;color:var(--cream);max-width:580px;margin-bottom:72px; }
-    .sgrid { display:grid;grid-template-columns:repeat(4,1fr);gap:2px; }
-    .scard { padding:48px 34px;border:1px solid rgba(232,167,72,.07);position:relative;overflow:hidden;transition:border-color .4s; }
-    .scard::before { content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 110%,rgba(232,167,72,.09) 0%,transparent 65%);opacity:0;transition:opacity .5s; }
-    .scard:hover { border-color:rgba(232,167,72,.22); }
-    .scard:hover::before { opacity:1; }
-    .snum { font-family:'Cormorant Garamond',serif;font-size:50px;font-weight:300;color:rgba(232,167,72,.12);line-height:1;display:block;margin-bottom:28px; }
-    .sbar { width:38px;height:1px;background:var(--orange);margin-bottom:26px;transform-origin:left;transform:scaleX(0);transition:transform .6s cubic-bezier(.23,1,.32,1); }
-    .scard:hover .sbar { transform:scaleX(1); }
-    .stitle { font-family:'Cormorant Garamond',serif;font-size:25px;font-weight:600;color:var(--cream);margin-bottom:15px;line-height:1.2; }
-    .sdesc { font-size:13px;line-height:1.78;color:var(--muted); }
+    .nav-cta {
+      font-family: var(--font-secondary);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--lightest-color);
+      background: var(--link-color);
+      border: none;
+      padding: 0.6rem 1.3rem;
+      cursor: pointer;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
 
-    /* ABOUT */
-    #about { padding:116px 68px;display:grid;grid-template-columns:1fr 1fr;gap:88px;align-items:center; }
-    .awrap { position:relative; }
-    .aimg { width:100%;aspect-ratio:4/5;object-fit:cover;filter:grayscale(75%) contrast(1.1);display:block; }
-    .aframe { position:absolute;inset:22px -22px -22px 22px;border:1px solid rgba(232,167,72,.18);z-index:-1; }
-    .atag { position:absolute;bottom:-18px;left:28px;background:var(--orange);padding:12px 20px;font-size:9.5px;letter-spacing:.25em;text-transform:uppercase;color:var(--black);font-weight:500; }
-    .ah1 { font-family:'Cormorant Garamond',serif;font-size:clamp(42px,4.8vw,68px);font-weight:700;line-height:.96;letter-spacing:-.03em;color:var(--cream);margin-bottom:28px; }
-    .ah1 em { font-style:italic;color:var(--orange); }
-    .abody { font-size:14px;line-height:1.88;color:var(--muted);margin-bottom:48px; }
-    .abody p+p { margin-top:18px; }
+    .nav-cta:hover { background: #C08322; transform: translateY(-1px); }
+    .nav-cta:active { transform: translateY(0); }
 
-    /* STATS */
-    #stats { padding:96px 68px;border-top:1px solid rgba(232,167,72,.07);border-bottom:1px solid rgba(232,167,72,.07);display:grid;grid-template-columns:repeat(4,1fr); }
-    .stitem { padding:44px 36px;border-right:1px solid rgba(232,167,72,.07);text-align:center; }
-    .stitem:last-child { border-right:none; }
-    .stnum { font-family:'Cormorant Garamond',serif;font-size:clamp(54px,6.5vw,92px);font-weight:700;color:var(--cream);line-height:1;letter-spacing:-.03em;display:block; }
-    .stnum .stsuf { color:var(--orange); }
-    .stlabel { font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-top:10px;display:block; }
+    .nav-social {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
 
-    /* PROCESS */
-    #process { padding:116px 68px; }
-    .prh1 { font-family:'Cormorant Garamond',serif;font-size:clamp(46px,5.8vw,84px);font-weight:700;line-height:.92;letter-spacing:-.035em;color:var(--cream);margin-bottom:72px; }
-    .prsteps { display:grid;grid-template-columns:repeat(3,1fr);border:1px solid rgba(232,167,72,.07); }
-    .prstep { padding:54px 46px;border-right:1px solid rgba(232,167,72,.07);position:relative; }
-    .prstep:last-child { border-right:none; }
-    .prbig { font-family:'Cormorant Garamond',serif;font-size:110px;font-weight:700;color:rgba(232,167,72,.05);line-height:1;position:absolute;top:14px;right:24px;letter-spacing:-.05em; }
-    .prtitle { font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--cream);margin-bottom:18px;line-height:1.2; }
-    .prbar { width:30px;height:1px;background:var(--orange);margin-bottom:28px; }
-    .prdesc { font-size:13px;line-height:1.8;color:var(--muted); }
+    .nav-social a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: color 0.2s ease;
+      display: flex;
+      align-items: center;
+    }
 
-    /* CTA */
-    #cta { background:var(--orange);padding:116px 68px;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;overflow:hidden; }
-    #cta::before { content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 75% at 50% 110%,rgba(27,18,11,.18) 0%,transparent 70%);pointer-events:none; }
-    .ctah1 { font-family:'Cormorant Garamond',serif;font-size:clamp(60px,9.5vw,136px);font-weight:700;line-height:.88;letter-spacing:-.035em;color:var(--black);margin-bottom:36px;position:relative;z-index:1; }
-    .ctasub { font-size:14px;line-height:1.72;color:rgba(27,18,11,.62);max-width:400px;margin-bottom:52px;position:relative;z-index:1; }
-    .btn-d { display:inline-flex;align-items:center;gap:14px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-family:'DM Sans',sans-serif;font-weight:500;color:var(--orange);background:var(--black);padding:18px 40px;text-decoration:none;position:relative;z-index:1;transition:opacity .3s,transform .35s cubic-bezier(.23,1,.32,1); }
-    .btn-d:hover { opacity:.84;transform:translateY(-2px); }
+    .nav-social a:hover { color: var(--link-color); }
 
-    /* FOOTER */
-    footer { padding:60px 68px;border-top:1px solid rgba(232,167,72,.07);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:32px; }
-    .flogo { font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--cream);line-height:1; }
-    .flogo small { display:block;font-size:8px;letter-spacing:.28em;font-family:'DM Sans',sans-serif;font-weight:300;color:var(--orange);margin-top:3px; }
-    .fcenter { text-align:center;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted); }
-    .fright { display:flex;justify-content:flex-end;gap:28px; }
-    .fright a { font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s; }
-    .fright a:hover { color:var(--orange); }
+    /* ============ PAGE SYSTEM ============ */
+    .page { display: none; padding-top: var(--header-height); min-height: 100vh; }
+    .page.active { display: block; }
+
+    /* ============ HOME PAGE ============ */
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - var(--header-height));
+      position: relative;
+    }
+
+    .hero-left {
+      padding: 4rem 3rem 4rem 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-title {
+      font-family: var(--font-primary);
+      font-size: clamp(5rem, 12vw, 9rem);
+      font-weight: 300;
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      color: var(--primary-color);
+      text-transform: uppercase;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .hero-sub {
+      font-family: var(--font-secondary);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--link-color);
+      margin-top: 1.5rem;
+      font-weight: 400;
+    }
+
+    .hero-tagline {
+      font-family: var(--font-secondary);
+      font-size: 0.72rem;
+      line-height: 1.9;
+      letter-spacing: 0.03em;
+      color: rgba(75,77,68,0.75);
+      margin-top: 2rem;
+      max-width: 280px;
+      font-weight: 300;
+    }
+
+    .hero-right {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-right img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-right::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 60%, rgba(75,77,68,0.2));
+    }
+
+    /* Services section */
+    .services {
+      padding: 0;
+    }
+
+    .service-item {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      margin-bottom: 0;
+      min-height: 360px;
+      position: relative;
+    }
+
+    .service-item:nth-child(even) .service-img { order: -1; }
+
+    .service-img {
+      position: relative;
+      overflow: hidden;
+      height: 360px;
+    }
+
+    .service-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .service-item:hover .service-img img { transform: scale(1.03); }
+
+    .service-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(75,77,68,0.15));
+    }
+
+    .service-content {
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: var(--lightest-color);
+    }
+
+    .service-num {
+      font-family: var(--font-primary);
+      font-size: 4rem;
+      font-weight: 300;
+      color: rgba(75,77,68,0.12);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .service-title {
+      font-family: var(--font-primary);
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 400;
+      line-height: 1.05;
+      color: var(--primary-color);
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+    }
+
+    .service-title em {
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .service-desc {
+      font-family: var(--font-secondary);
+      font-size: 0.72rem;
+      line-height: 1.9;
+      color: rgba(75,77,68,0.7);
+      margin-top: 1.2rem;
+      max-width: 300px;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+    }
+
+    /* Editorial text */
+    .editorial {
+      padding: 8rem 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .editorial-text {
+      font-family: var(--font-primary);
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--primary-color);
+      text-transform: uppercase;
+    }
+
+    .editorial-text em { font-style: italic; }
+
+    .editorial-right {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      position: relative;
+    }
+
+    .editorial-right img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      display: block;
+    }
+
+    .editorial-right img:first-child {
+      margin-top: 3rem;
+    }
+
+    .editorial2 {
+      padding: 6rem 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .editorial2-img {
+      position: relative;
+    }
+
+    .editorial2-img img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      display: block;
+    }
+
+    .editorial2-text {
+      font-family: var(--font-primary);
+      font-size: clamp(2.8rem, 5vw, 4.8rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--primary-color);
+      text-transform: uppercase;
+    }
+
+    .editorial2-text em { font-style: italic; }
+
+    /* Dreamy section */
+    .dreamy {
+      padding: 6rem 3rem;
+      text-align: center;
+      border-top: 1px solid rgba(75,77,68,0.1);
+      border-bottom: 1px solid rgba(75,77,68,0.1);
+    }
+
+    .dreamy-headline {
+      font-family: var(--font-primary);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--primary-color);
+      margin-bottom: 3rem;
+      letter-spacing: 0.02em;
+    }
+
+    .dreamy-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .dreamy-col h4 {
+      font-family: var(--font-secondary);
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--primary-color);
+      margin-bottom: 0.8rem;
+      border-bottom: 1px solid rgba(75,77,68,0.15);
+      padding-bottom: 0.5rem;
+    }
+
+    .dreamy-col p {
+      font-family: var(--font-secondary);
+      font-size: 0.72rem;
+      line-height: 1.9;
+      color: rgba(75,77,68,0.7);
+      font-weight: 300;
+    }
+
+    /* Award section */
+    .award {
+      padding: 5rem 3rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .award-text h3 {
+      font-family: var(--font-secondary);
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(75,77,68,0.5);
+      margin-bottom: 1rem;
+    }
+
+    .award-text p {
+      font-family: var(--font-primary);
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--primary-color);
+      line-height: 1.4;
+      max-width: 500px;
+    }
+
+    .award-badge {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: var(--primary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .award-badge-inner {
+      text-align: center;
+    }
+
+    .award-badge-inner span {
+      display: block;
+      font-family: var(--font-secondary);
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .award-badge-inner .year {
+      font-family: var(--font-primary);
+      font-size: 1.4rem;
+      color: var(--lightest-color);
+      font-weight: 300;
+    }
+
+    /* Contact form */
+    .contact-section {
+      padding: 6rem 3rem;
+      background: rgba(210,212,199,0.15);
+    }
+
+    .contact-section h2 {
+      font-family: var(--font-secondary);
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      text-align: center;
+      color: var(--primary-color);
+      margin-bottom: 0.8rem;
+    }
+
+    .contact-section p.sub {
+      font-family: var(--font-secondary);
+      font-size: 0.72rem;
+      text-align: center;
+      color: rgba(75,77,68,0.6);
+      margin-bottom: 3rem;
+      line-height: 1.8;
+      font-weight: 300;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .contact-form {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .form-field {
+      margin-bottom: 1rem;
+    }
+
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 1px solid rgba(75,77,68,0.2);
+      background: rgba(248,245,242,0.8);
+      font-family: var(--font-secondary);
+      font-size: 0.72rem;
+      color: var(--primary-color);
+      outline: none;
+      border-radius: 0;
+      transition: border-color 0.2s ease;
+      font-weight: 300;
+      -webkit-appearance: none;
+    }
+
+    .form-field input::placeholder,
+    .form-field textarea::placeholder {
+      color: rgba(75,77,68,0.45);
+    }
+
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+      border-color: var(--link-color);
+    }
+
+    .form-field textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .form-submit {
+      display: block;
+      width: 100%;
+      padding: 0.9rem;
+      background: transparent;
+      border: 1px solid var(--primary-color);
+      font-family: var(--font-secondary);
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+      cursor: pointer;
+      margin-top: 1.5rem;
+      transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+    }
+
+    .form-submit:hover {
+      background: var(--primary-color);
+      color: var(--lightest-color);
+      transform: translateY(-1px);
+    }
+
+    /* Footer */
+    footer {
+      padding: 4rem 3rem 2rem;
+      border-top: 1px solid rgba(75,77,68,0.1);
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 4rem;
+    }
+
+    .footer-social {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .footer-social a {
+      font-family: var(--font-secondary);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .footer-social a:hover { color: var(--link-color); }
+
+    .footer-logo-area {
+      text-align: center;
+    }
+
+    .footer-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+    }
+
+    .footer-badge img {
+      height: 72px;
+      width: auto;
+      display: block;
+    }
+
+    .footer-nav {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .footer-nav a {
+      font-family: var(--font-secondary);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .footer-nav a:hover { color: var(--link-color); }
+
+    .footer-big {
+      font-family: var(--font-primary);
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .footer-big em { font-style: italic; }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(75,77,68,0.1);
+      padding-top: 1.5rem;
+    }
+
+    .footer-bottom p {
+      font-family: var(--font-secondary);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: rgba(75,77,68,0.5);
+      font-weight: 300;
+    }
+
+    .footer-contact {
+      text-align: right;
+    }
+
+    .footer-contact span {
+      display: block;
+      font-family: var(--font-secondary);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(75,77,68,0.5);
+      margin-bottom: 0.3rem;
+    }
+
+    .footer-contact a {
+      font-family: var(--font-secondary);
+      font-size: 0.65rem;
+      color: var(--link-color);
+      text-decoration: none;
+    }
+
+    /* ============ PORTFOLIO PAGE ============ */
+    .portfolio-hero {
+      padding: 3rem 3rem 2rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(75,77,68,0.1);
+    }
+
+    .page-title {
+      font-family: var(--font-primary);
+      font-size: clamp(5rem, 12vw, 9rem);
+      font-weight: 300;
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    .portfolio-filters {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      font-family: var(--font-secondary);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.5rem 1.2rem;
+      border: 1px solid rgba(75,77,68,0.25);
+      background: transparent;
+      color: var(--primary-color);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-radius: 2px;
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: var(--primary-color);
+      color: var(--lightest-color);
+      border-color: var(--primary-color);
+    }
+
+    .portfolio-grid {
+      padding: 2rem 1.5rem;
+      columns: 3;
+      column-gap: 0.75rem;
+    }
+
+    .portfolio-item {
+      break-inside: avoid;
+      margin-bottom: 0.75rem;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .portfolio-item img {
+      width: 100%;
+      display: block;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .portfolio-item:hover img { transform: scale(1.04); }
+
+    .portfolio-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(75,77,68,0.4));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .portfolio-item:hover::after { opacity: 1; }
+
+    /* ============ BLOG PAGE ============ */
+    .blog-hero {
+      padding: 3rem 3rem 2rem;
+      text-align: center;
+    }
+
+    .blog-sub {
+      font-family: var(--font-primary);
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--primary-color);
+      margin-top: 1rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .blog-sub-p {
+      font-family: var(--font-secondary);
+      font-size: 0.72rem;
+      line-height: 1.9;
+      color: rgba(75,77,68,0.65);
+      max-width: 580px;
+      margin: 0 auto 4rem;
+      font-weight: 300;
+      text-align: center;
+    }
+
+    .blog-grid {
+      padding: 0 3rem 6rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .blog-card {
+      cursor: pointer;
+    }
+
+    .blog-card-img {
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .blog-card-img img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .blog-card:hover .blog-card-img img { transform: scale(1.03); }
+
+    .blog-card h3 {
+      font-family: var(--font-primary);
+      font-size: 1.6rem;
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--primary-color);
+      margin-bottom: 0.8rem;
+    }
+
+    .blog-card p {
+      font-family: var(--font-secondary);
+      font-size: 0.72rem;
+      line-height: 1.9;
+      color: rgba(75,77,68,0.65);
+      font-weight: 300;
+    }
+
+    /* ============ INFO/DETAILS PAGE ============ */
+    .details-hero {
+      position: relative;
+      text-align: center;
+      padding: 2rem 3rem;
+    }
+
+    .details-hero-img {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      display: block;
+      margin-bottom: 2rem;
+    }
+
+    .details-sub {
+      font-family: var(--font-secondary);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(75,77,68,0.6);
+      font-weight: 300;
+      margin-top: 0.8rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.9;
+    }
+
+    .why-choose {
+      padding: 5rem 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+    }
+
+    .why-col h2 {
+      font-family: var(--font-secondary);
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+      margin-bottom: 2rem;
+    }
+
+    .why-item {
+      margin-bottom: 1.8rem;
+    }
+
+    .why-item h4 {
+      font-family: var(--font-secondary);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: var(--primary-color);
+      margin-bottom: 0.4rem;
+    }
+
+    .why-item p {
+      font-family: var(--font-secondary);
+      font-size: 0.68rem;
+      line-height: 1.8;
+      color: rgba(75,77,68,0.65);
+      font-weight: 300;
+    }
+
+    .service-areas h2 {
+      font-family: var(--font-secondary);
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+    }
+
+    .areas-list {
+      list-style: none;
+    }
+
+    .areas-list li {
+      font-family: var(--font-secondary);
+      font-size: 0.7rem;
+      line-height: 1.9;
+      color: rgba(75,77,68,0.7);
+      font-weight: 300;
+    }
+
+    /* Investment section */
+    .investment {
+      padding: 5rem 3rem;
+      background: rgba(210,212,199,0.1);
+      text-align: center;
+    }
+
+    .investment h2 {
+      font-family: var(--font-secondary);
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+      margin-bottom: 2rem;
+    }
+
+    .invest-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.3rem;
+      margin-bottom: 3rem;
+    }
+
+    .invest-tab {
+      font-family: var(--font-secondary);
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.45rem 1.5rem;
+      border: 1px solid rgba(75,77,68,0.25);
+      background: transparent;
+      color: var(--primary-color);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .invest-tab.active {
+      background: var(--primary-color);
+      color: var(--lightest-color);
+      border-color: var(--primary-color);
+    }
+
+    .invest-packages {
+      display: none;
+      text-align: left;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .invest-packages.active { display: block; }
+
+    .package {
+      padding: 2rem 0;
+      border-bottom: 1px solid rgba(75,77,68,0.1);
+    }
+
+    .package:last-child { border-bottom: none; }
+
+    .package-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.8rem;
+    }
+
+    .package-name {
+      font-family: var(--font-secondary);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    .package-price {
+      font-family: var(--font-primary);
+      font-size: 1.4rem;
+      font-weight: 300;
+      color: var(--link-color);
+    }
+
+    .package-desc {
+      font-family: var(--font-secondary);
+      font-size: 0.68rem;
+      line-height: 1.9;
+      color: rgba(75,77,68,0.65);
+      font-weight: 300;
+      max-width: 600px;
+    }
+
+    /* Experience section */
+    .experience {
+      padding: 5rem 3rem;
+      text-align: center;
+    }
+
+    .experience h2 {
+      font-family: var(--font-primary);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      font-style: italic;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .experience .sub {
+      font-family: var(--font-secondary);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: rgba(75,77,68,0.5);
+      margin-bottom: 4rem;
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .step-num {
+      font-family: var(--font-secondary);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--link-color);
+      margin-bottom: 0.8rem;
+    }
+
+    .step-title {
+      font-family: var(--font-secondary);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--primary-color);
+      margin-bottom: 0.8rem;
+    }
+
+    .step-desc {
+      font-family: var(--font-secondary);
+      font-size: 0.65rem;
+      line-height: 1.85;
+      color: rgba(75,77,68,0.6);
+      font-weight: 300;
+    }
+
+    /* FAQ */
+    .faq-section {
+      padding: 5rem 3rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-section h2 {
+      font-family: var(--font-primary);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 300;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      color: var(--primary-color);
+      line-height: 1.05;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .faq-item {
+      border-top: 1px solid rgba(75,77,68,0.12);
+      padding: 1.2rem 0;
+      cursor: pointer;
+    }
+
+    .faq-item:last-child { border-bottom: 1px solid rgba(75,77,68,0.12); }
+
+    .faq-q {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .faq-q span {
+      font-family: var(--font-secondary);
+      font-size: 0.68rem;
+      letter-spacing: 0.05em;
+      font-weight: 400;
+      color: var(--primary-color);
+      line-height: 1.6;
+    }
+
+    .faq-arrow {
+      font-size: 0.7rem;
+      color: var(--link-color);
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .faq-item.open .faq-arrow { transform: rotate(90deg); }
+
+    .faq-a {
+      display: none;
+      padding-top: 0.8rem;
+      font-family: var(--font-secondary);
+      font-size: 0.68rem;
+      line-height: 1.9;
+      color: rgba(75,77,68,0.65);
+      font-weight: 300;
+    }
+
+    .faq-item.open .faq-a { display: block; }
+
+    /* ============ DIVIDER ============ */
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(75,77,68,0.1);
+      margin: 0 3rem;
+    }
+
+    /* ============ MOBILE NAV TOGGLE ============ */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 22px;
+      height: 1px;
+      background: var(--primary-color);
+      transition: all 0.3s ease;
+    }
+
+    @media (max-width: 900px) {
+      .nav-hamburger { display: flex; }
+
+      .nav-center {
+        display: none;
+        position: absolute;
+        top: var(--header-height);
+        left: 0; right: 0;
+        background: rgba(248,245,242,0.97);
+        backdrop-filter: blur(12px);
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 2rem;
+        border-bottom: 1px solid rgba(75,77,68,0.1);
+      }
+
+      .nav-center.open { display: flex; }
+      .nav-links { flex-direction: column; gap: 1rem; }
+      .portfolio-grid { columns: 2; }
+      .service-item { grid-template-columns: 1fr; }
+      .service-item:nth-child(even) .service-img { order: unset; }
+      .editorial, .editorial2 { grid-template-columns: 1fr; gap: 2rem; }
+      .editorial-right { grid-template-columns: 1fr 1fr; }
+      .award { grid-template-columns: 1fr; }
+      .award-badge { margin: 0; }
+      .why-choose { grid-template-columns: 1fr; gap: 2rem; }
+      .steps { grid-template-columns: 1fr 1fr; }
+      .blog-grid { grid-template-columns: 1fr; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { height: 50vw; }
+      .dreamy-grid { grid-template-columns: 1fr; }
+      .footer-top { flex-direction: column; gap: 2rem; }
+    }
+
+    @media (max-width: 600px) {
+      .portfolio-grid { columns: 2; }
+      .steps { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
 
-<!-- Preloader -->
-<div id="pre">
-  <div id="pre-word"><span>a</span><span>u</span><span>r</span><span>a</span></div>
-  <div id="pre-sub">films</div>
-  <div id="pre-line"></div>
-</div>
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" data-page="home" onclick="showPage('home')">
+      <img src="logo-light.png" alt="Aura Films">
+    </a>
 
-<div id="grain"></div>
-<div id="prog"></div>
-<div id="cdot"></div>
-<div id="cring"></div>
-
-<!-- Nav -->
-<nav id="nav">
-  <a href="#" class="nlogo">aura<small>films</small></a>
-  <ul class="nlinks">
-    <li><a href="#work">Work</a></li>
-    <li><a href="#services">Services</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#process">Process</a></li>
-  </ul>
-  <button class="ncta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Get in Touch</button>
-</nav>
-
-<!-- Hero -->
-<section id="hero">
-  <div class="hbg"></div>
-  <div class="himg"></div>
-  <div class="hlb top"></div>
-  <div class="hlb bot"></div>
-  <div class="hcontent">
-    <div class="hey">Film Production · Toronto, Canada</div>
-    <h1 class="hh1">
-      <span class="wd"><span>We Frame</span></span>
-      <span class="wd"><span><em>Your</em> Story</span></span>
-    </h1>
-    <p class="hsub">Cinematic storytelling that transcends the ordinary. From concept to final cut — visuals that move people.</p>
-    <div class="hact">
-      <a href="#work" class="btn-p">View Our Work</a>
-      <a href="#about" class="btn-g"><span class="arr"></span>Our Story</a>
+    <div class="nav-center" id="navCenter">
+      <ul class="nav-links">
+        <li><a onclick="showPage('home'); closeNav()">About</a></li>
+        <li><a onclick="showPage('portfolio'); closeNav()">Portfolio</a></li>
+        <li><a onclick="showPage('info'); closeNav()">Info</a></li>
+        <li><a onclick="showPage('blog'); closeNav()">Blog</a></li>
+      </ul>
+      <a class="nav-cta" onclick="scrollToContact(); closeNav()">Inquire Now</a>
+      <div class="nav-social">
+        <a href="#" aria-label="Instagram">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+        </a>
+        <a href="#" aria-label="Facebook">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="#" aria-label="Pinterest">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+        </a>
+      </div>
     </div>
-  </div>
-  <div class="hscroll">
-    <div class="hline"></div>
-    <span>Scroll</span>
-  </div>
-</section>
 
-<!-- Marquee -->
-<div class="mq">
-  <div class="mqt">
-    <div class="mqi"><span class="mqtext">Cinematography</span><span class="mqdot"></span></div>
-    <div class="mqi"><span class="mqtext">Film Direction</span><span class="mqdot"></span></div>
-    <div class="mqi"><span class="mqtext">Color Grading</span><span class="mqdot"></span></div>
-    <div class="mqi"><span class="mqtext">Post Production</span><span class="mqdot"></span></div>
-    <div class="mqi"><span class="mqtext">Brand Films</span><span class="mqdot"></span></div>
-    <div class="mqi"><span class="mqtext">Wedding Films</span><span class="mqdot"></span></div>
-    <div class="mqi"><span class="mqtext">Documentaries</span><span class="mqdot"></span></div>
-    <div class="mqi"><span class="mqtext">Cinematography</span><span class="mqdot"></span></div>
-    <div class="mqi"><span class="mqtext">Film Direction</span><span class="mqdot"></span></div>
-    <div class="mqi"><span class="mqtext">Color Grading</span><span class="mqdot"></span></div>
-    <div class="mqi"><span class="mqtext">Post Production</span><span class="mqdot"></span></div>
-    <div class="mqi"><span class="mqtext">Brand Films</span><span class="mqdot"></span></div>
-    <div class="mqi"><span class="mqtext">Wedding Films</span><span class="mqdot"></span></div>
-    <div class="mqi"><span class="mqtext">Documentaries</span><span class="mqdot"></span></div>
-  </div>
-</div>
-
-<!-- Work -->
-<section id="work">
-  <div class="whead">
-    <div>
-      <div class="slabel">Selected Work</div>
-      <h2 class="wh1">Stories<br><em>Told Well</em></h2>
+    <div class="nav-hamburger" id="hamburger" onclick="toggleNav()">
+      <span></span><span></span><span></span>
     </div>
-    <div class="wcnt">06 Projects</div>
+  </nav>
+
+  <!-- ===== HOME PAGE ===== -->
+  <div class="page active" id="page-home">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-left">
+        <h1 class="hero-title">Aura<br><em>Films</em></h1>
+        <p class="hero-sub">Kingston Wedding Photography</p>
+        <p class="hero-tagline">
+          Authentic & timeless imagery for the<br>
+          modern couple. Comfortable, relaxed,<br>
+          fun — capturing who you really are.
+        </p>
+      </div>
+      <div class="hero-right">
+        <img src="images/_DSC8307.jpg" alt="Wedding couple">
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section class="services">
+
+      <div class="service-item">
+        <div class="service-content">
+          <div class="service-num">01</div>
+          <h2 class="service-title">Weddings<br><em>&amp; Events</em></h2>
+          <p class="service-desc">Full-day coverage capturing every stolen glance, every laugh, every moment that makes your day unforgettable.</p>
+        </div>
+        <div class="service-img">
+          <img src="images/_DSC8672.jpg" alt="Wedding">
+        </div>
+      </div>
+
+      <div class="service-item">
+        <div class="service-content">
+          <div class="service-num">02</div>
+          <h2 class="service-title"><em>Maternity</em></h2>
+          <p class="service-desc">Celebrating the beauty of this fleeting season — gentle, glowing, and entirely yours.</p>
+        </div>
+        <div class="service-img">
+          <img src="images/_DSC7798.jpeg" alt="Maternity">
+        </div>
+      </div>
+
+      <div class="service-item">
+        <div class="service-content">
+          <div class="service-num">03</div>
+          <h2 class="service-title">Proposals<br><em>&amp; Engagements</em></h2>
+          <p class="service-desc">The beginning of forever. Candid, romantic, and completely authentic to who you are as a couple.</p>
+        </div>
+        <div class="service-img">
+          <img src="images/_DSC7542.jpg" alt="Engagement">
+        </div>
+      </div>
+
+      <div class="service-item">
+        <div class="service-content">
+          <div class="service-num">04</div>
+          <h2 class="service-title">Portraits<br><em>&amp; Branding</em></h2>
+          <p class="service-desc">Personal branding and portrait sessions that capture your authentic presence and tell your story.</p>
+        </div>
+        <div class="service-img">
+          <img src="images/_DSC8015.jpg" alt="Portraits">
+        </div>
+      </div>
+
+    </section>
+
+    <hr class="divider">
+
+    <!-- Editorial 1 -->
+    <section class="editorial">
+      <div class="editorial-text">
+        These are your &ldquo;once in a <em>lifetime</em>&rdquo; moments
+      </div>
+      <div class="editorial-right">
+        <img src="images/_DSC8215.jpg" alt="">
+        <img src="images/_DSC8577.jpg" alt="">
+      </div>
+    </section>
+
+    <!-- Editorial 2 -->
+    <section class="editorial2">
+      <div class="editorial2-img">
+        <img src="images/IMG_9115.jpg" alt="">
+      </div>
+      <div class="editorial2-text">
+        Your raw,<br>
+        <em>unscripted</em><br>
+        love, told<br>
+        the way you<br>
+        live it.
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Dreamy section -->
+    <section class="dreamy">
+      <h2 class="dreamy-headline">Dreamy, Timeless &amp; Authentic Photos</h2>
+      <div class="dreamy-grid">
+        <div class="dreamy-col">
+          <h4>Packages</h4>
+          <p>Flexible investment options designed to suit every couple, from intimate elopements to full-day weddings. All packages include edited high-resolution images delivered via online gallery.</p>
+        </div>
+        <div class="dreamy-col">
+          <h4>Others</h4>
+          <p>Engagement sessions, maternity, newborn, family, and personal branding sessions available year-round. Kingston-based, available worldwide.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Award -->
+    <section class="award">
+      <div class="award-text">
+        <h3>Recognition</h3>
+        <p>Voted one of the top 25 wedding photographers in Kingston &amp; Eastern Ontario for 2023.</p>
+      </div>
+      <div class="award-badge">
+        <div class="award-badge-inner">
+          <span>Top 25</span>
+          <span class="year">2023</span>
+          <span>Wedding</span>
+          <span>Photographers</span>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Contact form -->
+    <section class="contact-section" id="contact">
+      <h2>Let's Connect</h2>
+      <p class="sub">Use this form to easily get in touch with me, or feel free to email me directly at hello@aurafilms.ca. I will get back to you as soon as possible!</p>
+      <form class="contact-form" onsubmit="return false;">
+        <div class="form-field"><input type="text" placeholder="Your Name *" required></div>
+        <div class="form-field"><input type="email" placeholder="Your Email *" required></div>
+        <div class="form-field"><input type="tel" placeholder="Phone Number (optional)"></div>
+        <div class="form-field"><input type="text" placeholder="Select a date" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'"></div>
+        <div class="form-field">
+          <select>
+            <option value="" disabled selected>Select session type *</option>
+            <option>Wedding</option>
+            <option>Engagement</option>
+            <option>Maternity</option>
+            <option>Portrait / Branding</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-field"><textarea placeholder="What do you envision for your session? (Please share venue, times and any other details.) *"></textarea></div>
+        <div class="form-field"><input type="text" placeholder="How did you hear about me? *"></div>
+        <button class="form-submit">Submit</button>
+      </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-top">
+        <div class="footer-social">
+          <a>Instagram</a>
+          <a>Facebook</a>
+          <a>Pinterest</a>
+        </div>
+        <div class="footer-logo-area">
+          <div class="footer-badge">
+            <img src="logo-light.png" alt="Aura Films">
+          </div>
+        </div>
+        <nav class="footer-nav">
+          <a onclick="showPage('home')">About</a>
+          <a onclick="showPage('portfolio')">Portfolio</a>
+          <a onclick="scrollToContact()">Book Now</a>
+          <a onclick="showPage('info')">Info</a>
+        </nav>
+      </div>
+
+      <div class="footer-big">
+        Modern Wedding<br>
+        <em>Photography</em><br>
+        For The New Romantics
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          <p>Based in Kingston</p>
+          <p>Available Worldwide</p>
+        </div>
+        <div class="footer-contact">
+          <span>Get in Touch</span>
+          <a href="mailto:hello@aurafilms.ca">hello@aurafilms.ca</a>
+        </div>
+      </div>
+    </footer>
+
   </div>
-  <div class="wgrid">
-    <div class="wcard">
-      <img class="wimg" src="https://placehold.co/920x1120/1B120B/231a10" alt="">
-      <span class="wnum">01</span>
-      <div class="wov"><div class="wcat">Brand Film</div><div class="wtitle">The Ember<br>Campaign</div></div>
+
+  <!-- ===== PORTFOLIO PAGE ===== -->
+  <div class="page" id="page-portfolio">
+    <div class="portfolio-hero">
+      <h1 class="page-title">Portfolio</h1>
+      <div class="portfolio-filters">
+        <button class="filter-btn active">All</button>
+        <button class="filter-btn">Weddings</button>
+        <button class="filter-btn">Engagements</button>
+        <button class="filter-btn">Maternity</button>
+        <button class="filter-btn">Portraits</button>
+      </div>
     </div>
-    <div class="wcard">
-      <img class="wimg" src="https://placehold.co/920x540/12100e/1c1610" alt="">
-      <span class="wnum">02</span>
-      <div class="wov"><div class="wcat">Wedding Film</div><div class="wtitle">Rayna &amp; Kian</div></div>
+
+    <div class="portfolio-grid">
+      <!-- Weddings -->
+      <div class="portfolio-item"><img src="images/_DSC8307.jpg" alt="Wedding"></div>
+      <div class="portfolio-item"><img src="images/_DSC8672.jpg" alt="Wedding ceremony"></div>
+      <div class="portfolio-item"><img src="images/IMG_9115.jpg" alt="Wedding couple"></div>
+      <div class="portfolio-item"><img src="images/_DSC8215.jpg" alt="Bride with bouquet"></div>
+      <div class="portfolio-item"><img src="images/_DSC8577.jpg" alt="Ring exchange"></div>
+      <div class="portfolio-item"><img src="images/_DSC8637.jpg" alt="Wedding ceremony vows"></div>
+      <!-- Save the Date / Engagements -->
+      <div class="portfolio-item"><img src="images/_DSC7542.jpg" alt="Engagement session"></div>
+      <div class="portfolio-item"><img src="images/_DSC7545.jpg" alt="Engagement session"></div>
+      <!-- Maternity -->
+      <div class="portfolio-item"><img src="images/_DSC7794.jpeg" alt="Maternity family"></div>
+      <div class="portfolio-item"><img src="images/_DSC7798.jpeg" alt="Maternity portrait"></div>
+      <div class="portfolio-item"><img src="images/_DSC7860.jpeg" alt="Maternity couple"></div>
+      <div class="portfolio-item"><img src="images/_DSC7883.jpeg" alt="Maternity"></div>
+      <!-- Portraits -->
+      <div class="portfolio-item"><img src="images/_DSC8015.jpg" alt="Portrait"></div>
+      <div class="portfolio-item"><img src="images/_DSC8049.jpg" alt="Portrait"></div>
     </div>
-    <div class="wcard">
-      <img class="wimg" src="https://placehold.co/920x540/0f0d0b/181410" alt="">
-      <span class="wnum">03</span>
-      <div class="wov"><div class="wcat">Documentary</div><div class="wtitle">Roots of the City</div></div>
+
+    <footer>
+      <div class="footer-top">
+        <div class="footer-social">
+          <a>Instagram</a>
+          <a>Facebook</a>
+          <a>Pinterest</a>
+        </div>
+        <div class="footer-logo-area">
+          <div class="footer-badge">
+            <img src="logo-light.png" alt="Aura Films">
+          </div>
+        </div>
+        <nav class="footer-nav">
+          <a onclick="showPage('home')">About</a>
+          <a onclick="showPage('portfolio')">Portfolio</a>
+          <a onclick="showPage('home'); setTimeout(scrollToContact,100)">Book Now</a>
+          <a onclick="showPage('info')">Info</a>
+        </nav>
+      </div>
+      <div class="footer-big">
+        Modern Wedding<br>
+        <em>Photography</em><br>
+        For The New Romantics
+      </div>
+      <div class="footer-bottom">
+        <div>
+          <p>Based in Kingston</p>
+          <p>Available Worldwide</p>
+        </div>
+        <div class="footer-contact">
+          <span>Get in Touch</span>
+          <a href="mailto:hello@aurafilms.ca">hello@aurafilms.ca</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ===== BLOG PAGE ===== -->
+  <div class="page" id="page-blog">
+    <div class="blog-hero">
+      <h1 class="page-title">Blogs</h1>
+      <p class="blog-sub">Explore Kingston Wedding Photography Tips, Locations, and Stories</p>
+      <p class="blog-sub-p">Get expert photography tips, discover the top wedding spots in Kingston and Eastern Ontario, and enjoy behind-the-scenes stories from real weddings and shoots. Whether you're in the midst of planning your big day or just looking for some inspiration, these blogs are packed with insights to help you capture beautiful memories through stunning photos.</p>
     </div>
-  </div>
-</section>
 
-<!-- Services -->
-<section id="services">
-  <div class="slabel">What We Do</div>
-  <h2 class="sh1">Craft Meets<br><em style="font-style:italic;color:var(--orange)">Vision</em></h2>
-  <div class="sgrid">
-    <div class="scard"><span class="snum">01</span><div class="sbar"></div><div class="stitle">Cinematography</div><p class="sdesc">Every frame is a painting. We capture light, motion, and emotion with surgical precision — images that linger long after the credits roll.</p></div>
-    <div class="scard"><span class="snum">02</span><div class="sbar"></div><div class="stitle">Direction &amp; Concept</div><p class="sdesc">From script to screen, our directors shape narratives with intention. We don't just shoot — we architect experiences from the ground up.</p></div>
-    <div class="scard"><span class="snum">03</span><div class="sbar"></div><div class="stitle">Color &amp; Post</div><p class="sdesc">The final look is where stories breathe. Our color work gives each project its own atmosphere — warm, cold, golden — by design.</p></div>
-    <div class="scard"><span class="snum">04</span><div class="sbar"></div><div class="stitle">Brand Films</div><p class="sdesc">Your brand has a soul. We find it on camera. From launch campaigns to long-form stories — we give brands the cinematic identity they deserve.</p></div>
-  </div>
-</section>
-
-<!-- About -->
-<section id="about">
-  <div class="awrap">
-    <img class="aimg" src="https://placehold.co/720x900/1B120B/23180e" alt="Aura Films Team">
-    <div class="aframe"></div>
-    <div class="atag">Est. 2019 · Toronto</div>
-  </div>
-  <div>
-    <div class="slabel">About Us</div>
-    <h2 class="ah1">Two Lenses,<br>One <em>Aura</em></h2>
-    <div class="abody">
-      <p>We are a Toronto-based film production studio driven by an obsession with craft. Every project begins with a single question: what is the soul of this story?</p>
-      <p>From intimate wedding films to ambitious brand campaigns and documentary work, we bring the same cinematic rigour to every frame. We don't believe in ordinary.</p>
-      <p>Aura Films is built on a deep respect for the image — the way light falls, the way a moment holds its breath, the way a cut can shift the weight of a scene.</p>
+    <div class="blog-grid">
+      <div class="blog-card">
+        <div class="blog-card-img">
+          <img src="images/_DSC7545.jpg" alt="">
+        </div>
+        <h3>Through My Lens: A Kingston Wedding Photographer's Journey</h3>
+        <p>Discover how my passion for photography blossomed in the heart of Kingston, capturing love, life, and unforgettable moments.</p>
+      </div>
+      <div class="blog-card">
+        <div class="blog-card-img">
+          <img src="images/_DSC7794.jpeg" alt="">
+        </div>
+        <h3>Wedding Photography Shot List: Must-Have Moments You Won't Want to Miss</h3>
+        <p>From getting-ready to ceremony highlights and dreamy golden-hour portraits, this guide lists all the details of your big day.</p>
+      </div>
     </div>
-    <a href="#cta" class="btn-p" style="display:inline-flex;">Start a Conversation</a>
+
+    <section class="contact-section" id="blog-contact">
+      <h2>Let's Connect</h2>
+      <p class="sub">Use this form to easily get in touch with me, or feel free to email me directly at hello@aurafilms.ca. I will get back to you as soon as possible!</p>
+      <form class="contact-form" onsubmit="return false;">
+        <div class="form-field"><input type="text" placeholder="Your Name *" required></div>
+        <div class="form-field"><input type="email" placeholder="Your Email *" required></div>
+        <div class="form-field"><input type="tel" placeholder="Phone Number (optional)"></div>
+        <div class="form-field"><input type="text" placeholder="Select a date" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'"></div>
+        <div class="form-field">
+          <select>
+            <option value="" disabled selected>Select session type *</option>
+            <option>Wedding</option>
+            <option>Engagement</option>
+            <option>Maternity</option>
+            <option>Portrait / Branding</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-field"><textarea placeholder="What do you envision for your session? (Please share venue, times and any other details.) *"></textarea></div>
+        <div class="form-field"><input type="text" placeholder="How did you hear about me? *"></div>
+        <button class="form-submit">Submit</button>
+      </form>
+    </section>
+
+    <footer>
+      <div class="footer-top">
+        <div class="footer-social">
+          <a>Instagram</a>
+          <a>Facebook</a>
+          <a>Pinterest</a>
+        </div>
+        <div class="footer-logo-area">
+          <div class="footer-badge">
+            <img src="logo-light.png" alt="Aura Films">
+          </div>
+        </div>
+        <nav class="footer-nav">
+          <a onclick="showPage('home')">About</a>
+          <a onclick="showPage('portfolio')">Portfolio</a>
+          <a onclick="showPage('home'); setTimeout(scrollToContact,100)">Book Now</a>
+          <a onclick="showPage('info')">Info</a>
+        </nav>
+      </div>
+      <div class="footer-big">
+        Modern Wedding<br>
+        <em>Photography</em><br>
+        For The New Romantics
+      </div>
+      <div class="footer-bottom">
+        <div>
+          <p>Based in Kingston</p>
+          <p>Available Worldwide</p>
+        </div>
+        <div class="footer-contact">
+          <span>Get in Touch</span>
+          <a href="mailto:hello@aurafilms.ca">hello@aurafilms.ca</a>
+        </div>
+      </div>
+    </footer>
   </div>
-</section>
 
-<!-- Stats -->
-<section id="stats">
-  <div class="stitem"><span class="stnum" data-target="120"><span class="cnt">0</span><span class="stsuf">+</span></span><span class="stlabel">Projects Delivered</span></div>
-  <div class="stitem"><span class="stnum" data-target="6"><span class="cnt">0</span><span class="stsuf"> yrs</span></span><span class="stlabel">In the Field</span></div>
-  <div class="stitem"><span class="stnum" data-target="40"><span class="cnt">0</span><span class="stsuf">+</span></span><span class="stlabel">Brand Partners</span></div>
-  <div class="stitem"><span class="stnum" data-target="98"><span class="cnt">0</span><span class="stsuf">%</span></span><span class="stlabel">Client Return Rate</span></div>
-</section>
+  <!-- ===== INFO / DETAILS PAGE ===== -->
+  <div class="page" id="page-info">
+    <div class="details-hero">
+      <h1 class="page-title">Details</h1>
+      <img class="details-hero-img" src="images/_DSC8637.jpg" alt="">
+      <p class="details-sub">Explore Aura Films' crafted offerings for capturing your most beautiful moments and celebrating your wedding.</p>
+    </div>
 
-<!-- Process -->
-<section id="process">
-  <div class="slabel">How We Work</div>
-  <h2 class="prh1">Our <em style="font-style:italic;color:var(--orange)">Process</em></h2>
-  <div class="prsteps">
-    <div class="prstep"><span class="prbig">01</span><div class="prbar"></div><div class="prtitle">Discovery &amp; Story</div><p class="prdesc">We sit down and listen. Every great film starts with understanding the story we're actually telling — not the one on the surface.</p></div>
-    <div class="prstep"><span class="prbig">02</span><div class="prbar"></div><div class="prtitle">Craft &amp; Capture</div><p class="prdesc">We move with precision on set. Our production balances meticulous planning with the ability to capture unrepeatable moments.</p></div>
-    <div class="prstep"><span class="prbig">03</span><div class="prbar"></div><div class="prtitle">Polish &amp; Deliver</div><p class="prdesc">In post, we sculpt the final experience — pacing, color, sound design. Every detail tuned until the film feels inevitable.</p></div>
+    <!-- Why Choose Us -->
+    <div class="why-choose">
+      <div class="why-col">
+        <h2>Why Choose Us?</h2>
+        <div class="why-item">
+          <h4>Real Emotions, No Fluff</h4>
+          <p>Every image is rooted in truth. No stiff poses, no manufactured moments — just you, as you are, on one of the most important days of your life.</p>
+        </div>
+        <div class="why-item">
+          <h4>Customized Photography</h4>
+          <p>Every couple is different. Your session is crafted around your personality, your story, and your vision — making each gallery entirely unique.</p>
+        </div>
+        <div class="why-item">
+          <h4>Premium Experience</h4>
+          <p>From the first inquiry to the final gallery delivery, you'll feel supported every step of the way with clear communication and care.</p>
+        </div>
+        <div class="why-item">
+          <h4>Flexible &amp; Inclusive Packages</h4>
+          <p>Whether an intimate elopement or a grand celebration, there's a package designed for you — with add-ons available for every vision and budget.</p>
+        </div>
+        <div class="why-item">
+          <h4>Kingston &amp; Beyond</h4>
+          <p>Based in Kingston with availability across Ontario, Canada, and destinations worldwide. Passport always ready.</p>
+        </div>
+      </div>
+
+      <div class="service-areas">
+        <h2>Service Areas</h2>
+        <div class="why-item">
+          <ul class="areas-list">
+            <li>Kingston</li>
+            <li>Ottawa / Gatineau</li>
+            <li>Belleville / Trenton / Prince Edward County</li>
+            <li>Brockville / Gananoque / Thousand Islands</li>
+            <li>Peterborough / Kawartha Lakes</li>
+            <li>Napanee / Bath / Odessa</li>
+            <li>Toronto / Greater Toronto Area</li>
+            <li>Cottage Country / Rideau Lakes</li>
+            <li>Destination — Available Worldwide</li>
+          </ul>
+        </div>
+        <div style="margin-top:2rem; opacity:0.3;">
+          <svg width="100%" height="120" viewBox="0 0 400 200" fill="none">
+            <ellipse cx="200" cy="100" rx="180" ry="80" stroke="#4b4d44" stroke-width="0.5" fill="none"/>
+            <circle cx="200" cy="100" r="4" fill="#c48160"/>
+            <circle cx="160" cy="80" r="2.5" fill="#4b4d44" opacity="0.4"/>
+            <circle cx="220" cy="90" r="2.5" fill="#4b4d44" opacity="0.4"/>
+            <circle cx="180" cy="115" r="2.5" fill="#4b4d44" opacity="0.4"/>
+            <circle cx="240" cy="110" r="2.5" fill="#4b4d44" opacity="0.4"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Investment -->
+    <section class="investment">
+      <h2>Investment</h2>
+      <div class="invest-tabs">
+        <button class="invest-tab active" onclick="switchTab(this, 'full-day')">Full Day</button>
+        <button class="invest-tab" onclick="switchTab(this, 'couples')">Couples</button>
+        <button class="invest-tab" onclick="switchTab(this, 'others')">Others</button>
+      </div>
+
+      <div class="invest-packages active" id="tab-full-day">
+        <div class="package">
+          <div class="package-header">
+            <span class="package-name">Full Day (8 hrs)</span>
+            <span class="package-price">$3,200</span>
+          </div>
+          <p class="package-desc">8 hours of continuous coverage including getting ready through to first dances. Includes unlimited edited images delivered via online gallery within 6–8 weeks.</p>
+        </div>
+        <div class="package">
+          <div class="package-header">
+            <span class="package-name">Half Day (5 hrs)</span>
+            <span class="package-price">$2,100</span>
+          </div>
+          <p class="package-desc">5 hours of coverage, ideal for intimate weddings, micro-weddings, and elopements. Includes unlimited edited images and a dedicated online gallery.</p>
+        </div>
+        <div class="package">
+          <div class="package-header">
+            <span class="package-name">Intimate (3 hrs)</span>
+            <span class="package-price">$1,400</span>
+          </div>
+          <p class="package-desc">3 hours of intimate coverage. Perfect for elopements and micro-ceremonies. Includes up to 200 edited images, delivered in 4–6 weeks.</p>
+        </div>
+        <p style="font-family:var(--font-secondary);font-size:0.62rem;color:rgba(75,77,68,0.5);margin-top:2rem;font-style:italic;font-weight:300;">
+          Pricing is inclusive of all taxes and editing. A deposit of 25% secures your date. Second shooter options available as an add-on for any package — please contact for pricing specific to your event. The first step is to book your complimentary consultation to discuss your needs.
+        </p>
+        <div style="text-align:center;margin-top:2rem;">
+          <a class="nav-cta" onclick="showPage('home'); setTimeout(scrollToContact,100)" style="display:inline-block;">Ready to chat? Let's connect</a>
+        </div>
+      </div>
+
+      <div class="invest-packages" id="tab-couples">
+        <div class="package">
+          <div class="package-header">
+            <span class="package-name">Engagement Session</span>
+            <span class="package-price">$650</span>
+          </div>
+          <p class="package-desc">1.5–2 hour session at a location of your choice. Approximately 80–100 edited images. Perfect to use for save-the-dates, social media, and getting comfortable in front of the camera before the wedding day.</p>
+        </div>
+        <div class="package">
+          <div class="package-header">
+            <span class="package-name">Anniversary / Couples</span>
+            <span class="package-price">$450</span>
+          </div>
+          <p class="package-desc">1-hour session for couples wanting to celebrate their love and document this season of life. ~60 edited images delivered within 3 weeks.</p>
+        </div>
+      </div>
+
+      <div class="invest-packages" id="tab-others">
+        <div class="package">
+          <div class="package-header">
+            <span class="package-name">Maternity</span>
+            <span class="package-price">$500</span>
+          </div>
+          <p class="package-desc">1.5-hour maternity session capturing this glowing season. Includes ~80 edited images and an online gallery delivered within 3 weeks.</p>
+        </div>
+        <div class="package">
+          <div class="package-header">
+            <span class="package-name">Newborn</span>
+            <span class="package-price">$550</span>
+          </div>
+          <p class="package-desc">In-home newborn lifestyle session during the first 2 weeks of life. ~80 edited images delivered in 3 weeks.</p>
+        </div>
+        <div class="package">
+          <div class="package-header">
+            <span class="package-name">Portrait / Branding</span>
+            <span class="package-price">$400</span>
+          </div>
+          <p class="package-desc">Personal branding and headshot sessions for entrepreneurs and creatives. 1 hour, 1–2 looks, ~50 edited images delivered in 2 weeks.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Experience section -->
+    <section class="experience">
+      <h2>The Experience</h2>
+      <p class="sub">You're the only thing doing 100% presenting your perfect impression.</p>
+
+      <div class="steps">
+        <div>
+          <div class="step-num">01</div>
+          <div class="step-title">Initial Consultation</div>
+          <p class="step-desc">Let's meet online or in person to discuss your vision, your personalities, and what you're dreaming of for your session.</p>
+        </div>
+        <div>
+          <div class="step-num">02</div>
+          <div class="step-title">Book Your Session</div>
+          <p class="step-desc">Together we'll go over the specifics — location, timing, styling details — and nail everything down so you can relax.</p>
+        </div>
+        <div>
+          <div class="step-num">03</div>
+          <div class="step-title">The Session</div>
+          <p class="step-desc">On the day, I'll guide you through everything so you can be fully present and enjoy every beautiful moment.</p>
+        </div>
+        <div>
+          <div class="step-num">04</div>
+          <div class="step-title">Gallery Review</div>
+          <p class="step-desc">Within 1–3 weeks of your session, your curated, fully edited online gallery is ready to download and share forever.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- FAQ -->
+    <section class="faq-section">
+      <h2>Frequently Asked<br><em style="font-style:italic;">Questions</em></h2>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span>→ How long have you been a photographer?</span><span class="faq-arrow">›</span></div>
+        <p class="faq-a">I've been photographing weddings and portraits professionally for over 7 years, based in Kingston but available across Ontario and beyond.</p>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span>→ Will I receive all the images unedited?</span><span class="faq-arrow">›</span></div>
+        <p class="faq-a">No — you'll receive a fully edited, curated gallery of all the best images. Raw, unedited files are not included, as careful editing is part of the final product and my artistic vision.</p>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span>→ Do you offer print packages?</span><span class="faq-arrow">›</span></div>
+        <p class="faq-a">Yes! Fine art albums, prints, and wall art collections are available as add-ons. I work with premium print labs to ensure heirloom-quality results that last a lifetime.</p>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span>→ How long does it take to receive the photos?</span><span class="faq-arrow">›</span></div>
+        <p class="faq-a">Typically 4–8 weeks for wedding galleries, and 2–3 weeks for portrait and couples sessions. I always aim to deliver sooner when possible.</p>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span>→ What is your photography style?</span><span class="faq-arrow">›</span></div>
+        <p class="faq-a">My style is candid, documentary, and editorial — warm, timeless, and full of real emotion. I lean into natural light and honest moments rather than heavily posed or over-directed imagery.</p>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span>→ What is your payment policy?</span><span class="faq-arrow">›</span></div>
+        <p class="faq-a">A 25% retainer is due upon booking to secure your date, with the remaining balance due 30 days before your event. I accept e-transfer and major credit cards.</p>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span>→ What if I need to cancel or reschedule due to unforeseen causes?</span><span class="faq-arrow">›</span></div>
+        <p class="faq-a">I understand that life happens. Rescheduling is possible depending on availability at no additional charge. Cancellation policies are outlined in the contract. I always aim to be as flexible and understanding as possible.</p>
+      </div>
+    </section>
+
+    <!-- Contact form -->
+    <section class="contact-section">
+      <h2>Let's Connect</h2>
+      <p class="sub">Use this form to easily get in touch with me, or feel free to email me directly at hello@aurafilms.ca. I will get back to you as soon as possible!</p>
+      <form class="contact-form" onsubmit="return false;">
+        <div class="form-field"><input type="text" placeholder="Your Name *" required></div>
+        <div class="form-field"><input type="email" placeholder="Your Email *" required></div>
+        <div class="form-field"><input type="tel" placeholder="Phone Number (optional)"></div>
+        <div class="form-field"><input type="text" placeholder="Select a date" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'"></div>
+        <div class="form-field">
+          <select>
+            <option value="" disabled selected>Select session type *</option>
+            <option>Wedding</option>
+            <option>Engagement</option>
+            <option>Maternity</option>
+            <option>Portrait / Branding</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-field"><textarea placeholder="What do you envision for your session? (Please share venue, times and any other details.) *"></textarea></div>
+        <div class="form-field"><input type="text" placeholder="How did you hear about me? *"></div>
+        <button class="form-submit">Submit</button>
+      </form>
+    </section>
+
+    <footer>
+      <div class="footer-top">
+        <div class="footer-social">
+          <a>Instagram</a>
+          <a>Facebook</a>
+          <a>Pinterest</a>
+        </div>
+        <div class="footer-logo-area">
+          <div class="footer-badge">
+            <img src="logo-light.png" alt="Aura Films">
+          </div>
+        </div>
+        <nav class="footer-nav">
+          <a onclick="showPage('home')">About</a>
+          <a onclick="showPage('portfolio')">Portfolio</a>
+          <a onclick="showPage('home'); setTimeout(scrollToContact,100)">Book Now</a>
+          <a onclick="showPage('info')">Info</a>
+        </nav>
+      </div>
+      <div class="footer-big">
+        Modern Wedding<br>
+        <em>Photography</em><br>
+        For The New Romantics
+      </div>
+      <div class="footer-bottom">
+        <div>
+          <p>Based in Kingston</p>
+          <p>Available Worldwide</p>
+        </div>
+        <div class="footer-contact">
+          <span>Get in Touch</span>
+          <a href="mailto:hello@aurafilms.ca">hello@aurafilms.ca</a>
+        </div>
+      </div>
+    </footer>
   </div>
-</section>
 
-<!-- CTA -->
-<section id="cta">
-  <h2 class="ctah1">Let's Build<br>Together</h2>
-  <p class="ctasub">Ready to bring your story to life? Let's talk about your vision and make something worth watching.</p>
-  <a href="mailto:hello@aurafilms.ca" class="btn-d">
-    hello@aurafilms.ca
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5H12.5M12.5 7.5L8.5 3.5M12.5 7.5L8.5 11.5" stroke="currentColor" stroke-width="1"/></svg>
-  </a>
-</section>
+  <script>
+    // ============ PAGE ROUTING ============
+    function showPage(name) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      const target = document.getElementById('page-' + name);
+      if (target) {
+        target.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
 
-<!-- Footer -->
-<footer>
-  <div class="flogo">aura<small>films</small></div>
-  <div class="fcenter">© 2025 Aura Films · Toronto, Canada<br><span style="color:rgba(249,240,225,.18);margin-top:4px;display:block;font-size:9px;">www.aurafilms.ca</span></div>
-  <div class="fright"><a href="#">Instagram</a><a href="#">Vimeo</a><a href="#">LinkedIn</a></div>
-</footer>
+    function scrollToContact() {
+      const el = document.getElementById('contact');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
 
-<script>
-gsap.registerPlugin(ScrollTrigger);
+    // ============ NAV ============
+    function toggleNav() {
+      document.getElementById('navCenter').classList.toggle('open');
+    }
 
-// CURSOR
-const cdot = document.getElementById('cdot');
-const cring = document.getElementById('cring');
-let mx = 0, my = 0, rx = 0, ry = 0;
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  gsap.set(cdot, { x: mx, y: my });
-});
-(function tick() {
-  rx += (mx - rx) * 0.11;
-  ry += (my - ry) * 0.11;
-  gsap.set(cring, { x: rx, y: ry });
-  requestAnimationFrame(tick);
-})();
-document.querySelectorAll('a,button,.wcard,.scard').forEach(el => {
-  el.addEventListener('mouseenter', () => document.body.classList.add('ch'));
-  el.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
-});
+    function closeNav() {
+      document.getElementById('navCenter').classList.remove('open');
+    }
 
-// SCROLL PROGRESS
-const prog = document.getElementById('prog');
-window.addEventListener('scroll', () => {
-  prog.style.width = (window.scrollY / (document.body.scrollHeight - innerHeight) * 100) + '%';
-}, { passive: true });
+    // ============ PORTFOLIO FILTERS ============
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
 
-// NAV SCROLL
-window.addEventListener('scroll', () => {
-  document.getElementById('nav').classList.toggle('sc', window.scrollY > 60);
-}, { passive: true });
+    // ============ INVEST TABS ============
+    function switchTab(btn, tabId) {
+      document.querySelectorAll('.invest-tab').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.invest-packages').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + tabId).classList.add('active');
+    }
 
-// PRELOADER
-const pre = document.getElementById('pre');
-const ltrs = pre.querySelectorAll('#pre-word span');
-const sub = document.getElementById('pre-sub');
-gsap.timeline({ onComplete: launch })
-  .to(ltrs, { y: 0, duration: 1, ease: 'power4.out', stagger: 0.08 })
-  .to(sub, { opacity: 1, duration: 0.5 }, '-=0.35')
-  .to([ltrs, sub], { y: -28, opacity: 0, duration: 0.55, ease: 'power3.in', stagger: 0.04, delay: 0.7 })
-  .to(pre, { y: '-100%', duration: 1, ease: 'power4.inOut' }, '-=0.05');
-
-function launch() {
-  pre.style.display = 'none';
-  gsap.timeline()
-    .to('.hey', { opacity: 1, y: 0, duration: 0.85, ease: 'power3.out' })
-    .to('.hh1 .wd span', { y: 0, duration: 1.1, ease: 'power4.out', stagger: 0.13 }, '-=0.45')
-    .to('.hsub', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.55')
-    .to('.hact', { opacity: 1, y: 0, duration: 0.75, ease: 'power3.out' }, '-=0.5')
-    .to('.hscroll', { opacity: 1, duration: 0.6 }, '-=0.35');
-}
-
-// PARALLAX HERO
-gsap.to('.himg', {
-  scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1.2 },
-  y: 130, ease: 'none'
-});
-
-// WORK
-gsap.from('.whead > *', { scrollTrigger: { trigger: '#work', start: 'top 78%' }, opacity: 0, y: 36, duration: 0.8, ease: 'power3.out', stagger: 0.15 });
-gsap.from('.wcard', { scrollTrigger: { trigger: '.wgrid', start: 'top 78%' }, opacity: 0, y: 60, duration: 0.9, ease: 'power3.out', stagger: 0.15 });
-
-// SERVICES
-gsap.from('.sh1', { scrollTrigger: { trigger: '#services', start: 'top 80%' }, opacity: 0, y: 40, duration: 0.85, ease: 'power3.out' });
-gsap.from('.scard', { scrollTrigger: { trigger: '.sgrid', start: 'top 78%' }, opacity: 0, y: 50, duration: 0.8, ease: 'power3.out', stagger: 0.12 });
-
-// ABOUT
-gsap.from('.awrap', { scrollTrigger: { trigger: '#about', start: 'top 75%' }, opacity: 0, x: -50, duration: 1, ease: 'power3.out' });
-gsap.from('#about > div:last-child > *', { scrollTrigger: { trigger: '#about', start: 'top 72%' }, opacity: 0, y: 36, duration: 0.8, ease: 'power3.out', stagger: 0.12 });
-
-// STATS COUNTER
-document.querySelectorAll('.stitem').forEach(item => {
-  const target = parseInt(item.querySelector('[data-target]').dataset.target);
-  const el = item.querySelector('.cnt');
-  ScrollTrigger.create({
-    trigger: item, start: 'top 82%', once: true,
-    onEnter: () => gsap.to({ v: 0 }, { v: target, duration: 1.9, ease: 'power2.out', onUpdate: function() { el.textContent = Math.round(this.targets()[0].v); } })
-  });
-});
-gsap.from('.stitem', { scrollTrigger: { trigger: '#stats', start: 'top 82%' }, opacity: 0, y: 28, duration: 0.7, ease: 'power3.out', stagger: 0.1 });
-
-// PROCESS
-gsap.from('.prh1', { scrollTrigger: { trigger: '#process', start: 'top 80%' }, opacity: 0, y: 38, duration: 0.85, ease: 'power3.out' });
-gsap.from('.prstep', { scrollTrigger: { trigger: '.prsteps', start: 'top 78%' }, opacity: 0, y: 48, duration: 0.8, ease: 'power3.out', stagger: 0.15 });
-
-// CTA
-gsap.from('.ctah1', { scrollTrigger: { trigger: '#cta', start: 'top 80%' }, opacity: 0, y: 60, scale: 0.96, duration: 1, ease: 'power3.out' });
-gsap.from(['.ctasub','.btn-d'], { scrollTrigger: { trigger: '#cta', start: 'top 76%' }, opacity: 0, y: 30, duration: 0.8, ease: 'power3.out', stagger: 0.15 });
-
-// FOOTER
-gsap.from('footer > *', { scrollTrigger: { trigger: 'footer', start: 'top 90%' }, opacity: 0, y: 20, duration: 0.7, ease: 'power3.out', stagger: 0.1 });
-
-// SMOOTH ANCHOR SCROLL
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const t = document.querySelector(a.getAttribute('href'));
-    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
-  });
-});
-</script>
+    // ============ FAQ ============
+    function toggleFaq(item) {
+      item.classList.toggle('open');
+    }
+  </script>
 </body>
 </html>
