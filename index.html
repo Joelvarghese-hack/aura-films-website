@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aura Films — We Frame Your Story</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --orange: #e8a748;
+      --orange-glow: rgba(232,167,72,0.18);
+      --cream: #F9F0E1;
+      --black: #1B120B;
+      --soft: #100e0c;
+      --muted: rgba(249,240,225,0.42);
+    }
+    html { overflow-x: hidden; scroll-behavior: auto; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--soft); color: var(--cream); cursor: none; overflow-x: hidden; }
+
+    /* CURSOR */
+    #cdot { position:fixed;top:0;left:0;z-index:9999;width:7px;height:7px;background:var(--orange);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%); }
+    #cring { position:fixed;top:0;left:0;z-index:9998;width:38px;height:38px;border:1px solid rgba(232,167,72,.45);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);transition:width .4s cubic-bezier(.23,1,.32,1),height .4s cubic-bezier(.23,1,.32,1),border-color .3s; }
+    body.ch #cdot { width:11px;height:11px; }
+    body.ch #cring { width:60px;height:60px;border-color:rgba(232,167,72,.8); }
+
+    /* GRAIN */
+    #grain { position:fixed;inset:0;z-index:8900;pointer-events:none;opacity:.033;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E") repeat; background-size:180px 180px; animation:gs .12s steps(1) infinite; }
+    @keyframes gs { 0%{background-position:0 0}10%{background-position:-20% -15%}20%{background-position:18% 22%}30%{background-position:-8% 40%}40%{background-position:33% -18%}50%{background-position:-22% 12%}60%{background-position:44% 28%}70%{background-position:-14% -35%}80%{background-position:26% 38%}90%{background-position:-30% 8%}100%{background-position:10% -20%} }
+
+    /* PROGRESS */
+    #prog { position:fixed;top:0;left:0;z-index:9500;height:2px;background:var(--orange);width:0%;transition:width .08s linear; }
+
+    /* PRELOADER */
+    #pre { position:fixed;inset:0;z-index:10000;background:#0e0b08;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px; }
+    #pre-word { font-family:'Cormorant Garamond',serif;font-size:clamp(64px,12vw,140px);font-weight:700;letter-spacing:-.02em;color:var(--cream);display:flex; }
+    #pre-word span { display:inline-block;transform:translateY(110%); }
+    #pre-sub { font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--orange);opacity:0;font-family:'DM Sans',sans-serif; }
+    #pre-line { width:180px;height:1px;background:rgba(249,240,225,.08);overflow:hidden; }
+    #pre-line::after { content:'';display:block;height:100%;width:0;background:var(--orange);animation:pl 1.9s cubic-bezier(.77,0,.18,1) .2s forwards; }
+    @keyframes pl { to { width:100%; } }
+
+    /* NAV */
+    nav { position:fixed;top:0;left:0;right:0;z-index:8000;display:flex;align-items:center;justify-content:space-between;padding:30px 52px;transition:padding .5s ease,background .5s ease,backdrop-filter .5s ease; }
+    nav.sc { padding:17px 52px;background:rgba(27,18,11,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(232,167,72,.07); }
+    .nlogo { font-family:'Cormorant Garamond',serif;font-size:27px;font-weight:700;color:var(--cream);text-decoration:none;letter-spacing:-.01em;line-height:1;display:flex;flex-direction:column;align-items:center; }
+    .nlogo small { font-size:8.5px;letter-spacing:.28em;font-family:'DM Sans',sans-serif;font-weight:300;color:var(--orange);margin-top:2px; }
+    .nlinks { display:flex;gap:40px;list-style:none; }
+    .nlinks a { font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(249,240,225,.6);text-decoration:none;position:relative;transition:color .3s; }
+    .nlinks a::after { content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--orange);transition:width .35s cubic-bezier(.77,0,.18,1); }
+    .nlinks a:hover { color:var(--cream); }
+    .nlinks a:hover::after { width:100%; }
+    .ncta { font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--black);background:var(--orange);border:none;padding:12px 26px;cursor:none;font-family:'DM Sans',sans-serif;font-weight:500;transition:opacity .3s,transform .35s cubic-bezier(.23,1,.32,1); }
+    .ncta:hover { opacity:.82;transform:translateY(-1px); }
+
+    /* HERO */
+    #hero { position:relative;height:100vh;min-height:680px;display:flex;align-items:center;overflow:hidden; }
+    .hbg { position:absolute;inset:0;background:radial-gradient(ellipse 65% 85% at 72% 45%,rgba(232,167,72,.07) 0%,transparent 70%),radial-gradient(ellipse 45% 55% at 18% 78%,rgba(232,167,72,.04) 0%,transparent 60%),linear-gradient(135deg,#0b0906 0%,#1B120B 55%,#0d0b09 100%); }
+    .himg { position:absolute;inset:0;background:url('https://placehold.co/1920x1080/1B120B/1e1409') center/cover;opacity:.15;filter:grayscale(100%) contrast(1.15);transform:scale(1.08); }
+    .hlb { position:absolute;left:0;right:0;height:56px;background:var(--soft);z-index:2; }
+    .hlb.top { top:0; } .hlb.bot { bottom:0; }
+    .hcontent { position:relative;z-index:3;padding:0 68px;width:100%; }
+    .hey { font-size:10px;letter-spacing:.42em;text-transform:uppercase;color:var(--orange);margin-bottom:30px;display:flex;align-items:center;gap:16px;opacity:0; }
+    .hey::before { content:'';width:36px;height:1px;background:var(--orange); }
+    .hh1 { font-family:'Cormorant Garamond',serif;font-size:clamp(76px,11.5vw,168px);font-weight:700;line-height:.88;letter-spacing:-.035em;color:var(--cream);margin-bottom:40px; }
+    .hh1 .wd { display:block;overflow:hidden; }
+    .hh1 .wd span { display:block;transform:translateY(110%); }
+    .hh1 em { font-style:italic;color:var(--orange); }
+    .hsub { font-size:14px;line-height:1.75;color:var(--muted);max-width:360px;opacity:0;margin-bottom:50px; }
+    .hact { display:flex;align-items:center;gap:32px;opacity:0; }
+    .btn-p { display:inline-flex;align-items:center;gap:12px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-family:'DM Sans',sans-serif;font-weight:500;color:var(--black);background:var(--orange);padding:16px 34px;text-decoration:none;transition:opacity .3s,transform .35s cubic-bezier(.23,1,.32,1); }
+    .btn-p:hover { opacity:.82;transform:translateY(-2px); }
+    .btn-g { display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-family:'DM Sans',sans-serif;font-weight:400;color:var(--muted);text-decoration:none;transition:color .3s; }
+    .btn-g:hover { color:var(--cream); }
+    .btn-g .arr { width:26px;height:1px;background:currentColor;position:relative;transition:width .35s cubic-bezier(.23,1,.32,1); }
+    .btn-g:hover .arr { width:42px; }
+    .btn-g .arr::after { content:'';position:absolute;right:0;top:50%;transform:translate(0,-50%) rotate(45deg);width:6px;height:6px;border-right:1px solid currentColor;border-top:1px solid currentColor; }
+    .hscroll { position:absolute;bottom:76px;right:68px;z-index:3;display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0; }
+    .hscroll span { font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);writing-mode:vertical-rl; }
+    .hline { width:1px;height:56px;background:rgba(249,240,225,.12);overflow:hidden;position:relative; }
+    .hline::after { content:'';position:absolute;top:-100%;left:0;width:100%;height:100%;background:var(--orange);animation:sd 2s ease infinite 2.8s; }
+    @keyframes sd { 0%{top:-100%}100%{top:100%} }
+
+    /* MARQUEE */
+    .mq { border-top:1px solid rgba(232,167,72,.1);border-bottom:1px solid rgba(232,167,72,.1);overflow:hidden;background:rgba(232,167,72,.025); }
+    .mqt { display:flex;animation:mqs 24s linear infinite;white-space:nowrap; }
+    .mqt:hover { animation-play-state:paused; }
+    @keyframes mqs { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .mqi { display:flex;align-items:center;gap:28px;padding:19px 28px;flex-shrink:0; }
+    .mqtext { font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;letter-spacing:.14em;text-transform:uppercase;color:var(--muted); }
+    .mqdot { width:4px;height:4px;background:var(--orange);border-radius:50%;flex-shrink:0; }
+
+    /* SECTION LABEL */
+    .slabel { font-size:9px;letter-spacing:.45em;text-transform:uppercase;color:var(--orange);display:flex;align-items:center;gap:13px;margin-bottom:22px; }
+    .slabel::before { content:'';width:26px;height:1px;background:var(--orange); }
+
+    /* WORK */
+    #work { padding:116px 68px; }
+    .whead { display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:60px; }
+    .wh1 { font-family:'Cormorant Garamond',serif;font-size:clamp(50px,6.5vw,92px);font-weight:700;line-height:.92;letter-spacing:-.035em;color:var(--cream); }
+    .wh1 em { font-style:italic;color:var(--orange); }
+    .wcnt { font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);padding-bottom:8px; }
+    .wgrid { display:grid;grid-template-columns:1fr 1fr;gap:3px; }
+    .wcard { position:relative;overflow:hidden;background:#0b0906;cursor:none; }
+    .wcard:first-child { grid-row:span 2; }
+    .wimg { width:100%;height:100%;min-height:340px;object-fit:cover;display:block;filter:grayscale(55%) contrast(1.1);transition:filter .65s ease,transform .85s cubic-bezier(.23,1,.32,1); }
+    .wcard:first-child .wimg { min-height:720px; }
+    .wcard:hover .wimg { filter:grayscale(15%) contrast(1.1);transform:scale(1.05); }
+    .wov { position:absolute;inset:0;background:linear-gradient(to top,rgba(27,18,11,.92) 0%,rgba(27,18,11,.18) 50%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:34px;opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s cubic-bezier(.23,1,.32,1); }
+    .wcard:hover .wov { opacity:1;transform:translateY(0); }
+    .wcat { font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--orange);margin-bottom:8px; }
+    .wtitle { font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--cream);line-height:1.1; }
+    .wnum { position:absolute;top:22px;right:22px;font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;color:rgba(249,240,225,.28);letter-spacing:.1em; }
+
+    /* SERVICES */
+    #services { padding:116px 68px;background:linear-gradient(to bottom,var(--soft),#0f0d0b); }
+    .sh1 { font-family:'Cormorant Garamond',serif;font-size:clamp(46px,5.8vw,84px);font-weight:700;line-height:.92;letter-spacing:-.035em;color:var(--cream);max-width:580px;margin-bottom:72px; }
+    .sgrid { display:grid;grid-template-columns:repeat(4,1fr);gap:2px; }
+    .scard { padding:48px 34px;border:1px solid rgba(232,167,72,.07);position:relative;overflow:hidden;transition:border-color .4s; }
+    .scard::before { content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 110%,rgba(232,167,72,.09) 0%,transparent 65%);opacity:0;transition:opacity .5s; }
+    .scard:hover { border-color:rgba(232,167,72,.22); }
+    .scard:hover::before { opacity:1; }
+    .snum { font-family:'Cormorant Garamond',serif;font-size:50px;font-weight:300;color:rgba(232,167,72,.12);line-height:1;display:block;margin-bottom:28px; }
+    .sbar { width:38px;height:1px;background:var(--orange);margin-bottom:26px;transform-origin:left;transform:scaleX(0);transition:transform .6s cubic-bezier(.23,1,.32,1); }
+    .scard:hover .sbar { transform:scaleX(1); }
+    .stitle { font-family:'Cormorant Garamond',serif;font-size:25px;font-weight:600;color:var(--cream);margin-bottom:15px;line-height:1.2; }
+    .sdesc { font-size:13px;line-height:1.78;color:var(--muted); }
+
+    /* ABOUT */
+    #about { padding:116px 68px;display:grid;grid-template-columns:1fr 1fr;gap:88px;align-items:center; }
+    .awrap { position:relative; }
+    .aimg { width:100%;aspect-ratio:4/5;object-fit:cover;filter:grayscale(75%) contrast(1.1);display:block; }
+    .aframe { position:absolute;inset:22px -22px -22px 22px;border:1px solid rgba(232,167,72,.18);z-index:-1; }
+    .atag { position:absolute;bottom:-18px;left:28px;background:var(--orange);padding:12px 20px;font-size:9.5px;letter-spacing:.25em;text-transform:uppercase;color:var(--black);font-weight:500; }
+    .ah1 { font-family:'Cormorant Garamond',serif;font-size:clamp(42px,4.8vw,68px);font-weight:700;line-height:.96;letter-spacing:-.03em;color:var(--cream);margin-bottom:28px; }
+    .ah1 em { font-style:italic;color:var(--orange); }
+    .abody { font-size:14px;line-height:1.88;color:var(--muted);margin-bottom:48px; }
+    .abody p+p { margin-top:18px; }
+
+    /* STATS */
+    #stats { padding:96px 68px;border-top:1px solid rgba(232,167,72,.07);border-bottom:1px solid rgba(232,167,72,.07);display:grid;grid-template-columns:repeat(4,1fr); }
+    .stitem { padding:44px 36px;border-right:1px solid rgba(232,167,72,.07);text-align:center; }
+    .stitem:last-child { border-right:none; }
+    .stnum { font-family:'Cormorant Garamond',serif;font-size:clamp(54px,6.5vw,92px);font-weight:700;color:var(--cream);line-height:1;letter-spacing:-.03em;display:block; }
+    .stnum .stsuf { color:var(--orange); }
+    .stlabel { font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-top:10px;display:block; }
+
+    /* PROCESS */
+    #process { padding:116px 68px; }
+    .prh1 { font-family:'Cormorant Garamond',serif;font-size:clamp(46px,5.8vw,84px);font-weight:700;line-height:.92;letter-spacing:-.035em;color:var(--cream);margin-bottom:72px; }
+    .prsteps { display:grid;grid-template-columns:repeat(3,1fr);border:1px solid rgba(232,167,72,.07); }
+    .prstep { padding:54px 46px;border-right:1px solid rgba(232,167,72,.07);position:relative; }
+    .prstep:last-child { border-right:none; }
+    .prbig { font-family:'Cormorant Garamond',serif;font-size:110px;font-weight:700;color:rgba(232,167,72,.05);line-height:1;position:absolute;top:14px;right:24px;letter-spacing:-.05em; }
+    .prtitle { font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--cream);margin-bottom:18px;line-height:1.2; }
+    .prbar { width:30px;height:1px;background:var(--orange);margin-bottom:28px; }
+    .prdesc { font-size:13px;line-height:1.8;color:var(--muted); }
+
+    /* CTA */
+    #cta { background:var(--orange);padding:116px 68px;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;overflow:hidden; }
+    #cta::before { content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 75% at 50% 110%,rgba(27,18,11,.18) 0%,transparent 70%);pointer-events:none; }
+    .ctah1 { font-family:'Cormorant Garamond',serif;font-size:clamp(60px,9.5vw,136px);font-weight:700;line-height:.88;letter-spacing:-.035em;color:var(--black);margin-bottom:36px;position:relative;z-index:1; }
+    .ctasub { font-size:14px;line-height:1.72;color:rgba(27,18,11,.62);max-width:400px;margin-bottom:52px;position:relative;z-index:1; }
+    .btn-d { display:inline-flex;align-items:center;gap:14px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-family:'DM Sans',sans-serif;font-weight:500;color:var(--orange);background:var(--black);padding:18px 40px;text-decoration:none;position:relative;z-index:1;transition:opacity .3s,transform .35s cubic-bezier(.23,1,.32,1); }
+    .btn-d:hover { opacity:.84;transform:translateY(-2px); }
+
+    /* FOOTER */
+    footer { padding:60px 68px;border-top:1px solid rgba(232,167,72,.07);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:32px; }
+    .flogo { font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--cream);line-height:1; }
+    .flogo small { display:block;font-size:8px;letter-spacing:.28em;font-family:'DM Sans',sans-serif;font-weight:300;color:var(--orange);margin-top:3px; }
+    .fcenter { text-align:center;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted); }
+    .fright { display:flex;justify-content:flex-end;gap:28px; }
+    .fright a { font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s; }
+    .fright a:hover { color:var(--orange); }
+  </style>
+</head>
+<body>
+
+<!-- Preloader -->
+<div id="pre">
+  <div id="pre-word"><span>a</span><span>u</span><span>r</span><span>a</span></div>
+  <div id="pre-sub">films</div>
+  <div id="pre-line"></div>
+</div>
+
+<div id="grain"></div>
+<div id="prog"></div>
+<div id="cdot"></div>
+<div id="cring"></div>
+
+<!-- Nav -->
+<nav id="nav">
+  <a href="#" class="nlogo">aura<small>films</small></a>
+  <ul class="nlinks">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#process">Process</a></li>
+  </ul>
+  <button class="ncta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Get in Touch</button>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hbg"></div>
+  <div class="himg"></div>
+  <div class="hlb top"></div>
+  <div class="hlb bot"></div>
+  <div class="hcontent">
+    <div class="hey">Film Production · Toronto, Canada</div>
+    <h1 class="hh1">
+      <span class="wd"><span>We Frame</span></span>
+      <span class="wd"><span><em>Your</em> Story</span></span>
+    </h1>
+    <p class="hsub">Cinematic storytelling that transcends the ordinary. From concept to final cut — visuals that move people.</p>
+    <div class="hact">
+      <a href="#work" class="btn-p">View Our Work</a>
+      <a href="#about" class="btn-g"><span class="arr"></span>Our Story</a>
+    </div>
+  </div>
+  <div class="hscroll">
+    <div class="hline"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="mq">
+  <div class="mqt">
+    <div class="mqi"><span class="mqtext">Cinematography</span><span class="mqdot"></span></div>
+    <div class="mqi"><span class="mqtext">Film Direction</span><span class="mqdot"></span></div>
+    <div class="mqi"><span class="mqtext">Color Grading</span><span class="mqdot"></span></div>
+    <div class="mqi"><span class="mqtext">Post Production</span><span class="mqdot"></span></div>
+    <div class="mqi"><span class="mqtext">Brand Films</span><span class="mqdot"></span></div>
+    <div class="mqi"><span class="mqtext">Wedding Films</span><span class="mqdot"></span></div>
+    <div class="mqi"><span class="mqtext">Documentaries</span><span class="mqdot"></span></div>
+    <div class="mqi"><span class="mqtext">Cinematography</span><span class="mqdot"></span></div>
+    <div class="mqi"><span class="mqtext">Film Direction</span><span class="mqdot"></span></div>
+    <div class="mqi"><span class="mqtext">Color Grading</span><span class="mqdot"></span></div>
+    <div class="mqi"><span class="mqtext">Post Production</span><span class="mqdot"></span></div>
+    <div class="mqi"><span class="mqtext">Brand Films</span><span class="mqdot"></span></div>
+    <div class="mqi"><span class="mqtext">Wedding Films</span><span class="mqdot"></span></div>
+    <div class="mqi"><span class="mqtext">Documentaries</span><span class="mqdot"></span></div>
+  </div>
+</div>
+
+<!-- Work -->
+<section id="work">
+  <div class="whead">
+    <div>
+      <div class="slabel">Selected Work</div>
+      <h2 class="wh1">Stories<br><em>Told Well</em></h2>
+    </div>
+    <div class="wcnt">06 Projects</div>
+  </div>
+  <div class="wgrid">
+    <div class="wcard">
+      <img class="wimg" src="https://placehold.co/920x1120/1B120B/231a10" alt="">
+      <span class="wnum">01</span>
+      <div class="wov"><div class="wcat">Brand Film</div><div class="wtitle">The Ember<br>Campaign</div></div>
+    </div>
+    <div class="wcard">
+      <img class="wimg" src="https://placehold.co/920x540/12100e/1c1610" alt="">
+      <span class="wnum">02</span>
+      <div class="wov"><div class="wcat">Wedding Film</div><div class="wtitle">Rayna &amp; Kian</div></div>
+    </div>
+    <div class="wcard">
+      <img class="wimg" src="https://placehold.co/920x540/0f0d0b/181410" alt="">
+      <span class="wnum">03</span>
+      <div class="wov"><div class="wcat">Documentary</div><div class="wtitle">Roots of the City</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section id="services">
+  <div class="slabel">What We Do</div>
+  <h2 class="sh1">Craft Meets<br><em style="font-style:italic;color:var(--orange)">Vision</em></h2>
+  <div class="sgrid">
+    <div class="scard"><span class="snum">01</span><div class="sbar"></div><div class="stitle">Cinematography</div><p class="sdesc">Every frame is a painting. We capture light, motion, and emotion with surgical precision — images that linger long after the credits roll.</p></div>
+    <div class="scard"><span class="snum">02</span><div class="sbar"></div><div class="stitle">Direction &amp; Concept</div><p class="sdesc">From script to screen, our directors shape narratives with intention. We don't just shoot — we architect experiences from the ground up.</p></div>
+    <div class="scard"><span class="snum">03</span><div class="sbar"></div><div class="stitle">Color &amp; Post</div><p class="sdesc">The final look is where stories breathe. Our color work gives each project its own atmosphere — warm, cold, golden — by design.</p></div>
+    <div class="scard"><span class="snum">04</span><div class="sbar"></div><div class="stitle">Brand Films</div><p class="sdesc">Your brand has a soul. We find it on camera. From launch campaigns to long-form stories — we give brands the cinematic identity they deserve.</p></div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about">
+  <div class="awrap">
+    <img class="aimg" src="https://placehold.co/720x900/1B120B/23180e" alt="Aura Films Team">
+    <div class="aframe"></div>
+    <div class="atag">Est. 2019 · Toronto</div>
+  </div>
+  <div>
+    <div class="slabel">About Us</div>
+    <h2 class="ah1">Two Lenses,<br>One <em>Aura</em></h2>
+    <div class="abody">
+      <p>We are a Toronto-based film production studio driven by an obsession with craft. Every project begins with a single question: what is the soul of this story?</p>
+      <p>From intimate wedding films to ambitious brand campaigns and documentary work, we bring the same cinematic rigour to every frame. We don't believe in ordinary.</p>
+      <p>Aura Films is built on a deep respect for the image — the way light falls, the way a moment holds its breath, the way a cut can shift the weight of a scene.</p>
+    </div>
+    <a href="#cta" class="btn-p" style="display:inline-flex;">Start a Conversation</a>
+  </div>
+</section>
+
+<!-- Stats -->
+<section id="stats">
+  <div class="stitem"><span class="stnum" data-target="120"><span class="cnt">0</span><span class="stsuf">+</span></span><span class="stlabel">Projects Delivered</span></div>
+  <div class="stitem"><span class="stnum" data-target="6"><span class="cnt">0</span><span class="stsuf"> yrs</span></span><span class="stlabel">In the Field</span></div>
+  <div class="stitem"><span class="stnum" data-target="40"><span class="cnt">0</span><span class="stsuf">+</span></span><span class="stlabel">Brand Partners</span></div>
+  <div class="stitem"><span class="stnum" data-target="98"><span class="cnt">0</span><span class="stsuf">%</span></span><span class="stlabel">Client Return Rate</span></div>
+</section>
+
+<!-- Process -->
+<section id="process">
+  <div class="slabel">How We Work</div>
+  <h2 class="prh1">Our <em style="font-style:italic;color:var(--orange)">Process</em></h2>
+  <div class="prsteps">
+    <div class="prstep"><span class="prbig">01</span><div class="prbar"></div><div class="prtitle">Discovery &amp; Story</div><p class="prdesc">We sit down and listen. Every great film starts with understanding the story we're actually telling — not the one on the surface.</p></div>
+    <div class="prstep"><span class="prbig">02</span><div class="prbar"></div><div class="prtitle">Craft &amp; Capture</div><p class="prdesc">We move with precision on set. Our production balances meticulous planning with the ability to capture unrepeatable moments.</p></div>
+    <div class="prstep"><span class="prbig">03</span><div class="prbar"></div><div class="prtitle">Polish &amp; Deliver</div><p class="prdesc">In post, we sculpt the final experience — pacing, color, sound design. Every detail tuned until the film feels inevitable.</p></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <h2 class="ctah1">Let's Build<br>Together</h2>
+  <p class="ctasub">Ready to bring your story to life? Let's talk about your vision and make something worth watching.</p>
+  <a href="mailto:hello@aurafilms.ca" class="btn-d">
+    hello@aurafilms.ca
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5H12.5M12.5 7.5L8.5 3.5M12.5 7.5L8.5 11.5" stroke="currentColor" stroke-width="1"/></svg>
+  </a>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="flogo">aura<small>films</small></div>
+  <div class="fcenter">© 2025 Aura Films · Toronto, Canada<br><span style="color:rgba(249,240,225,.18);margin-top:4px;display:block;font-size:9px;">www.aurafilms.ca</span></div>
+  <div class="fright"><a href="#">Instagram</a><a href="#">Vimeo</a><a href="#">LinkedIn</a></div>
+</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// CURSOR
+const cdot = document.getElementById('cdot');
+const cring = document.getElementById('cring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  gsap.set(cdot, { x: mx, y: my });
+});
+(function tick() {
+  rx += (mx - rx) * 0.11;
+  ry += (my - ry) * 0.11;
+  gsap.set(cring, { x: rx, y: ry });
+  requestAnimationFrame(tick);
+})();
+document.querySelectorAll('a,button,.wcard,.scard').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('ch'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
+});
+
+// SCROLL PROGRESS
+const prog = document.getElementById('prog');
+window.addEventListener('scroll', () => {
+  prog.style.width = (window.scrollY / (document.body.scrollHeight - innerHeight) * 100) + '%';
+}, { passive: true });
+
+// NAV SCROLL
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('sc', window.scrollY > 60);
+}, { passive: true });
+
+// PRELOADER
+const pre = document.getElementById('pre');
+const ltrs = pre.querySelectorAll('#pre-word span');
+const sub = document.getElementById('pre-sub');
+gsap.timeline({ onComplete: launch })
+  .to(ltrs, { y: 0, duration: 1, ease: 'power4.out', stagger: 0.08 })
+  .to(sub, { opacity: 1, duration: 0.5 }, '-=0.35')
+  .to([ltrs, sub], { y: -28, opacity: 0, duration: 0.55, ease: 'power3.in', stagger: 0.04, delay: 0.7 })
+  .to(pre, { y: '-100%', duration: 1, ease: 'power4.inOut' }, '-=0.05');
+
+function launch() {
+  pre.style.display = 'none';
+  gsap.timeline()
+    .to('.hey', { opacity: 1, y: 0, duration: 0.85, ease: 'power3.out' })
+    .to('.hh1 .wd span', { y: 0, duration: 1.1, ease: 'power4.out', stagger: 0.13 }, '-=0.45')
+    .to('.hsub', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.55')
+    .to('.hact', { opacity: 1, y: 0, duration: 0.75, ease: 'power3.out' }, '-=0.5')
+    .to('.hscroll', { opacity: 1, duration: 0.6 }, '-=0.35');
+}
+
+// PARALLAX HERO
+gsap.to('.himg', {
+  scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1.2 },
+  y: 130, ease: 'none'
+});
+
+// WORK
+gsap.from('.whead > *', { scrollTrigger: { trigger: '#work', start: 'top 78%' }, opacity: 0, y: 36, duration: 0.8, ease: 'power3.out', stagger: 0.15 });
+gsap.from('.wcard', { scrollTrigger: { trigger: '.wgrid', start: 'top 78%' }, opacity: 0, y: 60, duration: 0.9, ease: 'power3.out', stagger: 0.15 });
+
+// SERVICES
+gsap.from('.sh1', { scrollTrigger: { trigger: '#services', start: 'top 80%' }, opacity: 0, y: 40, duration: 0.85, ease: 'power3.out' });
+gsap.from('.scard', { scrollTrigger: { trigger: '.sgrid', start: 'top 78%' }, opacity: 0, y: 50, duration: 0.8, ease: 'power3.out', stagger: 0.12 });
+
+// ABOUT
+gsap.from('.awrap', { scrollTrigger: { trigger: '#about', start: 'top 75%' }, opacity: 0, x: -50, duration: 1, ease: 'power3.out' });
+gsap.from('#about > div:last-child > *', { scrollTrigger: { trigger: '#about', start: 'top 72%' }, opacity: 0, y: 36, duration: 0.8, ease: 'power3.out', stagger: 0.12 });
+
+// STATS COUNTER
+document.querySelectorAll('.stitem').forEach(item => {
+  const target = parseInt(item.querySelector('[data-target]').dataset.target);
+  const el = item.querySelector('.cnt');
+  ScrollTrigger.create({
+    trigger: item, start: 'top 82%', once: true,
+    onEnter: () => gsap.to({ v: 0 }, { v: target, duration: 1.9, ease: 'power2.out', onUpdate: function() { el.textContent = Math.round(this.targets()[0].v); } })
+  });
+});
+gsap.from('.stitem', { scrollTrigger: { trigger: '#stats', start: 'top 82%' }, opacity: 0, y: 28, duration: 0.7, ease: 'power3.out', stagger: 0.1 });
+
+// PROCESS
+gsap.from('.prh1', { scrollTrigger: { trigger: '#process', start: 'top 80%' }, opacity: 0, y: 38, duration: 0.85, ease: 'power3.out' });
+gsap.from('.prstep', { scrollTrigger: { trigger: '.prsteps', start: 'top 78%' }, opacity: 0, y: 48, duration: 0.8, ease: 'power3.out', stagger: 0.15 });
+
+// CTA
+gsap.from('.ctah1', { scrollTrigger: { trigger: '#cta', start: 'top 80%' }, opacity: 0, y: 60, scale: 0.96, duration: 1, ease: 'power3.out' });
+gsap.from(['.ctasub','.btn-d'], { scrollTrigger: { trigger: '#cta', start: 'top 76%' }, opacity: 0, y: 30, duration: 0.8, ease: 'power3.out', stagger: 0.15 });
+
+// FOOTER
+gsap.from('footer > *', { scrollTrigger: { trigger: 'footer', start: 'top 90%' }, opacity: 0, y: 20, duration: 0.7, ease: 'power3.out', stagger: 0.1 });
+
+// SMOOTH ANCHOR SCROLL
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+</script>
+</body>
+</html>
