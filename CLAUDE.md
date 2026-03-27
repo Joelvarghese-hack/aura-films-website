@@ -52,3 +52,52 @@
 - Do not stop after one screenshot pass
 - Do not use `transition-all`
 - Do not use default Tailwind blue/indigo as primary color
+
+## Brand Fonts
+Fonts live in `/fonts/` and are loaded via `@font-face` (NOT Google Fonts):
+- **Clash Display** (`/fonts/Clash Display/ClashDisplay-Variable.woff2`) — headings, titles, large display text. Use `font-weight: 700` or `800`.
+- **Cabinet Grotesk** (`/fonts/Cabinet Grotesk/CabinetGrotesk-Variable.woff2`) — body copy, UI text, nav, buttons. Default body font.
+- **Britney** (`/fonts/Britney/Britney-Variable.woff2`) — accent/editorial use only (index.html `.bio-copy` and `.t-quote`). Bold italic.
+
+Never use: Bebas Neue, DM Sans, Cormorant Garamond, Archivo, or any Google Fonts on this project.
+
+## Brand Color Palette
+```css
+:root {
+  --orange: #e8a748;       /* primary CTA, buttons, highlights */
+  --bg: #F9F0E1;           /* page background (light) */
+  --charcoal: #212922;     /* footer background, dark surfaces */
+  --tea-green: #C5EBC3;    /* testimonial tints, focus borders, work-num */
+  --emerald: #39D599;      /* nav hover/active, CTA borders, dot accents, footer link hover */
+  --text: #1B120B;         /* primary text */
+  --accent: #e8a748;       /* alias for --orange */
+  --text-muted: #5a3e2b;
+  --text-faint: #8a6a52;
+  --surface: #EFE5D2;
+  --card: #E8DCC8;
+  --border: rgba(33,41,34,0.12);
+  --nav-bg: rgba(249,240,225,0.96);
+  --footer-bg: #212922;    /* always charcoal */
+  --cta-bg: #1B120B;
+}
+[data-theme="dark"] {
+  --orange: #e8a748;
+  --bg: #1B120B;
+  --tea-green: #7BC99A;
+  --emerald: #39D599;
+  --text: #F9F0E1;
+  --text-muted: #b89a82;
+  --text-faint: #6a5040;
+  --surface: #24180F;
+  --card: #2E1F14;
+  --border: rgba(249,240,225,0.09);
+  --nav-bg: rgba(27,18,11,0.93);
+}
+```
+
+Color usage rules:
+- Emerald (`#39D599`): nav link hover/active states, CTA button borders, dot accents, footer link hover
+- Tea Green (`#C5EBC3`): testimonial section background tint, `.work-num` color, search/input focus border
+- Orange (`#e8a748`): primary buttons, `.btn-send`, highlights, footer-big-email hover
+- Charcoal (`#212922`): footer background (always), dark card backgrounds in dark mode
+- Never use hardcoded `#ff4d00` anywhere — that was the old accent color, fully replaced
