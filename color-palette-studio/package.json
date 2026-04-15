@@ -1,0 +1,16 @@
+{
+  "name": "color-palette-studio",
+  "version": "1.0.0",
+  "description": "Color Palette Studio — Build, analyze, fix, and export professional color palettes.",
+  "author": "Joel Varghese",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "build": "node build.mjs",
+    "deploy": "node build.mjs && node deploy.mjs",
+    "serve": "node serve.mjs"
+  },
+  "devDependencies": {
+    "terser": "^5.27.0"
+  }
+}

@@ -7,6 +7,13 @@
       "runtimeArgs": ["serve.mjs"],
       "port": 3000,
       "autoPort": false
+    },
+    {
+      "name": "color-palette-studio",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["color-palette-studio/serve.mjs"],
+      "port": 3001,
+      "autoPort": false
     }
   ]
 }
