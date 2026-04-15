@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<!--
+  Color Palette Studio
+  Copyright © 2026 Joel Varghese. All rights reserved.
+  Unauthorized copying, reproduction, or distribution of this software,
+  via any medium, is strictly prohibited without prior written permission.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="copyright" content="Color Palette Studio © 2026 Joel Varghese. All rights reserved.">
+  <meta name="description" content="Build, analyze, fix, and export professional color palettes. The designer's color toolkit.">
+  <meta property="og:title" content="Color Palette Studio">
+  <meta property="og:description" content="Build, analyze, fix, and export professional color palettes. The designer's color toolkit.">
+  <meta property="og:image" content="https://colorpalettestudio.app/og-image.png">
+  <meta property="og:url" content="https://colorpalettestudio.app">
+  <meta property="og:type" content="website">
+  <title>Color Palette Studio — Build, Analyze & Export Color Palettes</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="app-header">
+    <div class="header-inner">
+      <!-- Logo -->
+      <a href="/" class="logo" aria-label="Color Palette Studio">
+        <div class="logo-mark">
+          <span class="logo-swatch" style="background:#1a1a1a"></span>
+          <span class="logo-swatch" style="background:#6b7280"></span>
+          <span class="logo-swatch" style="background:#d1d5db"></span>
+          <span class="logo-swatch" style="background:#f0f0f0; border:1px solid #e5e5e5"></span>
+        </div>
+        <span class="logo-text">Color Palette Studio</span>
+      </a>
+
+      <!-- Main Nav Tabs -->
+      <nav class="main-nav" role="navigation" aria-label="Main navigation">
+        <button class="nav-tab active" data-tab="builder" aria-selected="true">Builder</button>
+        <button class="nav-tab" data-tab="analysis" aria-selected="false">Analysis</button>
+        <button class="nav-tab" data-tab="preview" aria-selected="false">UI Preview</button>
+        <button class="nav-tab" data-tab="export" aria-selected="false">Export</button>
+        <button class="nav-tab" data-tab="history" aria-selected="false">History</button>
+      </nav>
+
+      <!-- Right Actions -->
+      <div class="header-actions">
+        <button class="btn-generate" id="btn-generate" aria-label="Generate random palette">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M2 8a6 6 0 1 0 12 0A6 6 0 0 0 2 8Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M8 5v3l2 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Generate
+        </button>
+        <button class="btn-pro" id="btn-try-pro" aria-label="Try Pro">Try Pro</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== PALETTE STRIP ===== -->
+  <div class="palette-strip-container" id="palette-strip-container" aria-label="Palette preview strip">
+    <div class="palette-strip" id="palette-strip">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+  <!-- ===== MAIN LAYOUT ===== -->
+  <main class="app-main">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar" aria-label="Color controls">
+
+      <!-- Selected Color Display -->
+      <div class="sidebar-section">
+        <div class="selected-color-display" id="selected-color-display">
+          <div class="selected-swatch" id="selected-swatch" style="background: #3b82f6"></div>
+          <div class="selected-info">
+            <span class="selected-hex" id="selected-hex">#3B82F6</span>
+            <span class="selected-label" id="selected-label">Selected Color</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Native Color Picker -->
+      <div class="sidebar-section">
+        <label class="input-label" for="native-picker">COLOR PICKER</label>
+        <input type="color" id="native-picker" class="native-color-picker" value="#3b82f6" aria-label="Color picker">
+      </div>
+
+      <!-- Hex Input -->
+      <div class="sidebar-section">
+        <label class="input-label" for="hex-input">HEX</label>
+        <div class="hex-input-wrapper">
+          <span class="hex-hash">#</span>
+          <input type="text" id="hex-input" class="hex-input" value="3B82F6" maxlength="6" placeholder="000000" aria-label="Hex color value" spellcheck="false">
+        </div>
+      </div>
+
+      <!-- RGB Inputs -->
+      <div class="sidebar-section">
+        <label class="input-label">RGB</label>
+        <div class="rgb-inputs">
+          <div class="rgb-field">
+            <input type="number" id="rgb-r" class="rgb-input" min="0" max="255" value="59" aria-label="Red channel">
+            <span class="rgb-label">R</span>
+          </div>
+          <div class="rgb-field">
+            <input type="number" id="rgb-g" class="rgb-input" min="0" max="255" value="130" aria-label="Green channel">
+            <span class="rgb-label">G</span>
+          </div>
+          <div class="rgb-field">
+            <input type="number" id="rgb-b" class="rgb-input" min="0" max="255" value="246" aria-label="Blue channel">
+            <span class="rgb-label">B</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- HSL Sliders -->
+      <div class="sidebar-section">
+        <label class="input-label">HSL</label>
+        <div class="hsl-sliders">
+          <div class="slider-row">
+            <span class="slider-label">H</span>
+            <input type="range" id="hsl-h" class="color-slider hue-slider" min="0" max="360" value="217" aria-label="Hue">
+            <input type="number" id="hsl-h-val" class="slider-val" min="0" max="360" value="217" aria-label="Hue value">
+          </div>
+          <div class="slider-row">
+            <span class="slider-label">S</span>
+            <input type="range" id="hsl-s" class="color-slider" min="0" max="100" value="91" aria-label="Saturation">
+            <input type="number" id="hsl-s-val" class="slider-val" min="0" max="100" value="91" aria-label="Saturation value">
+          </div>
+          <div class="slider-row">
+            <span class="slider-label">L</span>
+            <input type="range" id="hsl-l" class="color-slider" min="0" max="100" value="60" aria-label="Lightness">
+            <input type="number" id="hsl-l-val" class="slider-val" min="0" max="100" value="60" aria-label="Lightness value">
+          </div>
+        </div>
+      </div>
+
+      <!-- Image Upload -->
+      <div class="sidebar-section">
+        <label class="input-label">EXTRACT FROM IMAGE</label>
+        <div class="image-upload-zone" id="image-upload-zone" role="button" tabindex="0" aria-label="Upload image to extract colors">
+          <input type="file" id="image-file-input" accept="image/jpeg,image/png,image/webp" class="file-input-hidden" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M10 3v10M6 7l4-4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3 14v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span class="upload-text">Drop image or click to upload</span>
+          <span class="upload-sub">JPG, PNG, WebP — extracts top 6 colors</span>
+        </div>
+        <div class="extracted-colors" id="extracted-colors" style="display:none">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Add Color to Palette -->
+      <div class="sidebar-section">
+        <button class="btn-add-color" id="btn-add-color" aria-label="Add selected color to palette">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Add to Palette
+        </button>
+      </div>
+
+      <!-- Hidden canvas for image processing -->
+      <canvas id="image-canvas" style="display:none" aria-hidden="true"></canvas>
+    </aside>
+
+    <!-- CONTENT PANELS -->
+    <div class="content-area">
+
+      <!-- ====== BUILDER PANEL ====== -->
+      <section class="panel active" id="panel-builder" role="tabpanel" aria-label="Palette builder">
+        <div class="panel-header">
+          <h2 class="panel-title">Palette Builder</h2>
+          <span class="panel-meta" id="color-count-label">0 colors</span>
+        </div>
+
+        <!-- Color Cards Grid -->
+        <div class="color-cards" id="color-cards" role="list" aria-label="Palette colors">
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="empty-state" id="empty-state">
+          <div class="empty-icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <circle cx="16" cy="16" r="12" stroke="#e5e5e5" stroke-width="1.5"/>
+              <path d="M16 10v12M10 16h12" stroke="#e5e5e5" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <p class="empty-title">No colors yet</p>
+          <p class="empty-desc">Pick a color and click "Add to Palette" — or generate a palette to get started.</p>
+        </div>
+
+        <!-- Shades Panel -->
+        <div class="shades-section" id="shades-section" style="display:none">
+          <div class="section-label">SHADES &amp; TINTS</div>
+          <div class="shades-grid" id="shades-grid">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== ANALYSIS PANEL ====== -->
+      <section class="panel" id="panel-analysis" role="tabpanel" aria-label="Palette analysis" hidden>
+
+        <!-- Contrast Checker -->
+        <div class="analysis-block">
+          <div class="analysis-header">
+            <h2 class="panel-title">Contrast Checker</h2>
+            <span class="section-tag">WCAG 2.1</span>
+          </div>
+          <div class="contrast-pairs" id="contrast-pairs">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Issues Engine -->
+        <div class="analysis-block">
+          <div class="analysis-header">
+            <h2 class="panel-title">Issues &amp; Fixes</h2>
+            <span class="issues-count" id="issues-count">0 issues</span>
+          </div>
+          <div class="issues-list" id="issues-list">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Color Blindness Simulator -->
+        <div class="analysis-block">
+          <div class="analysis-header">
+            <h2 class="panel-title">Color Blindness Simulator</h2>
+            <span class="pro-badge">PRO</span>
+          </div>
+          <div class="cbsim-grid" id="cbsim-grid">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Palette Metrics -->
+        <div class="analysis-block">
+          <div class="analysis-header">
+            <h2 class="panel-title">Palette Metrics</h2>
+          </div>
+          <div class="metrics-grid" id="metrics-grid">
+            <!-- Populated by JS -->
+          </div>
+          <div class="temperature-row">
+            <span class="temp-label">TEMPERATURE</span>
+            <div class="temperature-bar-wrap">
+              <div class="temperature-bar">
+                <div class="temp-indicator" id="temp-indicator"></div>
+              </div>
+              <div class="temp-ends">
+                <span>Cool</span>
+                <span>Warm</span>
+              </div>
+            </div>
+            <span class="mood-badge" id="mood-badge">—</span>
+          </div>
+        </div>
+
+        <!-- Harmony Engine -->
+        <div class="analysis-block">
+          <div class="analysis-header">
+            <h2 class="panel-title">Color Harmony</h2>
+            <select class="harmony-select" id="harmony-select" aria-label="Harmony type">
+              <option value="complementary">Complementary</option>
+              <option value="analogous">Analogous</option>
+              <option value="triadic">Triadic</option>
+              <option value="split-complementary">Split-Complementary</option>
+              <option value="tetradic">Tetradic</option>
+              <option value="square">Square</option>
+              <option value="monochromatic">Monochromatic</option>
+            </select>
+          </div>
+          <div class="harmony-result" id="harmony-result">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ====== UI PREVIEW PANEL ====== -->
+      <section class="panel" id="panel-preview" role="tabpanel" aria-label="UI preview" hidden>
+        <div class="panel-header">
+          <h2 class="panel-title">Live UI Preview</h2>
+          <span class="panel-meta">Updates as roles change</span>
+        </div>
+
+        <div class="ui-preview-wrap">
+          <!-- Light Preview -->
+          <div class="preview-label">LIGHT</div>
+          <div class="ui-mock" id="ui-mock-light">
+            <!-- Populated by JS -->
+          </div>
+
+          <!-- Dark Preview -->
+          <div class="preview-label" style="margin-top:32px">DARK</div>
+          <div class="ui-mock" id="ui-mock-dark">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== EXPORT PANEL ====== -->
+      <section class="panel" id="panel-export" role="tabpanel" aria-label="Export" hidden>
+        <div class="panel-header">
+          <h2 class="panel-title">Export</h2>
+          <span class="panel-meta">Copy or download your palette</span>
+        </div>
+
+        <div class="export-grid" id="export-grid">
+
+          <div class="export-card" data-format="css">
+            <div class="export-card-header">
+              <span class="export-format">CSS Variables</span>
+              <button class="btn-copy" data-format="css" aria-label="Copy CSS variables">Copy</button>
+            </div>
+            <pre class="export-preview" id="export-css"></pre>
+          </div>
+
+          <div class="export-card" data-format="scss">
+            <div class="export-card-header">
+              <span class="export-format">SCSS Variables</span>
+              <button class="btn-copy" data-format="scss" aria-label="Copy SCSS variables">Copy</button>
+            </div>
+            <pre class="export-preview" id="export-scss"></pre>
+          </div>
+
+          <div class="export-card" data-format="json">
+            <div class="export-card-header">
+              <span class="export-format">JSON Tokens</span>
+              <button class="btn-copy" data-format="json" aria-label="Copy JSON tokens">Copy</button>
+            </div>
+            <pre class="export-preview" id="export-json"></pre>
+          </div>
+
+          <div class="export-card" data-format="tailwind">
+            <div class="export-card-header">
+              <span class="export-format">Tailwind Config</span>
+              <button class="btn-copy" data-format="tailwind" aria-label="Copy Tailwind config">Copy</button>
+            </div>
+            <pre class="export-preview" id="export-tailwind"></pre>
+          </div>
+
+          <div class="export-card pro-locked" data-format="figma">
+            <div class="export-card-header">
+              <span class="export-format">Figma Tokens <span class="pro-badge">PRO</span></span>
+              <button class="btn-copy locked" data-format="figma" aria-label="Figma tokens — Pro only">Copy</button>
+            </div>
+            <pre class="export-preview blurred" id="export-figma"></pre>
+          </div>
+
+          <div class="export-card" data-format="png">
+            <div class="export-card-header">
+              <span class="export-format">PNG Swatch Sheet <span class="pro-badge">PRO</span></span>
+              <button class="btn-download" data-format="png" aria-label="Download PNG swatch sheet">Download</button>
+            </div>
+            <canvas id="export-canvas" style="display:none" aria-hidden="true"></canvas>
+            <div class="export-png-preview" id="export-png-preview"></div>
+          </div>
+
+          <div class="export-card pro-locked" data-format="ase">
+            <div class="export-card-header">
+              <span class="export-format">ASE (Adobe) <span class="pro-badge">PRO</span></span>
+              <button class="btn-download locked" data-format="ase" aria-label="Adobe Swatch Exchange — Pro only">Download</button>
+            </div>
+            <p class="export-desc">Adobe Swatch Exchange format for Photoshop &amp; Illustrator.</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ====== HISTORY PANEL ====== -->
+      <section class="panel" id="panel-history" role="tabpanel" aria-label="Palette history" hidden>
+        <div class="panel-header">
+          <h2 class="panel-title">Palette History</h2>
+          <button class="btn-clear-history" id="btn-clear-history" aria-label="Clear all history">Clear All</button>
+        </div>
+        <div class="history-list" id="history-list">
+          <!-- Populated by JS -->
+        </div>
+        <div class="empty-state" id="history-empty" style="display:none">
+          <p class="empty-title">No history yet</p>
+          <p class="empty-desc">Your palettes are automatically saved as you build.</p>
+        </div>
+      </section>
+
+    </div><!-- /content-area -->
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="app-footer">
+    <span>© 2026 Joel Varghese — Color Palette Studio. All rights reserved.</span>
+  </footer>
+
+  <!-- ===== GENERATE PALETTE MODAL ===== -->
+  <div class="modal-overlay" id="modal-generate" style="display:none" role="dialog" aria-modal="true" aria-label="Generate palette">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Generate Palette</h3>
+        <button class="modal-close" id="modal-generate-close" aria-label="Close">&times;</button>
+      </div>
+      <div class="generate-options" id="generate-options" role="group" aria-label="Palette type">
+        <button class="gen-option active" data-type="random">Random</button>
+        <button class="gen-option" data-type="warm">Warm Tones</button>
+        <button class="gen-option" data-type="cool">Cool Tones</button>
+        <button class="gen-option" data-type="pastel">Pastel</button>
+        <button class="gen-option" data-type="earthy">Earthy</button>
+        <button class="gen-option" data-type="high-contrast">High Contrast</button>
+        <button class="gen-option" data-type="monochromatic">Monochromatic</button>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" id="modal-generate-cancel">Cancel</button>
+        <button class="btn-primary" id="modal-generate-confirm">Generate</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PRO MODAL ===== -->
+  <div class="modal-overlay" id="modal-pro" style="display:none" role="dialog" aria-modal="true" aria-label="Try Pro">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">You've found a Pro feature</h3>
+        <button class="modal-close" id="modal-pro-close" aria-label="Close">&times;</button>
+      </div>
+      <p class="modal-body">Unlock unlimited contrast checks, color blindness simulation, and all export formats.</p>
+      <div class="pro-features-list">
+        <div class="pro-feature-item">
+          <span class="pro-check">✓</span>
+          <span>Unlimited WCAG contrast checks</span>
+        </div>
+        <div class="pro-feature-item">
+          <span class="pro-check">✓</span>
+          <span>Color blindness simulator (4 types)</span>
+        </div>
+        <div class="pro-feature-item">
+          <span class="pro-check">✓</span>
+          <span>PNG swatch sheet export</span>
+        </div>
+        <div class="pro-feature-item">
+          <span class="pro-check">✓</span>
+          <span>Figma Tokens &amp; Adobe ASE export</span>
+        </div>
+        <div class="pro-feature-item">
+          <span class="pro-check">✓</span>
+          <span>Unlimited format exports</span>
+        </div>
+      </div>
+      <div class="pro-email-row">
+        <input type="email" id="pro-email" class="pro-email-input" placeholder="your@email.com" aria-label="Email address">
+        <button class="btn-primary" id="btn-get-access">Get early access</button>
+      </div>
+      <button class="btn-maybe-later" id="btn-maybe-later">Maybe later</button>
+    </div>
+  </div>
+
+  <!-- ===== CUSTOM CONTEXT MENU ===== -->
+  <div class="custom-context-menu" id="custom-context-menu" style="display:none" role="menu">
+    <p class="context-copyright">© Joel Varghese 2026 — Color Palette Studio</p>
+    <p class="context-sub">All rights reserved.</p>
+    <button class="context-dismiss" id="context-dismiss" role="menuitem">Dismiss</button>
+  </div>
+
+  <!-- Scripts -->
+  <script src="colorUtils.js"></script>
+  <script src="export.js"></script>
+  <script src="security.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
