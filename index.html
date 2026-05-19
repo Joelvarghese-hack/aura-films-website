@@ -1070,8 +1070,9 @@
 
     /* ── HERO LOGO SIZE ── */
     .hero-logo-img {
-      height: clamp(120px, 22vw, 220px) !important;
+      height: clamp(240px, 34vw, 420px) !important;
       width: auto !important;
+      max-width: 75% !important;
       opacity: 0.92 !important;
     }
     .hero-tagline {
@@ -1084,7 +1085,7 @@
       margin-top: 14px !important;
     }
     @media(max-width:768px){
-      .hero-logo-img { height: clamp(90px, 28vw, 150px) !important; }
+      .hero-logo-img { height: clamp(160px, 40vw, 280px) !important; max-width: 80% !important; }
       .hero-tagline { font-size: clamp(10px, 3vw, 13px) !important; letter-spacing: 0.22em !important; }
     }
 
@@ -1133,9 +1134,9 @@
 <header class="hero">
   <img class="hero-bg" src="hero-new.png" alt="Aura Films Photography">
   <div class="hero-overlay"></div>
-  <div class="hero-inner" style="align-items:center;text-align:center;">
-    <img src="images/aura-logo-white.png" class="hero-logo-img" alt="Aura Films" style="height:clamp(72px,12vw,130px);width:auto;opacity:0.90;display:block;margin:0 auto 18px;filter:drop-shadow(0 2px 12px rgba(0,0,0,0.3));">
-    <p class="hero-tagline" style="font-family:'Satoshi',sans-serif;font-size:clamp(13px,2vw,19px);letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.88);font-weight:400;text-align:center;margin:0;">Shooting moments. Preserving memories.</p>
+  <div class="hero-inner" style="align-items:center;text-align:center;justify-content:center !important;position:absolute;inset:0;display:flex;flex-direction:column;padding:0 24px;">
+    <img src="images/aura-logo-white.png" class="hero-logo-img" alt="Aura Films" style="height:clamp(220px,32vw,420px);width:auto;max-width:80%;opacity:0.92;display:block;margin:0 auto 20px;filter:drop-shadow(0 4px 24px rgba(0,0,0,0.4));">
+    <p class="hero-tagline" style="font-family:'Satoshi',sans-serif;font-size:clamp(11px,1.4vw,16px);letter-spacing:0.32em;text-transform:uppercase;color:rgba(255,255,255,0.82);font-weight:400;text-align:center;margin:0;">Shooting moments. Preserving memories.</p>
   </div>
 </header>
 
