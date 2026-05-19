@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aura Films — Contact</title>
+  <title>Aura Films Contact</title>
   <style>
     /* ── LOCAL FONTS ── */
     @font-face { font-family: 'Clash Display'; src: url('/fonts/Clash Display/ClashDisplay-Variable.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
@@ -665,7 +665,7 @@
     /* MOBILE-INJECTED */
 
     /* ═══════════════════════════════════════
-       SHARED MOBILE — injected all pages
+       SHARED MOBILE injected all pages
     ═══════════════════════════════════════ */
 
     /* Prevent horizontal scroll on every page */
@@ -822,6 +822,80 @@
     body { color: var(--text); }
     p, li, span, a { color: inherit; }
 
+
+    /* ── BATCH-FIX CSS ── */
+    /* Font enforcement Satoshi body, Cabinet Grotesk headings */
+    @import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&f[]=cabinet-grotesk@500,700,800,900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap');
+    body { font-family: 'Satoshi', sans-serif !important; }
+    h1,h2,h3,h4,.hero-title,.section-title,.section-name,.port-hero-title,.about-title,
+    .cat-name,.cat-page-title,.team-name,.pkg-section-title,.pkg-name,.cta-headline,
+    .cta-band-title,.works-section-title,.work-category,.disc-amount,.footer-tagline,
+    .inv-hero-title { font-family: 'Cabinet Grotesk', sans-serif !important; }
+
+    /* ── FOOTER CONTRAST FIX ── */
+    .footer { background: #1a1a1a !important; }
+    .footer * { color: rgba(255,255,255,0.82) !important; }
+    .footer a { color: rgba(255,255,255,0.72) !important; transition: color 0.2s; }
+    .footer a:hover { color: #fff !important; }
+    .footer-col-head { color: #fff !important; font-size: 11px !important; letter-spacing: 0.18em !important; text-transform: uppercase !important; font-weight: 600 !important; opacity: 1 !important; }
+    .footer-col-links a { color: rgba(255,255,255,0.65) !important; font-size: 14px !important; }
+    .footer-col-links a:hover { color: var(--orange) !important; }
+    .footer-tagline { color: rgba(255,255,255,0.72) !important; font-size: 13px !important; }
+    .footer-contact-item, .footer-contact-item a { color: rgba(255,255,255,0.60) !important; font-size: 13px !important; }
+    .footer-bottom-left, .footer-bottom-right a { color: rgba(255,255,255,0.45) !important; font-size: 11px !important; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1) !important; }
+    .footer-search-input { background: rgba(255,255,255,0.08) !important; border-color: rgba(255,255,255,0.15) !important; color: #fff !important; }
+    .footer-search-input::placeholder { color: rgba(255,255,255,0.35) !important; }
+
+    /* ── ROUNDED CORNERS everywhere ── */
+    .service-card, .pkg-card, .team-card, .disc-card, .p-card, .t-card,
+    .addon-card, .term-item, .contact-profile-card, .nav-dropdown,
+    .footer-search-box, .cat-tile, .more-cat-link, .cat-gallery-item,
+    input, textarea, select, .form-input, .form-textarea, .service-pill,
+    .stat-box, .bio-section, .nav-search-input { border-radius: 10px !important; }
+    .btn-ghost, .btn-send, .btn-inv, .btn-glass, .pkg-cta, .work-link,
+    .cat-page-back, .cat-arrow { border-radius: 100px !important; }
+    .portfolio-item, .tool-row { border-radius: 8px !important; }
+    img { border-radius: 0 !important; } /* images: no rounding on photos */
+    .cat-tile img, .cat-gallery-item img, .team-photo img, .hero-bg,
+    .more-cat-link img { border-radius: 0 !important; }
+
+    /* ── SCROLL TO TOP BUTTON ── */
+    .scroll-top {
+      position: fixed; bottom: 24px; right: 24px; z-index: 500;
+      width: 44px; height: 44px; border-radius: 50% !important;
+      background: var(--orange, #e8a748); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(232,167,72,0.35);
+      opacity: 0; transform: translateY(12px);
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+    }
+    .scroll-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .scroll-top svg { stroke: #fff; }
+    @media(max-width:480px){ .scroll-top { bottom: 16px; right: 16px; width: 40px; height: 40px; } }
+
+    /* ── HERO LOGO SIZE ── */
+    .hero-logo-img {
+      height: clamp(120px, 22vw, 220px) !important;
+      width: auto !important;
+      opacity: 0.92 !important;
+    }
+    .hero-tagline {
+      font-family: 'Satoshi', sans-serif !important;
+      font-size: clamp(11px, 1.6vw, 16px) !important;
+      letter-spacing: 0.28em !important;
+      text-transform: uppercase !important;
+      color: rgba(255,255,255,0.80) !important;
+      font-weight: 400 !important;
+      margin-top: 14px !important;
+    }
+    @media(max-width:768px){
+      .hero-logo-img { height: clamp(90px, 28vw, 150px) !important; }
+      .hero-tagline { font-size: clamp(10px, 3vw, 13px) !important; letter-spacing: 0.22em !important; }
+    }
+
   </style>
 <script>(function(){var t=localStorage.getItem('af-theme')||'light';document.documentElement.setAttribute('data-theme',t);})();
 /* ── Shared search index ── */
@@ -928,17 +1002,15 @@ function afSearch(q){
   </div>
 </nav>
 
-  <!-- HERO -->
-  <header class="hero">
-    <img class="hero-bg" src="images/_DSC8577.jpg" style="object-position:center 25%;" alt="Contact Hero">
-    <div class="hero-overlay"></div>
-    <div class="hero-inner">
-      <h1 class="hero-title">GET IN <span>TOUCH</span></h1>
-    </div>
-  </header>
+  <!-- CONTACT HERO (no background image) -->
+  <section style="padding:80px 48px 60px;background:var(--bg);border-bottom:1px solid var(--border);">
+    <span style="font-family:'Satoshi',sans-serif;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--emerald);display:block;margin-bottom:14px;">Aura Films</span>
+    <h1 style="font-family:'Cabinet Grotesk',sans-serif;font-size:clamp(44px,7vw,88px);font-weight:800;letter-spacing:-0.03em;color:var(--text);line-height:0.9;margin-bottom:16px;">GET IN<br>TOUCH</h1>
+    <p style="font-family:'Satoshi',sans-serif;font-size:16px;color:var(--text-muted);max-width:440px;line-height:1.65;">Whether it's a wedding, portrait, or a milestone worth remembering, we'd love to hear from you.</p>
+  </section>
 
   <!-- CONTACT BODY -->
-  <div class="contact-body">
+  <div class="contact-body" style="display:grid;grid-template-columns:3fr 2fr;min-height:60vh;">
     <!-- FORM -->
     <div class="contact-form-col">
       <form>
@@ -954,46 +1026,30 @@ function afSearch(q){
           <label class="form-label">Your message<span>*</span></label>
           <textarea class="form-input" placeholder="Please, drop a message*" rows="4"></textarea>
         </div>
-        <span class="services-label">Services (you can select multiple)</span>
+        <span class="services-label">What Are You Looking For?</span>
         <div class="services-pills">
+          <button type="button" class="service-pill">Wedding Coverage</button>
+          <button type="button" class="service-pill">Engagement Session</button>
           <button type="button" class="service-pill">Portraits</button>
-          <button type="button" class="service-pill selected">Brand &amp; Commercials</button>
-          <button type="button" class="service-pill">Events</button>
-          <button type="button" class="service-pill">Family Sessions</button>
-          <button type="button" class="service-pill">Retouching &amp; Editing</button>
+          <button type="button" class="service-pill">Family &amp; Maternity</button>
+          <button type="button" class="service-pill">Videography</button>
         </div>
-        <button type="submit" class="btn-send">↗ Send Message</button>
+        <button type="submit" class="btn-send"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Message</button>
       </form>
     </div>
 
     <!-- CONTACT INFO -->
-    <div class="contact-info-col">
-      <p class="contact-blurb">Whether it's a portrait, event, or brand shoot, your vision deserves the best. Send me a message today and I'll get back to you <strong>within 48 hours.</strong></p>
-      <div class="contact-profile-card">
-        <div class="contact-av">
-          <img src="images/_DSC8049.jpg" style="object-position:top;" alt="Aura Films">
-        </div>
-        <div>
-          <div class="contact-card-name">Aura Films</div>
-          <div class="contact-card-role">Photographer</div>
-        </div>
+    <div class="contact-info-col" style="padding:48px 40px;display:flex;flex-direction:column;gap:24px;background:var(--surface);min-width:0;">
+      <img src="logo-black.png" class="contact-logo-img" alt="Aura Films" style="max-width:160px;height:auto;">
+      <p class="contact-blurb">Your memories deserve more than a photo. They deserve a story told beautifully. Reach out and we'll get back to you within 24 to 48 hours.</p>
+      <div class="contact-detail-group">
+        <a href="mailto:hello@aurafilms.ca" class="contact-detail-link">hello@aurafilms.ca</a>
+        <a href="tel:+13439894546" class="contact-detail-link">343 989 4546</a>
       </div>
-      <div class="contact-phone">343-989-4546</div>
-      <div>
-        <div class="contact-big-email">hello@aurafilms.ca</div>
-      </div>
-    </div>
-  </div>
-      <div>
-        <div class="cta-right-card">
-          <div class="cta-av"><img src="images/_DSC8049.jpg" style="object-position:top;" alt="Aura Films"></div>
-          <div>
-            <div class="cta-card-name">Aura Films</div>
-            <div class="cta-card-role">Photographer</div>
-            <div class="cta-card-badges"><span class="badge-sm">ig</span><span class="badge-sm">x</span></div>
-          </div>
-        </div>
-      </div>
+      <a href="https://www.instagram.com/aura.filmsca/" target="_blank" rel="noopener" class="contact-ig-link">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+        @aura.filmsca
+      </a>
     </div>
   </div>
 
@@ -1003,176 +1059,15 @@ function afSearch(q){
   <!-- ── FOOTER ── -->
     <!-- FOOTER -->
     <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-body">
-      <div class="footer-brand">
-        <div>
-          <img src="logo-black.png" class="footer-logo footer-logo-light" alt="Aura Films">
-          <img src="logo-white.png" class="footer-logo footer-logo-dark"  alt="Aura Films">
-        </div>
-        <p class="footer-tagline">Shooting moments.<br>Preserving memories.</p>
-        <div class="footer-socials">
-          <a href="#" class="footer-social-icon footer-social-ig" aria-label="Instagram">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
-          </a>
-          <a href="#" class="footer-social-icon footer-social-fb" aria-label="Facebook">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-          </a>
-        </div>
-        <div class="footer-contact-info">
-          <div class="footer-contact-item">31 Bayswater Pl, Kingston, ON K7M 2B8</div>
-          <div class="footer-contact-item"><a href="mailto:hello@aurafilms.ca">hello@aurafilms.ca</a></div>
-          <div class="footer-contact-item"><a href="tel:+16135551234">+1 (613) 555-1234</a></div>
-        </div>
-      </div>
-      <div class="footer-col">
-        <p class="footer-col-head">About</p>
-        <ul class="footer-col-links">
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="about.html">Our Team</a></li>
-          <li><a href="contact.html">FAQ</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <p class="footer-col-head">Our Work</p>
-        <ul class="footer-col-links">
-          <li><a href="portfolio.html">Weddings &amp; Events</a></li>
-          <li><a href="portfolio.html">Maternity &amp; Children</a></li>
-          <li><a href="portfolio.html">Portraits</a></li>
-          <li><a href="portfolio.html">Engagements</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <p class="footer-col-head">Services</p>
-        <ul class="footer-col-links">
-          <li><a href="investment.html">Wedding Photography</a></li>
-          <li><a href="investment.html">Maternity Photos</a></li>
-          <li><a href="investment.html">Portrait Sessions</a></li>
-          <li><a href="investment.html">Event Coverage</a></li>
-        </ul>
-        <div class="footer-search-wrap">
-          <div class="footer-search-box">
-            <svg class="footer-search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" class="footer-search-input" placeholder="Search anything…" id="footer-search" autocomplete="off">
-            <div class="footer-search-dropdown" id="search-dropdown"></div>
-          </div>
-        </div>
-      </div>
+    <!-- MINIMAL FOOTER: contact page only -->
+  <div class="contact-mini-footer">
+    <a href="index.html" class="contact-back-btn">&larr; Back to Home</a>
+    <div class="contact-mini-copy">
+      <span>&copy; 2026 Aura Films</span>
+      <a href="investment.html#terms">Privacy Policy</a>
+      <a href="investment.html#terms">Terms of Use</a>
     </div>
-    <div class="footer-bottom">
-      <p class="footer-bottom-left">&#169; Copyright &ndash; 2026 Aura Films. Web Design &amp; SEO by <a href="https://joelvarghese.dev" target="_blank" rel="noopener">Joel Varghese</a></p>
-      <div class="footer-bottom-right">
-        <a href="#privacy">Privacy Policy</a>
-        <a href="#terms">Terms of Use</a>
-      </div>
-    </div>
-  </footer>
+  </div>
 
-  <script>
-    document.querySelectorAll('.service-pill').forEach(pill => {
-      pill.addEventListener('click', () => pill.classList.toggle('selected'));
-    });
-  </script>
-<script>
-function toggleTheme() {
-  var h = document.documentElement;
-  var t = h.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  h.setAttribute('data-theme', t);
-  localStorage.setItem('af-theme', t);
-}
-
-/* ── Active nav link ── */
-(function(){
-  var links = document.querySelectorAll('.nav-links a');
-  var path  = window.location.pathname.split('/').pop() || 'index.html';
-  links.forEach(function(a){
-    a.classList.remove('active');
-    var href = a.getAttribute('href');
-    if (href && (href === path || (path === '' && href === 'index.html'))) {
-      a.classList.add('active');
-    }
-  });
-})();
-
-/* ── Scroll to top ── */
-(function(){
-  var btn = document.getElementById('af-top');
-  if (!btn) return;
-  window.addEventListener('scroll', function(){ btn.classList.toggle('af-top-visible', window.scrollY > 380); }, {passive:true});
-  btn.addEventListener('click', function(){ window.scrollTo({top:0,behavior:'smooth'}); });
-})();
-
-/* ── Footer search ── */
-(function(){
-  var IDX = [
-    {title:'Home',                  page:'Home Page',    url:'index.html',     tags:'photography cinematographer aura films portraits home'},
-    {title:'Weddings & Events',     page:'Home · Works', url:'index.html',     tags:'wedding event ceremony reception couple'},
-    {title:'Maternity & Children',  page:'Home · Works', url:'index.html',     tags:'maternity pregnancy baby newborn children family'},
-    {title:'Portraits',             page:'Home · Works', url:'index.html',     tags:'portrait headshot individual professional'},
-    {title:'Engagements & Proposals',page:'Home · Works',url:'index.html',     tags:'engagement proposal romantic couple love'},
-    {title:'About Us',              page:'About',        url:'about.html',     tags:'about team photographers experience process story'},
-    {title:'Our Process',           page:'About',        url:'about.html',     tags:'consultation preparation photoshoot editing delivery'},
-    {title:'Portfolio Gallery',     page:'Portfolio',    url:'portfolio.html', tags:'gallery work portfolio photos images collection'},
-    {title:'Contact Us',            page:'Contact',      url:'contact.html',   tags:'contact book session email phone reach inquire'},
-    {title:'Wedding Photography',   page:'Services',     url:'contact.html',   tags:'wedding photography coverage ceremony'},
-    {title:'Maternity Photography', page:'Services',     url:'contact.html',   tags:'maternity pregnancy session expecting'},
-    {title:'Portrait Sessions',     page:'Services',     url:'contact.html',   tags:'portrait individual headshot professional'},
-    {title:'Event Coverage',        page:'Services',     url:'contact.html',   tags:'event photography birthday corporate outdoor'},
-    {title:'Brand Photography',     page:'Services',     url:'contact.html',   tags:'brand commercial business marketing product'},
-    {title:'Kingston Photography',  page:'Info',         url:'about.html',     tags:'kingston ontario canada location based worldwide'},
-  ];
-  function search(q){
-    if(!q||q.length<2) return [];
-    var terms = q.toLowerCase().split(/\s+/).filter(Boolean);
-    var res = IDX.filter(function(item){
-      var hay = (item.title+' '+item.page+' '+item.tags).toLowerCase();
-      return terms.every(function(t){ return hay.indexOf(t)!==-1; });
-    });
-    res.sort(function(a,b){
-      var aT = a.title.toLowerCase().indexOf(terms[0])!==-1 ? 1 : 0;
-      var bT = b.title.toLowerCase().indexOf(terms[0])!==-1 ? 1 : 0;
-      return bT - aT;
-    });
-    return res.slice(0,6);
-  }
-  var inp = document.getElementById('footer-search');
-  var dd  = document.getElementById('search-dropdown');
-  if(!inp||!dd) return;
-  inp.addEventListener('input', function(){
-    var q = this.value.trim();
-    var res = search(q);
-    if(!q){ dd.classList.remove('open'); dd.innerHTML=''; return; }
-    dd.innerHTML = res.length
-      ? res.map(function(r){
-          return '<a href="'+r.url+'" class="search-result-item"><span class="search-result-title">'+r.title+'</span><span class="search-result-snippet">'+r.page+'</span></a>';
-        }).join('')
-      : '<div class="search-no-results">No results for "'+q.replace(/[<>]/g,'')+'". Try another search.</div>';
-    dd.classList.add('open');
-  });
-  inp.addEventListener('blur',  function(){ setTimeout(function(){ dd.classList.remove('open'); }, 180); });
-  inp.addEventListener('focus', function(){ if(this.value.trim()) dd.classList.add('open'); });
-})();
-
-</script>
-<button class="af-top" id="af-top" aria-label="Scroll to top">
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
-</button>
-
-<script id=af-global-js>
-(function(){
-  // Intersection Observer for reveal
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
-    });
-  },{threshold:0.12});
-  document.querySelectorAll('.af-reveal,.stagger-children').forEach(function(el){ io.observe(el); });
-  // Nav hamburger close on link click
-  var links = document.querySelectorAll('.nav-links.mobile-open a');
-  links.forEach(function(a){ a.addEventListener('click', function(){ document.querySelector('.nav-links').classList.remove('mobile-open'); }); });
-})();
-</script>
-
-<script>setTimeout(function(){document.getElementById("af-body").classList.add("js-anim");},50);</script>
 </body>
 </html>

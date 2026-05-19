@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Investment — Aura Films</title>
+  <title>Investment Aura Films</title>
   <script>(function(){var t=localStorage.getItem('af-theme')||'light';document.documentElement.setAttribute('data-theme',t);})();</script>
   <style>
     /* ── LOCAL FONTS ── */
@@ -87,7 +87,7 @@
       .intro-band{grid-template-columns:1fr!important;gap:16px!important;padding:24px 16px!important;font-size:13px!important;}
       .intro-copy{font-size:16px!important;}
       .intro-note{font-size:12px!important;}
-      /* Package sections — tighter */
+      /* Package sections tighter */
       .pkg-section{padding:24px 12px!important;}
       .pkg-section-title{font-size:clamp(20px,5.5vw,32px)!important;margin-bottom:4px!important;}
       .pkg-section-sub{font-size:12px!important;margin-bottom:16px!important;}
@@ -105,12 +105,12 @@
       .pkg-features{gap:4px!important;}
       .pkg-features li{font-size:11px!important;}
       .pkg-cta{padding:10px 8px!important;font-size:11px!important;margin-top:10px!important;}
-      /* Add-ons — 2 col */
+      /* Add-ons 2 col */
       .addons-grid{grid-template-columns:1fr 1fr!important;gap:8px!important;}
       .addon-card{padding:12px!important;}
       .addon-name{font-size:12px!important;}
       .addon-price{font-size:14px!important;}
-      /* Discounts — 2 col */
+      /* Discounts 2 col */
       .discounts-grid{grid-template-columns:1fr 1fr!important;gap:8px!important;}
       .disc-card{padding:16px 12px!important;}
       .disc-amount{font-size:14px!important;}
@@ -301,7 +301,7 @@
     /* MOBILE-INJECTED */
 
     /* ═══════════════════════════════════════
-       SHARED MOBILE — injected all pages
+       SHARED MOBILE injected all pages
     ═══════════════════════════════════════ */
 
     /* Prevent horizontal scroll on every page */
@@ -467,6 +467,80 @@
     body { color: var(--text); }
     p, li, span, a { color: inherit; }
 
+
+    /* ── BATCH-FIX CSS ── */
+    /* Font enforcement Satoshi body, Cabinet Grotesk headings */
+    @import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&f[]=cabinet-grotesk@500,700,800,900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap');
+    body { font-family: 'Satoshi', sans-serif !important; }
+    h1,h2,h3,h4,.hero-title,.section-title,.section-name,.port-hero-title,.about-title,
+    .cat-name,.cat-page-title,.team-name,.pkg-section-title,.pkg-name,.cta-headline,
+    .cta-band-title,.works-section-title,.work-category,.disc-amount,.footer-tagline,
+    .inv-hero-title { font-family: 'Cabinet Grotesk', sans-serif !important; }
+
+    /* ── FOOTER CONTRAST FIX ── */
+    .footer { background: #1a1a1a !important; }
+    .footer * { color: rgba(255,255,255,0.82) !important; }
+    .footer a { color: rgba(255,255,255,0.72) !important; transition: color 0.2s; }
+    .footer a:hover { color: #fff !important; }
+    .footer-col-head { color: #fff !important; font-size: 11px !important; letter-spacing: 0.18em !important; text-transform: uppercase !important; font-weight: 600 !important; opacity: 1 !important; }
+    .footer-col-links a { color: rgba(255,255,255,0.65) !important; font-size: 14px !important; }
+    .footer-col-links a:hover { color: var(--orange) !important; }
+    .footer-tagline { color: rgba(255,255,255,0.72) !important; font-size: 13px !important; }
+    .footer-contact-item, .footer-contact-item a { color: rgba(255,255,255,0.60) !important; font-size: 13px !important; }
+    .footer-bottom-left, .footer-bottom-right a { color: rgba(255,255,255,0.45) !important; font-size: 11px !important; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1) !important; }
+    .footer-search-input { background: rgba(255,255,255,0.08) !important; border-color: rgba(255,255,255,0.15) !important; color: #fff !important; }
+    .footer-search-input::placeholder { color: rgba(255,255,255,0.35) !important; }
+
+    /* ── ROUNDED CORNERS everywhere ── */
+    .service-card, .pkg-card, .team-card, .disc-card, .p-card, .t-card,
+    .addon-card, .term-item, .contact-profile-card, .nav-dropdown,
+    .footer-search-box, .cat-tile, .more-cat-link, .cat-gallery-item,
+    input, textarea, select, .form-input, .form-textarea, .service-pill,
+    .stat-box, .bio-section, .nav-search-input { border-radius: 10px !important; }
+    .btn-ghost, .btn-send, .btn-inv, .btn-glass, .pkg-cta, .work-link,
+    .cat-page-back, .cat-arrow { border-radius: 100px !important; }
+    .portfolio-item, .tool-row { border-radius: 8px !important; }
+    img { border-radius: 0 !important; } /* images: no rounding on photos */
+    .cat-tile img, .cat-gallery-item img, .team-photo img, .hero-bg,
+    .more-cat-link img { border-radius: 0 !important; }
+
+    /* ── SCROLL TO TOP BUTTON ── */
+    .scroll-top {
+      position: fixed; bottom: 24px; right: 24px; z-index: 500;
+      width: 44px; height: 44px; border-radius: 50% !important;
+      background: var(--orange, #e8a748); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(232,167,72,0.35);
+      opacity: 0; transform: translateY(12px);
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+    }
+    .scroll-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .scroll-top svg { stroke: #fff; }
+    @media(max-width:480px){ .scroll-top { bottom: 16px; right: 16px; width: 40px; height: 40px; } }
+
+    /* ── HERO LOGO SIZE ── */
+    .hero-logo-img {
+      height: clamp(120px, 22vw, 220px) !important;
+      width: auto !important;
+      opacity: 0.92 !important;
+    }
+    .hero-tagline {
+      font-family: 'Satoshi', sans-serif !important;
+      font-size: clamp(11px, 1.6vw, 16px) !important;
+      letter-spacing: 0.28em !important;
+      text-transform: uppercase !important;
+      color: rgba(255,255,255,0.80) !important;
+      font-weight: 400 !important;
+      margin-top: 14px !important;
+    }
+    @media(max-width:768px){
+      .hero-logo-img { height: clamp(90px, 28vw, 150px) !important; }
+      .hero-tagline { font-size: clamp(10px, 3vw, 13px) !important; letter-spacing: 0.22em !important; }
+    }
+
   </style>
 </head>
 <body id="af-body">
@@ -504,21 +578,17 @@
   </div>
 </nav>
 
-<!-- HERO -->
-<header class="hero">
-  <img class="hero-bg" src="images/_DSC8577.jpg" alt="Aura Films Investment" style="object-position:center 40%;">
-  <div class="hero-overlay"></div>
-  <div class="hero-inner">
-    <p class="hero-eyebrow">Transparent Pricing</p>
-    <h1 class="hero-title">INVESTMENT</h1>
-    <p class="hero-sub">Real value for real moments. Every package is crafted to deliver exceptional quality — from intimate portraits to full-day wedding coverage.</p>
-  </div>
-</header>
+<!-- INVESTMENT HERO (no background image) -->
+<section style="padding:80px 48px 60px;background:var(--bg);border-bottom:1px solid var(--border);">
+  <p style="font-family:'Satoshi',sans-serif;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--emerald);margin-bottom:14px;">Transparent Pricing</p>
+  <h1 style="font-family:'Cabinet Grotesk',sans-serif;font-size:clamp(44px,7vw,88px);font-weight:800;letter-spacing:-0.03em;color:var(--text);line-height:0.9;margin-bottom:20px;">INVESTMENT</h1>
+  <p style="font-family:'Satoshi',sans-serif;font-size:16px;color:var(--text-muted);max-width:520px;line-height:1.72;">Real value, real moments. Every package is crafted to deliver exceptional quality from intimate portraits to full-day wedding coverage.</p>
+</section>
 
 <!-- INTRO -->
 <div class="intro-band">
   <p class="intro-copy">"We believe great photography should be accessible. Our packages are designed to offer genuine value at every level."</p>
-  <p class="intro-note">All packages include <strong>2 creatives</strong> — 1 photographer + 1 assistant/videographer. Prices are in <strong>CAD</strong> and valid for 30 days from inquiry. A <strong>30% non-refundable deposit</strong> is required to confirm your booking. Travel within 20km is included.</p>
+  <p class="intro-note">All packages include <strong>2 creatives</strong> 1 photographer + 1 assistant/videographer. Prices are in <strong>CAD</strong> and valid for 30 days from inquiry. A <strong>30% non-refundable deposit</strong> is required to confirm your booking. Travel within 20km is included.</p>
 </div>
 
 <!-- EVENT PHOTOGRAPHY & VIDEOGRAPHY -->
@@ -578,7 +648,7 @@
 <!-- WEDDING -->
 <section class="pkg-section">
   <h2 class="pkg-section-title">Wedding Packages</h2>
-  <p class="pkg-section-sub">From intimate ceremonies to full-day celebrations — we capture every chapter of your story.</p>
+  <p class="pkg-section-sub">From intimate ceremonies to full-day celebrations we capture every chapter of your story.</p>
   <div class="pkg-grid">
     <div class="pkg-card">
       <p class="pkg-tier">Basic</p>
@@ -630,7 +700,7 @@
 <!-- FAMILY -->
 <section class="pkg-section">
   <h2 class="pkg-section-title">Family Sessions</h2>
-  <p class="pkg-section-sub">Warm, candid moments for the whole family — indoors, outdoors, or on-location.</p>
+  <p class="pkg-section-sub">Warm, candid moments for the whole family indoors, outdoors, or on-location.</p>
   <div class="pkg-grid">
     <div class="pkg-card">
       <p class="pkg-tier">Basic</p><p class="pkg-name">Quick Session</p>
@@ -742,14 +812,14 @@
     <div class="disc-card"><div class="disc-amount">10% OFF</div><div class="disc-title">First-Time Client Discount</div><div class="disc-desc">Any package, on your very first booking with us.</div></div>
     <div class="disc-card"><div class="disc-amount">FREE REEL</div><div class="disc-title">Referral Reward</div><div class="disc-desc">Earn 1 FREE extra reel for every successful referral you send our way.</div></div>
     <div class="disc-card"><div class="disc-amount">15% OFF</div><div class="disc-title">Bundle: 2+ Sessions Same Day</div><div class="disc-desc">Book two or more sessions on the same day and save 15% on the total.</div></div>
-    <div class="disc-card"><div class="disc-amount">FREE KIT</div><div class="disc-title">Social Media Feature</div><div class="disc-desc">Tag and post us on social after your session — we'll upgrade your social media kit for free.</div></div>
+    <div class="disc-card"><div class="disc-amount">FREE KIT</div><div class="disc-title">Social Media Feature</div><div class="disc-desc">Tag and post us on social after your session we'll upgrade your social media kit for free.</div></div>
     <div class="disc-card"><div class="disc-amount">+5 PHOTOS</div><div class="disc-title">Google Review Bonus</div><div class="disc-desc">Leave us a Google review after your session and receive 5 extra edited photos free.</div></div>
     <div class="disc-card"><div class="disc-amount">5% OFF</div><div class="disc-title">Early Booking Discount</div><div class="disc-desc">Book 3 or more weeks in advance and save 5% off any package.</div></div>
   </div>
 </section>
 
 <!-- TERMS -->
-<div class="terms-section">
+<div class="terms-section" id="terms">
   <h2 style="font-family:'Clash Display',sans-serif;font-weight:700;font-size:clamp(28px,3vw,42px);letter-spacing:0.06em;color:var(--text);margin-bottom:36px;">Terms &amp; Conditions</h2>
   <div class="terms-grid">
     <div class="term-item"><div class="term-num">01</div><div class="term-text">A <strong style="color:var(--text);">30% non-refundable deposit</strong> is required to confirm your booking. Remaining balance is due on or before the day of the session.</div></div>
@@ -774,17 +844,15 @@
     <div class="footer-body">
       <div class="footer-brand">
         <div>
-          <img src="logo-black.png" class="footer-logo footer-logo-light" alt="Aura Films">
-          <img src="logo-white.png" class="footer-logo footer-logo-dark"  alt="Aura Films">
+          <img src="images/aura-logo-white.png" class="footer-logo" alt="Aura Films" style="height:70px;width:auto;opacity:0.95;">
+          
         </div>
         <p class="footer-tagline">Shooting moments.<br>Preserving memories.</p>
         <div class="footer-socials">
-          <a href="#" class="footer-social-icon footer-social-ig" aria-label="Instagram">
+          <a href="https://www.instagram.com/aura.filmsca/" target="_blank" rel="noopener" class="footer-social-icon footer-social-ig" href="https://www.instagram.com/aura.filmsca/" target="_blank" rel="noopener" aria-label="Instagram">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
           </a>
-          <a href="#" class="footer-social-icon footer-social-fb" aria-label="Facebook">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-          </a>
+          
         </div>
         <div class="footer-contact-info">
           <div class="footer-contact-item">31 Bayswater Pl, Kingston, ON K7M 2B8</div>
@@ -827,10 +895,10 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p class="footer-bottom-left">&#169; Copyright &ndash; 2026 Aura Films. Web Design &amp; SEO by <a href="https://joelvarghese.dev" target="_blank" rel="noopener">Joel Varghese</a></p>
+      <p class="footer-bottom-left">&#169; Copyright  2026 Aura Films. Web Design &amp; SEO by <a href="https://joelvarghese.dev" target="_blank" rel="noopener">Joel Varghese</a></p>
       <div class="footer-bottom-right">
-        <a href="#privacy">Privacy Policy</a>
-        <a href="#terms">Terms of Use</a>
+        <a href="investment.html#terms">Privacy Policy</a>
+        <a href="investment.html#terms">Terms of Use</a>
       </div>
     </div>
   </footer>
@@ -940,5 +1008,17 @@ function afSearch(q){
 </script>
 
 <script>setTimeout(function(){document.getElementById("af-body").classList.add("js-anim");},50);</script>
+
+<button class="scroll-top" id="scroll-top-btn" aria-label="Scroll to top">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+<script>
+(function(){
+  var btn = document.getElementById('scroll-top-btn');
+  if(!btn) return;
+  window.addEventListener('scroll', function(){ btn.classList.toggle('visible', window.scrollY > 300); }, {passive:true});
+  btn.addEventListener('click', function(){ window.scrollTo({top:0,behavior:'smooth'}); });
+})();
+</script>
 </body>
 </html>

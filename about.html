@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aura Films — About Me</title>
+  <title>Aura Films About Me</title>
   <style>
     /* ── LOCAL FONTS ── */
     @font-face { font-family: 'Clash Display'; src: url('/fonts/Clash Display/ClashDisplay-Variable.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
@@ -594,7 +594,7 @@
     /* MOBILE-INJECTED */
 
     /* ═══════════════════════════════════════
-       SHARED MOBILE — injected all pages
+       SHARED MOBILE injected all pages
     ═══════════════════════════════════════ */
 
     /* Prevent horizontal scroll on every page */
@@ -789,6 +789,80 @@
     body { color: var(--text); }
     p, li, span, a { color: inherit; }
 
+
+    /* ── BATCH-FIX CSS ── */
+    /* Font enforcement Satoshi body, Cabinet Grotesk headings */
+    @import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&f[]=cabinet-grotesk@500,700,800,900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap');
+    body { font-family: 'Satoshi', sans-serif !important; }
+    h1,h2,h3,h4,.hero-title,.section-title,.section-name,.port-hero-title,.about-title,
+    .cat-name,.cat-page-title,.team-name,.pkg-section-title,.pkg-name,.cta-headline,
+    .cta-band-title,.works-section-title,.work-category,.disc-amount,.footer-tagline,
+    .inv-hero-title { font-family: 'Cabinet Grotesk', sans-serif !important; }
+
+    /* ── FOOTER CONTRAST FIX ── */
+    .footer { background: #1a1a1a !important; }
+    .footer * { color: rgba(255,255,255,0.82) !important; }
+    .footer a { color: rgba(255,255,255,0.72) !important; transition: color 0.2s; }
+    .footer a:hover { color: #fff !important; }
+    .footer-col-head { color: #fff !important; font-size: 11px !important; letter-spacing: 0.18em !important; text-transform: uppercase !important; font-weight: 600 !important; opacity: 1 !important; }
+    .footer-col-links a { color: rgba(255,255,255,0.65) !important; font-size: 14px !important; }
+    .footer-col-links a:hover { color: var(--orange) !important; }
+    .footer-tagline { color: rgba(255,255,255,0.72) !important; font-size: 13px !important; }
+    .footer-contact-item, .footer-contact-item a { color: rgba(255,255,255,0.60) !important; font-size: 13px !important; }
+    .footer-bottom-left, .footer-bottom-right a { color: rgba(255,255,255,0.45) !important; font-size: 11px !important; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1) !important; }
+    .footer-search-input { background: rgba(255,255,255,0.08) !important; border-color: rgba(255,255,255,0.15) !important; color: #fff !important; }
+    .footer-search-input::placeholder { color: rgba(255,255,255,0.35) !important; }
+
+    /* ── ROUNDED CORNERS everywhere ── */
+    .service-card, .pkg-card, .team-card, .disc-card, .p-card, .t-card,
+    .addon-card, .term-item, .contact-profile-card, .nav-dropdown,
+    .footer-search-box, .cat-tile, .more-cat-link, .cat-gallery-item,
+    input, textarea, select, .form-input, .form-textarea, .service-pill,
+    .stat-box, .bio-section, .nav-search-input { border-radius: 10px !important; }
+    .btn-ghost, .btn-send, .btn-inv, .btn-glass, .pkg-cta, .work-link,
+    .cat-page-back, .cat-arrow { border-radius: 100px !important; }
+    .portfolio-item, .tool-row { border-radius: 8px !important; }
+    img { border-radius: 0 !important; } /* images: no rounding on photos */
+    .cat-tile img, .cat-gallery-item img, .team-photo img, .hero-bg,
+    .more-cat-link img { border-radius: 0 !important; }
+
+    /* ── SCROLL TO TOP BUTTON ── */
+    .scroll-top {
+      position: fixed; bottom: 24px; right: 24px; z-index: 500;
+      width: 44px; height: 44px; border-radius: 50% !important;
+      background: var(--orange, #e8a748); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(232,167,72,0.35);
+      opacity: 0; transform: translateY(12px);
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+    }
+    .scroll-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .scroll-top svg { stroke: #fff; }
+    @media(max-width:480px){ .scroll-top { bottom: 16px; right: 16px; width: 40px; height: 40px; } }
+
+    /* ── HERO LOGO SIZE ── */
+    .hero-logo-img {
+      height: clamp(120px, 22vw, 220px) !important;
+      width: auto !important;
+      opacity: 0.92 !important;
+    }
+    .hero-tagline {
+      font-family: 'Satoshi', sans-serif !important;
+      font-size: clamp(11px, 1.6vw, 16px) !important;
+      letter-spacing: 0.28em !important;
+      text-transform: uppercase !important;
+      color: rgba(255,255,255,0.80) !important;
+      font-weight: 400 !important;
+      margin-top: 14px !important;
+    }
+    @media(max-width:768px){
+      .hero-logo-img { height: clamp(90px, 28vw, 150px) !important; }
+      .hero-tagline { font-size: clamp(10px, 3vw, 13px) !important; letter-spacing: 0.22em !important; }
+    }
+
   </style>
 <script>(function(){var t=localStorage.getItem('af-theme')||'light';document.documentElement.setAttribute('data-theme',t);})();
 /* ── Shared search index ── */
@@ -897,11 +971,11 @@ function afSearch(q){
   </button>
 </nav>
 
-  <!-- ABOUT HERO — clean, no background photo -->
+  <!-- ABOUT HERO clean, no background photo -->
   <section class="about-hero">
     <p class="about-eyebrow">About Aura Films</p>
     <h1 class="about-title">WE FIND<br>THE FRAME<br>THAT STAYS.</h1>
-    <p class="about-intro">Aura Films is built on one belief: that great photography doesn't just show who you are — it makes people feel it. We are a two-person team obsessed with authentic moments, real emotions, and the quiet details that tell the biggest stories.</p>
+    <p class="about-intro">Aura Films is built on one belief: that great photography doesn't just show who you are it makes people feel it. We are a two-person team obsessed with authentic moments, real emotions, and the quiet details that tell the biggest stories.</p>
   </section>
 
   <!-- SKILLS TICKER -->
@@ -916,7 +990,7 @@ function afSearch(q){
     <h2 class="team-title">The People Behind the Lens</h2>
     <div class="team-grid">
       <div class="team-card">
-        <div class="team-photo"><img src="images/_DSC8015.jpg" alt="Albin — Lead Photographer"></div>
+        <div class="team-photo"><img src="images/albin.jpeg" alt="Albin" style="object-position:center top;"></div>
         <div class="team-info">
           <h3 class="team-name">Albin</h3>
           <p class="team-role">Lead Photographer</p>
@@ -924,11 +998,11 @@ function afSearch(q){
         </div>
       </div>
       <div class="team-card">
-        <div class="team-photo"><img src="images/IMG_9906.JPG.jpeg" alt="Afsal — Lead Videographer"></div>
+        <div class="team-photo"><img src="images/IMG_9906.JPG.jpeg" alt="Afsal Lead Videographer"></div>
         <div class="team-info">
           <h3 class="team-name">Afsal</h3>
           <p class="team-role">Lead Videographer</p>
-          <p class="team-bio">Afsal brings motion to memory. His films are cinematic, emotional, and deeply personal — every cut, colour grade, and audio choice is made with intention and care.</p>
+          <p class="team-bio">Afsal brings motion to memory. His films are cinematic, emotional, and deeply personal every cut, colour grade, and audio choice is made with intention and care.</p>
         </div>
       </div>
     </div>
@@ -983,44 +1057,6 @@ function afSearch(q){
     </div>
   </section>
 
-  <!-- TOOLS -->
-  <section class="section">
-    <div class="section-header">
-      <div class="dot-accent"></div>
-      <h2 class="section-name">The Tools Behind the Magic</h2>
-    </div>
-    <div>
-      <div class="tool-row">
-        <div class="tool-left-col"><span class="tool-idx">↗</span><span class="tool-name-text">Canon EOS R5 Mark II</span></div>
-        <span class="tool-cat">Best Camera</span>
-      </div>
-      <div class="tool-row">
-        <div class="tool-left-col"><span class="tool-idx">↗</span><span class="tool-name-text">Nikon Z8</span></div>
-        <span class="tool-cat">Camera 2</span>
-      </div>
-      <div class="tool-row">
-        <div class="tool-left-col"><span class="tool-idx">↗</span><span class="tool-name-text">DJI Inspire 3</span></div>
-        <span class="tool-cat">Drone</span>
-      </div>
-      <div class="tool-row">
-        <div class="tool-left-col"><span class="tool-idx">↗</span><span class="tool-name-text">Profoto B10X Plus</span></div>
-        <span class="tool-cat">Portable Flash</span>
-      </div>
-      <div class="tool-row">
-        <div class="tool-left-col"><span class="tool-idx">↗</span><span class="tool-name-text">Adobe Lightroom</span></div>
-        <span class="tool-cat">Editing Software</span>
-      </div>
-      <div class="tool-row">
-        <div class="tool-left-col"><span class="tool-idx">↗</span><span class="tool-name-text">Adobe Illustrator</span></div>
-        <span class="tool-cat">Illustrator</span>
-      </div>
-      <div class="tool-row">
-        <div class="tool-left-col"><span class="tool-idx">↗</span><span class="tool-name-text">Adobe Photoshop</span></div>
-        <span class="tool-cat">Retouching</span>
-      </div>
-    </div>
-  </section>
-
   <!-- FOOTER -->
     <!-- FOOTER -->
   
@@ -1030,17 +1066,15 @@ function afSearch(q){
     <div class="footer-body">
       <div class="footer-brand">
         <div>
-          <img src="logo-black.png" class="footer-logo footer-logo-light" alt="Aura Films">
-          <img src="logo-white.png" class="footer-logo footer-logo-dark"  alt="Aura Films">
+          <img src="images/aura-logo-white.png" class="footer-logo" alt="Aura Films" style="height:70px;width:auto;opacity:0.95;">
+          
         </div>
         <p class="footer-tagline">Shooting moments.<br>Preserving memories.</p>
         <div class="footer-socials">
-          <a href="#" class="footer-social-icon footer-social-ig" aria-label="Instagram">
+          <a href="https://www.instagram.com/aura.filmsca/" target="_blank" rel="noopener" class="footer-social-icon footer-social-ig" href="https://www.instagram.com/aura.filmsca/" target="_blank" rel="noopener" aria-label="Instagram">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
           </a>
-          <a href="#" class="footer-social-icon footer-social-fb" aria-label="Facebook">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-          </a>
+          
         </div>
         <div class="footer-contact-info">
           <div class="footer-contact-item">31 Bayswater Pl, Kingston, ON K7M 2B8</div>
@@ -1083,10 +1117,10 @@ function afSearch(q){
       </div>
     </div>
     <div class="footer-bottom">
-      <p class="footer-bottom-left">&#169; Copyright &ndash; 2026 Aura Films. Web Design &amp; SEO by <a href="https://joelvarghese.dev" target="_blank" rel="noopener">Joel Varghese</a></p>
+      <p class="footer-bottom-left">&#169; Copyright  2026 Aura Films. Web Design &amp; SEO by <a href="https://joelvarghese.dev" target="_blank" rel="noopener">Joel Varghese</a></p>
       <div class="footer-bottom-right">
-        <a href="#privacy">Privacy Policy</a>
-        <a href="#terms">Terms of Use</a>
+        <a href="investment.html#terms">Privacy Policy</a>
+        <a href="investment.html#terms">Terms of Use</a>
       </div>
     </div>
   </footer>
@@ -1192,5 +1226,17 @@ function toggleTheme() {
 </script>
 
 <script>setTimeout(function(){document.getElementById("af-body").classList.add("js-anim");},50);</script>
+
+<button class="scroll-top" id="scroll-top-btn" aria-label="Scroll to top">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+<script>
+(function(){
+  var btn = document.getElementById('scroll-top-btn');
+  if(!btn) return;
+  window.addEventListener('scroll', function(){ btn.classList.toggle('visible', window.scrollY > 300); }, {passive:true});
+  btn.addEventListener('click', function(){ window.scrollTo({top:0,behavior:'smooth'}); });
+})();
+</script>
 </body>
 </html>
