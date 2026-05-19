@@ -805,10 +805,219 @@
       .section-title { font-size: clamp(36px, 8vw, 52px); }
     }
 
+    /* MOBILE-INJECTED */
+
+    /* ═══════════════════════════════════════
+       SHARED MOBILE — injected all pages
+    ═══════════════════════════════════════ */
+
+    /* Prevent horizontal scroll on every page */
+    html, body { overflow-x: hidden; max-width: 100%; }
+    * { box-sizing: border-box; }
+
+    /* ── STICKY NAV (all pages) ── */
+    .site-nav {
+      position: sticky !important; top: 0 !important; z-index: 200 !important;
+    }
+
+    /* ── HAMBURGER base ── */
+    .hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      padding: 6px; color: var(--text, #1B120B); flex-shrink: 0;
+    }
+    .hamburger svg { display: block; }
+
+    /* ── MOBILE NAV DRAWER ── */
+    @media (max-width: 768px) {
+      .site-nav { padding: 10px 18px !important; }
+      .nav-logo { height: 38px !important; }
+      .hamburger { display: flex !important; align-items: center; justify-content: center; }
+      .nav-right .nav-links { display: none !important; }
+      .nav-search-wrap, .nav-search-btn { display: none !important; }
+      .nav-links.mobile-open {
+        display: flex !important; flex-direction: column;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: var(--nav-bg, rgba(249,240,225,0.97));
+        border-bottom: 1px solid var(--border, rgba(33,41,34,0.12));
+        padding: 16px 20px 20px; gap: 0;
+        backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+        z-index: 9999;
+      }
+      .nav-links.mobile-open li { border-bottom: 1px solid var(--border, rgba(33,41,34,0.12)); }
+      .nav-links.mobile-open li:last-child { border-bottom: none; }
+      .nav-links.mobile-open a {
+        display: block; font-size: 15px !important; padding: 14px 4px !important;
+        letter-spacing: 0.08em;
+      }
+      .nav-right { gap: 14px !important; }
+    }
+
+    /* ── FOOTER MOBILE ── */
+    @media (max-width: 768px) {
+      .footer { padding: 40px 20px 20px !important; }
+      .footer-body {
+        display: flex !important; flex-direction: column !important;
+        gap: 32px !important;
+      }
+      .footer-brand { max-width: 100% !important; }
+      .footer-logo { height: 120px !important; }
+      .footer-tagline { font-size: 14px !important; }
+      .footer-col-head { font-size: 11px !important; margin-bottom: 14px !important; }
+      .footer-col-links a { font-size: 15px !important; }
+      .footer-col-links { gap: 14px !important; }
+      .footer-bottom {
+        flex-direction: column !important; gap: 10px !important;
+        align-items: flex-start !important; padding-top: 18px !important;
+      }
+      .footer-bottom-left { font-size: 11px !important; }
+      .footer-bottom-right { display: flex; gap: 16px; font-size: 11px !important; }
+      .footer-search-input { font-size: 14px !important; }
+    }
+
+    /* ── SCROLL-TO-TOP BTN ── */
+    @media (max-width: 768px) {
+      .scroll-top-btn { bottom: 16px !important; right: 16px !important; width: 40px !important; height: 40px !important; }
+    }
+
+
+    @media (max-width: 768px) {
+      /* Hero */
+      .hero { min-height: 90vh; }
+      .hero-title { font-size: clamp(58px,16vw,88px) !important; text-align: center !important; }
+      .hero-tagline { font-size: clamp(14px,4vw,20px) !important; text-align: center !important; margin-top: 4px !important; }
+      .hero-inner { padding: 0 20px 48px !important; align-items: center !important; display: flex !important; flex-direction: column !important; justify-content: flex-end !important; }
+      .hero-cta-row { justify-content: center !important; }
+
+      /* Bio */
+      .bio-section { padding: 48px 20px !important; }
+      .bio-copy { font-size: clamp(17px,4.5vw,22px) !important; text-align: center !important; }
+      .bio-sub { text-align: center !important; font-size: 13px !important; }
+
+      /* Services */
+      .section { padding: 48px 20px !important; }
+      .section-title { font-size: clamp(28px,8vw,42px) !important; text-align: center !important; }
+      .section-head { text-align: center !important; }
+      .services-grid { grid-template-columns: repeat(2,1fr) !important; gap: 10px !important; }
+      .service-card { padding: 20px 14px !important; }
+      .service-icon svg { width: 32px !important; height: 32px !important; }
+      .service-label { font-size: 12px !important; }
+    }
+    @media (max-width: 480px) {
+      .services-grid { grid-template-columns: 1fr !important; }
+      .service-card { flex-direction: row !important; align-items: center !important; gap: 14px !important; text-align: left !important; padding: 16px 18px !important; }
+      .service-icon { margin: 0 !important; }
+
+      /* Works */
+      .works-header { flex-direction: column !important; align-items: flex-start !important; gap: 8px !important; padding: 32px 20px 20px !important; }
+      .works-section-title { font-size: clamp(36px,10vw,52px) !important; }
+      .work-alt-item { grid-template-columns: 1fr !important; }
+      .work-alt-img { aspect-ratio: 4/3 !important; }
+      .work-alt-text { padding: 24px 20px 32px !important; }
+      .work-num { font-size: clamp(52px,14vw,80px) !important; }
+      .work-category { font-size: clamp(22px,6vw,32px) !important; }
+      .work-desc { font-size: 14px !important; }
+
+      /* CTA */
+      .cta-section { padding: 56px 20px 48px !important; }
+      .cta-title { font-size: clamp(28px,8vw,44px) !important; text-align: center !important; }
+      .cta-btn-row { justify-content: center !important; }
+    }
+
+    /* Works — always single column on mobile */
+    @media (max-width: 768px) {
+      .work-alt-item { grid-template-columns: 1fr !important; }
+      .work-alt-item:nth-child(even) .work-alt-img { order: 0 !important; }
+      .work-alt-item:nth-child(even) .work-alt-text { order: 1 !important; }
+      .work-alt-text { padding: 28px 20px 36px !important; }
+      .work-num { font-size: clamp(48px,12vw,72px) !important; }
+      .works-header { padding: 40px 20px 20px !important; }
+
+      /* Testimonials */
+      .testimonials-section { padding: 48px 0 !important; }
+      .testimonials-header { padding: 0 20px !important; }
+      .section-title { text-align: center !important; }
+      .t-card { min-width: 280px !important; padding: 24px !important; }
+    }
+  
+
+    /* ── FOOTER COMPACT MOBILE (override) ── */
+    @media (max-width: 768px) {
+      .footer { padding: 32px 16px 16px !important; }
+      .footer-logo { height: 80px !important; }
+      .footer-tagline { font-size: 12px !important; margin-top: 8px !important; }
+      .footer-socials { gap: 10px !important; margin-top: 12px !important; }
+      .footer-contact-info { margin-top: 10px !important; }
+      .footer-contact-item { font-size: 11px !important; margin-bottom: 3px !important; }
+      /* Grid: brand full-width top, 3 cols in 2-col grid below */
+      .footer-body {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        grid-template-rows: auto !important;
+        gap: 20px 24px !important;
+        flex-direction: unset !important;
+      }
+      .footer-brand {
+        grid-column: 1 / -1 !important;
+        max-width: 100% !important;
+      }
+      .footer-col { }
+      .footer-col:last-child { grid-column: 1 / -1 !important; }
+      .footer-col-head { font-size: 10px !important; margin-bottom: 10px !important; }
+      .footer-col-links { gap: 8px !important; }
+      .footer-col-links a { font-size: 13px !important; }
+      /* Search stays below */
+      .footer-search-wrap { margin-top: 12px !important; }
+      .footer-search-input { font-size: 13px !important; }
+      .footer-bottom {
+        flex-direction: column !important; gap: 6px !important;
+        align-items: flex-start !important; padding-top: 14px !important;
+        margin-top: 6px !important;
+      }
+      .footer-bottom-left { font-size: 10px !important; }
+      .footer-bottom-right { font-size: 10px !important; gap: 12px !important; }
+    }
+
+    /* GLOBAL-REVAMP-INJECTED */
+
+    /* ── SATOSHI + CABINET GROTESK via Fontshare ── */
+    @import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&f[]=cabinet-grotesk@500,700,800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap');
+
+    /* ── BASE TYPOGRAPHY ── */
+    body { font-family: 'Satoshi', 'Cabinet Grotesk', sans-serif !important; }
+    h1,h2,h3,.hero-title,.section-title,.pkg-section-title,.inv-section-title,
+    .cta-band-title,.cta-headline,.stat-num,.work-category,.works-section-title,
+    .pkg-name,.disc-amount { font-family: 'Cabinet Grotesk', sans-serif !important; }
+
+    /* ── SCROLL REVEAL ANIMATIONS ── */
+    .af-reveal { transition:opacity 0.65s cubic-bezier(0.23,1,0.32,1), transform 0.65s cubic-bezier(0.23,1,0.32,1); }
+    .js-anim .af-reveal { opacity:0; transform:translateY(28px); }
+    .af-reveal.visible { opacity:1; transform:translateY(0); }
+    .af-reveal.delay-1 { transition-delay:0.1s; }
+    .af-reveal.delay-2 { transition-delay:0.2s; }
+    .af-reveal.delay-3 { transition-delay:0.3s; }
+    .af-reveal.delay-4 { transition-delay:0.4s; }
+    .af-reveal.delay-5 { transition-delay:0.5s; }
+    /* Stagger children */
+    .stagger-children > * { transition:opacity 0.5s cubic-bezier(0.23,1,0.32,1), transform 0.5s cubic-bezier(0.23,1,0.32,1); }
+    .js-anim .stagger-children > * { opacity:0; transform:translateY(20px); }
+    .stagger-children.visible > *:nth-child(1) { opacity:1;transform:translateY(0);transition-delay:0.05s; }
+    .stagger-children.visible > *:nth-child(2) { opacity:1;transform:translateY(0);transition-delay:0.15s; }
+    .stagger-children.visible > *:nth-child(3) { opacity:1;transform:translateY(0);transition-delay:0.25s; }
+    .stagger-children.visible > *:nth-child(4) { opacity:1;transform:translateY(0);transition-delay:0.35s; }
+    .stagger-children.visible > *:nth-child(5) { opacity:1;transform:translateY(0);transition-delay:0.45s; }
+    .stagger-children.visible > *:nth-child(6) { opacity:1;transform:translateY(0);transition-delay:0.55s; }
+    .stagger-children.visible > *:nth-child(n+7) { opacity:1;transform:translateY(0);transition-delay:0.6s; }
+
+    /* ── IMPROVED CONTRAST ── */
+    :root { --text: #1A0F08; --text-muted: #4a3020; --text-faint: #7a5a40; }
+    body { color: var(--text); }
+    p, li, span, a { color: inherit; }
+
   </style>
   <script>(function(){var t=localStorage.getItem('af-theme')||'light';document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
-<body>
+<body id="af-body">
 
 <!-- ── NAV ── -->
 <nav class="site-nav">
@@ -850,9 +1059,9 @@
 <header class="hero">
   <img class="hero-bg" src="hero-new.png" alt="Aura Films Photography">
   <div class="hero-overlay"></div>
-  <div class="hero-inner">
-    <h1 class="hero-title">AURA FILMS</h1>
-    <p class="hero-tagline">Shooting moments. Preserving memories.</p>
+  <div class="hero-inner" style="align-items:center;text-align:center;">
+    <img src="images/aura-logo-white.png" class="hero-logo-img" alt="Aura Films" style="height:clamp(72px,12vw,130px);width:auto;opacity:0.90;display:block;margin:0 auto 18px;filter:drop-shadow(0 2px 12px rgba(0,0,0,0.3));">
+    <p class="hero-tagline" style="font-family:'Satoshi',sans-serif;font-size:clamp(13px,2vw,19px);letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.88);font-weight:400;text-align:center;margin:0;">Shooting moments. Preserving memories.</p>
   </div>
 </header>
 
@@ -1147,10 +1356,10 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p class="footer-bottom-left">&#169; Copyright &ndash; 2026 Aura Films. Web Design &amp; SEO by <a href="#">Joel Varghese</a></p>
+      <p class="footer-bottom-left">&#169; Copyright &ndash; 2026 Aura Films. Web Design &amp; SEO by <a href="https://joelvarghese.dev" target="_blank" rel="noopener">Joel Varghese</a></p>
       <div class="footer-bottom-right">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Use</a>
+        <a href="#privacy">Privacy Policy</a>
+        <a href="#terms">Terms of Use</a>
       </div>
     </div>
   </footer>
@@ -1283,5 +1492,22 @@ function afSearch(q){
 <button class="af-top" id="af-top" aria-label="Scroll to top">
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
 </button>
+
+<script id=af-global-js>
+(function(){
+  // Intersection Observer for reveal
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  },{threshold:0.12});
+  document.querySelectorAll('.af-reveal,.stagger-children').forEach(function(el){ io.observe(el); });
+  // Nav hamburger close on link click
+  var links = document.querySelectorAll('.nav-links.mobile-open a');
+  links.forEach(function(a){ a.addEventListener('click', function(){ document.querySelector('.nav-links').classList.remove('mobile-open'); }); });
+})();
+</script>
+
+<script>setTimeout(function(){document.getElementById("af-body").classList.add("js-anim");},50);</script>
 </body>
 </html>

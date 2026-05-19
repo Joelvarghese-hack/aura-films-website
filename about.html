@@ -591,6 +591,204 @@
       .section-title { font-size: clamp(36px, 8vw, 52px); }
     }
 
+    /* MOBILE-INJECTED */
+
+    /* ═══════════════════════════════════════
+       SHARED MOBILE — injected all pages
+    ═══════════════════════════════════════ */
+
+    /* Prevent horizontal scroll on every page */
+    html, body { overflow-x: hidden; max-width: 100%; }
+    * { box-sizing: border-box; }
+
+    /* ── STICKY NAV (all pages) ── */
+    .site-nav {
+      position: sticky !important; top: 0 !important; z-index: 200 !important;
+    }
+
+    /* ── HAMBURGER base ── */
+    .hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      padding: 6px; color: var(--text, #1B120B); flex-shrink: 0;
+    }
+    .hamburger svg { display: block; }
+
+    /* ── MOBILE NAV DRAWER ── */
+    @media (max-width: 768px) {
+      .site-nav { padding: 10px 18px !important; }
+      .nav-logo { height: 38px !important; }
+      .hamburger { display: flex !important; align-items: center; justify-content: center; }
+      .nav-right .nav-links { display: none !important; }
+      .nav-search-wrap, .nav-search-btn { display: none !important; }
+      .nav-links.mobile-open {
+        display: flex !important; flex-direction: column;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: var(--nav-bg, rgba(249,240,225,0.97));
+        border-bottom: 1px solid var(--border, rgba(33,41,34,0.12));
+        padding: 16px 20px 20px; gap: 0;
+        backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+        z-index: 9999;
+      }
+      .nav-links.mobile-open li { border-bottom: 1px solid var(--border, rgba(33,41,34,0.12)); }
+      .nav-links.mobile-open li:last-child { border-bottom: none; }
+      .nav-links.mobile-open a {
+        display: block; font-size: 15px !important; padding: 14px 4px !important;
+        letter-spacing: 0.08em;
+      }
+      .nav-right { gap: 14px !important; }
+    }
+
+    /* ── FOOTER MOBILE ── */
+    @media (max-width: 768px) {
+      .footer { padding: 40px 20px 20px !important; }
+      .footer-body {
+        display: flex !important; flex-direction: column !important;
+        gap: 32px !important;
+      }
+      .footer-brand { max-width: 100% !important; }
+      .footer-logo { height: 120px !important; }
+      .footer-tagline { font-size: 14px !important; }
+      .footer-col-head { font-size: 11px !important; margin-bottom: 14px !important; }
+      .footer-col-links a { font-size: 15px !important; }
+      .footer-col-links { gap: 14px !important; }
+      .footer-bottom {
+        flex-direction: column !important; gap: 10px !important;
+        align-items: flex-start !important; padding-top: 18px !important;
+      }
+      .footer-bottom-left { font-size: 11px !important; }
+      .footer-bottom-right { display: flex; gap: 16px; font-size: 11px !important; }
+      .footer-search-input { font-size: 14px !important; }
+    }
+
+    /* ── SCROLL-TO-TOP BTN ── */
+    @media (max-width: 768px) {
+      .scroll-top-btn { bottom: 16px !important; right: 16px !important; width: 40px !important; height: 40px !important; }
+    }
+
+
+    @media (max-width: 768px) {
+      .hero-inner { padding: 0 20px 48px !important; }
+      .hero-title { font-size: clamp(40px,10vw,64px) !important; }
+      .hero-bio { font-size: 13px !important; }
+      .stats-bar { flex-direction: column !important; }
+      .stat-box { border-right: none !important; border-bottom: 1px solid var(--border, #1c1c1c) !important; padding: 20px 24px !important; }
+      .stat-box:last-child { border-bottom: none !important; }
+      .bio-wrap { padding: 36px 20px !important; }
+      .bio-wrap p { font-size: 15px !important; }
+      .section { padding: 40px 20px !important; }
+      .section-name { font-size: 22px !important; }
+      .process-grid { grid-template-columns: 1fr !important; gap: 3px !important; }
+      .p-card { min-height: 200px !important; }
+      .process-footer { padding: 0 20px !important; }
+      .btn-ghost { width: 100% !important; justify-content: center !important; }
+    }
+  
+
+    /* ── FOOTER COMPACT MOBILE (override) ── */
+    @media (max-width: 768px) {
+      .footer { padding: 32px 16px 16px !important; }
+      .footer-logo { height: 80px !important; }
+      .footer-tagline { font-size: 12px !important; margin-top: 8px !important; }
+      .footer-socials { gap: 10px !important; margin-top: 12px !important; }
+      .footer-contact-info { margin-top: 10px !important; }
+      .footer-contact-item { font-size: 11px !important; margin-bottom: 3px !important; }
+      /* Grid: brand full-width top, 3 cols in 2-col grid below */
+      .footer-body {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        grid-template-rows: auto !important;
+        gap: 20px 24px !important;
+        flex-direction: unset !important;
+      }
+      .footer-brand {
+        grid-column: 1 / -1 !important;
+        max-width: 100% !important;
+      }
+      .footer-col { }
+      .footer-col:last-child { grid-column: 1 / -1 !important; }
+      .footer-col-head { font-size: 10px !important; margin-bottom: 10px !important; }
+      .footer-col-links { gap: 8px !important; }
+      .footer-col-links a { font-size: 13px !important; }
+      /* Search stays below */
+      .footer-search-wrap { margin-top: 12px !important; }
+      .footer-search-input { font-size: 13px !important; }
+      .footer-bottom {
+        flex-direction: column !important; gap: 6px !important;
+        align-items: flex-start !important; padding-top: 14px !important;
+        margin-top: 6px !important;
+      }
+      .footer-bottom-left { font-size: 10px !important; }
+      .footer-bottom-right { font-size: 10px !important; gap: 12px !important; }
+    }
+
+    /* GLOBAL-REVAMP-INJECTED */
+
+    /* ── ABOUT PAGE ADDITIONS ── */
+    .about-hero { padding:80px 48px 60px; background:var(--bg); border-bottom:1px solid var(--border); }
+    .about-eyebrow { font-family:'Satoshi',sans-serif; font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--emerald); margin-bottom:16px; }
+    .about-title { font-family:'Cabinet Grotesk',sans-serif; font-size:clamp(48px,8vw,100px); font-weight:800; letter-spacing:-0.03em; color:var(--text); line-height:0.9; margin-bottom:28px; }
+    .about-intro { font-family:'Satoshi',sans-serif; font-size:clamp(16px,1.8vw,20px); color:var(--text-muted); max-width:600px; line-height:1.72; }
+    /* SKILLS TICKER */
+    .skills-ticker { overflow:hidden; background:var(--charcoal); padding:20px 0; border-top:1px solid rgba(255,255,255,0.06); border-bottom:1px solid rgba(255,255,255,0.06); }
+    .skills-ticker-inner { display:flex; gap:0; animation:ticker-scroll 28s linear infinite; white-space:nowrap; width:max-content; }
+    .skills-ticker-inner:hover { animation-play-state:paused; }
+    .skill-tag { font-family:'Satoshi',sans-serif; font-size:13px; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.72); padding:0 36px; display:inline-flex; align-items:center; gap:14px; flex-shrink:0; }
+    .skill-tag::after { content:'◆'; color:var(--emerald); font-size:8px; }
+    @keyframes ticker-scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    /* TEAM */
+    .team-section { padding:80px 48px; }
+    .team-title { font-family:'Cabinet Grotesk',sans-serif; font-size:clamp(32px,4vw,52px); font-weight:800; letter-spacing:-0.02em; color:var(--text); margin-bottom:48px; }
+    .team-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:900px; }
+    .team-card { background:var(--surface); border-radius:16px; overflow:hidden; border:1px solid var(--border); }
+    .team-photo { width:100%; aspect-ratio:3/4; overflow:hidden; }
+    .team-photo img { width:100%; height:100%; object-fit:cover; object-position:center top; transition:transform 0.6s; }
+    .team-card:hover .team-photo img { transform:scale(1.04); }
+    .team-info { padding:24px 26px 28px; }
+    .team-name { font-family:'Cabinet Grotesk',sans-serif; font-size:clamp(22px,2.5vw,28px); font-weight:800; color:var(--text); letter-spacing:-0.01em; margin-bottom:4px; }
+    .team-role { font-family:'Satoshi',sans-serif; font-size:12px; letter-spacing:0.18em; text-transform:uppercase; color:var(--emerald); margin-bottom:12px; }
+    .team-bio { font-family:'Satoshi',sans-serif; font-size:14px; color:var(--text-muted); line-height:1.7; }
+    @media(max-width:768px){
+      .about-hero { padding:48px 20px 40px !important; }
+      .team-section { padding:48px 20px !important; }
+      .team-grid { grid-template-columns:1fr !important; max-width:100% !important; }
+    }
+
+
+    /* ── SATOSHI + CABINET GROTESK via Fontshare ── */
+    @import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&f[]=cabinet-grotesk@500,700,800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap');
+
+    /* ── BASE TYPOGRAPHY ── */
+    body { font-family: 'Satoshi', 'Cabinet Grotesk', sans-serif !important; }
+    h1,h2,h3,.hero-title,.section-title,.pkg-section-title,.inv-section-title,
+    .cta-band-title,.cta-headline,.stat-num,.work-category,.works-section-title,
+    .pkg-name,.disc-amount { font-family: 'Cabinet Grotesk', sans-serif !important; }
+
+    /* ── SCROLL REVEAL ANIMATIONS ── */
+    .af-reveal { transition:opacity 0.65s cubic-bezier(0.23,1,0.32,1), transform 0.65s cubic-bezier(0.23,1,0.32,1); }
+    .js-anim .af-reveal { opacity:0; transform:translateY(28px); }
+    .af-reveal.visible { opacity:1; transform:translateY(0); }
+    .af-reveal.delay-1 { transition-delay:0.1s; }
+    .af-reveal.delay-2 { transition-delay:0.2s; }
+    .af-reveal.delay-3 { transition-delay:0.3s; }
+    .af-reveal.delay-4 { transition-delay:0.4s; }
+    .af-reveal.delay-5 { transition-delay:0.5s; }
+    /* Stagger children */
+    .stagger-children > * { transition:opacity 0.5s cubic-bezier(0.23,1,0.32,1), transform 0.5s cubic-bezier(0.23,1,0.32,1); }
+    .js-anim .stagger-children > * { opacity:0; transform:translateY(20px); }
+    .stagger-children.visible > *:nth-child(1) { opacity:1;transform:translateY(0);transition-delay:0.05s; }
+    .stagger-children.visible > *:nth-child(2) { opacity:1;transform:translateY(0);transition-delay:0.15s; }
+    .stagger-children.visible > *:nth-child(3) { opacity:1;transform:translateY(0);transition-delay:0.25s; }
+    .stagger-children.visible > *:nth-child(4) { opacity:1;transform:translateY(0);transition-delay:0.35s; }
+    .stagger-children.visible > *:nth-child(5) { opacity:1;transform:translateY(0);transition-delay:0.45s; }
+    .stagger-children.visible > *:nth-child(6) { opacity:1;transform:translateY(0);transition-delay:0.55s; }
+    .stagger-children.visible > *:nth-child(n+7) { opacity:1;transform:translateY(0);transition-delay:0.6s; }
+
+    /* ── IMPROVED CONTRAST ── */
+    :root { --text: #1A0F08; --text-muted: #4a3020; --text-faint: #7a5a40; }
+    body { color: var(--text); }
+    p, li, span, a { color: inherit; }
+
   </style>
 <script>(function(){var t=localStorage.getItem('af-theme')||'light';document.documentElement.setAttribute('data-theme',t);})();
 /* ── Shared search index ── */
@@ -661,7 +859,7 @@ function afSearch(q){
 
 </script>
 </head>
-<body>
+<body id="af-body">
 
   <!-- NAV -->
     <!-- ── NAV ── -->
@@ -699,36 +897,42 @@ function afSearch(q){
   </button>
 </nav>
 
-  <!-- HERO -->
-  <header class="hero">
-    <img class="hero-bg" src="images/_DSC8307.jpg" style="object-position:center 20%;" alt="Aura Films About">
-    <div class="hero-overlay"></div>
-    <div class="hero-inner">
-      <h1 class="hero-title">ABOUT AURA FILMS</h1>
-      <p class="hero-bio">Hello, I'm Aura Films, a portrait 📸 and lifestyle photographer 🍃 with a deep passion for capturing moments 🔥 that feel real, timeless 📷, and full of life.</p>
-    </div>
-  </header>
-
-  <!-- STATS -->
-  <section class="stats-bar">
-    <div class="stat-box">
-      <div class="stat-value">4+</div>
-      <div class="stat-label">Years of Experience</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-value">9%</div>
-      <div class="stat-label">Returning Clients</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-value">2k+</div>
-      <div class="stat-label">Project Completed</div>
-    </div>
+  <!-- ABOUT HERO — clean, no background photo -->
+  <section class="about-hero">
+    <p class="about-eyebrow">About Aura Films</p>
+    <h1 class="about-title">WE FIND<br>THE FRAME<br>THAT STAYS.</h1>
+    <p class="about-intro">Aura Films is built on one belief: that great photography doesn't just show who you are — it makes people feel it. We are a two-person team obsessed with authentic moments, real emotions, and the quiet details that tell the biggest stories.</p>
   </section>
 
-  <!-- BIO PARAGRAPH -->
-  <div class="bio-wrap">
-    <p>What sets my work apart is my attention to detail and the way I interact with people. I believe great photography happens when you're comfortable, confident, and fully yourself; and I work hard to make every session feel natural and enjoyable.</p>
+  <!-- SKILLS TICKER -->
+  <div class="skills-ticker">
+    <div class="skills-ticker-inner">
+      <span class="skill-tag">Wedding Photography</span><span class="skill-tag">Videography</span><span class="skill-tag">Engagement Sessions</span><span class="skill-tag">Portrait Photography</span><span class="skill-tag">Family &amp; Maternity</span><span class="skill-tag">Video Editing</span><span class="skill-tag">Photo Retouching</span><span class="skill-tag">Drone Footage</span><span class="skill-tag">Event Coverage</span><span class="skill-tag">Social Media Content</span><span class="skill-tag">Wedding Photography</span><span class="skill-tag">Videography</span><span class="skill-tag">Engagement Sessions</span><span class="skill-tag">Portrait Photography</span><span class="skill-tag">Family &amp; Maternity</span><span class="skill-tag">Video Editing</span><span class="skill-tag">Photo Retouching</span><span class="skill-tag">Drone Footage</span><span class="skill-tag">Event Coverage</span><span class="skill-tag">Social Media Content</span>
+    </div>
   </div>
+
+  <!-- TEAM -->
+  <section class="team-section">
+    <h2 class="team-title">The People Behind the Lens</h2>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-photo"><img src="images/_DSC8015.jpg" alt="Albin — Lead Photographer"></div>
+        <div class="team-info">
+          <h3 class="team-name">Albin</h3>
+          <p class="team-role">Lead Photographer</p>
+          <p class="team-bio">Albin has an eye for the moment just before the moment. His photography is grounded in patience, storytelling, and a genuine connection with every subject he shoots.</p>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-photo"><img src="images/IMG_9906.JPG.jpeg" alt="Afsal — Lead Videographer"></div>
+        <div class="team-info">
+          <h3 class="team-name">Afsal</h3>
+          <p class="team-role">Lead Videographer</p>
+          <p class="team-bio">Afsal brings motion to memory. His films are cinematic, emotional, and deeply personal — every cut, colour grade, and audio choice is made with intention and care.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- PROCESS -->
   <section class="section">
@@ -775,7 +979,7 @@ function afSearch(q){
       </div>
     </div>
     <div class="process-footer">
-      <a href="portfolio.html" class="btn-ghost"><span>✕</span> &nbsp;Explore More Work</a>
+      <a href="portfolio.html" class="btn-ghost">Explore Our Work &rarr;</a>
     </div>
   </section>
 
@@ -816,28 +1020,6 @@ function afSearch(q){
       </div>
     </div>
   </section>
-
-  <!-- CTA -->
-  <div class="cta-section">
-    <img class="cta-bg-sil" src="images/_DSC8015.jpg" style="object-position:right center;" alt="">
-    <div class="cta-top">
-      <div>
-        <h2 class="cta-headline">Every Frame Tells a Story;<br>Let's Tell <span>Yours.</span></h2>
-        <p class="cta-sub">Let's create timeless photos you'll cherish forever. Book your session today and let's make it unforgettable.</p>
-        <a href="contact.html" class="btn-pill"><span class="pill-icon">⊕</span>Capture Your Story</a>
-      </div>
-      <div>
-        <div class="cta-right-card">
-          <div class="cta-av"><img src="images/_DSC8049.jpg" style="object-position:top;" alt="Aura Films"></div>
-          <div>
-            <div class="cta-card-name">Aura Films</div>
-            <div class="cta-card-role">Photographer</div>
-            <div class="cta-card-badges"><span class="badge-sm">ig</span><span class="badge-sm">x</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- FOOTER -->
     <!-- FOOTER -->
@@ -901,10 +1083,10 @@ function afSearch(q){
       </div>
     </div>
     <div class="footer-bottom">
-      <p class="footer-bottom-left">&#169; Copyright &ndash; 2026 Aura Films. Web Design &amp; SEO by <a href="#">Joel Varghese</a></p>
+      <p class="footer-bottom-left">&#169; Copyright &ndash; 2026 Aura Films. Web Design &amp; SEO by <a href="https://joelvarghese.dev" target="_blank" rel="noopener">Joel Varghese</a></p>
       <div class="footer-bottom-right">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Use</a>
+        <a href="#privacy">Privacy Policy</a>
+        <a href="#terms">Terms of Use</a>
       </div>
     </div>
   </footer>
@@ -993,5 +1175,22 @@ function toggleTheme() {
 <button class="af-top" id="af-top" aria-label="Scroll to top">
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
 </button>
+
+<script id=af-global-js>
+(function(){
+  // Intersection Observer for reveal
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  },{threshold:0.12});
+  document.querySelectorAll('.af-reveal,.stagger-children').forEach(function(el){ io.observe(el); });
+  // Nav hamburger close on link click
+  var links = document.querySelectorAll('.nav-links.mobile-open a');
+  links.forEach(function(a){ a.addEventListener('click', function(){ document.querySelector('.nav-links').classList.remove('mobile-open'); }); });
+})();
+</script>
+
+<script>setTimeout(function(){document.getElementById("af-body").classList.add("js-anim");},50);</script>
 </body>
 </html>

@@ -599,6 +599,194 @@
       .footer-body { grid-template-columns: 1fr !important; }
     }
 
+    /* MOBILE-INJECTED */
+
+    /* ═══════════════════════════════════════
+       SHARED MOBILE — injected all pages
+    ═══════════════════════════════════════ */
+
+    /* Prevent horizontal scroll on every page */
+    html, body { overflow-x: hidden; max-width: 100%; }
+    * { box-sizing: border-box; }
+
+    /* ── STICKY NAV (all pages) ── */
+    .site-nav {
+      position: sticky !important; top: 0 !important; z-index: 200 !important;
+    }
+
+    /* ── HAMBURGER base ── */
+    .hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      padding: 6px; color: var(--text, #1B120B); flex-shrink: 0;
+    }
+    .hamburger svg { display: block; }
+
+    /* ── MOBILE NAV DRAWER ── */
+    @media (max-width: 768px) {
+      .site-nav { padding: 10px 18px !important; }
+      .nav-logo { height: 38px !important; }
+      .hamburger { display: flex !important; align-items: center; justify-content: center; }
+      .nav-right .nav-links { display: none !important; }
+      .nav-search-wrap, .nav-search-btn { display: none !important; }
+      .nav-links.mobile-open {
+        display: flex !important; flex-direction: column;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: var(--nav-bg, rgba(249,240,225,0.97));
+        border-bottom: 1px solid var(--border, rgba(33,41,34,0.12));
+        padding: 16px 20px 20px; gap: 0;
+        backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+        z-index: 9999;
+      }
+      .nav-links.mobile-open li { border-bottom: 1px solid var(--border, rgba(33,41,34,0.12)); }
+      .nav-links.mobile-open li:last-child { border-bottom: none; }
+      .nav-links.mobile-open a {
+        display: block; font-size: 15px !important; padding: 14px 4px !important;
+        letter-spacing: 0.08em;
+      }
+      .nav-right { gap: 14px !important; }
+    }
+
+    /* ── FOOTER MOBILE ── */
+    @media (max-width: 768px) {
+      .footer { padding: 40px 20px 20px !important; }
+      .footer-body {
+        display: flex !important; flex-direction: column !important;
+        gap: 32px !important;
+      }
+      .footer-brand { max-width: 100% !important; }
+      .footer-logo { height: 120px !important; }
+      .footer-tagline { font-size: 14px !important; }
+      .footer-col-head { font-size: 11px !important; margin-bottom: 14px !important; }
+      .footer-col-links a { font-size: 15px !important; }
+      .footer-col-links { gap: 14px !important; }
+      .footer-bottom {
+        flex-direction: column !important; gap: 10px !important;
+        align-items: flex-start !important; padding-top: 18px !important;
+      }
+      .footer-bottom-left { font-size: 11px !important; }
+      .footer-bottom-right { display: flex; gap: 16px; font-size: 11px !important; }
+      .footer-search-input { font-size: 14px !important; }
+    }
+
+    /* ── SCROLL-TO-TOP BTN ── */
+    @media (max-width: 768px) {
+      .scroll-top-btn { bottom: 16px !important; right: 16px !important; width: 40px !important; height: 40px !important; }
+    }
+
+
+    @media (max-width: 768px) {
+      .hero-inner { padding: 0 20px 48px !important; }
+      .hero-title { font-size: clamp(40px,10vw,64px) !important; }
+      .section { padding: 40px 20px !important; }
+      .portfolio-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+      .portfolio-item { aspect-ratio: 4/3 !important; }
+    }
+    @media (max-width: 480px) {
+      .portfolio-grid { grid-template-columns: 1fr !important; }
+    }
+  
+
+    /* ── FOOTER COMPACT MOBILE (override) ── */
+    @media (max-width: 768px) {
+      .footer { padding: 32px 16px 16px !important; }
+      .footer-logo { height: 80px !important; }
+      .footer-tagline { font-size: 12px !important; margin-top: 8px !important; }
+      .footer-socials { gap: 10px !important; margin-top: 12px !important; }
+      .footer-contact-info { margin-top: 10px !important; }
+      .footer-contact-item { font-size: 11px !important; margin-bottom: 3px !important; }
+      /* Grid: brand full-width top, 3 cols in 2-col grid below */
+      .footer-body {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        grid-template-rows: auto !important;
+        gap: 20px 24px !important;
+        flex-direction: unset !important;
+      }
+      .footer-brand {
+        grid-column: 1 / -1 !important;
+        max-width: 100% !important;
+      }
+      .footer-col { }
+      .footer-col:last-child { grid-column: 1 / -1 !important; }
+      .footer-col-head { font-size: 10px !important; margin-bottom: 10px !important; }
+      .footer-col-links { gap: 8px !important; }
+      .footer-col-links a { font-size: 13px !important; }
+      /* Search stays below */
+      .footer-search-wrap { margin-top: 12px !important; }
+      .footer-search-input { font-size: 13px !important; }
+      .footer-bottom {
+        flex-direction: column !important; gap: 6px !important;
+        align-items: flex-start !important; padding-top: 14px !important;
+        margin-top: 6px !important;
+      }
+      .footer-bottom-left { font-size: 10px !important; }
+      .footer-bottom-right { font-size: 10px !important; gap: 12px !important; }
+    }
+
+    /* GLOBAL-REVAMP-INJECTED */
+
+    /* ── CATEGORY GRID ── */
+    .cat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0; }
+    .cat-tile { position:relative; overflow:hidden; cursor:pointer; aspect-ratio:4/5; display:block; text-decoration:none; }
+    .cat-tile img { width:100%; height:100%; object-fit:cover; transition:transform 0.7s cubic-bezier(0.23,1,0.32,1); }
+    .cat-tile:hover img { transform:scale(1.06); }
+    .cat-overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.1) 55%, transparent 100%); }
+    .cat-info { position:absolute; bottom:0; left:0; right:0; padding:28px 24px; }
+    .cat-count { font-family:'Satoshi',sans-serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,255,255,0.65); margin-bottom:6px; }
+    .cat-name { font-family:'Cabinet Grotesk',sans-serif; font-size:clamp(20px,2.8vw,30px); font-weight:800; color:#fff; letter-spacing:-0.01em; line-height:1; }
+    .cat-arrow { display:inline-flex; align-items:center; gap:6px; margin-top:10px; font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:rgba(255,255,255,0.75); font-family:'Satoshi',sans-serif; transition:gap 0.2s; }
+    .cat-tile:hover .cat-arrow { gap:10px; }
+    .port-hero { padding:80px 48px 60px; background:var(--bg); border-bottom:1px solid var(--border); }
+    .port-hero-eyebrow { font-family:'Satoshi',sans-serif; font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--emerald); margin-bottom:16px; }
+    .port-hero-title { font-family:'Cabinet Grotesk',sans-serif; font-size:clamp(48px,8vw,100px); font-weight:800; letter-spacing:-0.03em; color:var(--text); line-height:0.92; }
+    .port-hero-sub { margin-top:20px; font-size:16px; color:var(--text-muted); max-width:480px; line-height:1.65; }
+    @media(max-width:768px){
+      .cat-grid { grid-template-columns:1fr 1fr !important; }
+      .port-hero { padding:48px 20px 36px !important; }
+      .port-hero-title { font-size:clamp(40px,10vw,64px) !important; }
+      .cat-info { padding:18px 16px !important; }
+    }
+    @media(max-width:480px){
+      .cat-grid { grid-template-columns:1fr !important; }
+      .cat-tile { aspect-ratio:3/2 !important; }
+    }
+
+
+    /* ── SATOSHI + CABINET GROTESK via Fontshare ── */
+    @import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&f[]=cabinet-grotesk@500,700,800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap');
+
+    /* ── BASE TYPOGRAPHY ── */
+    body { font-family: 'Satoshi', 'Cabinet Grotesk', sans-serif !important; }
+    h1,h2,h3,.hero-title,.section-title,.pkg-section-title,.inv-section-title,
+    .cta-band-title,.cta-headline,.stat-num,.work-category,.works-section-title,
+    .pkg-name,.disc-amount { font-family: 'Cabinet Grotesk', sans-serif !important; }
+
+    /* ── SCROLL REVEAL ANIMATIONS ── */
+    .af-reveal { transition:opacity 0.65s cubic-bezier(0.23,1,0.32,1), transform 0.65s cubic-bezier(0.23,1,0.32,1); }
+    .js-anim .af-reveal { opacity:0; transform:translateY(28px); }
+    .af-reveal.visible { opacity:1; transform:translateY(0); }
+    .af-reveal.delay-1 { transition-delay:0.1s; }
+    .af-reveal.delay-2 { transition-delay:0.2s; }
+    .af-reveal.delay-3 { transition-delay:0.3s; }
+    .af-reveal.delay-4 { transition-delay:0.4s; }
+    .af-reveal.delay-5 { transition-delay:0.5s; }
+    /* Stagger children */
+    .stagger-children > * { transition:opacity 0.5s cubic-bezier(0.23,1,0.32,1), transform 0.5s cubic-bezier(0.23,1,0.32,1); }
+    .js-anim .stagger-children > * { opacity:0; transform:translateY(20px); }
+    .stagger-children.visible > *:nth-child(1) { opacity:1;transform:translateY(0);transition-delay:0.05s; }
+    .stagger-children.visible > *:nth-child(2) { opacity:1;transform:translateY(0);transition-delay:0.15s; }
+    .stagger-children.visible > *:nth-child(3) { opacity:1;transform:translateY(0);transition-delay:0.25s; }
+    .stagger-children.visible > *:nth-child(4) { opacity:1;transform:translateY(0);transition-delay:0.35s; }
+    .stagger-children.visible > *:nth-child(5) { opacity:1;transform:translateY(0);transition-delay:0.45s; }
+    .stagger-children.visible > *:nth-child(6) { opacity:1;transform:translateY(0);transition-delay:0.55s; }
+    .stagger-children.visible > *:nth-child(n+7) { opacity:1;transform:translateY(0);transition-delay:0.6s; }
+
+    /* ── IMPROVED CONTRAST ── */
+    :root { --text: #1A0F08; --text-muted: #4a3020; --text-faint: #7a5a40; }
+    body { color: var(--text); }
+    p, li, span, a { color: inherit; }
+
   </style>
 <script>(function(){var t=localStorage.getItem('af-theme')||'light';document.documentElement.setAttribute('data-theme',t);})();
 /* ── Shared search index ── */
@@ -669,11 +857,8 @@ function afSearch(q){
 
 </script>
 </head>
-<body>
-
-  <!-- NAV -->
-    <!-- ── NAV ── -->
-  <nav class="site-nav">
+<body id="af-body">
+<nav class="site-nav">
     <a href="index.html" class="nav-logo-link">
       <img src="logo-black.png" class="nav-logo nav-logo-light" alt="Aura Films">
       <img src="logo-white.png" class="nav-logo nav-logo-dark"  alt="Aura Films">
@@ -705,157 +890,80 @@ function afSearch(q){
   </div>
 </nav>
 
-  <!-- HERO -->
-  <header class="hero">
-    <img class="hero-bg" src="images/_DSC8637.jpg" style="object-position:center 20%;" alt="Portfolio Hero">
-    <div class="hero-overlay"></div>
-    <div class="hero-inner">
-      <div>
-        <div class="hero-recent-btn">
-          <span class="hero-recent-dot"></span>
-          Recent Work
-        </div>
-      </div>
-      <h1 class="hero-title">MY PORTFOLIO</h1>
+<!-- PORTFOLIO HERO -->
+<section class="port-hero">
+  <p class="port-hero-eyebrow">Our Work</p>
+  <h1 class="port-hero-title">THE<br>PORTFOLIO</h1>
+  <p class="port-hero-sub">Every frame is a feeling. Explore our work across weddings, portraits, family moments, and more.</p>
+</section>
+
+<!-- CATEGORY GRID -->
+<div class="cat-grid">
+
+  <a href="cat-weddings.html" class="cat-tile">
+    <img src="images/IMG_9115.jpg" alt="Weddings" style="object-position:center top;">
+    <div class="cat-overlay"></div>
+    <div class="cat-info">
+      <p class="cat-count">Wedding Sessions</p>
+      <h2 class="cat-name">Weddings</h2>
+      <span class="cat-arrow">View &rarr;</span>
     </div>
-  </header>
+  </a>
 
-  <!-- PORTFOLIO LIST -->
-  <div class="portfolio-list">
-
-    <a href="portfolio-denim.html" class="portfolio-item" style="display:grid;">
-      <div class="portfolio-thumb">
-        <img src="images/_DSC8015.jpg" style="object-position:center top;" alt="Denim Reimagined">
-        <span class="date-badge">January 2026</span>
-      </div>
-      <div class="portfolio-info">
-        <h2 class="portfolio-title">Denim Reimagined</h2>
-        <p class="portfolio-desc">Denim Reimagined is a fashion editorial exploring denim beyond its traditional form. This project highlights creativity, texture, and versatility through styled looks and beautiful amazing models.</p>
-        <div class="portfolio-meta">
-          <div class="meta-row"><span class="meta-label">Category:</span><span class="meta-value">Fashion Editorial</span></div>
-          <div class="meta-row"><span class="meta-label">Client:</span><span class="meta-value accent">Felicia Wears / Designer</span></div>
-          <div class="meta-row"><span class="meta-label">Duration:</span><span class="meta-value">8 hours</span></div>
-          <div class="meta-row"><span class="meta-label">Location:</span><span class="meta-value">Undisclosed</span></div>
-        </div>
-      </div>
-    </a>
-
-    <div class="portfolio-item">
-      <div class="portfolio-thumb">
-        <img src="images/_DSC7794.jpeg" style="object-position:top;" alt="Zoe's Newborn Beginnings">
-        <span class="date-badge">December 2025</span>
-      </div>
-      <div class="portfolio-info">
-        <h2 class="portfolio-title">Zoe's Newborn Beginnings</h2>
-        <p class="portfolio-desc">Zoe's first photo session is focused on capturing the earliest moments of her life. Shot in a calm, cozy setting with soft natural light to preserve the baby's innocence.</p>
-        <div class="portfolio-meta">
-          <div class="meta-row"><span class="meta-label">Category:</span><span class="meta-value">Family Sessions</span></div>
-          <div class="meta-row"><span class="meta-label">Client:</span><span class="meta-value">The James Family</span></div>
-          <div class="meta-row"><span class="meta-label">Duration:</span><span class="meta-value">8 hours</span></div>
-          <div class="meta-row"><span class="meta-label">Location:</span><span class="meta-value">Undisclosed</span></div>
-        </div>
-      </div>
+  <a href="cat-engagements.html" class="cat-tile">
+    <img src="images/_DSC7542.jpg" alt="Engagements" style="object-position:center 30%;">
+    <div class="cat-overlay"></div>
+    <div class="cat-info">
+      <p class="cat-count">Couples &amp; Love</p>
+      <h2 class="cat-name">Engagements</h2>
+      <span class="cat-arrow">View &rarr;</span>
     </div>
+  </a>
 
-    <div class="portfolio-item">
-      <div class="portfolio-thumb">
-        <img src="images/_DSC7545.jpg" style="object-position:top;" alt="Morning in Motion">
-        <span class="date-badge">November 2025</span>
-      </div>
-      <div class="portfolio-info">
-        <h2 class="portfolio-title">Morning in Motion</h2>
-        <p class="portfolio-desc">A sunrise lifestyle shoot that highlights the beauty of natural light and candid expressions. Focused on storytelling through relaxed poses, thoughtful scenes.</p>
-        <div class="portfolio-meta">
-          <div class="meta-row"><span class="meta-label">Category:</span><span class="meta-value">Outdoor Lifestyle</span></div>
-          <div class="meta-row"><span class="meta-label">Client:</span><span class="meta-value accent">Demilade / Model</span></div>
-          <div class="meta-row"><span class="meta-label">Duration:</span><span class="meta-value">5 hours</span></div>
-          <div class="meta-row"><span class="meta-label">Location:</span><span class="meta-value">San Francisco, USA</span></div>
-        </div>
-      </div>
+  <a href="cat-portraits.html" class="cat-tile">
+    <img src="images/IMG_3431.JPG.jpeg" alt="Portraits" style="object-position:center 20%;">
+    <div class="cat-overlay"></div>
+    <div class="cat-info">
+      <p class="cat-count">Individual &amp; Groups</p>
+      <h2 class="cat-name">Portraits</h2>
+      <span class="cat-arrow">View &rarr;</span>
     </div>
+  </a>
 
-    <div class="portfolio-item">
-      <div class="portfolio-thumb">
-        <img src="images/_DSC7798.jpeg" style="object-position:center 20%;" alt="Gaia Essence Skincare">
-        <span class="date-badge">October 2025</span>
-      </div>
-      <div class="portfolio-info">
-        <h2 class="portfolio-title">Gaia Essence Skincare</h2>
-        <p class="portfolio-desc">Gaia Essence Skincare is a brand-focused editorial shoot inspired by nature, warmth, and organic beauty. The project highlights skincare products using earthy tones.</p>
-        <div class="portfolio-meta">
-          <div class="meta-row"><span class="meta-label">Category:</span><span class="meta-value">Brand &amp; Commercials</span></div>
-          <div class="meta-row"><span class="meta-label">Client:</span><span class="meta-value">Gaia Essence</span></div>
-          <div class="meta-row"><span class="meta-label">Duration:</span><span class="meta-value">11 hours</span></div>
-          <div class="meta-row"><span class="meta-label">Location:</span><span class="meta-value">Target Studio — Nigeria</span></div>
-        </div>
-      </div>
+  <a href="cat-family.html" class="cat-tile">
+    <img src="images/_DSC7794.jpeg" alt="Family &amp; Maternity" style="object-position:center 30%;">
+    <div class="cat-overlay"></div>
+    <div class="cat-info">
+      <p class="cat-count">Family Stories</p>
+      <h2 class="cat-name">Family &amp; Maternity</h2>
+      <span class="cat-arrow">View &rarr;</span>
     </div>
+  </a>
 
-    <div class="portfolio-item">
-      <div class="portfolio-thumb">
-        <img src="images/IMG_9115.jpg" style="object-position:top center;" alt="The Adesuwas' Wedding">
-        <span class="date-badge">September 2025</span>
-      </div>
-      <div class="portfolio-info">
-        <h2 class="portfolio-title">The Adesuwas' Wedding</h2>
-        <p class="portfolio-desc">A beautiful outdoor wedding filled with laughter, emotions, and vibrant details. Captured the couple's most intimate moments while preserving the warmth.</p>
-        <div class="portfolio-meta">
-          <div class="meta-row"><span class="meta-label">Category:</span><span class="meta-value">Wedding Event</span></div>
-          <div class="meta-row"><span class="meta-label">Client:</span><span class="meta-value">The Adesuwas</span></div>
-          <div class="meta-row"><span class="meta-label">Duration:</span><span class="meta-value">48 hours</span></div>
-          <div class="meta-row"><span class="meta-label">Location:</span><span class="meta-value">London, United Kingdom</span></div>
-        </div>
-      </div>
+  <a href="cat-events.html" class="cat-tile">
+    <img src="images/_DSC8215.jpg" alt="Events" style="object-position:center 40%;">
+    <div class="cat-overlay"></div>
+    <div class="cat-info">
+      <p class="cat-count">Birthdays &amp; Corporate</p>
+      <h2 class="cat-name">Events</h2>
+      <span class="cat-arrow">View &rarr;</span>
     </div>
+  </a>
 
-    <div class="portfolio-item">
-      <div class="portfolio-thumb">
-        <img src="images/_DSC8307.jpg" style="object-position:top;" alt="Glow Beauty Campaign">
-        <span class="date-badge">August 2025</span>
-      </div>
-      <div class="portfolio-info">
-        <h2 class="portfolio-title">Glow Beauty Campaign</h2>
-        <p class="portfolio-desc">Shot for a skincare brand, focusing on clean, minimal visuals to showcase product texture and natural radiance. Balanced lighting and composition.</p>
-        <div class="portfolio-meta">
-          <div class="meta-row"><span class="meta-label">Category:</span><span class="meta-value">Brand &amp; Commercials</span></div>
-          <div class="meta-row"><span class="meta-label">Client:</span><span class="meta-value">Glow Beauty</span></div>
-          <div class="meta-row"><span class="meta-label">Duration:</span><span class="meta-value">8 hours</span></div>
-          <div class="meta-row"><span class="meta-label">Location:</span><span class="meta-value">Target Studio — Netherlands</span></div>
-        </div>
-      </div>
+  <a href="portfolio-denim.html" class="cat-tile">
+    <img src="images/_DSC8015.jpg" alt="Fashion &amp; Editorial" style="object-position:center 15%;">
+    <div class="cat-overlay"></div>
+    <div class="cat-info">
+      <p class="cat-count">Style &amp; Editorial</p>
+      <h2 class="cat-name">Fashion</h2>
+      <span class="cat-arrow">View &rarr;</span>
     </div>
+  </a>
 
-  </div>
+</div>
 
-  <!-- CTA -->
-  <div class="cta-section">
-    <img class="cta-bg-sil" src="images/_DSC8015.jpg" style="object-position:right center;" alt="">
-    <div class="cta-top">
-      <div>
-        <h2 class="cta-headline">Every Frame Tells a Story;<br>Let's Tell <span>Yours.</span></h2>
-        <p class="cta-sub">Let's create timeless photos you'll cherish forever. Book your session today and let's make it unforgettable.</p>
-        <a href="contact.html" class="btn-pill"><span class="pill-icon">⊕</span>Capture Your Story</a>
-      </div>
-      <div>
-        <div class="cta-right-card">
-          <div class="cta-av"><img src="images/_DSC8049.jpg" style="object-position:top;" alt="Aura Films"></div>
-          <div>
-            <div class="cta-card-name">Aura Films</div>
-            <div class="cta-card-role">Photographer</div>
-            <div class="cta-card-badges"><span class="badge-sm">ig</span><span class="badge-sm">x</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FOOTER -->
-    <!-- FOOTER -->
-  
-  <!-- ── FOOTER ── -->
-    <!-- FOOTER -->
-    <!-- FOOTER -->
-  <footer class="footer">
+<!-- FOOTER -->
+<footer class="footer">
     <div class="footer-body">
       <div class="footer-brand">
         <div>
@@ -912,10 +1020,10 @@ function afSearch(q){
       </div>
     </div>
     <div class="footer-bottom">
-      <p class="footer-bottom-left">&#169; Copyright &ndash; 2026 Aura Films. Web Design &amp; SEO by <a href="#">Joel Varghese</a></p>
+      <p class="footer-bottom-left">&#169; Copyright &ndash; 2026 Aura Films. Web Design &amp; SEO by <a href="https://joelvarghese.dev" target="_blank" rel="noopener">Joel Varghese</a></p>
       <div class="footer-bottom-right">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Use</a>
+        <a href="#privacy">Privacy Policy</a>
+        <a href="#terms">Terms of Use</a>
       </div>
     </div>
   </footer>
@@ -1001,8 +1109,7 @@ function toggleTheme() {
 })();
 
 </script>
-<button class="af-top" id="af-top" aria-label="Scroll to top">
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
-</button>
+
+<script>setTimeout(function(){document.getElementById("af-body").classList.add("js-anim");},50);</script>
 </body>
 </html>
