@@ -27,7 +27,7 @@ const MIME = {
 const PORT = process.env.PORT || 3000;
 
 const server = createServer(async (req, res) => {
-  let urlPath = req.url.split("?")[0];
+  let urlPath = decodeURIComponent(req.url.split("?")[0]);
   if (urlPath === "/") urlPath = "/index.html";
 
   const filePath = join(__dirname, urlPath);

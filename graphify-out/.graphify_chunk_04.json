@@ -1,0 +1,411 @@
+{
+  "nodes": [
+    {
+      "id": "_DSC8049_groom_portrait",
+      "label": "Groom Portrait – Green Tuxedo on Stairs",
+      "file_type": "image",
+      "source_file": "images/_DSC8049.jpg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "meta": {
+        "category": "wedding",
+        "subjects": ["groom", "South Asian male"],
+        "mood": "contemplative, elegant",
+        "lighting": "soft natural/ambient, high-key against white brick wall",
+        "composition": "overhead angle, staircase framing, full-body",
+        "attire": "dark green tuxedo suit, black bow tie, white dress shirt",
+        "notable": "overhead perspective from staircase creates dynamic framing"
+      }
+    },
+    {
+      "id": "_DSC8215_bride_bouquet_portrait",
+      "label": "Bride Portrait – White Lace Gown with Bouquet",
+      "file_type": "image",
+      "source_file": "images/_DSC8215.jpg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "meta": {
+        "category": "wedding",
+        "subjects": ["bride", "South Asian female"],
+        "mood": "joyful, radiant, romantic",
+        "lighting": "soft outdoor natural light, overcast/diffused, evergreen tree background",
+        "composition": "medium close-up, portrait orientation, centered subject",
+        "attire": "white long-sleeve lace wedding gown, veil",
+        "props": "white and pink bridal bouquet with eucalyptus",
+        "notable": "winter setting with snow hints in background"
+      }
+    },
+    {
+      "id": "_DSC8307_couple_intimate_portrait",
+      "label": "Bride and Groom Intimate Indoor Portrait",
+      "file_type": "image",
+      "source_file": "images/_DSC8307.jpg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "meta": {
+        "category": "wedding",
+        "subjects": ["bride", "groom", "South Asian couple"],
+        "mood": "tender, intimate, romantic",
+        "lighting": "warm indoor ambient, slightly dim, soft shadows",
+        "composition": "medium close-up couple portrait, foreheads nearly touching",
+        "attire": "bride in white lace gown with veil; groom in dark green tuxedo with bow tie and boutonnière",
+        "notable": "quiet moment before or after ceremony, soft emotional connection"
+      }
+    },
+    {
+      "id": "_DSC8577_ceremony_ring_exchange",
+      "label": "Wedding Ceremony Ring Exchange",
+      "file_type": "image",
+      "source_file": "images/_DSC8577.jpg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "meta": {
+        "category": "wedding",
+        "subjects": ["bride", "groom", "officiant"],
+        "mood": "solemn, ceremonial, focused",
+        "lighting": "stage/event lighting, dark background, spotlit",
+        "composition": "full-body wide shot, three-person scene, floral arch in background",
+        "attire": "bride in full white ballgown with cathedral veil and tiara; groom in dark green suit",
+        "setting": "church or event hall stage, floral arch backdrop with blush and white flowers",
+        "notable": "officiant holds microphone, bride and groom exchange rings or vows"
+      }
+    },
+    {
+      "id": "_DSC8637_ceremony_vows_screen",
+      "label": "Wedding Vows Moment with Lyric Screen",
+      "file_type": "image",
+      "source_file": "images/_DSC8637.jpg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "meta": {
+        "category": "wedding",
+        "subjects": ["bride", "groom", "officiant"],
+        "mood": "reverent, emotional, ceremonial",
+        "lighting": "blue-tinted stage/event lighting, dark background with neon blue projection screen",
+        "composition": "medium close-up three-person shot, bride and groom face each other",
+        "attire": "bride in white lace gown with veil and tiara; groom in dark green suit",
+        "setting": "church/event hall altar with wooden arch; projection screen reading 'IN YOUR WEEPING AND REJOICING'",
+        "notable": "projection text adds emotional and religious dimension"
+      }
+    },
+    {
+      "id": "_DSC8672_bride_gown_detail_back",
+      "label": "Bride Gown and Veil – Back Detail Shot",
+      "file_type": "image",
+      "source_file": "images/_DSC8672.jpg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "meta": {
+        "category": "wedding",
+        "subjects": ["bride"],
+        "mood": "dramatic, elegant, cinematic",
+        "lighting": "blue-tinted stage/event ambient, dark moody atmosphere",
+        "composition": "full-body rear/back view, cathedral veil trail dominates frame",
+        "attire": "white lace ballgown with intricate back detail, cathedral veil with floral lace trim, floral crown",
+        "notable": "gown and veil detail shot; groom visible in soft background; very editorial aesthetic"
+      }
+    },
+    {
+      "id": "logo_aura_films_black",
+      "label": "Aura Films Logo – Black Variant",
+      "file_type": "image",
+      "source_file": "Logo/Aura Films Logo Black.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "meta": {
+        "brand": "Aura Films",
+        "color_variant": "black on white",
+        "typography": "large display serif/editorial typeface for 'aura'; smaller refined serif for 'films' subtitle",
+        "style": "elegant, editorial, luxury photography brand",
+        "layout": "stacked wordmark: 'aura' dominant large, 'films' centered below in smaller weight",
+        "notable": "fluid, high-contrast letterforms with calligraphic curves; no icon/mark, pure wordmark"
+      }
+    },
+    {
+      "id": "logo_aura_films_white",
+      "label": "Aura Films Logo – White Variant",
+      "file_type": "image",
+      "source_file": "Logo/Aura Films Logo White.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "meta": {
+        "brand": "Aura Films",
+        "color_variant": "white on transparent/dark background",
+        "typography": "identical letterforms to black variant",
+        "style": "for use on dark backgrounds, overlays, or footer placement",
+        "notable": "same wordmark as black version; reversed for dark UI contexts"
+      }
+    },
+    {
+      "id": "ui_changes_home_page",
+      "label": "Home Page Design Change Annotations",
+      "file_type": "image",
+      "source_file": "Logo/Changes for Home Page.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "meta": {
+        "type": "UI screenshot with annotations",
+        "purpose": "design review / change requests for photographer/videographer website homepage",
+        "annotations": "blue handwritten circles and red X marks indicating elements to remove or revise",
+        "sections_visible": [
+          "Hero section with 'PHOTOGRAPHER' heading",
+          "Services/connect section",
+          "Recent work / portfolio grid with wedding photos",
+          "Stats/numbers section (80+ metric)",
+          "Testimonials section",
+          "CTA section: 'EVERY FRAME TELLS A STORY. LET'S TELL YOURS.'"
+        ],
+        "design_decisions": [
+          "Red X on bottom image section — remove that element",
+          "Blue circles highlight areas for revision",
+          "Portfolio grid shows South Asian wedding photography thumbnails"
+        ],
+        "notable": "annotated mockup used to communicate homepage redesign feedback"
+      }
+    },
+    {
+      "id": "ui_footer_inspo",
+      "label": "Footer Design Inspiration – Mango Studios",
+      "file_type": "image",
+      "source_file": "Logo/footer-inspo.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "meta": {
+        "type": "UI screenshot – footer layout reference",
+        "brand_shown": "Mango Studios (competitor/reference)",
+        "layout": "4-column footer: logo+social+address on left, then About, Our Work, Services columns; search bar in rightmost column",
+        "color_palette": "white/off-white background, gold/tan accent for logo and icons, black body text",
+        "navigation_links": {
+          "About": ["Our Story", "FAQ", "Careers"],
+          "Our Work": ["Galleries", "Blog", "Testimonial"],
+          "Services": ["Family Photography", "Corporate Headshots", "Bar and Bat Mitzvah"]
+        },
+        "contact_info": "9 Davies Avenue #203, Toronto ON CA; info@mangostudios.com; 416-366-4723",
+        "social_icons": ["Facebook", "Instagram", "Pinterest", "YouTube", "Twitter"],
+        "bottom_bar": "Copyright 2026 Mango Studios; Privacy Policy & Terms of Use",
+        "notable": "used as design inspiration for Aura Films footer layout and column structure"
+      }
+    },
+    {
+      "id": "hero_new_photographers_portrait",
+      "label": "Hero Image – Two Photographers with Camera",
+      "file_type": "image",
+      "source_file": "Logo/hero-new.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "meta": {
+        "category": "portrait / brand",
+        "subjects": ["two South Asian male photographers"],
+        "mood": "professional, moody, cinematic",
+        "lighting": "dramatic low-key studio lighting, dark background, strong contrast",
+        "composition": "wide horizontal crop, both facing camera, one holding cinema/mirrorless camera up to eye",
+        "color": "black and white / monochrome",
+        "notable": "intended as website hero/banner image for Aura Films; showcases the filmmakers/photographers behind the brand"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "_DSC8049_groom_portrait",
+      "target": "_DSC8307_couple_intimate_portrait",
+      "relation": "semantically_similar_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "images/_DSC8049.jpg",
+      "source_location": null,
+      "weight": 0.95,
+      "note": "Same groom, same dark green tuxedo with bow tie, same wedding event"
+    },
+    {
+      "source": "_DSC8215_bride_bouquet_portrait",
+      "target": "_DSC8307_couple_intimate_portrait",
+      "relation": "semantically_similar_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "images/_DSC8215.jpg",
+      "source_location": null,
+      "weight": 0.95,
+      "note": "Same bride, same white lace gown and veil, same wedding event"
+    },
+    {
+      "source": "_DSC8307_couple_intimate_portrait",
+      "target": "_DSC8577_ceremony_ring_exchange",
+      "relation": "semantically_similar_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "images/_DSC8307.jpg",
+      "source_location": null,
+      "weight": 0.98,
+      "note": "Same couple, same wedding day, transition from pre-ceremony to ceremony"
+    },
+    {
+      "source": "_DSC8577_ceremony_ring_exchange",
+      "target": "_DSC8637_ceremony_vows_screen",
+      "relation": "semantically_similar_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "images/_DSC8577.jpg",
+      "source_location": null,
+      "weight": 1.0,
+      "note": "Same ceremony, same couple, same officiant, same altar — consecutive ceremony moments"
+    },
+    {
+      "source": "_DSC8637_ceremony_vows_screen",
+      "target": "_DSC8672_bride_gown_detail_back",
+      "relation": "semantically_similar_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "images/_DSC8637.jpg",
+      "source_location": null,
+      "weight": 0.98,
+      "note": "Same ceremony setting, same blue-tinted stage lighting, same bride and groom"
+    },
+    {
+      "source": "_DSC8049_groom_portrait",
+      "target": "_DSC8577_ceremony_ring_exchange",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "images/_DSC8049.jpg",
+      "source_location": null,
+      "weight": 0.9,
+      "note": "Same groom in identical dark green tuxedo across both images"
+    },
+    {
+      "source": "logo_aura_films_black",
+      "target": "logo_aura_films_white",
+      "relation": "semantically_similar_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Logo/Aura Films Logo Black.png",
+      "source_location": null,
+      "weight": 1.0,
+      "note": "Same wordmark, two color variants for light and dark background contexts"
+    },
+    {
+      "source": "logo_aura_films_black",
+      "target": "hero_new_photographers_portrait",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "Logo/Aura Films Logo Black.png",
+      "source_location": null,
+      "weight": 0.85,
+      "note": "Both are Aura Films brand assets; hero image represents the people behind the brand"
+    },
+    {
+      "source": "ui_footer_inspo",
+      "target": "ui_changes_home_page",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "Logo/footer-inspo.png",
+      "source_location": null,
+      "weight": 0.8,
+      "note": "Both are UI design reference/planning materials for the Aura Films website redesign"
+    },
+    {
+      "source": "ui_changes_home_page",
+      "target": "_DSC8307_couple_intimate_portrait",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "Logo/Changes for Home Page.png",
+      "source_location": null,
+      "weight": 0.75,
+      "note": "Homepage design mockup includes wedding portfolio thumbnails that match the same wedding shoot"
+    },
+    {
+      "source": "hero_new_photographers_portrait",
+      "target": "ui_changes_home_page",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "Logo/hero-new.png",
+      "source_location": null,
+      "weight": 0.8,
+      "note": "Hero image is intended for the homepage whose design changes are documented in the annotation screenshot"
+    },
+    {
+      "source": "_DSC8215_bride_bouquet_portrait",
+      "target": "_DSC8672_bride_gown_detail_back",
+      "relation": "semantically_similar_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "images/_DSC8215.jpg",
+      "source_location": null,
+      "weight": 0.95,
+      "note": "Same bride in same white lace gown and cathedral veil across both images"
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "wedding_event_cluster",
+      "label": "Single Wedding Event – South Asian Christian Wedding",
+      "members": [
+        "_DSC8049_groom_portrait",
+        "_DSC8215_bride_bouquet_portrait",
+        "_DSC8307_couple_intimate_portrait",
+        "_DSC8577_ceremony_ring_exchange",
+        "_DSC8637_ceremony_vows_screen",
+        "_DSC8672_bride_gown_detail_back"
+      ],
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "images/",
+      "note": "All six DSC images are from the same South Asian Christian wedding event; same couple, same attire, same venue, same day"
+    },
+    {
+      "id": "aura_films_brand_assets",
+      "label": "Aura Films Brand Asset Collection",
+      "members": [
+        "logo_aura_films_black",
+        "logo_aura_films_white",
+        "hero_new_photographers_portrait",
+        "ui_changes_home_page",
+        "ui_footer_inspo"
+      ],
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Logo/",
+      "note": "All Logo/ folder files are Aura Films website/brand design assets used for identity and web redesign planning"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

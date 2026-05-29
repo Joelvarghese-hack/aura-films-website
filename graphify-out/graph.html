@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>graphify - graphify-out/graph.html</title>
+<script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0f0f1a; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; display: flex; height: 100vh; overflow: hidden; }
+  #graph { flex: 1; }
+  #sidebar { width: 280px; background: #1a1a2e; border-left: 1px solid #2a2a4e; display: flex; flex-direction: column; overflow: hidden; }
+  #search-wrap { padding: 12px; border-bottom: 1px solid #2a2a4e; }
+  #search { width: 100%; background: #0f0f1a; border: 1px solid #3a3a5e; color: #e0e0e0; padding: 7px 10px; border-radius: 6px; font-size: 13px; outline: none; }
+  #search:focus { border-color: #4E79A7; }
+  #search-results { max-height: 140px; overflow-y: auto; padding: 4px 12px; border-bottom: 1px solid #2a2a4e; display: none; }
+  .search-item { padding: 4px 6px; cursor: pointer; border-radius: 4px; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .search-item:hover { background: #2a2a4e; }
+  #info-panel { padding: 14px; border-bottom: 1px solid #2a2a4e; min-height: 140px; }
+  #info-panel h3 { font-size: 13px; color: #aaa; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+  #info-content { font-size: 13px; color: #ccc; line-height: 1.6; }
+  #info-content .field { margin-bottom: 5px; }
+  #info-content .field b { color: #e0e0e0; }
+  #info-content .empty { color: #555; font-style: italic; }
+  .neighbor-link { display: block; padding: 2px 6px; margin: 2px 0; border-radius: 3px; cursor: pointer; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-left: 3px solid #333; }
+  .neighbor-link:hover { background: #2a2a4e; }
+  #neighbors-list { max-height: 160px; overflow-y: auto; margin-top: 4px; }
+  #legend-wrap { flex: 1; overflow-y: auto; padding: 12px; }
+  #legend-wrap h3 { font-size: 13px; color: #aaa; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .legend-item { display: flex; align-items: center; gap: 8px; padding: 4px 0; cursor: pointer; border-radius: 4px; font-size: 12px; }
+  .legend-item:hover { background: #2a2a4e; padding-left: 4px; }
+  .legend-item.dimmed { opacity: 0.35; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .legend-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .legend-count { color: #666; font-size: 11px; }
+  #stats { padding: 10px 14px; border-top: 1px solid #2a2a4e; font-size: 11px; color: #555; }
+</style>
+</head>
+<body>
+<div id="graph"></div>
+<div id="sidebar">
+  <div id="search-wrap">
+    <input id="search" type="text" placeholder="Search nodes..." autocomplete="off">
+    <div id="search-results"></div>
+  </div>
+  <div id="info-panel">
+    <h3>Node Info</h3>
+    <div id="info-content"><span class="empty">Click a node to inspect it</span></div>
+  </div>
+  <div id="legend-wrap">
+    <h3>Communities</h3>
+    <div id="legend"></div>
+  </div>
+  <div id="stats">50 nodes &middot; 64 edges &middot; 8 communities</div>
+</div>
+<script>
+const RAW_NODES = [{"id": "claudemd_frontend_website_rules", "label": "Frontend Website Rules (CLAUDE.md)", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 40.0, "font": {"size": 12, "color": "#ffffff"}, "title": "Frontend Website Rules (CLAUDE.md)", "community": 0, "community_name": "Design Rules & Typography", "source_file": "CLAUDE.md", "file_type": "document", "degree": 13}, {"id": "claudemd_frontend_design_skill", "label": "frontend-design Skill", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 12.3, "font": {"size": 0, "color": "#ffffff"}, "title": "frontend-design Skill", "community": 0, "community_name": "Design Rules & Typography", "source_file": "CLAUDE.md", "file_type": "document", "degree": 1}, {"id": "claudemd_serve_mjs", "label": "serve.mjs Dev Server", "color": {"background": "#EDC948", "border": "#EDC948", "highlight": {"background": "#ffffff", "border": "#EDC948"}}, "size": 14.6, "font": {"size": 12, "color": "#ffffff"}, "title": "serve.mjs Dev Server", "community": 5, "community_name": "Dev Tooling & Screenshots", "source_file": "CLAUDE.md", "file_type": "document", "degree": 2}, {"id": "claudemd_screenshot_mjs", "label": "screenshot.mjs Screenshot Tool", "color": {"background": "#EDC948", "border": "#EDC948", "highlight": {"background": "#ffffff", "border": "#EDC948"}}, "size": 16.9, "font": {"size": 12, "color": "#ffffff"}, "title": "screenshot.mjs Screenshot Tool", "community": 5, "community_name": "Dev Tooling & Screenshots", "source_file": "CLAUDE.md", "file_type": "document", "degree": 3}, {"id": "claudemd_puppeteer", "label": "Puppeteer Browser Automation", "color": {"background": "#EDC948", "border": "#EDC948", "highlight": {"background": "#ffffff", "border": "#EDC948"}}, "size": 12.3, "font": {"size": 0, "color": "#ffffff"}, "title": "Puppeteer Browser Automation", "community": 5, "community_name": "Dev Tooling & Screenshots", "source_file": "CLAUDE.md", "file_type": "document", "degree": 1}, {"id": "claudemd_tailwind_cdn", "label": "Tailwind CSS via CDN", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 12.3, "font": {"size": 0, "color": "#ffffff"}, "title": "Tailwind CSS via CDN", "community": 0, "community_name": "Design Rules & Typography", "source_file": "CLAUDE.md", "file_type": "document", "degree": 1}, {"id": "claudemd_brand_assets_folder", "label": "brand_assets/ Folder", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 16.9, "font": {"size": 12, "color": "#ffffff"}, "title": "brand_assets/ Folder", "community": 1, "community_name": "Brand Assets & Project Identity", "source_file": "CLAUDE.md", "file_type": "document", "degree": 3}, {"id": "claudemd_clash_display_font", "label": "Clash Display Font (ClashDisplay-Variable.woff2)", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 14.6, "font": {"size": 12, "color": "#ffffff"}, "title": "Clash Display Font (ClashDisplay-Variable.woff2)", "community": 0, "community_name": "Design Rules & Typography", "source_file": "CLAUDE.md", "file_type": "document", "degree": 2}, {"id": "claudemd_cabinet_grotesk_font", "label": "Cabinet Grotesk Font (CabinetGrotesk-Variable.woff2)", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 14.6, "font": {"size": 12, "color": "#ffffff"}, "title": "Cabinet Grotesk Font (CabinetGrotesk-Variable.woff2)", "community": 0, "community_name": "Design Rules & Typography", "source_file": "CLAUDE.md", "file_type": "document", "degree": 2}, {"id": "claudemd_britney_font", "label": "Britney Font (Britney-Variable.woff2)", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 14.6, "font": {"size": 12, "color": "#ffffff"}, "title": "Britney Font (Britney-Variable.woff2)", "community": 0, "community_name": "Design Rules & Typography", "source_file": "CLAUDE.md", "file_type": "document", "degree": 2}, {"id": "claudemd_color_orange", "label": "Brand Color: Orange (#e8a748)", "color": {"background": "#E15759", "border": "#E15759", "highlight": {"background": "#ffffff", "border": "#E15759"}}, "size": 12.3, "font": {"size": 0, "color": "#ffffff"}, "title": "Brand Color: Orange (#e8a748)", "community": 2, "community_name": "Color System", "source_file": "CLAUDE.md", "file_type": "document", "degree": 1}, {"id": "claudemd_color_bg", "label": "Brand Color: Background (#F9F0E1)", "color": {"background": "#E15759", "border": "#E15759", "highlight": {"background": "#ffffff", "border": "#E15759"}}, "size": 12.3, "font": {"size": 0, "color": "#ffffff"}, "title": "Brand Color: Background (#F9F0E1)", "community": 2, "community_name": "Color System", "source_file": "CLAUDE.md", "file_type": "document", "degree": 1}, {"id": "claudemd_color_charcoal", "label": "Brand Color: Charcoal (#212922)", "color": {"background": "#E15759", "border": "#E15759", "highlight": {"background": "#ffffff", "border": "#E15759"}}, "size": 12.3, "font": {"size": 0, "color": "#ffffff"}, "title": "Brand Color: Charcoal (#212922)", "community": 2, "community_name": "Color System", "source_file": "CLAUDE.md", "file_type": "document", "degree": 1}, {"id": "claudemd_color_tea_green", "label": "Brand Color: Tea Green (#C5EBC3)", "color": {"background": "#E15759", "border": "#E15759", "highlight": {"background": "#ffffff", "border": "#E15759"}}, "size": 12.3, "font": {"size": 0, "color": "#ffffff"}, "title": "Brand Color: Tea Green (#C5EBC3)", "community": 2, "community_name": "Color System", "source_file": "CLAUDE.md", "file_type": "document", "degree": 1}, {"id": "claudemd_color_emerald", "label": "Brand Color: Emerald (#39D599)", "color": {"background": "#E15759", "border": "#E15759", "highlight": {"background": "#ffffff", "border": "#E15759"}}, "size": 12.3, "font": {"size": 0, "color": "#ffffff"}, "title": "Brand Color: Emerald (#39D599)", "community": 2, "community_name": "Color System", "source_file": "CLAUDE.md", "file_type": "document", "degree": 1}, {"id": "claudemd_color_palette", "label": "Brand Color Palette (CSS Variables)", "color": {"background": "#E15759", "border": "#E15759", "highlight": {"background": "#ffffff", "border": "#E15759"}}, "size": 28.5, "font": {"size": 12, "color": "#ffffff"}, "title": "Brand Color Palette (CSS Variables)", "community": 2, "community_name": "Color System", "source_file": "CLAUDE.md", "file_type": "document", "degree": 8}, {"id": "claudemd_dark_theme", "label": "Dark Theme CSS Variables ([data-theme=dark])", "color": {"background": "#E15759", "border": "#E15759", "highlight": {"background": "#ffffff", "border": "#E15759"}}, "size": 12.3, "font": {"size": 0, "color": "#ffffff"}, "title": "Dark Theme CSS Variables ([data-theme=dark])", "community": 2, "community_name": "Color System", "source_file": "CLAUDE.md", "file_type": "document", "degree": 1}, {"id": "claudemd_anti_generic_guardrails", "label": "Anti-Generic Design Guardrails", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 14.6, "font": {"size": 12, "color": "#ffffff"}, "title": "Anti-Generic Design Guardrails", "community": 0, "community_name": "Design Rules & Typography", "source_file": "CLAUDE.md", "file_type": "document", "degree": 2}, {"id": "claudemd_hard_rules", "label": "Hard Rules for Frontend Development", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 14.6, "font": {"size": 12, "color": "#ffffff"}, "title": "Hard Rules for Frontend Development", "community": 0, "community_name": "Design Rules & Typography", "source_file": "CLAUDE.md", "file_type": "document", "degree": 2}, {"id": "claudemd_screenshot_workflow", "label": "Screenshot Comparison Workflow", "color": {"background": "#EDC948", "border": "#EDC948", "highlight": {"background": "#ffffff", "border": "#EDC948"}}, "size": 14.6, "font": {"size": 12, "color": "#ffffff"}, "title": "Screenshot Comparison Workflow", "community": 5, "community_name": "Dev Tooling & Screenshots", "source_file": "CLAUDE.md", "file_type": "document", "degree": 2}, {"id": "claudemd_localhost_rule", "label": "Localhost Serving Requirement", "color": {"background": "#EDC948", "border": "#EDC948", "highlight": {"background": "#ffffff", "border": "#EDC948"}}, "size": 14.6, "font": {"size": 12, "color": "#ffffff"}, "title": "Localhost Serving Requirement", "community": 5, "community_name": "Dev Tooling & Screenshots", "source_file": "CLAUDE.md", "file_type": "document", "degree": 2}, {"id": "claudemd_aura_films_project", "label": "Aura Films Website Project", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 21.5, "font": {"size": 12, "color": "#ffffff"}, "title": "Aura Films Website Project", "community": 1, "community_name": "Brand Assets & Project Identity", "source_file": "CLAUDE.md", "file_type": "document", "degree": 5}, {"id": "logo_af_quotation", "label": "AF-Quotation PDF (Aura Films Quotation Document)", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 12.3, "font": {"size": 0, "color": "#ffffff"}, "title": "AF-Quotation PDF (Aura Films Quotation Document)", "community": 1, "community_name": "Brand Assets & Project Identity", "source_file": "Logo/AF-Quotation.pdf", "file_type": "document", "degree": 1}, {"id": "logo_aura_films_black", "label": "Aura Films Logo (Black)", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 19.2, "font": {"size": 12, "color": "#ffffff"}, "title": "Aura Films Logo (Black)", "community": 1, "community_name": "Brand Assets & Project Identity", "source_file": "Logo/Aura Films Logo Black.png", "file_type": "document", "degree": 4}, {"id": "logo_aura_films_white", "label": "Aura Films Logo (White)", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 16.9, "font": {"size": 12, "color": "#ffffff"}, "title": "Aura Films Logo (White)", "community": 1, "community_name": "Brand Assets & Project Identity", "source_file": "Logo/Aura Films Logo White.png", "file_type": "document", "degree": 3}, {"id": "claudemd_index_html", "label": "index.html Output File", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 12.3, "font": {"size": 0, "color": "#ffffff"}, "title": "index.html Output File", "community": 0, "community_name": "Design Rules & Typography", "source_file": "CLAUDE.md", "file_type": "document", "degree": 1}, {"id": "claudemd_fonts_dir", "label": "/fonts/ Directory (Local Font Files)", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 16.9, "font": {"size": 12, "color": "#ffffff"}, "title": "/fonts/ Directory (Local Font Files)", "community": 0, "community_name": "Design Rules & Typography", "source_file": "CLAUDE.md", "file_type": "document", "degree": 3}, {"id": "hero_new_hero_photo", "label": "Aura Films Hero Photo - Two Filmmakers", "color": {"background": "#76B7B2", "border": "#76B7B2", "highlight": {"background": "#ffffff", "border": "#76B7B2"}}, "size": 12.3, "font": {"size": 0, "color": "#ffffff"}, "title": "Aura Films Hero Photo - Two Filmmakers", "community": 3, "community_name": "Logo Variants & Hero Imagery", "source_file": "hero-new.png", "file_type": "image", "degree": 1}, {"id": "logo_black_aura_films_logo_black", "label": "Aura Films Logo - Black on White", "color": {"background": "#76B7B2", "border": "#76B7B2", "highlight": {"background": "#ffffff", "border": "#76B7B2"}}, "size": 19.2, "font": {"size": 12, "color": "#ffffff"}, "title": "Aura Films Logo - Black on White", "community": 3, "community_name": "Logo Variants & Hero Imagery", "source_file": "logo-black.png", "file_type": "image", "degree": 4}, {"id": "logo_light_aura_films_logo_light", "label": "Aura Films Logo - Light Variant", "color": {"background": "#76B7B2", "border": "#76B7B2", "highlight": {"background": "#ffffff", "border": "#76B7B2"}}, "size": 19.2, "font": {"size": 12, "color": "#ffffff"}, "title": "Aura Films Logo - Light Variant", "community": 3, "community_name": "Logo Variants & Hero Imagery", "source_file": "logo-light.png", "file_type": "image", "degree": 4}, {"id": "logo_orange_aura_films_logo_orange", "label": "Aura Films Logo - Orange Background", "color": {"background": "#76B7B2", "border": "#76B7B2", "highlight": {"background": "#ffffff", "border": "#76B7B2"}}, "size": 19.2, "font": {"size": 12, "color": "#ffffff"}, "title": "Aura Films Logo - Orange Background", "community": 3, "community_name": "Logo Variants & Hero Imagery", "source_file": "logo-orange.png", "file_type": "image", "degree": 4}, {"id": "logo_white_aura_films_logo_white", "label": "Aura Films Logo - White on Transparent", "color": {"background": "#76B7B2", "border": "#76B7B2", "highlight": {"background": "#ffffff", "border": "#76B7B2"}}, "size": 19.2, "font": {"size": 12, "color": "#ffffff"}, "title": "Aura Films Logo - White on Transparent", "community": 3, "community_name": "Logo Variants & Hero Imagery", "source_file": "logo-white.png", "file_type": "image", "degree": 4}, {"id": "brand_aura_films", "label": "Aura Films Brand Identity", "color": {"background": "#76B7B2", "border": "#76B7B2", "highlight": {"background": "#ffffff", "border": "#76B7B2"}}, "size": 21.5, "font": {"size": 12, "color": "#ffffff"}, "title": "Aura Films Brand Identity", "community": 3, "community_name": "Logo Variants & Hero Imagery", "source_file": "unknown", "file_type": "document", "degree": 5}, {"id": "IMG_9115_wedding_couple_portrait", "label": "Wedding Couple Portrait - Bride and Groom Embrace", "color": {"background": "#B07AA1", "border": "#B07AA1", "highlight": {"background": "#ffffff", "border": "#B07AA1"}}, "size": 14.6, "font": {"size": 12, "color": "#ffffff"}, "title": "Wedding Couple Portrait - Bride and Groom Embrace", "community": 6, "community_name": "Couples & Engagement Portraits", "source_file": "images/IMG_9115.jpg", "file_type": "image", "degree": 2}, {"id": "_DSC7542_engagement_couple_color", "label": "Engagement Couple - Playful Indoor Color Shot", "color": {"background": "#B07AA1", "border": "#B07AA1", "highlight": {"background": "#ffffff", "border": "#B07AA1"}}, "size": 14.6, "font": {"size": 12, "color": "#ffffff"}, "title": "Engagement Couple - Playful Indoor Color Shot", "community": 6, "community_name": "Couples & Engagement Portraits", "source_file": "images/_DSC7542.jpg", "file_type": "image", "degree": 2}, {"id": "_DSC7545_engagement_couple_bw", "label": "Engagement Couple - Black and White Indoor Portrait", "color": {"background": "#B07AA1", "border": "#B07AA1", "highlight": {"background": "#ffffff", "border": "#B07AA1"}}, "size": 12.3, "font": {"size": 0, "color": "#ffffff"}, "title": "Engagement Couple - Black and White Indoor Portrait", "community": 6, "community_name": "Couples & Engagement Portraits", "source_file": "images/_DSC7545.jpg", "file_type": "image", "degree": 1}, {"id": "_DSC7794_maternity_family_ultrasound", "label": "Maternity Family Portrait - Child Holds Ultrasound", "color": {"background": "#FF9DA7", "border": "#FF9DA7", "highlight": {"background": "#ffffff", "border": "#FF9DA7"}}, "size": 16.9, "font": {"size": 12, "color": "#ffffff"}, "title": "Maternity Family Portrait - Child Holds Ultrasound", "community": 7, "community_name": "Maternity Family Session", "source_file": "images/_DSC7794.jpeg", "file_type": "image", "degree": 3}, {"id": "_DSC7798_maternity_solo_window", "label": "Maternity Solo Portrait - Window Light", "color": {"background": "#FF9DA7", "border": "#FF9DA7", "highlight": {"background": "#ffffff", "border": "#FF9DA7"}}, "size": 14.6, "font": {"size": 12, "color": "#ffffff"}, "title": "Maternity Solo Portrait - Window Light", "community": 7, "community_name": "Maternity Family Session", "source_file": "images/_DSC7798.jpeg", "file_type": "image", "degree": 2}, {"id": "_DSC7860_maternity_couple_bw_ultrasound", "label": "Maternity Couple - Black and White Ultrasound Reveal", "color": {"background": "#FF9DA7", "border": "#FF9DA7", "highlight": {"background": "#ffffff", "border": "#FF9DA7"}}, "size": 14.6, "font": {"size": 12, "color": "#ffffff"}, "title": "Maternity Couple - Black and White Ultrasound Reveal", "community": 7, "community_name": "Maternity Family Session", "source_file": "images/_DSC7860.jpeg", "file_type": "image", "degree": 2}, {"id": "_DSC7883_maternity_child_stethoscope", "label": "Maternity - Child Listens to Baby with Stethoscope", "color": {"background": "#FF9DA7", "border": "#FF9DA7", "highlight": {"background": "#ffffff", "border": "#FF9DA7"}}, "size": 16.9, "font": {"size": 12, "color": "#ffffff"}, "title": "Maternity - Child Listens to Baby with Stethoscope", "community": 7, "community_name": "Maternity Family Session", "source_file": "images/_DSC7883.jpeg", "file_type": "image", "degree": 3}, {"id": "_DSC8015_groom_solo_outdoor_portrait", "label": "Groom Solo Portrait - Outdoor Venue", "color": {"background": "#B07AA1", "border": "#B07AA1", "highlight": {"background": "#ffffff", "border": "#B07AA1"}}, "size": 12.3, "font": {"size": 0, "color": "#ffffff"}, "title": "Groom Solo Portrait - Outdoor Venue", "community": 6, "community_name": "Couples & Engagement Portraits", "source_file": "images/_DSC8015.jpg", "file_type": "image", "degree": 1}, {"id": "_DSC8049_groom_portrait", "label": "Groom Portrait \u2013 Green Tuxedo on Stairs", "color": {"background": "#59A14F", "border": "#59A14F", "highlight": {"background": "#ffffff", "border": "#59A14F"}}, "size": 14.6, "font": {"size": 12, "color": "#ffffff"}, "title": "Groom Portrait \u2013 Green Tuxedo on Stairs", "community": 4, "community_name": "Wedding Event Photography", "source_file": "images/_DSC8049.jpg", "file_type": "image", "degree": 2}, {"id": "_DSC8215_bride_bouquet_portrait", "label": "Bride Portrait \u2013 White Lace Gown with Bouquet", "color": {"background": "#59A14F", "border": "#59A14F", "highlight": {"background": "#ffffff", "border": "#59A14F"}}, "size": 14.6, "font": {"size": 12, "color": "#ffffff"}, "title": "Bride Portrait \u2013 White Lace Gown with Bouquet", "community": 4, "community_name": "Wedding Event Photography", "source_file": "images/_DSC8215.jpg", "file_type": "image", "degree": 2}, {"id": "_DSC8307_couple_intimate_portrait", "label": "Bride and Groom Intimate Indoor Portrait", "color": {"background": "#59A14F", "border": "#59A14F", "highlight": {"background": "#ffffff", "border": "#59A14F"}}, "size": 19.2, "font": {"size": 12, "color": "#ffffff"}, "title": "Bride and Groom Intimate Indoor Portrait", "community": 4, "community_name": "Wedding Event Photography", "source_file": "images/_DSC8307.jpg", "file_type": "image", "degree": 4}, {"id": "_DSC8577_ceremony_ring_exchange", "label": "Wedding Ceremony Ring Exchange", "color": {"background": "#59A14F", "border": "#59A14F", "highlight": {"background": "#ffffff", "border": "#59A14F"}}, "size": 16.9, "font": {"size": 12, "color": "#ffffff"}, "title": "Wedding Ceremony Ring Exchange", "community": 4, "community_name": "Wedding Event Photography", "source_file": "images/_DSC8577.jpg", "file_type": "image", "degree": 3}, {"id": "_DSC8637_ceremony_vows_screen", "label": "Wedding Vows Moment with Lyric Screen", "color": {"background": "#59A14F", "border": "#59A14F", "highlight": {"background": "#ffffff", "border": "#59A14F"}}, "size": 14.6, "font": {"size": 12, "color": "#ffffff"}, "title": "Wedding Vows Moment with Lyric Screen", "community": 4, "community_name": "Wedding Event Photography", "source_file": "images/_DSC8637.jpg", "file_type": "image", "degree": 2}, {"id": "_DSC8672_bride_gown_detail_back", "label": "Bride Gown and Veil \u2013 Back Detail Shot", "color": {"background": "#59A14F", "border": "#59A14F", "highlight": {"background": "#ffffff", "border": "#59A14F"}}, "size": 14.6, "font": {"size": 12, "color": "#ffffff"}, "title": "Bride Gown and Veil \u2013 Back Detail Shot", "community": 4, "community_name": "Wedding Event Photography", "source_file": "images/_DSC8672.jpg", "file_type": "image", "degree": 2}, {"id": "ui_changes_home_page", "label": "Home Page Design Change Annotations", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 16.9, "font": {"size": 12, "color": "#ffffff"}, "title": "Home Page Design Change Annotations", "community": 1, "community_name": "Brand Assets & Project Identity", "source_file": "Logo/Changes for Home Page.png", "file_type": "image", "degree": 3}, {"id": "ui_footer_inspo", "label": "Footer Design Inspiration \u2013 Mango Studios", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 12.3, "font": {"size": 0, "color": "#ffffff"}, "title": "Footer Design Inspiration \u2013 Mango Studios", "community": 1, "community_name": "Brand Assets & Project Identity", "source_file": "Logo/footer-inspo.png", "file_type": "image", "degree": 1}, {"id": "hero_new_photographers_portrait", "label": "Hero Image \u2013 Two Photographers with Camera", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 14.6, "font": {"size": 12, "color": "#ffffff"}, "title": "Hero Image \u2013 Two Photographers with Camera", "community": 1, "community_name": "Brand Assets & Project Identity", "source_file": "Logo/hero-new.png", "file_type": "image", "degree": 2}];
+const RAW_EDGES = [{"from": "claudemd_frontend_website_rules", "to": "claudemd_frontend_design_skill", "label": "calls", "title": "calls [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_frontend_website_rules", "to": "claudemd_serve_mjs", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_frontend_website_rules", "to": "claudemd_screenshot_mjs", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_frontend_website_rules", "to": "claudemd_tailwind_cdn", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_frontend_website_rules", "to": "claudemd_brand_assets_folder", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_frontend_website_rules", "to": "claudemd_color_palette", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_frontend_website_rules", "to": "claudemd_clash_display_font", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_frontend_website_rules", "to": "claudemd_cabinet_grotesk_font", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_frontend_website_rules", "to": "claudemd_britney_font", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_frontend_website_rules", "to": "claudemd_anti_generic_guardrails", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_frontend_website_rules", "to": "claudemd_hard_rules", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_frontend_website_rules", "to": "claudemd_index_html", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_frontend_website_rules", "to": "claudemd_aura_films_project", "label": "references", "title": "references [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "claudemd_serve_mjs", "to": "claudemd_localhost_rule", "label": "calls", "title": "calls [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_screenshot_mjs", "to": "claudemd_puppeteer", "label": "implements", "title": "implements [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_screenshot_mjs", "to": "claudemd_screenshot_workflow", "label": "calls", "title": "calls [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_brand_assets_folder", "to": "logo_aura_films_black", "label": "references", "title": "references [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "claudemd_brand_assets_folder", "to": "logo_aura_films_white", "label": "references", "title": "references [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "claudemd_clash_display_font", "to": "claudemd_fonts_dir", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_cabinet_grotesk_font", "to": "claudemd_fonts_dir", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_britney_font", "to": "claudemd_fonts_dir", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_color_orange", "to": "claudemd_color_palette", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_color_bg", "to": "claudemd_color_palette", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_color_charcoal", "to": "claudemd_color_palette", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_color_tea_green", "to": "claudemd_color_palette", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_color_emerald", "to": "claudemd_color_palette", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_color_palette", "to": "claudemd_dark_theme", "label": "conceptually_related_to", "title": "conceptually_related_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_color_palette", "to": "claudemd_aura_films_project", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "claudemd_anti_generic_guardrails", "to": "claudemd_hard_rules", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "claudemd_screenshot_workflow", "to": "claudemd_localhost_rule", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "claudemd_aura_films_project", "to": "logo_af_quotation", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "claudemd_aura_films_project", "to": "logo_aura_films_black", "label": "references", "title": "references [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "claudemd_aura_films_project", "to": "logo_aura_films_white", "label": "references", "title": "references [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "logo_aura_films_black", "to": "logo_aura_films_white", "label": "semantically_similar_to", "title": "semantically_similar_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "logo_aura_films_black", "to": "hero_new_photographers_portrait", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "hero_new_hero_photo", "to": "brand_aura_films", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "logo_black_aura_films_logo_black", "to": "brand_aura_films", "label": "conceptually_related_to", "title": "conceptually_related_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "logo_black_aura_films_logo_black", "to": "logo_light_aura_films_logo_light", "label": "semantically_similar_to", "title": "semantically_similar_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "logo_black_aura_films_logo_black", "to": "logo_orange_aura_films_logo_orange", "label": "semantically_similar_to", "title": "semantically_similar_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "logo_black_aura_films_logo_black", "to": "logo_white_aura_films_logo_white", "label": "semantically_similar_to", "title": "semantically_similar_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "logo_light_aura_films_logo_light", "to": "brand_aura_films", "label": "conceptually_related_to", "title": "conceptually_related_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "logo_light_aura_films_logo_light", "to": "logo_orange_aura_films_logo_orange", "label": "semantically_similar_to", "title": "semantically_similar_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "logo_light_aura_films_logo_light", "to": "logo_white_aura_films_logo_white", "label": "semantically_similar_to", "title": "semantically_similar_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "logo_orange_aura_films_logo_orange", "to": "brand_aura_films", "label": "conceptually_related_to", "title": "conceptually_related_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "logo_orange_aura_films_logo_orange", "to": "logo_white_aura_films_logo_white", "label": "semantically_similar_to", "title": "semantically_similar_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "logo_white_aura_films_logo_white", "to": "brand_aura_films", "label": "conceptually_related_to", "title": "conceptually_related_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "IMG_9115_wedding_couple_portrait", "to": "_DSC8015_groom_solo_outdoor_portrait", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "IMG_9115_wedding_couple_portrait", "to": "_DSC7542_engagement_couple_color", "label": "conceptually_related_to", "title": "conceptually_related_to [AMBIGUOUS]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "AMBIGUOUS"}, {"from": "_DSC7542_engagement_couple_color", "to": "_DSC7545_engagement_couple_bw", "label": "semantically_similar_to", "title": "semantically_similar_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "_DSC7794_maternity_family_ultrasound", "to": "_DSC7798_maternity_solo_window", "label": "shares_data_with", "title": "shares_data_with [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "_DSC7794_maternity_family_ultrasound", "to": "_DSC7860_maternity_couple_bw_ultrasound", "label": "shares_data_with", "title": "shares_data_with [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "_DSC7794_maternity_family_ultrasound", "to": "_DSC7883_maternity_child_stethoscope", "label": "shares_data_with", "title": "shares_data_with [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "_DSC7798_maternity_solo_window", "to": "_DSC7883_maternity_child_stethoscope", "label": "semantically_similar_to", "title": "semantically_similar_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "_DSC7860_maternity_couple_bw_ultrasound", "to": "_DSC7883_maternity_child_stethoscope", "label": "semantically_similar_to", "title": "semantically_similar_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "_DSC8049_groom_portrait", "to": "_DSC8307_couple_intimate_portrait", "label": "semantically_similar_to", "title": "semantically_similar_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "_DSC8049_groom_portrait", "to": "_DSC8577_ceremony_ring_exchange", "label": "semantically_similar_to", "title": "semantically_similar_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "_DSC8215_bride_bouquet_portrait", "to": "_DSC8307_couple_intimate_portrait", "label": "semantically_similar_to", "title": "semantically_similar_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "_DSC8215_bride_bouquet_portrait", "to": "_DSC8672_bride_gown_detail_back", "label": "semantically_similar_to", "title": "semantically_similar_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "_DSC8307_couple_intimate_portrait", "to": "_DSC8577_ceremony_ring_exchange", "label": "semantically_similar_to", "title": "semantically_similar_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "_DSC8307_couple_intimate_portrait", "to": "ui_changes_home_page", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "_DSC8577_ceremony_ring_exchange", "to": "_DSC8637_ceremony_vows_screen", "label": "semantically_similar_to", "title": "semantically_similar_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "_DSC8637_ceremony_vows_screen", "to": "_DSC8672_bride_gown_detail_back", "label": "semantically_similar_to", "title": "semantically_similar_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ui_changes_home_page", "to": "ui_footer_inspo", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "ui_changes_home_page", "to": "hero_new_photographers_portrait", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}];
+const LEGEND = [{"cid": 0, "color": "#4E79A7", "label": "Design Rules &amp; Typography", "count": 10}, {"cid": 1, "color": "#F28E2B", "label": "Brand Assets &amp; Project Identity", "count": 8}, {"cid": 2, "color": "#E15759", "label": "Color System", "count": 7}, {"cid": 3, "color": "#76B7B2", "label": "Logo Variants &amp; Hero Imagery", "count": 6}, {"cid": 4, "color": "#59A14F", "label": "Wedding Event Photography", "count": 6}, {"cid": 5, "color": "#EDC948", "label": "Dev Tooling &amp; Screenshots", "count": 5}, {"cid": 6, "color": "#B07AA1", "label": "Couples &amp; Engagement Portraits", "count": 4}, {"cid": 7, "color": "#FF9DA7", "label": "Maternity Family Session", "count": 4}];
+
+// HTML-escape helper — prevents XSS when injecting graph data into innerHTML
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+// Build vis datasets
+const nodesDS = new vis.DataSet(RAW_NODES.map(n => ({
+  id: n.id, label: n.label, color: n.color, size: n.size,
+  font: n.font, title: n.title,
+  _community: n.community, _community_name: n.community_name,
+  _source_file: n.source_file, _file_type: n.file_type, _degree: n.degree,
+})));
+
+const edgesDS = new vis.DataSet(RAW_EDGES.map((e, i) => ({
+  id: i, from: e.from, to: e.to,
+  label: '',
+  title: e.title,
+  dashes: e.dashes,
+  width: e.width,
+  color: e.color,
+  arrows: { to: { enabled: true, scaleFactor: 0.5 } },
+})));
+
+const container = document.getElementById('graph');
+const network = new vis.Network(container, { nodes: nodesDS, edges: edgesDS }, {
+  physics: {
+    enabled: true,
+    solver: 'forceAtlas2Based',
+    forceAtlas2Based: {
+      gravitationalConstant: -60,
+      centralGravity: 0.005,
+      springLength: 120,
+      springConstant: 0.08,
+      damping: 0.4,
+      avoidOverlap: 0.8,
+    },
+    stabilization: { iterations: 200, fit: true },
+  },
+  interaction: {
+    hover: true,
+    tooltipDelay: 100,
+    hideEdgesOnDrag: true,
+    navigationButtons: false,
+    keyboard: false,
+  },
+  nodes: { shape: 'dot', borderWidth: 1.5 },
+  edges: { smooth: { type: 'continuous', roundness: 0.2 }, selectionWidth: 3 },
+});
+
+network.once('stabilizationIterationsDone', () => {
+  network.setOptions({ physics: { enabled: false } });
+});
+
+function showInfo(nodeId) {
+  const n = nodesDS.get(nodeId);
+  if (!n) return;
+  const neighborIds = network.getConnectedNodes(nodeId);
+  const neighborItems = neighborIds.map(nid => {
+    const nb = nodesDS.get(nid);
+    const color = nb ? nb.color.background : '#555';
+    return `<span class="neighbor-link" style="border-left-color:${esc(color)}" onclick="focusNode(${JSON.stringify(nid)})">${esc(nb ? nb.label : nid)}</span>`;
+  }).join('');
+  document.getElementById('info-content').innerHTML = `
+    <div class="field"><b>${esc(n.label)}</b></div>
+    <div class="field">Type: ${esc(n._file_type || 'unknown')}</div>
+    <div class="field">Community: ${esc(n._community_name)}</div>
+    <div class="field">Source: ${esc(n._source_file || '-')}</div>
+    <div class="field">Degree: ${n._degree}</div>
+    ${neighborIds.length ? `<div class="field" style="margin-top:8px;color:#aaa;font-size:11px">Neighbors (${neighborIds.length})</div><div id="neighbors-list">${neighborItems}</div>` : ''}
+  `;
+}
+
+function focusNode(nodeId) {
+  network.focus(nodeId, { scale: 1.4, animation: true });
+  network.selectNodes([nodeId]);
+  showInfo(nodeId);
+}
+
+// Track hovered node — hover detection is more reliable than click params
+let hoveredNodeId = null;
+network.on('hoverNode', params => {
+  hoveredNodeId = params.node;
+  container.style.cursor = 'pointer';
+});
+network.on('blurNode', () => {
+  hoveredNodeId = null;
+  container.style.cursor = 'default';
+});
+container.addEventListener('click', () => {
+  if (hoveredNodeId !== null) {
+    showInfo(hoveredNodeId);
+    network.selectNodes([hoveredNodeId]);
+  }
+});
+network.on('click', params => {
+  if (params.nodes.length > 0) {
+    showInfo(params.nodes[0]);
+  } else if (hoveredNodeId === null) {
+    document.getElementById('info-content').innerHTML = '<span class="empty">Click a node to inspect it</span>';
+  }
+});
+
+const searchInput = document.getElementById('search');
+const searchResults = document.getElementById('search-results');
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.toLowerCase().trim();
+  searchResults.innerHTML = '';
+  if (!q) { searchResults.style.display = 'none'; return; }
+  const matches = RAW_NODES.filter(n => n.label.toLowerCase().includes(q)).slice(0, 20);
+  if (!matches.length) { searchResults.style.display = 'none'; return; }
+  searchResults.style.display = 'block';
+  matches.forEach(n => {
+    const el = document.createElement('div');
+    el.className = 'search-item';
+    el.textContent = n.label;
+    el.style.borderLeft = `3px solid ${n.color.background}`;
+    el.style.paddingLeft = '8px';
+    el.onclick = () => {
+      network.focus(n.id, { scale: 1.5, animation: true });
+      network.selectNodes([n.id]);
+      showInfo(n.id);
+      searchResults.style.display = 'none';
+      searchInput.value = '';
+    };
+    searchResults.appendChild(el);
+  });
+});
+document.addEventListener('click', e => {
+  if (!searchResults.contains(e.target) && e.target !== searchInput)
+    searchResults.style.display = 'none';
+});
+
+const hiddenCommunities = new Set();
+const legendEl = document.getElementById('legend');
+LEGEND.forEach(c => {
+  const item = document.createElement('div');
+  item.className = 'legend-item';
+  item.innerHTML = `<div class="legend-dot" style="background:${c.color}"></div>
+    <span class="legend-label">${c.label}</span>
+    <span class="legend-count">${c.count}</span>`;
+  item.onclick = () => {
+    if (hiddenCommunities.has(c.cid)) {
+      hiddenCommunities.delete(c.cid);
+      item.classList.remove('dimmed');
+    } else {
+      hiddenCommunities.add(c.cid);
+      item.classList.add('dimmed');
+    }
+    const updates = RAW_NODES
+      .filter(n => n.community === c.cid)
+      .map(n => ({ id: n.id, hidden: hiddenCommunities.has(c.cid) }));
+    nodesDS.update(updates);
+  };
+  legendEl.appendChild(item);
+});
+</script>
+<script>
+// Render hyperedges as shaded regions
+const hyperedges = [{"id": "maternity_family_session_set", "label": "Maternity Family Session - Red Dress Mother", "members": ["_DSC7794_maternity_family_ultrasound", "_DSC7798_maternity_solo_window", "_DSC7860_maternity_couple_bw_ultrasound", "_DSC7883_maternity_child_stethoscope"], "relation": "shares_data_with", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "images/_DSC7794.jpeg", "note": "All four images are from the same maternity photography session featuring the same family"}, {"id": "engagement_session_set", "label": "Engagement Session - Indoor Sofa Shoot", "members": ["_DSC7542_engagement_couple_color", "_DSC7545_engagement_couple_bw"], "relation": "shares_data_with", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "images/_DSC7542.jpg", "note": "Both images from the same engagement shoot, same couple, same setting, different processing"}, {"id": "wedding_day_set", "label": "Wedding Day Set - Dark Teal Suit Groom", "members": ["IMG_9115_wedding_couple_portrait", "_DSC8015_groom_solo_outdoor_portrait"], "relation": "conceptually_related_to", "confidence": "INFERRED", "confidence_score": 0.9, "source_file": "images/IMG_9115.jpg", "note": "Same groom in identical attire, likely same wedding day shoot with indoor couple and outdoor solo"}, {"id": "wedding_event_cluster", "label": "Single Wedding Event \u2013 South Asian Christian Wedding", "members": ["_DSC8049_groom_portrait", "_DSC8215_bride_bouquet_portrait", "_DSC8307_couple_intimate_portrait", "_DSC8577_ceremony_ring_exchange", "_DSC8637_ceremony_vows_screen", "_DSC8672_bride_gown_detail_back"], "relation": "shares_data_with", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "images/", "note": "All six DSC images are from the same South Asian Christian wedding event; same couple, same attire, same venue, same day"}, {"id": "aura_films_brand_assets", "label": "Aura Films Brand Asset Collection", "members": ["logo_aura_films_black", "logo_aura_films_white", "hero_new_photographers_portrait", "ui_changes_home_page", "ui_footer_inspo"], "relation": "conceptually_related_to", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "Logo/", "note": "All Logo/ folder files are Aura Films website/brand design assets used for identity and web redesign planning"}];
+function drawHyperedges() {
+    const canvas = network.canvas.frame.canvas;
+    const ctx = canvas.getContext('2d');
+    hyperedges.forEach(h => {
+        const positions = h.nodes
+            .map(nid => network.getPositions([nid])[nid])
+            .filter(p => p !== undefined);
+        if (positions.length < 2) return;
+        // Draw convex hull as filled polygon
+        ctx.save();
+        ctx.globalAlpha = 0.12;
+        ctx.fillStyle = '#6366f1';
+        ctx.strokeStyle = '#6366f1';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        const scale = network.getScale();
+        const offset = network.getViewPosition();
+        const toCanvas = (p) => ({
+            x: (p.x - offset.x) * scale + canvas.width / 2,
+            y: (p.y - offset.y) * scale + canvas.height / 2
+        });
+        const pts = positions.map(toCanvas);
+        // Expand hull slightly
+        const cx = pts.reduce((s, p) => s + p.x, 0) / pts.length;
+        const cy = pts.reduce((s, p) => s + p.y, 0) / pts.length;
+        const expanded = pts.map(p => ({
+            x: cx + (p.x - cx) * 1.15,
+            y: cy + (p.y - cy) * 1.15
+        }));
+        ctx.moveTo(expanded[0].x, expanded[0].y);
+        expanded.slice(1).forEach(p => ctx.lineTo(p.x, p.y));
+        ctx.closePath();
+        ctx.fill();
+        ctx.globalAlpha = 0.4;
+        ctx.stroke();
+        // Label
+        ctx.globalAlpha = 0.8;
+        ctx.fillStyle = '#4f46e5';
+        ctx.font = 'bold 11px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(h.label, cx, cy - 5);
+        ctx.restore();
+    });
+}
+network.on('afterDrawing', drawHyperedges);
+</script>
+</body>
+</html>

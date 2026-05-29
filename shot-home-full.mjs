@@ -1,0 +1,12 @@
+import puppeteer from "puppeteer";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const br = await puppeteer.launch({ headless: "new", args: ["--no-sandbox"] });
+const pg = await br.newPage();
+await pg.setViewport({ width: 1440, height: 900 });
+await pg.goto("http://localhost:3000", { waitUntil: "networkidle0" });
+await new Promise(r => setTimeout(r, 1500));
+await pg.screenshot({ path: join(__dirname, "screenshots", "home-full-latest.png"), fullPage: true });
+console.log("done");
+await br.close();
