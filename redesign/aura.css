@@ -120,7 +120,7 @@ a{color:inherit;text-decoration:none}
 .cta h2 .rot{display:inline-block}
 /* fixed-width slot: "Crafting" never moves, words only crossfade (buttery) */
 .word{position:relative;display:inline-block;text-align:left;vertical-align:baseline}
-.word::before{content:"Experiences.";visibility:hidden;font-family:'Pinyon Script',cursive;font-size:1.18em;white-space:nowrap}
+.word::before{content:"Experiences.";visibility:hidden;font-family:'Pinyon Script',cursive;font-size:1.5em;white-space:nowrap;text-transform:capitalize}
 .word .w{position:absolute;left:0;top:0;opacity:0;white-space:nowrap;transition:opacity .85s var(--ease);will-change:opacity}
 .word .w.on{opacity:1}
 .cta p{max-width:46ch;margin:26px auto 40px;color:rgba(244,238,228,.78);font-size:16px;line-height:1.7}
@@ -312,10 +312,11 @@ textarea.fi{resize:vertical;min-height:130px}
 }
 
 /* ═══════════ V4 ADDITIONS ═══════════ */
-/* Pinyon Script ONLY on the coloured italic accent words */
+/* Pinyon Script ONLY on the coloured italic accent words — capitalized + size-matched */
 .sec-title em,.phero h1 em,.philo-statement em,.hero em,.cta h2 .w,
-.about-title em,.legal h1 em{font-family:'Pinyon Script',cursive!important;font-style:normal!important;font-weight:400!important;letter-spacing:0!important;line-height:1.15}
-.cta h2 .w{font-size:1.18em}
+.about-title em,.legal h1 em{font-family:'Pinyon Script',cursive!important;font-style:normal!important;font-weight:400!important;letter-spacing:0!important;line-height:1.15;
+  text-transform:capitalize!important;font-size:1.34em}
+.cta h2 .w{font-size:1.5em}
 
 /* Marquee never pauses */
 .marquee:hover .marquee-track{animation-play-state:running!important}
@@ -387,7 +388,8 @@ textarea.fi{resize:vertical;min-height:130px}
 /* Home hero: show the whole ceremony (all three) on every screen */
 .hero .bg-fixed{background-size:cover;background-position:50% 34%}
 @media(max-width:760px){
-  .hero .bg-fixed{background-size:100% auto;background-position:center 20%;background-repeat:no-repeat;background-color:var(--ink)}
+  .hero{min-height:84svh!important}
+  .hero .bg-fixed{background-size:150% auto;background-position:center 30%;background-repeat:no-repeat;background-color:var(--ink)}
 }
 /* Contact form: stop the date field overflowing its column on mobile */
 .cform>div{min-width:0}
