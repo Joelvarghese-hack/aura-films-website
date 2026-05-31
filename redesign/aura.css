@@ -323,7 +323,7 @@ textarea.fi{resize:vertical;min-height:130px}
 
 /* Badge: full even circle */
 .badge{width:178px;height:178px}
-.badge-ring text{font-size:11px;letter-spacing:6.9px;font-weight:600;fill:var(--gold-2);text-transform:uppercase}
+.badge-ring text{font-size:11px;letter-spacing:normal;font-weight:600;fill:var(--gold-2);text-transform:uppercase}
 .badge-logo{width:64px;height:64px}
 .badge:hover .badge-ring-wrap{transform:scale(.74)}
 
