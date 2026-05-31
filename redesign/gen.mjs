@@ -21,7 +21,7 @@ return `<nav class="nav" id="nav"><div class="nav-inner">
 
 /* ── circular badge (full circle text) ── */
 const badge=`<div class="badge"><div class="badge-ring-wrap"><svg class="badge-ring" viewBox="0 0 160 160"><defs><path id="circ" d="M80,80 m-62,0 a62,62 0 1,1 124,0 a62,62 0 1,1 -124,0"/></defs>
-<text textLength="384" lengthAdjust="spacing"><textPath href="#circ" startOffset="0">AURA FILMS • PHOTO &amp; VIDEO •</textPath></text></svg></div>
+<text textLength="372" lengthAdjust="spacing"><textPath href="#circ" startOffset="0">AURA FILMS&#160;&#160;&#160;PHOTO &amp; VIDEO&#160;&#160;&#160;</textPath></text></svg></div>
 <div class="badge-logo"><img src="../images/aura-logo-white.png" alt="Aura Films"></div></div>`;
 
 /* ── footer (deep-linked work, Kingston & Ontario) ── */
