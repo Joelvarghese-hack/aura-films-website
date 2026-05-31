@@ -401,7 +401,9 @@ textarea.fi{resize:vertical;min-height:130px}
 @media(max-width:760px){
   .cta h2{font-size:clamp(32px,8vw,44px);line-height:1.14}
   .cta h2 .rot{display:block;margin-top:2px}
-  .word{display:block;text-align:center}
+  .word{display:block;text-align:center;position:relative}
+  .word::before{display:block;text-align:center}
+  .word .w{left:0;right:0;text-align:center}
 }
 /* Badge: center every glyph (incl. the • dots) on the ring so dots align with the letters — all footers, all screens */
 .badge-ring text{dominant-baseline:central}
