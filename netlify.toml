@@ -1,0 +1,56 @@
+# Serve the site from /redesign/ at the clean root URL (no "/redesign/" in the address bar).
+# Per-page rewrites (status 200 = internal rewrite, URL stays clean). force=true overrides any old root files.
+
+[[redirects]]
+  from = "/"
+  to = "/redesign/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/index.html"
+  to = "/redesign/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/gallery.html"
+  to = "/redesign/gallery.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/about.html"
+  to = "/redesign/about.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/investment.html"
+  to = "/redesign/investment.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/privacy.html"
+  to = "/redesign/privacy.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/terms.html"
+  to = "/redesign/terms.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/aura.css"
+  to = "/redesign/aura.css"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/aura.js"
+  to = "/redesign/aura.js"
+  status = 200
+  force = true
