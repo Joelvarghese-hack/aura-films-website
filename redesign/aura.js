@@ -42,9 +42,14 @@
     document.querySelectorAll('.gitem').forEach(function(g){g.classList.toggle('hide',c!=='all'&&g.dataset.cat!==c);});
   }
   if(filters.length){
+    var CATS=['weddings','engagements','portraits','family'];
     filters.forEach(function(f){f.addEventListener('click',function(){applyFilter(f.dataset.cat);});});
-    var h=(location.hash||'').replace('#','');
-    if(h&&['weddings','engagements','portraits','family'].indexOf(h)>-1)applyFilter(h);
+    function fromHash(scroll){
+      var h=(location.hash||'').replace('#','');
+      if(CATS.indexOf(h)>-1){applyFilter(h);if(scroll){var g=document.querySelector('.filters');if(g)g.scrollIntoView({behavior:'smooth',block:'start'});}}
+    }
+    fromHash(false);                                   // initial deep-link
+    addEventListener('hashchange',function(){fromHash(true);});  // same-page footer/card clicks
   }
 
   /* smooth lightbox */
