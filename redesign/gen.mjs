@@ -21,7 +21,7 @@ return `<nav class="nav" id="nav"><div class="nav-inner">
 
 /* ── circular badge (full circle text) ── */
 const badge=`<div class="badge"><div class="badge-ring-wrap"><svg class="badge-ring" viewBox="0 0 160 160"><defs><path id="circ" d="M80,80 m-62,0 a62,62 0 1,1 124,0 a62,62 0 1,1 -124,0"/></defs>
-<text><textPath href="#circ" startOffset="0%">AURA FILMS &#160;•&#160; PHOTO &amp; VIDEO &#160;•&#160; </textPath></text></svg></div>
+<text><textPath href="#circ" startOffset="0%">AURA FILMS&#160;&#160;•&#160;&#160;PHOTO &amp; VIDEO&#160;&#160;•&#160;&#160;</textPath></text></svg></div>
 <div class="badge-logo"><img src="../images/aura-logo-white.png" alt="Aura Films"></div></div>`;
 
 /* ── footer (deep-linked work, Kingston & Ontario) ── */
@@ -93,8 +93,7 @@ const home=head('Aura Films, Wedding & Editorial Photography','Aura Films is a K
 <div class="bg-fixed" style="background-image:url('${IMG}_DSC8637.jpg');background-position:50% 28%"></div>
 <div class="phero-veil" style="background:radial-gradient(120% 90% at 80% 10%,rgba(176,138,82,.20),transparent 55%),linear-gradient(180deg,rgba(16,14,12,.55),rgba(16,14,12,.1) 32%,rgba(16,14,12,.3) 60%,rgba(16,14,12,.92))"></div>
 <div class="phero-inner" style="color:var(--bone);padding-bottom:clamp(48px,7vh,90px)">
-<div class="eyebrow" style="color:var(--gold-2);margin-bottom:24px">Kingston · Ontario · Est. 2021</div>
-<h1 class="serif" style="font-weight:300;font-size:clamp(44px,8.2vw,128px);line-height:.96;letter-spacing:-.02em;max-width:14ch">The moments between <em>moments</em>, kept forever.</h1>
+<h1 class="serif" style="font-weight:300;font-size:clamp(44px,8.2vw,128px);line-height:.96;letter-spacing:-.02em;max-width:14ch">The moments between <em style="color:var(--gold-2)">moments</em>, kept forever.</h1>
 <p style="margin-top:30px;max-width:46ch;color:rgba(244,238,228,.8);font-size:15px;line-height:1.7;font-weight:500">A photography and film studio shooting weddings, engagements and intimate family stories with a cinematic, editorial eye. The frames that actually feel like the day.</p>
 </div></header>
 
