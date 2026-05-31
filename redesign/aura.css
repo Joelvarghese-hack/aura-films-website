@@ -387,9 +387,9 @@ textarea.fi{resize:vertical;min-height:130px}
 /* ═══════════ V5 FIXES ═══════════ */
 /* Home hero: show the whole ceremony (all three) on every screen */
 .hero .bg-fixed{background-size:cover;background-position:50% 34%}
-@media(max-width:760px){
-  .hero{min-height:84svh!important}
-  .hero .bg-fixed{background-size:150% auto;background-position:center 30%;background-repeat:no-repeat;background-color:var(--ink)}
+/* Mobile + tablet: portrait couple photo (desktop keeps the landscape ceremony shot) */
+@media(max-width:1024px){
+  .hero .bg-fixed{background-image:url('../images/IMG_9548.JPG.jpeg')!important;background-size:cover;background-position:50% 22%;background-repeat:no-repeat;background-color:var(--ink)}
 }
 /* Contact form: stop the date field overflowing its column on mobile */
 .cform>div{min-width:0}
