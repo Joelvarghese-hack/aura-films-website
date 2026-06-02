@@ -4,9 +4,10 @@ const DIMS=JSON.parse(await readFile(new URL('./image-dims.json',import.meta.url
 /* Live booking: paste your Calendly link here (e.g. https://calendly.com/aurafilms/consultation).
    Leave '' and the "Book a Date" buttons keep going to the contact form. */
 const CALENDLY='https://calendly.com/itsaurafilms/30min';
-/* Cloudflare Turnstile site key (public). Verification secret lives in the
-   Web3Forms dashboard, never here. Leave '' to remove the widget. */
-const TURNSTILE='0x4AAAAAADdsJJrYo0Pvdtyg-oJ14jCtoX8';
+/* hCaptcha is free on Web3Forms. This is Web3Forms' free-plan site key;
+   Web3Forms verifies the token server-side automatically (no dashboard setup,
+   no secret). Leave '' to remove the widget. */
+const HCAPTCHA='50b2fe65-b00b-4b9e-ad62-3ba471098be2';
 
 /* Wrap photo <img>s in <picture> with a WebP source + real width/height (cuts
    bandwidth and stops layout shift). Logos are left untouched. */
@@ -40,7 +41,7 @@ const head=(title,desc)=>`<!DOCTYPE html><html lang="en"><head>
 <meta name="theme-color" content="#100E0C">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="redesign/aura.css">${CALENDLY?`<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet"><script src="https://assets.calendly.com/assets/external/widget.js" async></script>`:''}${TURNSTILE?`<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>`:''}<script>window.AURA_CALENDLY=${JSON.stringify(CALENDLY)};</script></head><body><a href="#main" class="skip-link">Skip to content</a><div class="grain"></div>`;
+<link rel="stylesheet" href="redesign/aura.css">${CALENDLY?`<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet"><script src="https://assets.calendly.com/assets/external/widget.js" async></script>`:''}${HCAPTCHA?`<script src="https://js.hcaptcha.com/1/api.js" async defer></script>`:''}<script>window.AURA_CALENDLY=${JSON.stringify(CALENDLY)};</script></head><body><a href="#main" class="skip-link">Skip to content</a><div class="grain"></div>`;
 
 /* ── nav ── */
 const nav=(active)=>{const L=[['index.html','Home'],['gallery.html','Gallery'],['about.html','About Us'],['investment.html','Investment']];
@@ -112,7 +113,7 @@ const contactForm=`<div class="cform-wrap">
 <div><label class="fl" for="cf-date">Event Date</label><input class="fi" id="cf-date" type="date" name="event_date"></div>
 <div><label class="fl" for="cf-svc">Service</label><input class="fi" id="cf-svc" name="service" placeholder="Wedding, portrait, maternity"></div>
 <div class="full"><label class="fl" for="cf-msg">Tell us about your day</label><textarea class="fi" id="cf-msg" name="message" required placeholder="Share your vision, the where, the when, the feeling."></textarea></div>
-${TURNSTILE?`<div class="full"><div class="cf-turnstile" data-sitekey="${TURNSTILE}"></div></div>`:''}<div class="full"><button class="btn btn-dark" id="cf-btn" type="submit">Send Enquiry ${arrow}</button></div>
+${HCAPTCHA?`<div class="full"><div class="h-captcha" data-sitekey="${HCAPTCHA}"></div></div>`:''}<div class="full"><button class="btn btn-dark" id="cf-btn" type="submit">Send Enquiry ${arrow}</button></div>
 </form>
 <div class="cform-thanks" id="cformThanks">
 <div class="ct-ico"><svg viewBox="0 0 52 52" width="58" height="58" fill="none" stroke="currentColor" stroke-width="2"><circle cx="26" cy="26" r="24"/><path d="M16 27l7 7 13-14" stroke-width="2.4"/></svg></div>
