@@ -264,6 +264,10 @@ a{color:inherit;text-decoration:none}
 .philo-media{position:relative;aspect-ratio:4/5;border-radius:6px;overflow:hidden}
 .philo-media img{width:100%;height:100%;object-fit:cover;transform:scale(1.04);transition:transform 1.4s var(--ease)}
 .philo-media:hover img{transform:scale(1)}
+/* About philosophy — no image: single centered column, sized per screen */
+.philo-center{display:block;text-align:center}
+.philo-center .philo-statement{font-size:clamp(30px,4.6vw,58px);line-height:1.16;max-width:22ch;margin-left:auto;margin-right:auto}
+.philo-center .philo-body{max-width:60ch;margin:26px auto 0;font-size:clamp(15px,1.5vw,18px)}
 
 /* contact form */
 .cform{display:grid;grid-template-columns:1fr 1fr;gap:18px}
