@@ -1,4 +1,4 @@
-/* ═══════════ AURA FILMS — SHARED JS (validated) ═══════════ */
+/* ═══════════ AURA FILMS - SHARED JS (validated) ═══════════ */
 (function(){
   "use strict";
   var nav=document.getElementById('nav');
@@ -110,7 +110,7 @@
           if(j.success){cf.classList.add('sent');document.getElementById('cformThanks').classList.add('show');}
           else{btn.classList.remove('loading');btn.textContent='Try again';}
         })
-        .catch(function(){btn.classList.remove('loading');btn.textContent='Try again — or email us';});
+        .catch(function(){btn.classList.remove('loading');btn.textContent='Try again, or email us';});
     });
   }
 })();

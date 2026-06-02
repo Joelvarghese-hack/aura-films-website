@@ -1,4 +1,4 @@
-/* ═══════════ AURA FILMS — SHARED SYSTEM ═══════════ */
+/* ═══════════ AURA FILMS - SHARED SYSTEM ═══════════ */
 :root{
   --ink:#100E0C;--ink-2:#17130F;--ink-3:#221C16;
   --bone:#F4EEE4;--bone-2:#EBE2D3;--card:#F8F3EA;
@@ -70,7 +70,7 @@ a{color:inherit;text-decoration:none}
 .sec-title em{font-style:italic;color:var(--gold)}
 .lead{max-width:34ch;color:var(--muted);font-size:15px;line-height:1.75}
 
-/* ─── PAGE HERO (inner pages) — fixed background, content scrolls over ─── */
+/* ─── PAGE HERO (inner pages) - fixed background, content scrolls over ─── */
 .phero{position:relative;min-height:72vh;display:flex;align-items:flex-end;overflow:hidden;background:var(--ink);color:var(--bone)}
 .phero-media{position:absolute;inset:0;z-index:0}
 .phero-media img{width:100%;height:100%;object-fit:cover;filter:saturate(.9) contrast(1.02)}
@@ -139,7 +139,7 @@ a{color:inherit;text-decoration:none}
 .foot-bot{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-top:26px;flex-wrap:wrap}
 .foot-bot p,.foot-bot a{font-size:12.5px;color:rgba(244,238,228,.5)}
 .foot-bot a{color:var(--gold-2)}
-/* circular badge — ring spins, shrinks on hover but keeps spinning */
+/* circular badge - ring spins, shrinks on hover but keeps spinning */
 .badge{position:relative;width:164px;height:164px;display:grid;place-items:center;flex-shrink:0}
 .badge-ring-wrap{position:absolute;inset:0;transition:transform .6s var(--ease)}
 .badge:hover .badge-ring-wrap{transform:scale(.70)}
@@ -264,7 +264,7 @@ a{color:inherit;text-decoration:none}
 .philo-media{position:relative;aspect-ratio:4/5;border-radius:6px;overflow:hidden}
 .philo-media img{width:100%;height:100%;object-fit:cover;transform:scale(1.04);transition:transform 1.4s var(--ease)}
 .philo-media:hover img{transform:scale(1)}
-/* About philosophy — no image: single centered column, sized per screen */
+/* About philosophy - no image: single centered column, sized per screen */
 .philo-center{display:block;text-align:center}
 .philo-center .philo-statement{font-size:clamp(30px,4.6vw,58px);line-height:1.16;max-width:22ch;margin-left:auto;margin-right:auto}
 .philo-center .philo-body{max-width:60ch;margin:26px auto 0;font-size:clamp(15px,1.5vw,18px)}
@@ -316,7 +316,7 @@ textarea.fi{resize:vertical;min-height:130px}
 }
 
 /* ═══════════ V4 ADDITIONS ═══════════ */
-/* Pinyon Script ONLY on the coloured italic accent words — capitalized + size-matched */
+/* Pinyon Script ONLY on the coloured italic accent words - capitalized + size-matched */
 .sec-title em,.phero h1 em,.philo-statement em,.hero em,.cta h2 .w,
 .about-title em,.legal h1 em{font-family:'Pinyon Script',cursive!important;font-style:normal!important;font-weight:400!important;letter-spacing:0!important;line-height:1.15;
   text-transform:capitalize!important;font-size:1.34em}
@@ -410,5 +410,5 @@ textarea.fi{resize:vertical;min-height:130px}
   .word::before{display:block;text-align:center}
   .word .w{left:0;right:0;text-align:center}
 }
-/* Badge: center every glyph (incl. the • dots) on the ring so dots align with the letters — all footers, all screens */
+/* Badge: center every glyph (incl. the • dots) on the ring so dots align with the letters - all footers, all screens */
 .badge-ring text{dominant-baseline:central}
