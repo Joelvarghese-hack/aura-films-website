@@ -4,10 +4,11 @@ const DIMS=JSON.parse(await readFile(new URL('./image-dims.json',import.meta.url
 /* Live booking: paste your Calendly link here (e.g. https://calendly.com/aurafilms/consultation).
    Leave '' and the "Book a Date" buttons keep going to the contact form. */
 const CALENDLY='https://calendly.com/itsaurafilms/30min';
-/* hCaptcha is free on Web3Forms. This is Web3Forms' free-plan site key;
-   Web3Forms verifies the token server-side automatically (no dashboard setup,
-   no secret). Leave '' to remove the widget. */
-const HCAPTCHA='50b2fe65-b00b-4b9e-ad62-3ba471098be2';
+/* Spam protection = honeypot field + Web3Forms' built-in server-side filter
+   (both free, both active). hCaptcha is OFF: the free-plan shared key cannot be
+   verified from a custom domain, which silently rejected real submissions.
+   Only set a key here with a paid Web3Forms plan that supports your own key. */
+const HCAPTCHA='';
 
 /* Wrap photo <img>s in <picture> with a WebP source + real width/height (cuts
    bandwidth and stops layout shift). Logos are left untouched. */
