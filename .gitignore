@@ -1,5 +1,14 @@
-# Local backup artifacts (created by backup.mjs) — never push these to GitHub.
+# Local backup artifacts (created by backup.mjs). Never push these.
 backups/
+
+# Full-resolution photo masters preserved by protect-images.mjs.
+# These stay on your machine (and your Google Drive); the site serves only web-res.
+_originals/
 
 # Temporary screenshots used during development
 temp-*.png
+
+# Node tooling installed locally for image work (sharp). Not needed in the repo.
+node_modules/@img/
+node_modules/sharp/
+node_modules/detect-libc/
