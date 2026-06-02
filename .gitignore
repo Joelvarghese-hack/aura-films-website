@@ -1,0 +1,5 @@
+# Local backup artifacts (created by backup.mjs) — never push these to GitHub.
+backups/
+
+# Temporary screenshots used during development
+temp-*.png
