@@ -1,5 +1,5 @@
 import { writeFile, readFile } from 'fs/promises';
-const IMG='../images/';
+const IMG='images/';
 const DIMS=JSON.parse(await readFile(new URL('./image-dims.json',import.meta.url)));
 /* Live booking: paste your Calendly link here (e.g. https://calendly.com/aurafilms/consultation).
    Leave '' and the "Book a Date" buttons keep going to the contact form. */
@@ -8,12 +8,12 @@ const CALENDLY='';
 /* Wrap photo <img>s in <picture> with a WebP source + real width/height (cuts
    bandwidth and stops layout shift). Logos are left untouched. */
 function pictureize(html){
-  return html.replace(/<img\b([^>]*?)\ssrc="\.\.\/images\/([^"]+)"([^>]*)>/g,(m,pre,name,post)=>{
+  return html.replace(/<img\b([^>]*?)\ssrc="images\/([^"]+)"([^>]*)>/g,(m,pre,name,post)=>{
     if(/logo/i.test(name)) return m;
     const d=DIMS[name];
     const attrs=pre+post;
     const wh=(d&&!/\bwidth=/.test(attrs))?` width="${d[0]}" height="${d[1]}"`:'';
-    return `<picture><source type="image/webp" srcset="../images/${name}.webp"><img${pre} src="../images/${name}"${post}${wh}></picture>`;
+    return `<picture><source type="image/webp" srcset="images/${name}.webp"><img${pre} src="images/${name}"${post}${wh}></picture>`;
   });
 }
 /* Add a #main landmark + skip-link target, then apply pictureize. */
@@ -30,19 +30,19 @@ function finalize(html){
 const head=(title,desc)=>`<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>${title}</title><meta name="description" content="${desc}">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
-<link rel="icon" type="image/png" sizes="256x256" href="../favicon.png">
-<link rel="icon" href="../favicon.ico" sizes="any">
-<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="256x256" href="favicon.png">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="theme-color" content="#100E0C">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="aura.css">${CALENDLY?`<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet"><script src="https://assets.calendly.com/assets/external/widget.js" async></script>`:''}<script>window.AURA_CALENDLY=${JSON.stringify(CALENDLY)};</script></head><body><a href="#main" class="skip-link">Skip to content</a><div class="grain"></div>`;
+<link rel="stylesheet" href="redesign/aura.css">${CALENDLY?`<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet"><script src="https://assets.calendly.com/assets/external/widget.js" async></script>`:''}<script>window.AURA_CALENDLY=${JSON.stringify(CALENDLY)};</script></head><body><a href="#main" class="skip-link">Skip to content</a><div class="grain"></div>`;
 
 /* ── nav ── */
 const nav=(active)=>{const L=[['index.html','Home'],['gallery.html','Gallery'],['about.html','About Us'],['investment.html','Investment']];
 return `<nav class="nav" id="nav"><div class="nav-inner">
-<a href="index.html" class="brand"><img class="logo-light" src="../logo-black.png" alt="Aura Films"><img class="logo-dark" src="../images/aura-logo-white.png" alt="Aura Films"></a>
+<a href="index.html" class="brand"><img class="logo-light" src="logo-black.png" alt="Aura Films"><img class="logo-dark" src="images/aura-logo-white.png" alt="Aura Films"></a>
 <div class="nav-links">${L.map(([h,t])=>`<a href="${h}" class="nav-link${active===t?' active':''}">${t}</a>`).join('')}
 <a href="about.html#contact" class="nav-cta">Book a Date</a></div>
 <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -52,7 +52,7 @@ return `<nav class="nav" id="nav"><div class="nav-inner">
 /* ── circular badge (full circle text) ── */
 const badge=`<div class="badge"><div class="badge-ring-wrap"><svg class="badge-ring" viewBox="0 0 160 160"><defs><path id="circ" d="M80,80 m-62,0 a62,62 0 1,1 124,0 a62,62 0 1,1 -124,0"/></defs>
 <text><textPath href="#circ" startOffset="0">AURA FILMS&#160;&#160;&#160;PHOTO &amp; VIDEO&#160;&#160;&#160;</textPath></text></svg></div>
-<div class="badge-logo"><img src="../images/aura-logo-white.png" alt="Aura Films"></div></div>`;
+<div class="badge-logo"><img src="images/aura-logo-white.png" alt="Aura Films"></div></div>`;
 
 /* ── footer (deep-linked work, Kingston & Ontario) ── */
 const footer=`<footer class="footer"><div class="container">
@@ -79,7 +79,7 @@ var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isInter
 R.forEach(function(e){io.observe(e);});
 setTimeout(function(){document.querySelectorAll('.reveal:not(.in)').forEach(function(e){if(e.getBoundingClientRect().top<innerHeight){e.classList.add('in');}});},1400);})();
 </script>`;
-const foot=(extra='')=>footer+toTop+extra+revealJS+`<script src="aura.js"></script></body></html>`;
+const foot=(extra='')=>footer+toTop+extra+revealJS+`<script src="redesign/aura.js"></script></body></html>`;
 const arrow=`<svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>`;
 const tick=`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg>`;
 const star=`<svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9.6l6.9-.7z"/></svg>`;
@@ -318,10 +318,10 @@ const terms=legalShell('Terms & Conditions',`
 <h2>11. Governing Law</h2><p>These Terms are governed by the laws of the Province of Ontario and the federal laws of Canada applicable therein.</p>
 <h2>12. Contact</h2><p><a href="mailto:itsaurafilms@gmail.com" style="color:var(--gold)">itsaurafilms@gmail.com</a> · 343 989 4546 · Kingston, Ontario.</p>`);
 
-await writeFile('index.html',finalize(home));
-await writeFile('gallery.html',finalize(buildGallery()));
-await writeFile('about.html',finalize(about));
-await writeFile('investment.html',finalize(investment));
-await writeFile('privacy.html',finalize(privacy));
-await writeFile('terms.html',finalize(terms));
+await writeFile('../index.html',finalize(home));
+await writeFile('../gallery.html',finalize(buildGallery()));
+await writeFile('../about.html',finalize(about));
+await writeFile('../investment.html',finalize(investment));
+await writeFile('../privacy.html',finalize(privacy));
+await writeFile('../terms.html',finalize(terms));
 console.log('✓ generated 6 pages');
