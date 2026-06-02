@@ -1,5 +1,30 @@
-import { writeFile } from 'fs/promises';
+import { writeFile, readFile } from 'fs/promises';
 const IMG='../images/';
+const DIMS=JSON.parse(await readFile(new URL('./image-dims.json',import.meta.url)));
+/* Live booking: paste your Calendly link here (e.g. https://calendly.com/aurafilms/consultation).
+   Leave '' and the "Book a Date" buttons keep going to the contact form. */
+const CALENDLY='';
+
+/* Wrap photo <img>s in <picture> with a WebP source + real width/height (cuts
+   bandwidth and stops layout shift). Logos are left untouched. */
+function pictureize(html){
+  return html.replace(/<img\b([^>]*?)\ssrc="\.\.\/images\/([^"]+)"([^>]*)>/g,(m,pre,name,post)=>{
+    if(/logo/i.test(name)) return m;
+    const d=DIMS[name];
+    const attrs=pre+post;
+    const wh=(d&&!/\bwidth=/.test(attrs))?` width="${d[0]}" height="${d[1]}"`:'';
+    return `<picture><source type="image/webp" srcset="../images/${name}.webp"><img${pre} src="../images/${name}"${post}${wh}></picture>`;
+  });
+}
+/* Add a #main landmark + skip-link target, then apply pictureize. */
+function finalize(html){
+  html=html.replace('<main class="legal">','<main id="main" class="legal">');
+  if(!/id="main"/.test(html)){
+    html=html.replace('<header class="','<main id="main"><header class="');
+    html=html.replace('<footer class="footer">','</main>\n<footer class="footer">');
+  }
+  return pictureize(html);
+}
 
 /* ── head (Fraunces + Inter + Pinyon Script) ── */
 const head=(title,desc)=>`<!DOCTYPE html><html lang="en"><head>
@@ -12,7 +37,7 @@ const head=(title,desc)=>`<!DOCTYPE html><html lang="en"><head>
 <meta name="theme-color" content="#100E0C">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="aura.css"></head><body><div class="grain"></div>`;
+<link rel="stylesheet" href="aura.css">${CALENDLY?`<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet"><script src="https://assets.calendly.com/assets/external/widget.js" async></script>`:''}<script>window.AURA_CALENDLY=${JSON.stringify(CALENDLY)};</script></head><body><a href="#main" class="skip-link">Skip to content</a><div class="grain"></div>`;
 
 /* ── nav ── */
 const nav=(active)=>{const L=[['index.html','Home'],['gallery.html','Gallery'],['about.html','About Us'],['investment.html','Investment']];
@@ -186,7 +211,7 @@ const about=head('About Us, Aura Films','Meet Albin and Afsal, the photographer 
 
 <section class="section testi" id="contact"><div class="container">
 <div class="sec-head"><h2 class="sec-title serif reveal">Let's <em>connect</em>.</h2><p class="lead reveal d1">Use this form to get in touch, or email us directly at <a href="mailto:itsaurafilms@gmail.com" style="color:var(--gold)">itsaurafilms@gmail.com</a>. We reply within 24 to 48 hours.</p></div>
-<div class="reveal d1">${contactForm}</div>
+<div class="reveal d1">${CALENDLY?`<div class="calendly-inline-widget" data-url="${CALENDLY}" style="min-width:320px;height:660px;margin-bottom:28px"></div>`:''}${contactForm}</div>
 </div></section>`+foot();
 
 /* ════════ INVESTMENT ════════ */
@@ -257,7 +282,7 @@ ${[['Consult','We learn your vision, vibe and must-have moments.'],['Plan','Loca
 
 <section class="section testi" id="contact"><div class="container">
 <div class="sec-head"><h2 class="sec-title serif reveal">Let's <em>connect</em>.</h2><p class="lead reveal d1">Use this form to get in touch, or email us directly at <a href="mailto:itsaurafilms@gmail.com" style="color:var(--gold)">itsaurafilms@gmail.com</a>. We reply within 24 to 48 hours.</p></div>
-<div class="reveal d1">${contactForm}</div></div></section>`+foot();
+<div class="reveal d1">${CALENDLY?`<div class="calendly-inline-widget" data-url="${CALENDLY}" style="min-width:320px;height:660px;margin-bottom:28px"></div>`:''}${contactForm}</div></div></section>`+foot();
 
 /* ════════ LEGAL ════════ */
 const legalShell=(title,body)=>head(title+', Aura Films','Aura Films '+title.toLowerCase()+'.')+nav('')+`<main class="legal"><div class="container" style="max-width:860px"><h1 class="serif">${title}</h1><p class="updated">Last updated · June 2026</p>${body}</div></main>`+foot();
@@ -293,10 +318,10 @@ const terms=legalShell('Terms & Conditions',`
 <h2>11. Governing Law</h2><p>These Terms are governed by the laws of the Province of Ontario and the federal laws of Canada applicable therein.</p>
 <h2>12. Contact</h2><p><a href="mailto:itsaurafilms@gmail.com" style="color:var(--gold)">itsaurafilms@gmail.com</a> · 343 989 4546 · Kingston, Ontario.</p>`);
 
-await writeFile('index.html',home);
-await writeFile('gallery.html',buildGallery());
-await writeFile('about.html',about);
-await writeFile('investment.html',investment);
-await writeFile('privacy.html',privacy);
-await writeFile('terms.html',terms);
+await writeFile('index.html',finalize(home));
+await writeFile('gallery.html',finalize(buildGallery()));
+await writeFile('about.html',finalize(about));
+await writeFile('investment.html',finalize(investment));
+await writeFile('privacy.html',finalize(privacy));
+await writeFile('terms.html',finalize(terms));
 console.log('✓ generated 6 pages');

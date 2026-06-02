@@ -1,6 +1,21 @@
 /* ═══════════ AURA FILMS - SHARED JS (validated) ═══════════ */
 (function(){
   "use strict";
+
+  /* deter casual image saving: block right-click + drag on photos */
+  document.addEventListener('contextmenu',function(e){
+    if(e.target.closest('picture,img,.gitem,.ccard,.tcard-img,.founder-img,.philo-media,.lb')) e.preventDefault();
+  });
+  document.addEventListener('dragstart',function(e){ if(e.target.tagName==='IMG') e.preventDefault(); });
+
+  /* Calendly popup on "Book a Date" buttons — only when a real link is set */
+  var CAL=window.AURA_CALENDLY;
+  if(CAL&&/^https:\/\/calendly\.com\//.test(CAL)){
+    document.querySelectorAll('.nav-cta').forEach(function(b){
+      b.addEventListener('click',function(e){ if(window.Calendly){ e.preventDefault(); window.Calendly.initPopupWidget({url:CAL}); } });
+    });
+  }
+
   var nav=document.getElementById('nav');
   if(nav)addEventListener('scroll',function(){nav.classList.toggle('scrolled',scrollY>40);},{passive:true});
 

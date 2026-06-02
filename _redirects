@@ -1,0 +1,11 @@
+# Cloudflare Pages clean-URL rewrites (status 200 = internal rewrite, URL stays clean).
+# Serves the site from /redesign/ at the root, matching the old netlify.toml setup.
+/                 /redesign/index.html       200
+/index.html       /redesign/index.html       200
+/gallery.html     /redesign/gallery.html     200
+/about.html       /redesign/about.html       200
+/investment.html  /redesign/investment.html  200
+/privacy.html     /redesign/privacy.html     200
+/terms.html       /redesign/terms.html       200
+/aura.css         /redesign/aura.css         200
+/aura.js          /redesign/aura.js          200
