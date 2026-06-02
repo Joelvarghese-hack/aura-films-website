@@ -26,7 +26,7 @@ return `<nav class="nav" id="nav"><div class="nav-inner">
 
 /* ── circular badge (full circle text) ── */
 const badge=`<div class="badge"><div class="badge-ring-wrap"><svg class="badge-ring" viewBox="0 0 160 160"><defs><path id="circ" d="M80,80 m-62,0 a62,62 0 1,1 124,0 a62,62 0 1,1 -124,0"/></defs>
-<text textLength="372" lengthAdjust="spacing"><textPath href="#circ" startOffset="0">AURA FILMS&#160;&#160;&#160;PHOTO &amp; VIDEO&#160;&#160;&#160;</textPath></text></svg></div>
+<text><textPath href="#circ" startOffset="0">AURA FILMS&#160;&#160;&#160;PHOTO &amp; VIDEO&#160;&#160;&#160;</textPath></text></svg></div>
 <div class="badge-logo"><img src="../images/aura-logo-white.png" alt="Aura Films"></div></div>`;
 
 /* ── footer (deep-linked work, Kingston & Ontario) ── */
@@ -166,8 +166,8 @@ const about=head('About Us, Aura Films','Meet Albin and Afsal, the photographer 
 <section class="section" style="padding-top:0"><div class="container">
 <div class="sec-head"><h2 class="sec-title serif reveal">The people <em>behind</em> it.</h2></div>
 <div class="founders">
-<div class="reveal"><div class="founder"><div class="founder-img"><img src="${IMG}albin.jpeg" alt="Albin, Lead Photographer" style="object-position:50% 18%"></div><div class="founder-cap"><div class="nm serif">Albin</div><div class="rl">Lead Photographer · 23</div></div></div>
-<p class="founder-bio" style="color:var(--muted)">At twenty-three, Albin shoots with the curiosity of someone who still finds magic in an ordinary afternoon. He's patient to a fault, waiting for the glance before the vow and the laugh between the poses, and it shows in every frame. His photography is grounded, warm and quietly cinematic.</p></div>
+<div class="reveal"><div class="founder"><div class="founder-img"><img src="${IMG}albin.jpeg" alt="Albin, Lead Photographer" style="object-position:50% 18%"></div><div class="founder-cap"><div class="nm serif">Albin</div><div class="rl">Lead Photographer</div></div></div>
+<p class="founder-bio" style="color:var(--muted)">Albin shoots with a quiet, observant eye — patient to a fault, waiting for the glance before the vow and the laugh between the poses, and it shows in every frame. His photography is grounded, warm and unmistakably cinematic; the kind that makes a couple feel seen rather than posed.</p></div>
 <div class="reveal d1"><div class="founder"><div class="founder-img"><img src="${IMG}afsal-new.jpg" alt="Afsal, Lead Videographer" style="object-position:50% 22%"></div><div class="founder-cap"><div class="nm serif">Afsal</div><div class="rl">Lead Videographer</div></div></div>
 <p class="founder-bio" style="color:var(--muted)">Afsal turns a day into a film you can feel. With a fresh perspective and an editor's ear for rhythm, he chases motion and emotion, the held breath, the first dance, the tears nobody planned. Every cut, colour grade and sound choice is made with intention and a lot of heart.</p></div>
 </div>
@@ -261,7 +261,7 @@ ${[['Consult','We learn your vision, vibe and must-have moments.'],['Plan','Loca
 <div class="reveal d1">${contactForm}</div></div></section>`+foot();
 
 /* ════════ LEGAL ════════ */
-const legalShell=(title,body)=>head(title+', Aura Films','Aura Films '+title.toLowerCase()+'.')+nav('')+`<main class="legal"><div class="container" style="max-width:860px"><h1 class="serif">${title}</h1><p class="updated">Last updated · January 2026</p>${body}</div></main>`+foot();
+const legalShell=(title,body)=>head(title+', Aura Films','Aura Films '+title.toLowerCase()+'.')+nav('')+`<main class="legal"><div class="container" style="max-width:860px"><h1 class="serif">${title}</h1><p class="updated">Last updated · June 2026</p>${body}</div></main>`+foot();
 const privacy=legalShell('Privacy Policy',`
 <p>Aura Films ("we", "us", "our") respects your privacy. This policy explains what personal information we collect, how we use it, and your rights under Canada's <strong>Personal Information Protection and Electronic Documents Act (PIPEDA)</strong> and applicable Ontario law. By using our website or booking our services, you consent to the practices described here.</p>
 <h2>1. Information We Collect</h2><ul>
@@ -278,8 +278,7 @@ const privacy=legalShell('Privacy Policy',`
 <h2>8. Your Rights</h2><p>You have the right to access the personal information we hold about you, request corrections, and ask that it be deleted where we are not legally required to keep it. Email <a href="mailto:itsaurafilms@gmail.com" style="color:var(--gold)">itsaurafilms@gmail.com</a> to make a request.</p>
 <h2>9. Children</h2><p>Sessions involving minors are booked and consented to by a parent or guardian.</p>
 <h2>10. Changes</h2><p>We may update this policy from time to time. The "last updated" date reflects the current version.</p>
-<h2>11. Contact</h2><p>Questions? Reach us at <a href="mailto:itsaurafilms@gmail.com" style="color:var(--gold)">itsaurafilms@gmail.com</a> or 343 989 4546, Kingston, Ontario.</p>
-<div class="disclaim"><strong>Please note:</strong> This Privacy Policy is provided as a general template and does not constitute legal advice. We recommend review by a qualified Canadian legal professional before relying on it.</div>`);
+<h2>11. Contact</h2><p>Questions? Reach us at <a href="mailto:itsaurafilms@gmail.com" style="color:var(--gold)">itsaurafilms@gmail.com</a> or 343 989 4546, Kingston, Ontario.</p>`);
 const terms=legalShell('Terms & Conditions',`
 <p>These Terms govern photography and videography services provided by Aura Films in Ontario, Canada. By paying a retainer or signing a booking agreement, you ("the Client") agree to these Terms.</p>
 <h2>1. Booking &amp; Retainer</h2><p>A <strong>30% non-refundable retainer</strong> and a signed agreement are required to reserve your date. Dates are held on a first-come basis and are not guaranteed until both are received.</p>
@@ -293,8 +292,7 @@ const terms=legalShell('Terms & Conditions',`
 <h2>9. Limitation of Liability</h2><p>In the unlikely event of loss or inability to deliver due to circumstances beyond our control, our total liability is limited to a refund of fees paid for the affected service. We are not liable for indirect or consequential losses.</p>
 <h2>10. Privacy</h2><p>Personal information is handled in accordance with our <a href="privacy.html" style="color:var(--gold)">Privacy Policy</a> and PIPEDA.</p>
 <h2>11. Governing Law</h2><p>These Terms are governed by the laws of the Province of Ontario and the federal laws of Canada applicable therein.</p>
-<h2>12. Contact</h2><p><a href="mailto:itsaurafilms@gmail.com" style="color:var(--gold)">itsaurafilms@gmail.com</a> · 343 989 4546 · Kingston, Ontario.</p>
-<div class="disclaim"><strong>Please note:</strong> These Terms are a general template and do not constitute legal advice. Please have them reviewed by a qualified Canadian legal professional before use.</div>`);
+<h2>12. Contact</h2><p><a href="mailto:itsaurafilms@gmail.com" style="color:var(--gold)">itsaurafilms@gmail.com</a> · 343 989 4546 · Kingston, Ontario.</p>`);
 
 await writeFile('index.html',home);
 await writeFile('gallery.html',buildGallery());

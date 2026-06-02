@@ -144,7 +144,7 @@ a{color:inherit;text-decoration:none}
 .badge-ring-wrap{position:absolute;inset:0;transition:transform .6s var(--ease)}
 .badge:hover .badge-ring-wrap{transform:scale(.70)}
 .badge-ring{width:100%;height:100%;animation:spin 20s linear infinite}
-.badge-ring text{font-family:'Inter',sans-serif;font-size:10px;letter-spacing:4.2px;font-weight:600;fill:var(--gold-2);text-transform:uppercase}
+.badge-ring text{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:6.5px;font-weight:600;fill:var(--gold-2);text-transform:uppercase}
 .badge-logo{width:52px;height:52px;display:grid;place-items:center;z-index:1}
 .badge-logo img{width:100%;height:auto}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -321,9 +321,10 @@ textarea.fi{resize:vertical;min-height:130px}
 /* Marquee never pauses */
 .marquee:hover .marquee-track{animation-play-state:running!important}
 
-/* Badge: full even circle */
+/* Badge: full even circle. letter-spacing fills the ring on ALL browsers
+   (iOS Safari ignores textLength on a textPath, which made mobile a half-circle). */
 .badge{width:178px;height:178px}
-.badge-ring text{font-size:11px;letter-spacing:normal;font-weight:600;fill:var(--gold-2);text-transform:uppercase}
+.badge-ring text{font-size:11px;letter-spacing:6.5px;font-weight:600;fill:var(--gold-2);text-transform:uppercase}
 .badge-logo{width:64px;height:64px}
 .badge:hover .badge-ring-wrap{transform:scale(.74)}
 
