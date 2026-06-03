@@ -250,7 +250,6 @@ const pkImgs={
 const pkRow=([tag,name,price,add,feats,feat])=>`<div class="pk-row"><div><div class="pk-row-name">${name}${feat?'<span class="tag">Most Popular</span>':''}</div><div class="pk-row-desc">${feats.slice(0,2).join(' · ')}</div></div><div class="pk-row-price"><span>$</span>${price}</div></div>`;
 const pkPanel=(k,arr,i)=>`<div class="pk-panel${i===0?' on':''}" data-panel="${k}"><div class="pk-editorial">
 <div class="pk-list">${arr.map(pkRow).join('')}<div style="margin-top:28px"><a href="about.html#contact" class="btn btn-dark">Book ${k.toLowerCase()} ${arrow}</a></div></div>
-<div class="pk-grid">${(pkImgs[k]||[]).map(f=>`<img src="${IMG}${f}" alt="${k} by Aura Films" loading="lazy">`).join('')}</div>
 </div></div>`;
 const addons=[['Second location / travel','$50-100'],['Printed photo set (20)','$60'],['Extra Instagram reel','$50'],['Raw / unedited files','$80'],['Album &amp; prints','Custom'],['Rush delivery','$120']];
 
