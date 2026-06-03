@@ -80,9 +80,12 @@ const toTop=`<button class="totop" id="toTop" aria-label="Back to top"><svg widt
 const revealJS=`<script>
 (function(){var R=document.querySelectorAll('.reveal');
 if(!('IntersectionObserver'in window)){R.forEach(function(e){e.classList.add('in');});return;}
-var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0,rootMargin:'0px 0px -8% 0px'});
 R.forEach(function(e){io.observe(e);});
-setTimeout(function(){document.querySelectorAll('.reveal:not(.in)').forEach(function(e){if(e.getBoundingClientRect().top<innerHeight){e.classList.add('in');}});},1400);})();
+/* safety net: reveal anything already on/near screen, and never let a tall
+   section stay hidden (re-checks on scroll for elements taller than viewport). */
+function sweep(){document.querySelectorAll('.reveal:not(.in)').forEach(function(e){var r=e.getBoundingClientRect();if(r.top<innerHeight*0.92&&r.bottom>0){e.classList.add('in');io.unobserve(e);}});}
+setTimeout(sweep,1400);addEventListener('scroll',sweep,{passive:true});})();
 </script>`;
 const foot=(extra='')=>footer+toTop+extra+revealJS+`<script src="redesign/aura.js"></script></body></html>`;
 const arrow=`<svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>`;
