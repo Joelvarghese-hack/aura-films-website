@@ -226,6 +226,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
 .pk-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;position:sticky;top:96px}
 .pk-grid img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:6px}
 @media(max-width:900px){.pk-editorial{grid-template-columns:1fr;gap:30px}.pk-grid{position:static}}
+/* Mobile: showcase each category photo full-width and large, not tiny thumbnails. */
+@media(max-width:640px){.pk-grid{grid-template-columns:1fr;gap:16px}.pk-grid img{aspect-ratio:4/5}}
 .pk{position:relative;padding:34px 30px;border-radius:8px;background:var(--card);border:1px solid var(--line);transition:transform .5s var(--ease),box-shadow .5s,border-color .5s;overflow:hidden}
 .pk:hover{transform:translateY(-6px);box-shadow:0 24px 50px rgba(16,14,12,.10);border-color:rgba(176,138,82,.4)}
 .pk.feat{border-color:var(--gold);box-shadow:0 18px 44px rgba(176,138,82,.16)}
