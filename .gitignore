@@ -12,3 +12,7 @@ temp-*.png
 node_modules/@img/
 node_modules/sharp/
 node_modules/detect-libc/
+
+# Local agent tooling that landed in the worktree — not part of the website.
+.agents/
+AGENTS.md

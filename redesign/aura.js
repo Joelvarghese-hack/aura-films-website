@@ -57,7 +57,7 @@
     document.querySelectorAll('.gitem').forEach(function(g){g.classList.toggle('hide',c!=='all'&&g.dataset.cat!==c);});
   }
   if(filters.length){
-    var CATS=['weddings','engagements','portraits','family'];
+    var CATS=['weddings','portraits','family','architecture'];
     filters.forEach(function(f){f.addEventListener('click',function(){applyFilter(f.dataset.cat);});});
     function fromHash(scroll){
       var h=(location.hash||'').replace('#','');
@@ -100,8 +100,9 @@
   /* ── testimonials carousel (autoplay 6.5s + arrows + dots) ── */
   var tcar=document.getElementById('tcar');
   if(tcar){
-    var slides=[].slice.call(tcar.querySelectorAll('.tslide')),dots=[].slice.call(tcar.querySelectorAll('.tdot')),ti=0,timer;
+    var slides=[].slice.call(tcar.querySelectorAll('.tslide')),dots=[].slice.call(tcar.querySelectorAll('.tdot')),track=document.getElementById('tslideTrack'),ti=0,timer;
     function go(n){ti=(n+slides.length)%slides.length;
+      if(track)track.style.transform='translateX(-'+(ti*100)+'%)';
       slides.forEach(function(s,k){s.classList.toggle('on',k===ti);});
       dots.forEach(function(d,k){d.classList.toggle('on',k===ti);});}
     function play(){clearInterval(timer);timer=setInterval(function(){go(ti+1);},6500);}
@@ -127,5 +128,48 @@
         })
         .catch(function(){btn.classList.remove('loading');btn.textContent='Try again, or email us';});
     });
+  }
+
+  /* ── interactive hero: hover Aura / Films to reveal photo clusters ── */
+  var ihw=document.querySelector('.ihero-word');
+  if(ihw){
+    var hws=[].slice.call(ihw.querySelectorAll('.hw'));
+    var cl={aura:document.querySelector('.c-aura'),films:document.querySelector('.c-films')};
+    function iact(set){ihw.classList.add('hovering');hws.forEach(function(w){w.classList.toggle('active',w.dataset.set===set);});for(var k in cl){if(cl[k])cl[k].classList.toggle('show',k===set);}}
+    function ideact(){ihw.classList.remove('hovering');hws.forEach(function(w){w.classList.remove('active');});for(var k in cl){if(cl[k])cl[k].classList.remove('show');}}
+    hws.forEach(function(w){w.addEventListener('mouseenter',function(){iact(w.dataset.set);});});
+    ihw.addEventListener('mouseleave',ideact);
+    if(matchMedia('(hover:none)').matches){var iss=['aura','films'],ici=0;iact('aura');setInterval(function(){ici=(ici+1)%2;iact(iss[ici]);},2800);}
+  }
+
+  /* ── drag-to-explore: INFINITE pannable canvas (pointer+touch, buttery inertia, cursor parallax, tap to enlarge) ── */
+  var stage=document.getElementById('dragStage');
+  if(stage){
+    var board=document.getElementById('dragBoard'),pill=document.getElementById('dragPill');
+    var dlb=document.getElementById('dragLb'),dlbImg=document.getElementById('dragLbImg'),dlbClose=document.getElementById('dragLbClose');
+    var CW=+stage.dataset.cw||1760,CH=+stage.dataset.ch||2080;
+    var px=-CW,py=-CH,vx=0,vy=0,parX=0,parY=0,ptX=0,ptY=0,drag=false,lx=0,ly=0,downX=0,downY=0;
+    function apply(){var wx=((px%CW)+CW)%CW,wy=((py%CH)+CH)%CH;board.style.transform='translate3d('+(wx-CW+parX)+'px,'+(wy-CH+parY)+'px,0)';}
+    function tick(){
+      if(!drag){px+=vx;py+=vy;vx*=0.95;vy*=0.95;if(Math.abs(vx)<0.03)vx=0;if(Math.abs(vy)<0.03)vy=0;}
+      parX+=(ptX-parX)*0.05;parY+=(ptY-parY)*0.05;apply();requestAnimationFrame(tick);}
+    stage.addEventListener('pointerdown',function(e){drag=true;vx=vy=0;stage.classList.add('grabbing');lx=downX=e.clientX;ly=downY=e.clientY;try{stage.setPointerCapture(e.pointerId);}catch(_){}});
+    stage.addEventListener('pointermove',function(e){
+      var r=stage.getBoundingClientRect();pill.style.left=(e.clientX-r.left)+'px';pill.style.top=(e.clientY-r.top)+'px';pill.style.opacity='1';
+      ptX=(r.width/2-(e.clientX-r.left))*0.05;ptY=(r.height/2-(e.clientY-r.top))*0.05;
+      if(!drag)return;var dx=e.clientX-lx,dy=e.clientY-ly;lx=e.clientX;ly=e.clientY;
+      vx=Math.max(-46,Math.min(46,dx));vy=Math.max(-46,Math.min(46,dy));px+=dx;py+=dy;});
+    function openFull(fig){dlbImg.src=fig.getAttribute('data-full');dlb.classList.add('open');dlb.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';}
+    function endDrag(e){if(!drag)return;drag=false;stage.classList.remove('grabbing');
+      /* a genuine tap (barely moved) enlarges the photo under the pointer */
+      if(Math.abs(e.clientX-downX)+Math.abs(e.clientY-downY)<7){var el=document.elementFromPoint(e.clientX,e.clientY);var fig=el&&el.closest?el.closest('.drag-pic'):null;if(fig){vx=vy=0;openFull(fig);}}}
+    stage.addEventListener('pointerup',endDrag);
+    stage.addEventListener('pointercancel',function(){drag=false;stage.classList.remove('grabbing');});
+    stage.addEventListener('pointerleave',function(){pill.style.opacity='0';ptX=ptY=0;});
+    function closeDlb(){dlb.classList.remove('open');dlb.setAttribute('aria-hidden','true');document.body.style.overflow='';dlbImg.src='';}
+    dlbClose.addEventListener('click',closeDlb);
+    dlb.addEventListener('click',closeDlb);                     // click backdrop OR the photo → back
+    addEventListener('keydown',function(e){if(e.key==='Escape'&&dlb.classList.contains('open'))closeDlb();});
+    requestAnimationFrame(tick);
   }
 })();

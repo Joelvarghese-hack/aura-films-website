@@ -28,9 +28,12 @@ async function fade(width, opacity, black) {
 const photos = readdirSync(SRC).filter((f) => /\.(jpe?g)$/i.test(f));
 let n = 0;
 for (const f of photos) {
+  if (/^c_/.test(f)) continue; // c_* are clean (no-watermark) copies — never process
   const live = join(SRC, f), master = join(ORIG, f);
   if (!existsSync(master)) copyFileSync(live, master); // preserve original once
   const base = await sharp(master).resize({ width: LONG_EDGE, height: LONG_EDGE, fit: "inside", withoutEnlargement: true }).toBuffer();
+  // Owner/founder headshots are web-res'd but NOT watermarked.
+  if (/albin|afsal|founder|owner/i.test(f)) { await sharp(base).jpeg({ quality: 84 }).toFile(live); n++; process.stdout.write("o"); continue; }
   const m = await sharp(base).metadata();
   const lw = Math.round(m.width * LOGO_W_PCT);
   const logo = await fade(lw, OPACITY, false);
