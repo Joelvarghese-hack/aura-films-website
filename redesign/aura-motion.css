@@ -1,0 +1,110 @@
+/* ═══════════════════════════════════════════════════════════════
+   AURA FILMS — MOTION LAYER  (additive · CSP-clean · dependency-free)
+   Enriches the existing .reveal system with varied, cinematic
+   choreography. Keys off the SAME `.in` class the inline observer
+   already sets, so nothing double-fires. Loads AFTER aura.css.
+   Every effect degrades to "instantly visible" under
+   prefers-reduced-motion. Reuses tokens from aura.css (--ease, etc.).
+   ═══════════════════════════════════════════════════════════════ */
+
+:root{
+  --am-dur:.62s;           /* base reveal duration (snappy)   */
+  --am-dur-img:.8s;        /* image mask wipe                 */
+  --am-ease:var(--ease, cubic-bezier(.22,1,.36,1));
+}
+
+/* Smooth-scroll is driven in JS (Lenis-lite). Keep native anchor
+   smoothing as the graceful fallback when JS motion is off. */
+@media (prefers-reduced-motion:no-preference){
+  html{scroll-behavior:smooth}
+}
+
+/* ── Reveal variants ─────────────────────────────────────────────
+   Base .reveal (opacity+38px) lives in aura.css. These override it
+   with more specific selectors (.reveal.am-* → higher specificity)
+   for VARIETY, so every block no longer does the identical fade-up. */
+
+/* Headline / eyebrow: rise + a whisper of blur that settles */
+.reveal.am-rise{opacity:0;transform:translateY(26px);filter:blur(6px);
+  transition:opacity var(--am-dur) var(--am-ease),
+             transform var(--am-dur) var(--am-ease),
+             filter var(--am-dur) var(--am-ease)}
+.reveal.am-rise.in{opacity:1;transform:none;filter:none}
+
+/* Side slides — used on alternating editorial rows */
+.reveal.am-left {opacity:0;transform:translateX(-46px)}
+.reveal.am-right{opacity:0;transform:translateX(46px)}
+.reveal.am-left.in,.reveal.am-right.in{opacity:1;transform:none}
+.reveal.am-left,.reveal.am-right{
+  transition:opacity var(--am-dur) var(--am-ease),
+             transform var(--am-dur) var(--am-ease)}
+
+/* Cards / steps — gentle scale settle instead of a slide */
+.reveal.am-scale{opacity:0;transform:scale(.945) translateY(14px)}
+.reveal.am-scale.in{opacity:1;transform:none}
+.reveal.am-scale{transition:opacity var(--am-dur) var(--am-ease),
+             transform var(--am-dur) var(--am-ease)}
+
+/* ── Cinematic image mask reveal ─────────────────────────────────
+   The signature "premium photography" move: the frame wipes open
+   while the photo inside eases down from a slight zoom. Applied to
+   image WRAPPERS (JS tags them). Falls back gracefully if the
+   element has no inner media. */
+.am-mask{overflow:hidden;clip-path:inset(0 0 100% 0)}
+.am-mask.in{clip-path:inset(0 0 0% 0);
+  transition:clip-path var(--am-dur-img) var(--am-ease)}
+.am-mask > img,.am-mask > picture,.am-mask > picture > img{
+  transform:scale(1.12);transform-origin:center;
+  transition:transform calc(var(--am-dur-img) + .25s) var(--am-ease);
+  will-change:transform}
+.am-mask.in > img,.am-mask.in > picture,.am-mask.in > picture > img{
+  transform:scale(1)}
+
+/* ── Parallax depth (JS writes --am-py) ──────────────────────── */
+[data-am-parallax]{will-change:transform;transform:translate3d(0,var(--am-py,0),0)}
+
+/* ── Magnetic / tactile controls (JS writes --am-mx/--am-my) ──── */
+.am-magnetic{transform:translate3d(var(--am-mx,0),var(--am-my,0),0);
+  transition:transform .35s var(--am-ease)}
+.am-magnetic.am-grabbing{transition:none}   /* 1:1 while tracking cursor */
+
+/* Refined button feedback — subtle lift + shadow, additive */
+.btn,.nav-cta{transition:transform .3s var(--am-ease),
+  box-shadow .3s var(--am-ease),background-color .3s var(--am-ease),
+  color .3s var(--am-ease),border-color .3s var(--am-ease)}
+@media (hover:hover) and (pointer:fine){
+  .btn:hover,.nav-cta:hover{transform:translateY(-2px);
+    box-shadow:0 10px 30px -12px rgba(16,14,12,.5)}
+  .btn:active,.nav-cta:active{transform:translateY(0)}
+}
+
+/* Nav link — center-out underline sweep (JS adds .am-link) */
+.am-link{position:relative}
+.am-link::after{content:"";position:absolute;left:0;right:0;bottom:-3px;
+  height:1.5px;background:currentColor;transform:scaleX(0);
+  transform-origin:center;transition:transform .4s var(--am-ease);
+  opacity:.85;pointer-events:none}
+@media (hover:hover) and (pointer:fine){
+  .am-link:hover::after{transform:scaleX(1)}
+}
+
+/* Hero photographs — a breathing, alive drift (very subtle) */
+@media (prefers-reduced-motion:no-preference){
+  .ihero-pic{animation:amHeroBreathe 9s ease-in-out infinite alternate}
+  .ihero-pic.s1{animation-duration:11s}
+  .ihero-pic.s2{animation-duration:10s}
+  .ihero-pic.s3{animation-duration:12s}
+}
+@keyframes amHeroBreathe{from{transform:translateY(0) scale(1)}
+  to{transform:translateY(-9px) scale(1.014)}}
+
+/* ── Respect the user. Motion off ⇒ everything simply present. ── */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal.am-rise,.reveal.am-left,.reveal.am-right,.reveal.am-scale,
+  .am-mask{opacity:1!important;transform:none!important;
+    filter:none!important;clip-path:none!important}
+  .am-mask>img,.am-mask>picture,.am-mask>picture>img{transform:none!important}
+  [data-am-parallax]{transform:none!important}
+  .ihero-pic{animation:none!important}
+}

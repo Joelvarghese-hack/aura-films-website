@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#100E0C">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Petit+Formal+Script&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="redesign/aura.css"><link rel="preconnect" href="https://assets.calendly.com"><link rel="preconnect" href="https://calendly.com" crossorigin><link rel="dns-prefetch" href="https://calendly.com"><link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet"><script src="https://assets.calendly.com/assets/external/widget.js"></script><script>window.AURA_CALENDLY="https://calendly.com/itsaurafilms/30min";</script></head><body><a href="#main" class="skip-link">Skip to content</a><div class="grain"></div><nav class="nav" id="nav"><div class="nav-inner">
+<link rel="stylesheet" href="redesign/aura.css"><link rel="stylesheet" href="redesign/aura-motion.css?v=2"><link rel="preconnect" href="https://assets.calendly.com"><link rel="preconnect" href="https://calendly.com" crossorigin><link rel="dns-prefetch" href="https://calendly.com"><link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet"><script src="https://assets.calendly.com/assets/external/widget.js"></script><script>window.AURA_CALENDLY="https://calendly.com/itsaurafilms/30min";</script></head><body><a href="#main" class="skip-link">Skip to content</a><div class="grain"></div><nav class="nav" id="nav"><div class="nav-inner">
 <a href="index.html" class="brand"><img class="logo-light" src="logo-black.png" alt="Aura Films"><img class="logo-dark" src="images/aura-logo-white.png" alt="Aura Films"></a>
 <div class="nav-links"><a href="index.html" class="nav-link active">Home</a><a href="gallery.html" class="nav-link">Gallery</a><a href="about.html" class="nav-link">About Us</a><a href="investment.html" class="nav-link">Investment</a>
 <a href="about.html#contact" class="nav-cta">Book a Date</a></div>
@@ -106,4 +106,4 @@ R.forEach(function(e){io.observe(e);});
    section stay hidden (re-checks on scroll for elements taller than viewport). */
 function sweep(){document.querySelectorAll('.reveal:not(.in)').forEach(function(e){var r=e.getBoundingClientRect();if(r.top<innerHeight*0.92&&r.bottom>0){e.classList.add('in');io.unobserve(e);}});}
 setTimeout(sweep,1400);addEventListener('scroll',sweep,{passive:true});})();
-</script><script src="redesign/aura.js"></script></body></html>
+</script><script src="redesign/aura.js"></script><script src="redesign/aura-motion.js?v=2"></script></body></html>
