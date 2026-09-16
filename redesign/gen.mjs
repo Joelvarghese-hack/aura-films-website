@@ -53,14 +53,14 @@ const head=(title,desc,path='')=>`<!DOCTYPE html><html lang="en"><head>
 <link rel="stylesheet" href="redesign/aura.css">${CALENDLY?`<link rel="preconnect" href="https://assets.calendly.com"><link rel="dns-prefetch" href="https://calendly.com">`:''}${HCAPTCHA?`<script src="https://js.hcaptcha.com/1/api.js" async defer></script>`:''}<script>window.AURA_CALENDLY=${JSON.stringify(CALENDLY)};</script></head><body><a href="#main" class="skip-link">Skip to content</a><div class="grain"></div>`;
 
 /* ── nav ── */
-const nav=(active)=>{const L=[['index.html','Home'],['gallery.html','Gallery'],['about.html','About Us'],['investment.html','Investment']];
+const nav=(active)=>{const L=[['/','Home'],['gallery','Gallery'],['about','About Us'],['investment','Investment']];
 return `<nav class="nav" id="nav"><div class="nav-inner">
-<a href="index.html" class="brand"><img class="logo-light" src="logo-black.png" alt="Aura Films"><img class="logo-dark" src="images/aura-logo-white.png" alt="Aura Films"></a>
+<a href="/" class="brand"><img class="logo-light" src="logo-black.png" alt="Aura Films"><img class="logo-dark" src="images/aura-logo-white.png" alt="Aura Films"></a>
 <div class="nav-links">${L.map(([h,t])=>`<a href="${h}" class="nav-link${active===t?' active':''}">${t}</a>`).join('')}
-<a href="about.html#contact" class="nav-cta">Book a Date</a></div>
+<a href="about#contact" class="nav-cta">Book a Date</a></div>
 <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
 </div></nav>
-<div class="nav-drawer" id="drawer">${L.map(([h,t])=>`<a href="${h}">${t}</a>`).join('')}<a href="about.html#contact" class="nav-cta">Book a Date</a></div>`;};
+<div class="nav-drawer" id="drawer">${L.map(([h,t])=>`<a href="${h}">${t}</a>`).join('')}<a href="about#contact" class="nav-cta">Book a Date</a></div>`;};
 
 /* ── circular badge (full circle text) ── */
 const badge=`<div class="badge"><div class="badge-ring-wrap"><svg class="badge-ring" viewBox="0 0 160 160"><defs><path id="circ" d="M80,80 m-62,0 a62,62 0 1,1 124,0 a62,62 0 1,1 -124,0"/></defs>
@@ -73,11 +73,11 @@ const footer=`<footer class="footer"><div class="container">
 <div class="foot-brand"><div class="foot-badge">${badge}</div>
 <p>Shooting moments. Preserving memories. A Kingston-based photography studio, available across Kingston and Ontario.</p>
 <div class="foot-soc"><a href="https://www.instagram.com/aura.filmsca/" target="_blank" rel="noopener" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a></div></div>
-<div class="foot-col"><h4>Explore</h4><a href="index.html">Home</a><a href="gallery.html">Gallery</a><a href="about.html">About Us</a><a href="investment.html">Investment</a></div>
-<div class="foot-col"><h4>Work</h4><a href="gallery.html#weddings">Weddings</a><a href="gallery.html#portraits">Portraits</a><a href="gallery.html#family">Family &amp; Maternity</a><a href="gallery.html#architecture">Architecture</a></div>
-<div class="foot-col"><h4>Reach Us</h4><a href="mailto:itsaurafilms@gmail.com">itsaurafilms@gmail.com</a><a href="tel:+13439894546">343 989 4546</a><a href="about.html#contact">Kingston, ON</a></div>
+<div class="foot-col"><h4>Explore</h4><a href="/">Home</a><a href="gallery">Gallery</a><a href="about">About Us</a><a href="investment">Investment</a></div>
+<div class="foot-col"><h4>Work</h4><a href="gallery#weddings">Weddings</a><a href="gallery#portraits">Portraits</a><a href="gallery#family">Family &amp; Maternity</a><a href="gallery#architecture">Architecture</a></div>
+<div class="foot-col"><h4>Reach Us</h4><a href="mailto:itsaurafilms@gmail.com">itsaurafilms@gmail.com</a><a href="tel:+13439894546">343 989 4546</a><a href="about#contact">Kingston, ON</a></div>
 </div>
-<div class="foot-bot"><p>© 2026 Aura Films. All rights reserved. <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms &amp; Conditions</a> · <a href="cookie.html">Cookie Policy</a> · <a href="refund.html">Refund Policy</a></p>
+<div class="foot-bot"><p>© 2026 Aura Films. All rights reserved. <a href="privacy">Privacy Policy</a> · <a href="terms">Terms &amp; Conditions</a> · <a href="cookie">Cookie Policy</a> · <a href="refund">Refund Policy</a></p>
 <p class="foot-legal-id">Aura Films is a sole proprietorship operated by Albin, based in Kingston, Ontario, Canada. Contact <a href="mailto:itsaurafilms@gmail.com">itsaurafilms@gmail.com</a> · <a href="tel:+13439894546">343&nbsp;989&nbsp;4546</a>.</p>
 <p>Design &amp; SEO by <a href="https://joelvarghese-hack.github.io/Marketing-Portfolio/" target="_blank" rel="noopener">Joel Varghese</a></p></div>
 </div></footer>`;
@@ -97,7 +97,7 @@ function sweep(){document.querySelectorAll('.reveal:not(.in)').forEach(function(
 setTimeout(sweep,1400);addEventListener('scroll',sweep,{passive:true});})();
 </script>`;
 const cookieNotice=`<div class="cookie-notice" id="cookieNotice" role="region" aria-label="Cookie notice" hidden>
-<div class="cookie-inner"><p>We use only essential, functional cookies &mdash; no advertising or tracking. Google Fonts and the optional booking calendar load as described in our <a href="cookie.html">Cookie Policy</a>.</p>
+<div class="cookie-inner"><p>We use only essential, functional cookies &mdash; no advertising or tracking. Google Fonts and the optional booking calendar load as described in our <a href="cookie">Cookie Policy</a>.</p>
 <div class="cookie-btns"><button type="button" class="btn btn-gold ck-accept" id="ckAccept">Got it</button><button type="button" class="btn btn-line ck-min" id="ckMin">Only essential</button></div></div></div>
 <script>(function(){try{var K='aura_cookie_choice',n=document.getElementById('cookieNotice');if(!n)return;var stored=null;try{stored=localStorage.getItem(K);}catch(e){}if(!stored){n.hidden=false;}
 function set(v){try{localStorage.setItem(K,v);}catch(e){}n.hidden=true;}
@@ -105,7 +105,7 @@ var a=document.getElementById('ckAccept'),m=document.getElementById('ckMin');
 if(a)a.addEventListener('click',function(){set('accepted');});
 if(m)m.addEventListener('click',function(){window.__AURA_ESSENTIAL_ONLY=true;set('essential');});
 }catch(e){}})();</script>`;
-const mcta=`<div class="mcta"><a href="tel:+13439894546">Call</a><a class="p" href="about.html#contact">Book a date</a></div>`;
+const mcta=`<div class="mcta"><a href="tel:+13439894546">Call</a><a class="p" href="about#contact">Book a date</a></div>`;
 const foot=(extra='')=>footer+toTop+mcta+extra+cookieNotice+revealJS+`<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script><script src="redesign/aura.js"></script></body></html>`;
 const arrow=`<svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>`;
 const tick=`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg>`;
@@ -136,7 +136,7 @@ const contactForm=`<div class="cform-wrap">
 <div><label class="fl" for="cf-date">Event Date</label><input class="fi" id="cf-date" type="date" name="event_date"></div>
 <div><label class="fl" for="cf-svc">Service</label><input class="fi" id="cf-svc" name="service" placeholder="Wedding, portrait, maternity"></div>
 <div class="full"><label class="fl" for="cf-msg">Tell us about your day</label><textarea class="fi" id="cf-msg" name="message" required placeholder="Share your vision, the where, the when, the feeling."></textarea></div>
-${HCAPTCHA?`<div class="full"><div class="h-captcha" data-sitekey="${HCAPTCHA}"></div></div>`:''}<div class="full consent-row"><label class="consent" for="cf-consent"><input type="checkbox" id="cf-consent" name="privacy_consent" value="I agree" required> <span>I've read the <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a> and consent to Aura Films storing the details I've entered so they can respond to my enquiry. <span aria-hidden="true">*</span></span></label></div>
+${HCAPTCHA?`<div class="full"><div class="h-captcha" data-sitekey="${HCAPTCHA}"></div></div>`:''}<div class="full consent-row"><label class="consent" for="cf-consent"><input type="checkbox" id="cf-consent" name="privacy_consent" value="I agree" required> <span>I've read the <a href="privacy" target="_blank" rel="noopener">Privacy Policy</a> and consent to Aura Films storing the details I've entered so they can respond to my enquiry. <span aria-hidden="true">*</span></span></label></div>
 <div class="full consent-row"><label class="consent" for="cf-marketing"><input type="checkbox" id="cf-marketing" name="marketing_optin" value="Yes, subscribe"> <span>Optional: email me occasional updates and offers. I can unsubscribe at any time.</span></label></div>
 <div class="full"><button class="btn btn-dark" id="cf-btn" type="submit">Send Enquiry ${arrow}</button></div>
 </form>
@@ -173,8 +173,8 @@ const home=head('Aura Films, Wedding & Editorial Photography','Aura Films is a K
 </h1>
 <p class="sub reveal d2">Weddings, portraits, growing families and the buildings we cannot walk past. Every frame shot and hand graded by Albin, across Kingston and the rest of Ontario.</p>
 <div class="cta-row reveal d3">
-<a class="btn btn-gold" href="about.html#contact">Book a date ${arrow}</a>
-<a class="btn btn-line" href="gallery.html">See the work</a>
+<a class="btn btn-gold" href="about#contact">Book a date ${arrow}</a>
+<a class="btn btn-line" href="gallery">See the work</a>
 </div>
 <div class="stats reveal d3">
 <div class="stat"><b>10 to 21 days</b><span class="eyebrow">Gallery delivery</span></div>
@@ -188,13 +188,13 @@ const home=head('Aura Films, Wedding & Editorial Photography','Aura Films is a K
 
 <section class="section intro-sec" data-c="20,16,14"><div class="container"><div class="intro-grid">
 <div class="reveal"><h2 class="serif intro-h">Photography that remembers the day the way it <em>felt</em>.</h2></div>
-<div class="reveal d1 intro-copy"><p>We're Aura Films, a photography studio based in <b style="color:var(--text);font-weight:600">Kingston, Ontario, Canada</b>. Weddings, portraits, maternity and the occasional building we fall for, shot the way it actually happened and hand-edited frame by frame.</p><p>No stiff poses, no conveyor-belt presets. Just the real moments, handed back to you as a gallery worth opening again and again.</p><a href="about.html" class="btn btn-line">Our story ${arrow}</a></div>
+<div class="reveal d1 intro-copy"><p>We're Aura Films, a photography studio based in <b style="color:var(--text);font-weight:600">Kingston, Ontario, Canada</b>. Weddings, portraits, maternity and the occasional building we fall for, shot the way it actually happened and hand-edited frame by frame.</p><p>No stiff poses, no conveyor-belt presets. Just the real moments, handed back to you as a gallery worth opening again and again.</p><a href="about" class="btn btn-line">Our story ${arrow}</a></div>
 </div></div></section>
 
 <section class="section" data-c="94,22,34"><div class="container">
 <div class="sec-head"><h2 class="sec-title serif reveal">What we <em>love</em> to capture.</h2></div>
 <div class="cat-list">
-${[['wed-1.jpg','Weddings','weddings','01','The full day, honestly told, from the quiet first look to the last dance.'],['por-8.jpg','Portraits','portraits','02','Editorial portraits that catch the real you in one quiet frame.'],['baby-1.jpg','Family &amp; Maternity','family','03','Tender, in-between moments kept close as your family grows.'],['arch-1.jpg','Architecture','architecture','04','Homes and spaces, shot with light, line and a sense of place.']].map(([f,c,cat,n,d],i)=>`<a href="gallery.html#${cat}" class="cat-row reveal${i%2?' alt':''}"><div class="cat-row-img"><img src="${IMG}${f}" alt="${c} by Aura Films" loading="lazy"></div><div class="cat-row-meta"><span class="cat-row-num">${n}</span><h3 class="serif">${c}</h3><p>${d}</p><span class="cat-row-link">View gallery ${arrow}</span></div></a>`).join('')}
+${[['wed-1.jpg','Weddings','weddings','01','The full day, honestly told, from the quiet first look to the last dance.'],['por-8.jpg','Portraits','portraits','02','Editorial portraits that catch the real you in one quiet frame.'],['baby-1.jpg','Family &amp; Maternity','family','03','Tender, in-between moments kept close as your family grows.'],['arch-1.jpg','Architecture','architecture','04','Homes and spaces, shot with light, line and a sense of place.']].map(([f,c,cat,n,d],i)=>`<a href="gallery#${cat}" class="cat-row reveal${i%2?' alt':''}"><div class="cat-row-img"><img src="${IMG}${f}" alt="${c} by Aura Films" loading="lazy"></div><div class="cat-row-meta"><span class="cat-row-num">${n}</span><h3 class="serif">${c}</h3><p>${d}</p><span class="cat-row-link">View gallery ${arrow}</span></div></a>`).join('')}
 </div></div></section>
 
 <section class="dragsec" id="explore" data-c="30,58,46" aria-label="Drag to explore our work">
@@ -237,7 +237,7 @@ function buildGallery(){
   let tiles='',seen=new Set();
   for(const cat of Object.keys(GAL)) for(const f of GAL[cat]){ if(seen.has(f))continue; seen.add(f);
     tiles+=`<div class="gitem" data-cat="${cat}" data-full="${IMG}${f}"><img src="${IMG}${f}" alt="${LABELS[cat]} by Aura Films" loading="lazy"><span class="cat">${LABELS[cat]}</span></div>\n`; }
-  return head('Gallery, Aura Films','Browse the full Aura Films gallery of weddings, portraits, maternity and architecture sessions.','gallery.html')+nav('Gallery')+`
+  return head('Gallery, Aura Films','Browse the full Aura Films gallery of weddings, portraits, maternity and architecture sessions.','gallery')+nav('Gallery')+`
 <header class="phero"><div class="bg-fixed" style="background-image:url('${IMG}baby-10.jpg');background-position:50% 42%"></div><div class="phero-veil"></div>
 <div class="phero-inner"><h1 class="serif">The <em>Gallery</em></h1><p>Real days, honestly told. Filter by what you're looking for, and tap any frame to view it large.</p></div></header>
 <section class="section"><div class="container">
@@ -256,7 +256,7 @@ const faqItems=[
 ];
 const faq=`<div class="faq">${faqItems.map(([q,a])=>`<div class="faq-item"><button class="faq-q">${q}<span class="pl"></span></button><div class="faq-a"><p>${a}</p></div></div>`).join('')}</div>`;
 
-const about=head('About Us, Aura Films','Meet Albin, the photographer behind Aura Films, a Kingston photography studio.','about.html')+nav('About Us')+`
+const about=head('About Us, Aura Films','Meet Albin, the photographer behind Aura Films, a Kingston photography studio.','about')+nav('About Us')+`
 <header class="phero phero-albin" data-c="30,58,46"><div class="bg-fixed" style="background-image:url('${IMG}albin-new.jpg');background-position:50% 18%"></div><div class="phero-veil"></div>
 <div class="phero-inner"><h1 class="serif">Behind the <em>Lens</em></h1><p>One photographer, one obsession: the honest, unrepeatable moments that make a day yours.</p></div></header>
 
@@ -276,10 +276,10 @@ const about=head('About Us, Aura Films','Meet Albin, the photographer behind Aur
 </div></section>
 
 <section class="section" style="padding-top:0"><div class="container">
-<div class="sec-head"><h2 class="sec-title serif reveal">See the <em>work</em>.</h2><a href="gallery.html" class="btn btn-line reveal d1">View Full Gallery ${arrow}</a></div>
+<div class="sec-head"><h2 class="sec-title serif reveal">See the <em>work</em>.</h2><a href="gallery" class="btn btn-line reveal d1">View Full Gallery ${arrow}</a></div>
 <div class="cat-cards cards-2">
-<a href="gallery.html#weddings" class="ccard reveal"><img src="${IMG}wed-3.jpg" alt="Weddings"><div class="ccard-cap"><div class="c1">The full day</div><div class="c2 serif">Weddings</div></div></a>
-<a href="gallery.html#family" class="ccard reveal d1"><img src="${IMG}baby-2.jpg" alt="Family and Maternity"><div class="ccard-cap"><div class="c1">Tender moments</div><div class="c2 serif">Family &amp; Maternity</div></div></a>
+<a href="gallery#weddings" class="ccard reveal"><img src="${IMG}wed-3.jpg" alt="Weddings"><div class="ccard-cap"><div class="c1">The full day</div><div class="c2 serif">Weddings</div></div></a>
+<a href="gallery#family" class="ccard reveal d1"><img src="${IMG}baby-2.jpg" alt="Family and Maternity"><div class="ccard-cap"><div class="c1">Tender moments</div><div class="c2 serif">Family &amp; Maternity</div></div></a>
 </div></div></section>
 
 <section class="section"><div class="container">
@@ -318,12 +318,12 @@ const pkImgs={
 };
 const pkRow=([tag,name,price,add,feats,feat])=>`<div class="pk-row"><div><div class="pk-row-name">${name}${feat?'<span class="tag">Recommended</span>':''}</div><div class="pk-row-desc">${feats.slice(0,2).join(' · ')}</div></div><div class="pk-row-price"><span>$</span>${price}</div></div>`;
 const pkPanel=(k,arr,i)=>`<div class="pk-panel${i===0?' on':''}" data-panel="${k}"><div class="pk-editorial">
-<div class="pk-list">${arr.map(pkRow).join('')}<div style="margin-top:28px"><a href="about.html#contact" class="btn btn-dark">Book ${k.toLowerCase()} ${arrow}</a></div></div>
+<div class="pk-list">${arr.map(pkRow).join('')}<div style="margin-top:28px"><a href="about#contact" class="btn btn-dark">Book ${k.toLowerCase()} ${arrow}</a></div></div>
 <div class="pk-grid">${(pkImgs[k]||[]).map(f=>`<img src="${IMG}${f}" alt="${k} by Aura Films" loading="lazy">`).join('')}</div>
 </div></div>`;
 const addons=[['Second location / travel','$50-100'],['Printed photo set (20)','$60'],['Extra edited images (10)','$50'],['Raw / unedited files','$80'],['Album &amp; prints','Custom'],['Rush delivery','$120']];
 
-const investment=head('Investment, Aura Films','Transparent photography packages from Aura Films. Weddings, events, family and portrait sessions.','investment.html')+nav('Investment')+`
+const investment=head('Investment, Aura Films','Transparent photography packages from Aura Films. Weddings, events, family and portrait sessions.','investment')+nav('Investment')+`
 <header class="phero"><div class="bg-fixed" style="background-image:url('${IMG}invest-hero.jpg');background-position:50% 38%"></div><div class="phero-veil"></div>
 <div class="phero-inner"><h1 class="serif">The <em>Investment</em></h1><p>Real value, real moments. Every package is crafted to deliver exceptional quality, from intimate portraits to full-day wedding coverage.</p></div></header>
 
@@ -362,9 +362,9 @@ ${[['Consult','We learn your vision, vibe and must-have moments.'],['Plan','Loca
 <div class="reveal d1">${CALENDLY?`<div class="cal-embed" data-cal-embed="${CALENDLY}" style="margin-bottom:28px"><p class="cal-note">Prefer to pick a time now? Loading the calendar connects to Calendly, which may set its own cookies.</p><button type="button" class="btn btn-line cal-load">Open booking calendar ${arrow}</button></div>`:''}${contactForm}</div></div></section>`+foot();
 
 /* ════════ LEGAL ════════ */
-const legalShell=(title,body)=>head(title+', Aura Films','Aura Films '+title.toLowerCase()+'.',title.split(/[ &]/)[0].toLowerCase()+'.html')+nav('')+`<main class="legal"><div class="container" style="max-width:860px"><h1 class="serif">${title}</h1><p class="updated">Last updated · September 2026</p>${body}</div></main>`+foot();
+const legalShell=(title,body)=>head(title+', Aura Films','Aura Films '+title.toLowerCase()+'.',title.split(/[ &]/)[0].toLowerCase())+nav('')+`<main class="legal"><div class="container" style="max-width:860px"><h1 class="serif">${title}</h1><p class="updated">Last updated · September 2026</p>${body}</div></main>`+foot();
 const privacy=legalShell('Privacy Policy',`
-<p><strong>Aura Films</strong> is a sole proprietorship operated by Albin, based in Kingston, Ontario, Canada ("we", "us", "our"), and is the party responsible for the personal information we hold about you. This policy explains what we collect, how we use it, and your rights under Canada's <strong>Personal Information Protection and Electronic Documents Act (PIPEDA)</strong> and applicable Ontario law. It should be read together with our <a href="cookie.html" style="color:var(--gold-ink);text-decoration:underline">Cookie Policy</a> and <a href="refund.html" style="color:var(--gold-ink);text-decoration:underline">Refund Policy</a>. By using our website or booking our services, you consent to the practices described here.</p>
+<p><strong>Aura Films</strong> is a sole proprietorship operated by Albin, based in Kingston, Ontario, Canada ("we", "us", "our"), and is the party responsible for the personal information we hold about you. This policy explains what we collect, how we use it, and your rights under Canada's <strong>Personal Information Protection and Electronic Documents Act (PIPEDA)</strong> and applicable Ontario law. It should be read together with our <a href="cookie" style="color:var(--gold-ink);text-decoration:underline">Cookie Policy</a> and <a href="refund" style="color:var(--gold-ink);text-decoration:underline">Refund Policy</a>. By using our website or booking our services, you consent to the practices described here.</p>
 <h2>1. Information We Collect</h2><ul>
 <li><strong>Contact details</strong> you provide: name, email, phone, event date and location.</li>
 <li><strong>Booking information:</strong> package choice, preferences, and correspondence.</li>
@@ -382,7 +382,7 @@ const privacy=legalShell('Privacy Policy',`
 <p>Some providers are located outside Canada (including in the United States), so your information may be processed abroad under that country's laws. We share only what is necessary, require providers to protect your data, and <strong>never sell</strong> your personal information. We may also disclose information where required by law.</p>
 <h2>5. Image &amp; Portfolio Use</h2><p>Unless you request otherwise in writing, Aura Films may use selected images from your session for portfolio, website and social media. You can opt out of portfolio use at any time by emailing us.</p>
 <h2>6. Storage &amp; Retention</h2><p>Your gallery and files are stored securely and retained for a limited period after delivery (typically 12 months) unless a longer archive is agreed. We retain booking records as required for tax and legal purposes.</p>
-<h2>7. Cookies &amp; Tracking</h2><p>We do <strong>not</strong> use advertising, marketing or analytics cookies, and we do not track you across other websites. The site uses only functional technologies: your cookie-notice choice is stored locally on your device, our fonts load from Google, and the optional Calendly booking tool may set its own cookies <em>only</em> if you choose to open it. Full details, and how to control cookies, are in our <a href="cookie.html" style="color:var(--gold-ink);text-decoration:underline">Cookie Policy</a>.</p>
+<h2>7. Cookies &amp; Tracking</h2><p>We do <strong>not</strong> use advertising, marketing or analytics cookies, and we do not track you across other websites. The site uses only functional technologies: your cookie-notice choice is stored locally on your device, our fonts load from Google, and the optional Calendly booking tool may set its own cookies <em>only</em> if you choose to open it. Full details, and how to control cookies, are in our <a href="cookie" style="color:var(--gold-ink);text-decoration:underline">Cookie Policy</a>.</p>
 <h2>8. Your Rights</h2><p>You have the right to access the personal information we hold about you, request corrections, and ask that it be deleted where we are not legally required to keep it. Email <a href="mailto:itsaurafilms@gmail.com" style="color:var(--gold-ink);text-decoration:underline">itsaurafilms@gmail.com</a> to make a request.</p>
 <p>If you are located in the <strong>EU or UK</strong>, you also have rights under the GDPR, including access, rectification, erasure, restriction, portability and objection. Our lawful bases for processing are your consent and the performance of our contract with you. You may lodge a complaint with your local data-protection authority. Canadian visitors may contact the Office of the Privacy Commissioner of Canada.</p>
 <h2>9. Children</h2><p>Sessions involving minors are booked and consented to by a parent or guardian.</p>
@@ -392,20 +392,20 @@ const terms=legalShell('Terms & Conditions',`
 <p>These Terms govern photography services provided by Aura Films in Ontario, Canada. By paying a retainer or signing a booking agreement, you ("the Client") agree to these Terms.</p>
 <h2>1. Booking &amp; Retainer</h2><p>A <strong>30% non-refundable retainer</strong> and a signed agreement are required to reserve your date. Dates are held on a first-come basis and are not guaranteed until both are received.</p>
 <h2>2. Payment</h2><p>The remaining balance is due on or before the day of the session unless otherwise agreed in writing. Prices are quoted in Canadian dollars (CAD) and are valid for 30 days from the date of quotation.</p>
-<h2>3. Cancellation &amp; Rescheduling</h2><p>The retainer is non-refundable on cancellation. Rescheduling is permitted once with reasonable notice, subject to availability. Weather-related rescheduling for outdoor sessions is accommodated at no additional charge. Full details, including what happens if we ever have to cancel, are set out in our <a href="refund.html" style="color:var(--gold-ink);text-decoration:underline">Refund &amp; Cancellation Policy</a>.</p>
+<h2>3. Cancellation &amp; Rescheduling</h2><p>The retainer is non-refundable on cancellation. Rescheduling is permitted once with reasonable notice, subject to availability. Weather-related rescheduling for outdoor sessions is accommodated at no additional charge. Full details, including what happens if we ever have to cancel, are set out in our <a href="refund" style="color:var(--gold-ink);text-decoration:underline">Refund &amp; Cancellation Policy</a>.</p>
 <h2>4. Copyright &amp; Licence</h2><p>Aura Films retains <strong>copyright in all images</strong> under the Canadian <em>Copyright Act</em>. Upon final payment, the Client is granted a personal, non-exclusive licence to use delivered images for personal, non-commercial purposes (printing and sharing). Commercial use, resale, or licensing to third parties requires our written permission.</p>
 <h2>5. Image Release</h2><p>Unless the Client opts out in writing, Aura Films may use selected images for portfolio, marketing and social media. Where minors appear, a parent or guardian consents on their behalf.</p>
 <h2>6. Deliverables &amp; Turnaround</h2><p>Edited galleries are delivered within the timeframe stated for your package (typically 10 to 21 business days). Aura Films delivers hand-graded, high-resolution images; unedited raw files are not included unless purchased as an add-on. The number of edited images stated per package is what is delivered; selection is at our professional discretion.</p>
 <h2>7. Client Conduct &amp; Safety</h2><p>The Client agrees to provide a safe working environment. We reserve the right to end a session where the safety of our team or equipment is at risk, without refund.</p>
 <h2>8. Force Majeure</h2><p>Aura Films is not liable for failure to perform due to events beyond our reasonable control (illness, extreme weather, equipment failure, emergencies). In such cases we will make reasonable efforts to reschedule or arrange a suitable substitute.</p>
 <h2>9. Limitation of Liability</h2><p>In the unlikely event of loss or inability to deliver due to circumstances beyond our control, our total liability is limited to a refund of fees paid for the affected service. We are not liable for indirect or consequential losses.</p>
-<h2>10. Privacy</h2><p>Personal information is handled in accordance with our <a href="privacy.html" style="color:var(--gold-ink);text-decoration:underline">Privacy Policy</a> and PIPEDA.</p>
+<h2>10. Privacy</h2><p>Personal information is handled in accordance with our <a href="privacy" style="color:var(--gold-ink);text-decoration:underline">Privacy Policy</a> and PIPEDA.</p>
 <h2>11. Governing Law</h2><p>These Terms are governed by the laws of the Province of Ontario and the federal laws of Canada applicable therein.</p>
 <h2>12. Contact</h2><p><a href="mailto:itsaurafilms@gmail.com" style="color:var(--gold-ink);text-decoration:underline">itsaurafilms@gmail.com</a> · 343 989 4546 · Kingston, Ontario.</p>`);
 
 const GI=`style="color:var(--gold-ink);text-decoration:underline"`;
 const cookie=legalShell('Cookie Policy',`
-<p>This Cookie Policy explains the cookies and similar technologies used on the Aura Films website, operated by Albin (a sole proprietorship in Kingston, Ontario, Canada). It supplements our <a href="privacy.html" ${GI}>Privacy Policy</a>.</p>
+<p>This Cookie Policy explains the cookies and similar technologies used on the Aura Films website, operated by Albin (a sole proprietorship in Kingston, Ontario, Canada). It supplements our <a href="privacy" ${GI}>Privacy Policy</a>.</p>
 <h2>1. What are cookies?</h2><p>Cookies are small text files a website can store on your device. "Similar technologies" include browser local storage, which works in a comparable way. They can be set by us ("first-party") or by an outside service ("third-party").</p>
 <h2>2. Our approach</h2><p>We keep this to the minimum. <strong>We do not use any advertising, marketing or analytics cookies, and we do not track you across other websites or build a profile of you.</strong></p>
 <h2>3. What we actually use</h2>
@@ -415,12 +415,12 @@ const cookie=legalShell('Cookie Policy',`
 <li><strong>Calendly (third-party, functional, on request only).</strong> Our optional booking calendar is <strong>not</strong> loaded when you open the site. It loads only if you click "Book a Date" or "Open booking calendar", at which point Calendly may set its own cookies to run the scheduling tool. See Calendly's own privacy and cookie notices for details.</li>
 </ul>
 <h2>4. What we do NOT use</h2><p>No Google Analytics or other analytics, no Meta/Facebook pixel, and no advertising or re-targeting cookies. Our Instagram and other links are ordinary links; following them takes you to those sites, which have their own policies.</p>
-<h2>5. Contact-form submissions</h2><p>Our contact form is delivered by Web3Forms and does not set cookies simply by your browsing the site. Information you submit is handled as described in our <a href="privacy.html" ${GI}>Privacy Policy</a>.</p>
+<h2>5. Contact-form submissions</h2><p>Our contact form is delivered by Web3Forms and does not set cookies simply by your browsing the site. Information you submit is handled as described in our <a href="privacy" ${GI}>Privacy Policy</a>.</p>
 <h2>6. Managing cookies</h2><p>You can delete or block cookies, and clear local storage, through your browser settings. Blocking functional items may affect booking or the site's appearance. Your browser's help pages explain how.</p>
 <h2>7. Visitors from the EU/UK</h2><p>Because we occasionally have visitors from the EU and UK, we aim for the higher standard: no non-essential cookies are set without a clear action by you, and the only third party contacted automatically is Google Fonts (functional), which you can block as above.</p>
 <h2>8. Changes &amp; contact</h2><p>We may update this policy; the "last updated" date shows the current version. Questions? <a href="mailto:itsaurafilms@gmail.com" ${GI}>itsaurafilms@gmail.com</a> &middot; 343 989 4546, Kingston, Ontario.</p>`);
 const refund=legalShell('Refund & Cancellation Policy',`
-<p>This Refund &amp; Cancellation Policy applies to photography services provided by Aura Films, a sole proprietorship operated by Albin in Kingston, Ontario, Canada. It forms part of, and should be read with, our <a href="terms.html" ${GI}>Terms &amp; Conditions</a>. All amounts are in Canadian dollars (CAD).</p>
+<p>This Refund &amp; Cancellation Policy applies to photography services provided by Aura Films, a sole proprietorship operated by Albin in Kingston, Ontario, Canada. It forms part of, and should be read with, our <a href="terms" ${GI}>Terms &amp; Conditions</a>. All amounts are in Canadian dollars (CAD).</p>
 <h2>1. Booking retainer</h2><p>A <strong>30% non-refundable retainer</strong> is required to reserve your date and time. Because we turn away other work to hold your date, the retainer is not refundable if you cancel, except where required by law or as set out below.</p>
 <h2>2. Balance payments</h2><p>The remaining balance is due on or before the day of the session unless otherwise agreed in writing. Prices are valid for 30 days from the date of quotation.</p>
 <h2>3. If you cancel</h2><p>You may cancel at any time by written notice (email is fine). The retainer is forfeited. Any amount you have paid <em>above</em> the retainer is refunded to you. If you cancel within 7 days of the session, the full quoted fee may remain payable, as the date can rarely be rebooked at short notice.</p>
@@ -438,7 +438,7 @@ const homeHTML=finalize(home);
 const schema=`<script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","additionalType":"https://schema.org/PhotographStore","name":"Aura Films","url":"${SITE}","image":"${SITE}images/wed-3.jpg","description":"Photography studio in Kingston, Ontario. Weddings, portraits, family and architecture, shot and hand graded by Albin.","email":"itsaurafilms@gmail.com","telephone":"+1-343-989-4546","priceRange":"$79 - $1049","address":{"@type":"PostalAddress","addressLocality":"Kingston","addressRegion":"ON","addressCountry":"CA"},"areaServed":{"@type":"State","name":"Ontario"},"founder":{"@type":"Person","name":"Albin"},"sameAs":["https://www.instagram.com/aura.filmsca/"]}</script>`;
 const withSchema=h=>h.replace('</head>',schema+'</head>');
 
-const PAGES=[['',1.0],['gallery.html',0.9],['about.html',0.8],['investment.html',0.9],['privacy.html',0.3],['terms.html',0.3],['cookie.html',0.3],['refund.html',0.3]];
+const PAGES=[['',1.0],['gallery',0.9],['about',0.8],['investment',0.9],['privacy',0.3],['terms',0.3],['cookie',0.3],['refund',0.3]];
 const today=new Date().toISOString().slice(0,10);
 const NL=String.fromCharCode(10);
 await writeFile('../sitemap.xml',
@@ -447,14 +447,14 @@ await writeFile('../sitemap.xml',
     .concat(['</urlset>','']).join(NL));
 await writeFile('../robots.txt',
   ['User-agent: *','Allow: /','Disallow: /_originals/','','Sitemap: '+SITE+'sitemap.xml',''].join(NL));
-await writeFile('../404.html',finalize(head('Page not found, Aura Films','That page does not exist. Browse the Aura Films gallery, packages or get in touch.','404.html')+nav('')+
+await writeFile('../404.html',finalize(head('Page not found, Aura Films','That page does not exist. Browse the Aura Films gallery, packages or get in touch.','404')+nav('')+
 `<main class="legal"><div class="container" style="max-width:860px">
 <p class="updated">Error 404</p>
 <h1 class="serif">That page has <em>wandered off.</em></h1>
 <p>The link may be old, or the page may have moved. Everything is still here:</p>
-<p style="margin-top:26px"><a class="btn btn-gold" href="index.html">Back to home</a> <a class="btn btn-line" href="gallery.html" style="margin-left:8px">See the gallery</a></p>
+<p style="margin-top:26px"><a class="btn btn-gold" href="/">Back to home</a> <a class="btn btn-line" href="gallery" style="margin-left:8px">See the gallery</a></p>
 <h2>Or jump straight to</h2>
-<ul><li><a href="gallery.html">The full gallery</a></li><li><a href="investment.html">Packages and pricing</a></li><li><a href="about.html">About Albin</a></li><li><a href="about.html#contact">Get in touch</a></li></ul>
+<ul><li><a href="gallery">The full gallery</a></li><li><a href="investment">Packages and pricing</a></li><li><a href="about">About Albin</a></li><li><a href="about#contact">Get in touch</a></li></ul>
 </div></main>`+foot()));
 
 await writeFile('../index.html',withSchema(homeHTML));

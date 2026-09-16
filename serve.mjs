@@ -1,5 +1,6 @@
 import { createServer } from "http";
 import { readFile } from "fs/promises";
+import { existsSync } from "fs";
 import { extname, join } from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
@@ -27,8 +28,14 @@ const MIME = {
 const PORT = process.env.PORT || 3000;
 
 const server = createServer(async (req, res) => {
+  // EXTENSIONLESS: mirror Cloudflare Pages, which serves /gallery from gallery.html
   let urlPath = decodeURIComponent(req.url.split("?")[0]);
   if (urlPath === "/") urlPath = "/index.html";
+  // Cloudflare Pages serves /gallery from gallery.html; mirror that locally.
+  if (!extname(urlPath)) {
+    const withHtml = join(__dirname, urlPath + ".html");
+    if (existsSync(withHtml)) urlPath = urlPath + ".html";
+  }
 
   const filePath = join(__dirname, urlPath);
 
