@@ -1,103 +1,217 @@
-/* ═══════════════════ AURA FILMS · ATLAS BEHAVIOUR ═══════════════════ */
+/* ═══════════════ AURA FILMS · ATLAS MOTION ═══════════════
+   Rules this file obeys:
+   · every animation guides attention, shows state, or preserves continuity
+   · responsiveness outranks smoothness
+   · transform and opacity only, never layout properties
+   · one token set, no inline magic numbers
+   · reduced motion and low-end devices override everything
+   ════════════════════════════════════════════════════════ */
 (function(){
   "use strict";
-  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var root=document.documentElement;
 
-  /* deter casual image saving */
+  /* ── tokens ── */
+  var TOK={
+    dur:{instant:.08,fast:.18,normal:.35,slow:.6,crawl:1},
+    ease:{smooth:'power3.out',sharp:'power2.inOut',out:'expo.out',linear:'none'},
+    css:'cubic-bezier(.22,1,.36,1)'
+  };
+
+  var root=document.documentElement;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
+  var lowEnd=(navigator.hardwareConcurrency&&navigator.hardwareConcurrency<=4)||(navigator.deviceMemory&&navigator.deviceMemory<=4);
+  var G=window.gsap,ST=window.ScrollTrigger;
+  var useG=!!(G&&ST)&&!reduce;
+  var rich=useG&&!lowEnd;                    /* decorative extras only on capable devices */
+  if(useG) G.registerPlugin(ST);
+
+  /* ── protect the photographs ── */
   document.addEventListener('contextmenu',function(e){ if(e.target.closest('img,.frame,.gitem,.card,.lb')) e.preventDefault(); });
   document.addEventListener('dragstart',function(e){ if(e.target.tagName==='IMG') e.preventDefault(); });
 
-  /* ── weighted wheel scrolling on desktop; touch stays native ── */
+  /* ── weighted wheel scrolling; touch stays native ── */
   var lenis=null;
-  if(window.Lenis && !reduce){
+  if(window.Lenis&&!reduce){
     root.classList.add('has-lenis');
     lenis=new window.Lenis({duration:1.1,easing:function(t){return Math.min(1,1.001-Math.pow(2,-10*t));},smoothWheel:true,syncTouch:false});
-    (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })(0);
+    if(useG){ lenis.on('scroll',ST.update); G.ticker.add(function(t){ lenis.raf(t*1000); }); G.ticker.lagSmoothing(0); }
+    else (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })(0);
   }
-  function goTo(el){ if(lenis) lenis.scrollTo(el,{offset:-90}); else el.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}); }
+  function goTo(el){ if(lenis) lenis.scrollTo(el,{offset:-92}); else el.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}); }
 
-  /* ── one scroll loop for everything that follows the page ── */
-  var ticking=false,onScrollFns=[];
-  function onScroll(fn){ onScrollFns.push(fn); }
-  function frame(){ ticking=false; for(var i=0;i<onScrollFns.length;i++) onScrollFns[i](); }
-  function request(){ if(!ticking){ ticking=true; requestAnimationFrame(frame); } }
-  addEventListener('scroll',request,{passive:true}); addEventListener('resize',request);
+  /* ── a single scroll loop for everything that simply follows the page ── */
+  var fns=[],ticking=false;
+  function onScroll(fn){ fns.push(fn); }
+  function run(){ ticking=false; for(var i=0;i<fns.length;i++) fns[i](); }
+  function request(){ if(!ticking){ ticking=true; requestAnimationFrame(run); } }
+  addEventListener('scroll',request,{passive:true});
+  addEventListener('resize',request);
 
-  /* progress bar */
+  /* ── progress bar: shows where you are ── */
   var bar=document.getElementById('progress');
-  if(bar) onScroll(function(){
-    var h=root.scrollHeight-innerHeight;
-    bar.style.transform='scaleX('+(h>0?Math.min(1,scrollY/h):0)+')';
-  });
+  if(bar) onScroll(function(){ var h=root.scrollHeight-innerHeight; bar.style.transform='scaleX('+(h>0?Math.min(1,scrollY/h):0)+')'; });
 
-  /* ── colour: the page takes the tone of whatever photograph you are looking at ── */
+  /* ── nav gets out of the way going down, returns coming up ── */
+  var nav=document.getElementById('nav');
+  if(nav){
+    var lastY=0;
+    onScroll(function(){
+      var y=scrollY;
+      nav.classList.toggle('scrolled',y>30);
+      if(!document.body.classList.contains('drawer-open'))
+        nav.classList.toggle('tucked',y>260&&y>lastY+4);
+      lastY=y;
+    });
+  }
+
+  /* ── colour: the page takes the tone of the photograph you are looking at ── */
   (function(){
     var worlds=[].slice.call(document.querySelectorAll('[data-c]'));
     if(!worlds.length) return;
-    function read(el){ return el.dataset.c.split(',').map(Number); }
-    var cur=read(worlds[0]),want=cur.slice();
+    var read=function(el){ return el.dataset.c.split(',').map(Number); };
+    var cur=read(worlds[0]),want=cur.slice(),painting=false;
+    function set(c){ document.body.style.backgroundColor='rgb('+Math.round(c[0])+','+Math.round(c[1])+','+Math.round(c[2])+')'; }
     function pick(){
-      var mid=innerHeight*0.5,best=null;
+      var mid=innerHeight*.5,best=null;
       for(var i=0;i<worlds.length;i++){
-        var el=worlds[i]; if(el.classList.contains('card')) continue;   /* deck cards steer the hero instead */
+        var el=worlds[i]; if(el.classList.contains('card')) continue;
         var r=el.getBoundingClientRect();
         if(r.height===0) continue;
-        if(r.top<=mid && r.bottom>=mid) best=el;
+        if(r.top<=mid&&r.bottom>=mid) best=el;
       }
       if(best) want=read(best);
     }
-    function set(c){ document.body.style.backgroundColor='rgb('+Math.round(c[0])+','+Math.round(c[1])+','+Math.round(c[2])+')'; }
-    set(cur);
-    if(reduce){ onScroll(function(){ pick(); set(want); }); addEventListener('aura:tone',function(){ pick(); set(want); }); pick(); set(want); return; }
     function paint(){
       var moving=false;
-      for(var i=0;i<3;i++){ var d=want[i]-cur[i]; if(Math.abs(d)>0.3){ cur[i]+=d*0.06; moving=true; } else cur[i]=want[i]; }
+      for(var i=0;i<3;i++){ var d=want[i]-cur[i]; if(Math.abs(d)>.3){ cur[i]+=d*.06; moving=true; } else cur[i]=want[i]; }
       set(cur);
       if(moving) requestAnimationFrame(paint); else painting=false;
     }
-    var painting=false;
-    function kick(){ pick(); if(!painting){ painting=true; requestAnimationFrame(paint); } }
-    onScroll(kick); addEventListener('aura:tone',kick); kick();
+    function kick(){ pick(); if(reduce){ cur=want.slice(); set(cur); return; } if(!painting){ painting=true; requestAnimationFrame(paint); } }
+    set(cur); onScroll(kick); addEventListener('aura:tone',kick); kick();
   })();
 
-  /* ── reveals, once, with a sweep so nothing can stay hidden ── */
+  /* ── reveals: once, with a sweep so nothing can stay hidden ── */
   var rv=[].slice.call(document.querySelectorAll('.reveal,.plate,.gitem'));
   function show(e){ e.classList.add('in'); }
-  if('IntersectionObserver' in window && !reduce){
+  if('IntersectionObserver' in window&&!reduce){
     var io=new IntersectionObserver(function(es){
       es.forEach(function(e){ if(e.isIntersecting){ show(e.target); io.unobserve(e.target); } });
     },{threshold:0,rootMargin:'0px 0px -7% 0px'});
     rv.forEach(function(e){ io.observe(e); });
-    var sweep=function(){ for(var i=0;i<rv.length;i++){ var e=rv[i]; if(!e.classList.contains('in') && e.getBoundingClientRect().top<innerHeight*0.97) show(e); } };
+    var sweep=function(){ for(var i=0;i<rv.length;i++){ var e=rv[i]; if(!e.classList.contains('in')&&e.getBoundingClientRect().top<innerHeight*.97) show(e); } };
     onScroll(sweep); setTimeout(sweep,1200); addEventListener('load',sweep);
   } else rv.forEach(show);
 
-  /* ── headline lines rise into place ── */
+  /* ── the opening: headline lines rise, deck deals itself in ── */
   (function(){
     var lines=[].slice.call(document.querySelectorAll('.ln>span'));
-    if(!lines.length || reduce) return;
-    lines.forEach(function(s,i){ s.style.transform='translateY(108%)'; s.style.transition='transform 1.1s cubic-bezier(.22,1,.36,1) '+(0.1+i*0.09)+'s'; });
-    requestAnimationFrame(function(){ requestAnimationFrame(function(){ lines.forEach(function(s){ s.style.transform='none'; }); }); });
+    if(reduce){ lines.forEach(function(s){ s.style.transform='none'; }); return; }
+    if(useG&&lines.length){
+      G.set(lines,{yPercent:108});
+      G.to(lines,{yPercent:0,duration:TOK.dur.crawl,ease:TOK.ease.out,stagger:.08,delay:.1});
+    } else if(lines.length){
+      lines.forEach(function(s,i){ s.style.transform='translateY(108%)'; s.style.transition='transform 1.1s '+TOK.css+' '+(.1+i*.09)+'s'; });
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){ lines.forEach(function(s){ s.style.transform='none'; }); }); });
+    }
   })();
+
+  /* ── plates drift inside their frames: depth, not decoration ── */
+  if(rich&&matchMedia('(min-width:700px)').matches){
+    G.utils.toArray('.plate .frame').forEach(function(f){
+      var img=f.querySelector('img'); if(!img) return;
+      G.fromTo(img,{yPercent:-4},{yPercent:4,ease:TOK.ease.linear,
+        scrollTrigger:{trigger:f,start:'top bottom',end:'bottom top',scrub:1}});
+    });
+  }
+
+  /* ── chapter headings arrive word by word ── */
+  if(rich){
+    G.utils.toArray('.ch-head h2, .pk-head h2, .ghead h2').forEach(function(h){
+      if(h.dataset.split) return; h.dataset.split='1';
+      var parts=[];
+      [].slice.call(h.childNodes).forEach(function(n){
+        if(n.nodeType===3){
+          var frag=document.createDocumentFragment();
+          n.nodeValue.split(/(\s+)/).forEach(function(w){
+            if(!w.trim()){ frag.appendChild(document.createTextNode(w)); return; }
+            var s=document.createElement('span'); s.className='wd'; s.textContent=w; frag.appendChild(s); parts.push(s);
+          });
+          h.replaceChild(frag,n);
+        } else if(n.nodeType===1){ n.classList.add('wd'); parts.push(n); }
+      });
+      if(!parts.length) return;
+      G.set(parts,{yPercent:104,opacity:0});
+      G.to(parts,{yPercent:0,opacity:1,duration:TOK.dur.slow,ease:TOK.ease.out,stagger:.045,
+        scrollTrigger:{trigger:h,start:'top 86%',once:true}});
+    });
+  }
+
+  /* ── the manifesto brightens as you read it ── */
+  document.querySelectorAll('.mani-text').forEach(function(p){
+    if(reduce) return;
+    var ws=[].slice.call(p.querySelectorAll('.w')); if(!ws.length) return;
+    p.classList.add('mani-live');
+    var lit=function(prog){
+      var n=Math.round(Math.max(0,Math.min(1,prog))*ws.length);
+      for(var i=0;i<ws.length;i++) ws[i].classList.toggle('on',i<n);
+    };
+    if(useG) ST.create({trigger:p,start:'top 78%',end:'bottom 58%',scrub:true,onUpdate:function(s){ lit(s.progress); }});
+    else { onScroll(function(){ var r=p.getBoundingClientRect(); lit((innerHeight*.82-r.top)/(r.height+innerHeight*.28)); }); request(); }
+  });
+
+  /* ── prices count up once, so the number registers ── */
+  if(useG){
+    G.utils.toArray('.tease-price,.tier-price').forEach(function(el){
+      var tn=[].slice.call(el.childNodes).filter(function(n){ return n.nodeType===3&&/\d/.test(n.nodeValue); }).pop();
+      if(!tn) return;
+      var raw=tn.nodeValue,target=parseInt(raw.replace(/[^\d]/g,''),10);
+      if(!target||target>20000) return;
+      var money=/\$/.test(raw),o={v:0};
+      ST.create({trigger:el,start:'top 90%',once:true,onEnter:function(){
+        G.to(o,{v:target,duration:TOK.dur.crawl,ease:'power2.out',
+          onUpdate:function(){ tn.nodeValue=(money?'$':'')+Math.round(o.v); },
+          onComplete:function(){ tn.nodeValue=raw; }});
+      }});
+    });
+  }
+
+  /* ── primary buttons lean toward the pointer ── */
+  if(rich&&fine){
+    document.querySelectorAll('.hero-cta .btn-solid,.foot-cta .btn-solid').forEach(function(b){
+      var x=G.quickTo(b,'x',{duration:TOK.dur.slow,ease:TOK.ease.smooth}),
+          y=G.quickTo(b,'y',{duration:TOK.dur.slow,ease:TOK.ease.smooth});
+      function move(e){ var r=b.getBoundingClientRect(); x((e.clientX-(r.left+r.width/2))*.22); y((e.clientY-(r.top+r.height/2))*.32); }
+      function out(){ x(0); y(0); }
+      b.addEventListener('pointermove',move); b.addEventListener('pointerleave',out); b.addEventListener('blur',out);
+    });
+  }
 
   /* ── the photo deck ── */
   (function(){
     var deck=document.getElementById('deck'); if(!deck) return;
     var cards=[].slice.call(deck.querySelectorAll('.card')),n=cards.length; if(!n) return;
     var hero=document.getElementById('top'),num=document.getElementById('deckNum'),cap=document.getElementById('deckCap'),fill=document.getElementById('deckFill');
-    var cur=0,prev=-1,timer=null,visible=true,hovered=false,DUR=4200;
+    var cur=0,prev=-1,timer=null,onScreen=true,hovered=false,DUR=4200;
+    var POS=[
+      {x:'0%',y:'0%',r:0,s:1,o:1,f:'brightness(1)'},
+      {x:'6%',y:'-3%',r:5,s:.92,o:.95,f:'brightness(.6)'},
+      {x:'-6%',y:'-5%',r:-6,s:.85,o:.75,f:'brightness(.42)'}
+    ],GONE={x:'-38%',y:'6%',r:-13,s:.95,o:0,f:'brightness(1)'},BACK={x:'0%',y:'-7%',r:0,s:.78,o:0,f:'brightness(.4)'};
     function pad(x){ return (x<10?'0':'')+x; }
-    function lay(){
+    function apply(c,p,animate){
+      var to={xPercent:parseFloat(p.x),yPercent:parseFloat(p.y),rotate:p.r,scale:p.s,opacity:p.o,filter:p.f};
+      if(useG&&animate) G.to(c,Object.assign({duration:TOK.dur.crawl,ease:TOK.ease.smooth,overwrite:'auto'},to));
+      else if(useG) G.set(c,to);
+      else { c.style.transform='translate3d('+p.x+','+p.y+',0) rotate('+p.r+'deg) scale('+p.s+')'; c.style.opacity=p.o; c.style.filter=p.f; }
+    }
+    function lay(animate){
       for(var i=0;i<n;i++){
-        var c=cards[i],k=(i-cur+n)%n,t,o,f,z=n-k;
-        if(i===prev&&prev!==cur){ t='translate3d(-38%,6%,0) rotate(-13deg) scale(.95)'; o=0; f='brightness(1)'; z=n+1; }
-        else if(k===0){ t='translate3d(0,0,0) rotate(0deg) scale(1)'; o=1; f='brightness(1)'; }
-        else if(k===1){ t='translate3d(6%,-3%,0) rotate(5deg) scale(.92)'; o=.95; f='brightness(.6)'; }
-        else if(k===2){ t='translate3d(-6%,-5%,0) rotate(-6deg) scale(.85)'; o=.75; f='brightness(.42)'; }
-        else { t='translate3d(0,-7%,0) rotate(0deg) scale(.78)'; o=0; f='brightness(.4)'; }
-        c.style.transform=t; c.style.opacity=o; c.style.filter=f; c.style.zIndex=z;
-        c.setAttribute('aria-hidden',k===0?'false':'true');
+        var k=(i-cur+n)%n,p;
+        if(i===prev&&prev!==cur) p=GONE; else p=k<3?POS[k]:BACK;
+        cards[i].style.zIndex=(i===prev&&prev!==cur)?n+1:n-k;
+        cards[i].setAttribute('aria-hidden',k===0?'false':'true');
+        apply(cards[i],p,animate);
       }
       var a=cards[cur];
       if(num) num.textContent=pad(cur+1)+' / '+pad(n);
@@ -105,52 +219,38 @@
       if(hero){ hero.dataset.c=a.dataset.c; dispatchEvent(new Event('aura:tone')); }
       if(fill){
         fill.style.transition='none'; fill.style.width='0%';
-        if(!reduce&&running()){ void fill.offsetWidth; fill.style.transition='width '+DUR+'ms linear'; fill.style.width='100%'; }
+        if(playing()){ void fill.offsetWidth; fill.style.transition='width '+DUR+'ms linear'; fill.style.width='100%'; }
       }
     }
-    function running(){ return !reduce&&visible&&!hovered&&!document.hidden; }
-    function schedule(){ clearTimeout(timer); if(running()) timer=setTimeout(function(){ go(1); },DUR); }
-    function go(d){ prev=cur; cur=(cur+d+n)%n; lay(); schedule(); }
-    lay(); schedule();
+    function playing(){ return !reduce&&onScreen&&!hovered&&!document.hidden; }
+    function schedule(){ clearTimeout(timer); if(playing()) timer=setTimeout(function(){ go(1); },DUR); }
+    function go(d){ prev=cur; cur=(cur+d+n)%n; lay(true); schedule(); }
+    lay(false); schedule();
 
     var nx=document.getElementById('deckNext'),pv=document.getElementById('deckPrev');
     if(nx) nx.addEventListener('click',function(){ go(1); });
     if(pv) pv.addEventListener('click',function(){ go(-1); });
     deck.addEventListener('keydown',function(e){
-      if(e.key==='ArrowRight'){ e.preventDefault(); go(1); }
-      else if(e.key==='ArrowLeft'){ e.preventDefault(); go(-1); }
+      if(e.key==='ArrowRight'){ e.preventDefault(); go(1); } else if(e.key==='ArrowLeft'){ e.preventDefault(); go(-1); }
     });
-    /* swipe sideways on touch, tap or click to deal the next photograph */
-    var sx=0,sy=0,down=false;
-    deck.addEventListener('pointerdown',function(e){ down=true; sx=e.clientX; sy=e.clientY; });
+    /* swipe: distance and speed together, never speed alone */
+    var sx=0,sy=0,st=0,down=false;
+    deck.addEventListener('pointerdown',function(e){ down=true; sx=e.clientX; sy=e.clientY; st=Date.now(); });
     deck.addEventListener('pointerup',function(e){
       if(!down) return; down=false;
-      var dx=e.clientX-sx,dy=e.clientY-sy;
-      if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)) go(dx<0?1:-1);
+      var dx=e.clientX-sx,dy=e.clientY-sy,vel=Math.abs(dx)/Math.max(1,Date.now()-st);
+      if(Math.abs(dx)>Math.abs(dy)&&(Math.abs(dx)>48||(Math.abs(dx)>20&&vel>.45))) go(dx<0?1:-1);
       else if(Math.abs(dx)<8&&Math.abs(dy)<8) go(1);
     });
     deck.addEventListener('pointercancel',function(){ down=false; });
-    deck.addEventListener('mouseenter',function(){ hovered=true; schedule(); lay(); });
-    deck.addEventListener('mouseleave',function(){ hovered=false; schedule(); lay(); });
-    document.addEventListener('visibilitychange',function(){ schedule(); });
-    if('IntersectionObserver' in window){
-      new IntersectionObserver(function(es){ visible=es[0].isIntersecting; schedule(); },{threshold:0.2}).observe(deck);
-    }
+    deck.addEventListener('mouseenter',function(){ hovered=true; schedule(); });
+    deck.addEventListener('mouseleave',function(){ hovered=false; schedule(); });
+    deck.addEventListener('focusin',function(){ hovered=true; schedule(); });
+    deck.addEventListener('focusout',function(){ hovered=false; schedule(); });
+    document.addEventListener('visibilitychange',schedule);
+    if('IntersectionObserver' in window)
+      new IntersectionObserver(function(es){ onScreen=es[0].isIntersecting; schedule(); },{threshold:.2}).observe(deck);
   })();
-
-  /* ── manifesto: words brighten as you read down ── */
-  document.querySelectorAll('.mani-text').forEach(function(p){
-    if(reduce) return;
-    var ws=[].slice.call(p.querySelectorAll('.w')); if(!ws.length) return;
-    p.classList.add('mani-live');
-    onScroll(function(){
-      var r=p.getBoundingClientRect(),vh=innerHeight;
-      var prog=(vh*0.82-r.top)/(r.height+vh*0.28);
-      var lit=Math.round(Math.max(0,Math.min(1,prog))*ws.length);
-      for(var i=0;i<ws.length;i++) ws[i].classList.toggle('on',i<lit);
-    });
-    request();
-  });
 
   /* ── Calendly, loaded only when a visitor chooses to book ── */
   var CAL=window.AURA_CALENDLY;
@@ -161,10 +261,10 @@
       if(calPromise) return calPromise;
       calState=1;
       calPromise=new Promise(function(res){
-        var l=document.createElement('link');l.rel='stylesheet';l.href='https://assets.calendly.com/assets/external/widget.css';document.head.appendChild(l);
-        var s=document.createElement('script');s.src='https://assets.calendly.com/assets/external/widget.js';s.async=true;
-        s.onload=function(){calState=2;res(!!window.Calendly);};
-        s.onerror=function(){calState=0;calPromise=null;res(false);};
+        var l=document.createElement('link'); l.rel='stylesheet'; l.href='https://assets.calendly.com/assets/external/widget.css'; document.head.appendChild(l);
+        var s=document.createElement('script'); s.src='https://assets.calendly.com/assets/external/widget.js'; s.async=true;
+        s.onload=function(){ calState=2; res(!!window.Calendly); };
+        s.onerror=function(){ calState=0; calPromise=null; res(false); };
         document.head.appendChild(s);
       });
       return calPromise;
@@ -193,31 +293,31 @@
     });
   }
 
-  /* ── nav ── */
-  var nav=document.getElementById('nav');
-  if(nav){ onScroll(function(){ nav.classList.toggle('scrolled',scrollY>30); }); request(); }
+  /* ── drawer ── */
   var burger=document.getElementById('burger'),drawer=document.getElementById('drawer');
   if(burger&&drawer){
     var setDrawer=function(open){
       drawer.classList.toggle('open',open); document.body.classList.toggle('drawer-open',open);
-      burger.setAttribute('aria-expanded',open?'true':'false'); burger.setAttribute('aria-label',open?'Close menu':'Open menu');
-      root.style.overflow=open?'hidden':''; if(lenis){ open?lenis.stop():lenis.start(); }
+      burger.setAttribute('aria-expanded',open?'true':'false');
+      burger.setAttribute('aria-label',open?'Close menu':'Open menu');
+      root.style.overflow=open?'hidden':'';
+      if(lenis){ open?lenis.stop():lenis.start(); }
+      if(nav&&open) nav.classList.remove('tucked');
     };
     burger.addEventListener('click',function(){ setDrawer(!drawer.classList.contains('open')); });
     drawer.querySelectorAll('a').forEach(function(a){ a.addEventListener('click',function(){ setDrawer(false); }); });
     addEventListener('keydown',function(e){ if(e.key==='Escape'&&drawer.classList.contains('open')){ setDrawer(false); burger.focus(); } });
   }
 
-  /* ── section jumper highlights where you are ── */
+  /* ── section jumper follows you ── */
   (function(){
     var links=[].slice.call(document.querySelectorAll('.jump a')); if(!links.length) return;
     var secs=links.map(function(a){ return document.querySelector(a.getAttribute('href')); });
     onScroll(function(){
       var idx=-1;
-      for(var i=0;i<secs.length;i++){ if(secs[i]&&secs[i].getBoundingClientRect().top<innerHeight*0.4) idx=i; }
+      for(var i=0;i<secs.length;i++) if(secs[i]&&secs[i].getBoundingClientRect().top<innerHeight*.4) idx=i;
       links.forEach(function(a,i){ a.classList.toggle('on',i===idx); });
     });
-    request();
   })();
 
   /* ── FAQ ── */
@@ -228,6 +328,7 @@
         o.classList.remove('open'); o.querySelector('.faq-a').style.maxHeight=null; o.querySelector('.faq-q').setAttribute('aria-expanded','false');
       });
       if(!open){ it.classList.add('open'); a.style.maxHeight=a.scrollHeight+'px'; q.setAttribute('aria-expanded','true'); }
+      if(useG) ST.refresh();
     });
   });
 
@@ -259,10 +360,10 @@
   }
 
   /* ── back to top ── */
-  var top=document.getElementById('toTop');
-  if(top){
-    onScroll(function(){ top.classList.toggle('show',scrollY>900); });
-    top.addEventListener('click',function(){ if(lenis) lenis.scrollTo(0); else scrollTo({top:0,behavior:reduce?'auto':'smooth'}); });
+  var toTop=document.getElementById('toTop');
+  if(toTop){
+    onScroll(function(){ toTop.classList.toggle('show',scrollY>900); });
+    toTop.addEventListener('click',function(){ if(lenis) lenis.scrollTo(0); else scrollTo({top:0,behavior:reduce?'auto':'smooth'}); });
   }
 
   /* ── contact form ── */
@@ -282,6 +383,35 @@
     });
   }
 
+  /* ── page transitions: one continuous surface between pages ── */
+  (function(){
+    var pt=document.getElementById('pt');
+    if(!pt||!useG) return;
+    var KEY='aura_pt';
+    if(sessionStorage.getItem(KEY)){
+      sessionStorage.removeItem(KEY);
+      G.set(pt,{scaleY:1,transformOrigin:'50% 0%'});
+      G.to(pt,{scaleY:0,duration:TOK.dur.slow,ease:TOK.ease.sharp,transformOrigin:'50% 0%'});
+    }
+    var leaving=false;
+    document.addEventListener('click',function(e){
+      var a=e.target.closest&&e.target.closest('a'); if(!a||leaving) return;
+      var href=a.getAttribute('href');
+      if(!href||href.charAt(0)==='#'||a.target==='_blank'||a.hasAttribute('download')) return;
+      if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button!==0) return;
+      var url; try{ url=new URL(a.href); }catch(_){ return; }
+      if(url.origin!==location.origin) return;
+      if(url.pathname===location.pathname){ return; }
+      e.preventDefault(); leaving=true;
+      try{ sessionStorage.setItem(KEY,'1'); }catch(_){}
+      var done=false,gonow=function(){ if(done) return; done=true; location.href=a.href; };
+      G.set(pt,{scaleY:0,transformOrigin:'50% 100%'});
+      G.to(pt,{scaleY:1,duration:TOK.dur.normal+.1,ease:TOK.ease.sharp,onComplete:gonow});
+      setTimeout(gonow,700);                    /* never trap the visitor */
+    });
+    addEventListener('pageshow',function(e){ if(e.persisted){ leaving=false; G.set(pt,{scaleY:0}); } });
+  })();
+
   /* ── in-page anchors follow the smooth scroller ── */
   if(lenis){
     document.querySelectorAll('a[href^="#"]').forEach(function(a){
@@ -293,5 +423,6 @@
     });
   }
 
+  if(useG) addEventListener('load',function(){ ST.refresh(); });
   request();
 })();

@@ -1,4 +1,4 @@
-import sharp from 'sharp';
+let sharp=null; try{ sharp=(await import('sharp')).default; }catch(e){ console.warn('sharp unavailable, using cached tones'); }
 import { readdirSync } from 'fs';
 import { writeFile, readFile } from 'fs/promises';
 const IMG='images/';
@@ -36,7 +36,9 @@ function finalize(html){
 /* ── colour: every photograph lends the page its own deep tone ──
    The most vivid hue in each image (saree red, lawn green, a turquoise wrap)
    is found, then deepened so light text always stays readable on it. */
-const TONES={};
+const TONES_FILE=new URL('./tones.json',import.meta.url);
+let TONES={};
+try{ TONES=JSON.parse(await readFile(TONES_FILE,'utf8')); }catch(e){}
 async function toneOf(file){
   const {data}=await sharp('../images/'+file).resize(28,28,{fit:'inside'}).removeAlpha().raw().toBuffer({resolveWithObject:true});
   const bins=Array.from({length:12},()=>({w:0,raw:0,r:0,g:0,b:0}));
@@ -62,8 +64,11 @@ async function toneOf(file){
   const f=t=>{if(t<0)t+=1;if(t>1)t-=1;return t<1/6?p+(q-p)*6*t:t<1/2?q:t<2/3?p+(q-p)*(2/3-t)*6:p;};
   return [f(h+1/3),f(h),f(h-1/3)].map(x=>Math.round(x*255)).join(',');
 }
-for(const f of readdirSync('../images').filter(f=>/\.jpe?g$/i.test(f)&&!/^c_/.test(f))){
-  try{TONES[f]=await toneOf(f);}catch(e){TONES[f]='22,18,16';}
+if(sharp){
+  for(const f of readdirSync('../images').filter(f=>/.jpe?g$/i.test(f)&&!/^c_/.test(f))){
+    try{TONES[f]=await toneOf(f);}catch(e){TONES[f]=TONES[f]||'22,18,16';}
+  }
+  await writeFile(TONES_FILE,JSON.stringify(TONES));
 }
 const T=f=>TONES[f]||'22,18,16';
 
@@ -94,7 +99,7 @@ const head=(title,desc,path='')=>`<!DOCTYPE html><html lang="en"><head>
 <link rel="preload" href="/redesign/fonts/clash-display-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/redesign/aura.css">${CALENDLY?`<link rel="preconnect" href="https://assets.calendly.com"><link rel="dns-prefetch" href="https://calendly.com">`:''}${HCAPTCHA?`<script src="https://js.hcaptcha.com/1/api.js" async defer></script>`:''}<script>window.AURA_CALENDLY=${JSON.stringify(CALENDLY)};</script></head><body><a href="#main" class="skip-link">Skip to content</a><div class="progress" id="progress" aria-hidden="true"></div>`;
+<link rel="stylesheet" href="/redesign/aura.css">${CALENDLY?`<link rel="preconnect" href="https://assets.calendly.com"><link rel="dns-prefetch" href="https://calendly.com">`:''}${HCAPTCHA?`<script src="https://js.hcaptcha.com/1/api.js" async defer></script>`:''}<script>window.AURA_CALENDLY=${JSON.stringify(CALENDLY)};</script></head><body><a href="#main" class="skip-link">Skip to content</a><div class="progress" id="progress" aria-hidden="true"></div><div class="pt" id="pt" aria-hidden="true"></div>`;
 
 /* ── nav ── */
 const nav=(active)=>{const L=[['/','Home'],['/gallery','Gallery'],['/about','About'],['/investment','Investment']];
@@ -137,7 +142,7 @@ if(m)m.addEventListener('click',function(){window.__AURA_ESSENTIAL_ONLY=true;set
 }catch(e){}})();</script>`;
 
 const mcta=`<div class="mcta"><a href="tel:+13439894546">Call</a><a class="p" href="/about#contact">Book a date</a></div>`;
-const foot=(extra='')=>footer+toTop+mcta+extra+cookieNotice+`<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js" defer></script><script src="/redesign/aura.js" defer></script></body></html>`;
+const foot=(extra='')=>footer+toTop+mcta+extra+cookieNotice+`<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js" defer></script><script src="/redesign/aura.js" defer></script></body></html>`;
 
 /* ── testimonials carousel ── */
 const testimonials=[
