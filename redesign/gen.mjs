@@ -1,3 +1,5 @@
+import sharp from 'sharp';
+import { readdirSync } from 'fs';
 import { writeFile, readFile } from 'fs/promises';
 const IMG='images/';
 const DIMS=JSON.parse(await readFile(new URL('./image-dims.json',import.meta.url)));
@@ -31,16 +33,57 @@ function finalize(html){
   return pictureize(html);
 }
 
-/* ── head (Fraunces + Inter + Pinyon Script) ── */
+/* ── colour: every photograph lends the page its own deep tone ──
+   The most vivid hue in each image (saree red, lawn green, a turquoise wrap)
+   is found, then deepened so light text always stays readable on it. */
+const TONES={};
+async function toneOf(file){
+  const {data}=await sharp('../images/'+file).resize(28,28,{fit:'inside'}).removeAlpha().raw().toBuffer({resolveWithObject:true});
+  const bins=Array.from({length:12},()=>({w:0,raw:0,r:0,g:0,b:0}));
+  let ar=0,ag=0,ab=0,n=0;
+  for(let i=0;i<data.length;i+=3){
+    const r=data[i],g=data[i+1],b=data[i+2]; ar+=r;ag+=g;ab+=b;n++;
+    const mx=Math.max(r,g,b),mn=Math.min(r,g,b),d=mx-mn,v=mx/255,s=mx?d/mx:0;
+    if(v<0.18||v>0.97||s<0.22) continue;
+    const h=d===0?0:mx===r?((g-b)/d+6)%6:mx===g?(b-r)/d+2:(r-g)/d+4;
+    const k=Math.floor(h*2)%12,w=s*s*v*(k>=2&&k<=4?0.4:1); /* foliage is usually background: let the subject win */
+    bins[k].w+=w;bins[k].raw+=s*s*v;bins[k].r+=r*w;bins[k].g+=g*w;bins[k].b+=b*w;
+  }
+  const best=bins.reduce((a,c)=>c.w>a.w?c:a,{w:0});
+  let r,g,b,fixedS=null;
+  if(best.raw>n*0.012){r=best.r/best.w;g=best.g/best.w;b=best.b/best.w;}
+  else{r=ar/n;g=ag/n;b=ab/n;fixedS=0.1;}
+  r/=255;g/=255;b/=255;
+  const mx=Math.max(r,g,b),mn=Math.min(r,g,b);let h=0,s=0;
+  if(mx!==mn){const d=mx-mn,l0=(mx+mn)/2;s=l0>.5?d/(2-mx-mn):d/(mx+mn);
+    h=mx===r?((g-b)/d+(g<b?6:0)):mx===g?((b-r)/d+2):((r-g)/d+4);h/=6;}
+  s=fixedS!==null?fixedS:Math.min(0.62,Math.max(0.34,s));
+  const l=0.17,q=l<.5?l*(1+s):l+s-l*s,p=2*l-q;
+  const f=t=>{if(t<0)t+=1;if(t>1)t-=1;return t<1/6?p+(q-p)*6*t:t<1/2?q:t<2/3?p+(q-p)*(2/3-t)*6:p;};
+  return [f(h+1/3),f(h),f(h-1/3)].map(x=>Math.round(x*255)).join(',');
+}
+for(const f of readdirSync('../images').filter(f=>/\.jpe?g$/i.test(f)&&!/^c_/.test(f))){
+  try{TONES[f]=await toneOf(f);}catch(e){TONES[f]='22,18,16';}
+}
+const T=f=>TONES[f]||'22,18,16';
+
+/* ── icons ── */
+const arrow=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
+const tick=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>`;
+const star=`<svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9.6l6.9-.7z"/></svg>`;
+const chevL=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>`;
+const chevR=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>`;
+
+/* ── head: Clash Display (self-hosted) + Playfair Display ── */
 const SITE='https://itsaurafilms.com/';
 const head=(title,desc,path='')=>`<!DOCTYPE html><html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 <title>${title}</title><meta name="description" content="${desc}">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-<link rel="icon" type="image/png" sizes="256x256" href="favicon.png">
-<link rel="icon" href="favicon.ico" sizes="any">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="theme-color" content="#14100E">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="256x256" href="/favicon.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#16120F">
 <link rel="canonical" href="${SITE}${path}">
 <meta property="og:type" content="website"><meta property="og:site_name" content="Aura Films">
 <meta property="og:title" content="${title}"><meta property="og:description" content="${desc}">
@@ -48,56 +91,43 @@ const head=(title,desc,path='')=>`<!DOCTYPE html><html lang="en"><head>
 <meta property="og:locale" content="en_CA">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${title}">
 <meta name="twitter:description" content="${desc}"><meta name="twitter:image" content="${SITE}images/wed-3.jpg">
+<link rel="preload" href="/redesign/fonts/clash-display-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="redesign/aura.css">${CALENDLY?`<link rel="preconnect" href="https://assets.calendly.com"><link rel="dns-prefetch" href="https://calendly.com">`:''}${HCAPTCHA?`<script src="https://js.hcaptcha.com/1/api.js" async defer></script>`:''}<script>window.AURA_CALENDLY=${JSON.stringify(CALENDLY)};</script></head><body><a href="#main" class="skip-link">Skip to content</a><div class="grain"></div>`;
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/redesign/aura.css">${CALENDLY?`<link rel="preconnect" href="https://assets.calendly.com"><link rel="dns-prefetch" href="https://calendly.com">`:''}${HCAPTCHA?`<script src="https://js.hcaptcha.com/1/api.js" async defer></script>`:''}<script>window.AURA_CALENDLY=${JSON.stringify(CALENDLY)};</script></head><body><a href="#main" class="skip-link">Skip to content</a><div class="progress" id="progress" aria-hidden="true"></div>`;
 
 /* ── nav ── */
-const nav=(active)=>{const L=[['/','Home'],['gallery','Gallery'],['about','About Us'],['investment','Investment']];
-return `<nav class="nav" id="nav"><div class="nav-inner">
-<a href="/" class="brand"><img class="logo-light" src="logo-black.png" alt="Aura Films"><img class="logo-dark" src="images/aura-logo-white.png" alt="Aura Films"></a>
-<div class="nav-links">${L.map(([h,t])=>`<a href="${h}" class="nav-link${active===t?' active':''}">${t}</a>`).join('')}
-<a href="about#contact" class="nav-cta">Book a Date</a></div>
-<button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+const nav=(active)=>{const L=[['/','Home'],['/gallery','Gallery'],['/about','About'],['/investment','Investment']];
+return `<nav class="nav" id="nav" aria-label="Primary"><div class="nav-inner">
+<a href="/" class="brand" aria-label="Aura Films, home"><img src="/images/aura-logo-mark.png" alt="Aura Films" width="102" height="44"></a>
+<div class="nav-links">${L.map(([h,t])=>`<a href="${h}" class="nav-link${active===t?' active':''}"${active===t?' aria-current="page"':''}>${t}</a>`).join('')}</div>
+<a href="/about#contact" class="nav-cta">Book a date</a>
+<button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span></button>
 </div></nav>
-<div class="nav-drawer" id="drawer">${L.map(([h,t])=>`<a href="${h}">${t}</a>`).join('')}<a href="about#contact" class="nav-cta">Book a Date</a></div>`;};
+<div class="drawer" id="drawer">${L.map(([h,t])=>`<a href="${h}" class="drawer-link">${t}</a>`).join('')}<a href="/about#contact" class="btn btn-solid drawer-cta">Book a date ${arrow}</a>
+<p class="drawer-meta"><a href="mailto:itsaurafilms@gmail.com">itsaurafilms@gmail.com</a><a href="tel:+13439894546">343 989 4546</a></p></div>`;};
 
-/* ── circular badge (full circle text) ── */
-const badge=`<div class="badge"><div class="badge-ring-wrap"><svg class="badge-ring" viewBox="0 0 160 160"><defs><path id="circ" d="M80,80 m-62,0 a62,62 0 1,1 124,0 a62,62 0 1,1 -124,0"/></defs>
-<text><textPath href="#circ" startOffset="0">AURA FILMS&#160;&#160;&#160;PHOTOGRAPHY&#160;&#160;&#160;</textPath></text></svg></div>
-<div class="badge-logo"><img src="images/aura-logo-white.png" alt="Aura Films"></div></div>`;
-
-/* ── footer (deep-linked work, Kingston & Ontario) ── */
+/* ── footer ── */
 const footer=`<footer class="footer"><div class="container">
-<div class="foot-top">
-<div class="foot-brand"><div class="foot-badge">${badge}</div>
-<p>Shooting moments. Preserving memories. A Kingston-based photography studio, available across Kingston and Ontario.</p>
-<div class="foot-soc"><a href="https://www.instagram.com/aura.filmsca/" target="_blank" rel="noopener" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a></div></div>
-<div class="foot-col"><h4>Explore</h4><a href="/">Home</a><a href="gallery">Gallery</a><a href="about">About Us</a><a href="investment">Investment</a></div>
-<div class="foot-col"><h4>Work</h4><a href="gallery#weddings">Weddings</a><a href="gallery#portraits">Portraits</a><a href="gallery#family">Family &amp; Maternity</a><a href="gallery#architecture">Architecture</a></div>
-<div class="foot-col"><h4>Reach Us</h4><a href="mailto:itsaurafilms@gmail.com">itsaurafilms@gmail.com</a><a href="tel:+13439894546">343 989 4546</a><a href="about#contact">Kingston, ON</a></div>
+<div class="foot-cta"><h2 class="h-xl">Let’s make something that <em>outlives the day.</em></h2><a class="btn btn-solid" href="/about#contact">Book a date ${arrow}</a></div>
+<div class="foot-grid">
+<div class="foot-brand"><img src="/images/aura-logo-mark.png" alt="Aura Films" width="102" height="44" loading="lazy">
+<p>Shooting moments. Preserving memories. A photography studio in Kingston, available across Kingston and Ontario.</p></div>
+<div class="foot-col"><h3>Explore</h3><a href="/">Home</a><a href="/gallery">Gallery</a><a href="/about">About</a><a href="/investment">Investment</a></div>
+<div class="foot-col"><h3>Work</h3><a href="/gallery#weddings">Weddings</a><a href="/gallery#portraits">Portraits</a><a href="/gallery#family">Family &amp; Maternity</a><a href="/gallery#architecture">Architecture</a></div>
+<div class="foot-col"><h3>Reach us</h3><a href="mailto:itsaurafilms@gmail.com">itsaurafilms@gmail.com</a><a href="tel:+13439894546">343 989 4546</a><a href="https://www.instagram.com/aura.filmsca/" target="_blank" rel="noopener">Instagram, @aura.filmsca</a><a href="https://www.google.com/maps/search/?api=1&amp;query=Kingston%2C+Ontario%2C+Canada" target="_blank" rel="noopener">Kingston, Ontario</a></div>
 </div>
-<div class="foot-bot"><p>© 2026 Aura Films. All rights reserved. <a href="privacy">Privacy Policy</a> · <a href="terms">Terms &amp; Conditions</a> · <a href="cookie">Cookie Policy</a> · <a href="refund">Refund Policy</a></p>
+<div class="foot-bot"><p>© 2026 Aura Films. All rights reserved. <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms &amp; Conditions</a> · <a href="/cookie">Cookie Policy</a> · <a href="/refund">Refund Policy</a></p>
 <p class="foot-legal-id">Aura Films is a sole proprietorship operated by Albin, based in Kingston, Ontario, Canada. Contact <a href="mailto:itsaurafilms@gmail.com">itsaurafilms@gmail.com</a> · <a href="tel:+13439894546">343&nbsp;989&nbsp;4546</a>.</p>
 <p>Design &amp; SEO by <a href="https://joelvarghese-hack.github.io/Marketing-Portfolio/" target="_blank" rel="noopener">Joel Varghese</a></p></div>
 </div></footer>`;
 
-const lightbox=`<div class="lb" id="lb"><button class="lb-btn lb-close" id="lbClose" aria-label="Close">&times;</button>
-<button class="lb-btn lb-prev" id="lbPrev" aria-label="Previous"><svg class="lb-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 6l-6 6 6 6"/></svg></button>
-<img id="lbImg" src="" alt=""><button class="lb-btn lb-next" id="lbNext" aria-label="Next"><svg class="lb-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 6l6 6-6 6"/></svg></button></div>`;
-const toTop=`<button class="totop" id="toTop" aria-label="Back to top"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>`;
-const revealJS=`<script>
-(function(){var R=document.querySelectorAll('.reveal');
-if(!('IntersectionObserver'in window)){R.forEach(function(e){e.classList.add('in');});return;}
-var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0,rootMargin:'0px 0px -8% 0px'});
-R.forEach(function(e){io.observe(e);});
-/* safety net: reveal anything already on/near screen, and never let a tall
-   section stay hidden (re-checks on scroll for elements taller than viewport). */
-function sweep(){document.querySelectorAll('.reveal:not(.in)').forEach(function(e){var r=e.getBoundingClientRect();if(r.top<innerHeight*0.92&&r.bottom>0){e.classList.add('in');io.unobserve(e);}});}
-setTimeout(sweep,1400);addEventListener('scroll',sweep,{passive:true});})();
-</script>`;
+const lightbox=`<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photograph viewer"><button class="lb-btn lb-close" id="lbClose" type="button" aria-label="Close">&times;</button>
+<button class="lb-btn lb-prev" id="lbPrev" type="button" aria-label="Previous photograph">${chevL}</button>
+<img id="lbImg" src="" alt=""><button class="lb-btn lb-next" id="lbNext" type="button" aria-label="Next photograph">${chevR}</button></div>`;
+const toTop=`<button class="totop" id="toTop" type="button" aria-label="Back to top"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>`;
 const cookieNotice=`<div class="cookie-notice" id="cookieNotice" role="region" aria-label="Cookie notice" hidden>
-<div class="cookie-inner"><p>We use only essential, functional cookies &mdash; no advertising or tracking. Google Fonts and the optional booking calendar load as described in our <a href="cookie">Cookie Policy</a>.</p>
+<div class="cookie-inner"><p>We use only essential, functional cookies &mdash; no advertising or tracking. Google Fonts and the optional booking calendar load as described in our <a href="/cookie">Cookie Policy</a>.</p>
 <div class="cookie-btns"><button type="button" class="btn btn-gold ck-accept" id="ckAccept">Got it</button><button type="button" class="btn btn-line ck-min" id="ckMin">Only essential</button></div></div></div>
 <script>(function(){try{var K='aura_cookie_choice',n=document.getElementById('cookieNotice');if(!n)return;var stored=null;try{stored=localStorage.getItem(K);}catch(e){}if(!stored){n.hidden=false;}
 function set(v){try{localStorage.setItem(K,v);}catch(e){}n.hidden=true;}
@@ -105,11 +135,9 @@ var a=document.getElementById('ckAccept'),m=document.getElementById('ckMin');
 if(a)a.addEventListener('click',function(){set('accepted');});
 if(m)m.addEventListener('click',function(){window.__AURA_ESSENTIAL_ONLY=true;set('essential');});
 }catch(e){}})();</script>`;
-const mcta=`<div class="mcta"><a href="tel:+13439894546">Call</a><a class="p" href="about#contact">Book a date</a></div>`;
-const foot=(extra='')=>footer+toTop+mcta+extra+cookieNotice+revealJS+`<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script><script src="redesign/aura.js"></script></body></html>`;
-const arrow=`<svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>`;
-const tick=`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg>`;
-const star=`<svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9.6l6.9-.7z"/></svg>`;
+
+const mcta=`<div class="mcta"><a href="tel:+13439894546">Call</a><a class="p" href="/about#contact">Book a date</a></div>`;
+const foot=(extra='')=>footer+toTop+mcta+extra+cookieNotice+`<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js" defer></script><script src="/redesign/aura.js" defer></script></body></html>`;
 
 /* ── testimonials carousel ── */
 const testimonials=[
@@ -146,86 +174,7 @@ ${HCAPTCHA?`<div class="full"><div class="h-captcha" data-sitekey="${HCAPTCHA}">
 <p>Your enquiry has been received. We will be in touch within <strong>24 to 48 hours</strong> to chat more about your session.</p>
 </div></div>`;
 
-/* ════════ HOME ════════ */
-/* Interactive hero: hover "Aura"/"Films" to reveal a floating photo cluster.
-   Uses CLEAN (no-watermark) c_ copies, spread evenly across the hero. */
-const auraSet=['wed-1','wed-5','baby-1','por-8'];
-const filmsSet=['arch-1','wed-4','baby-6','por-6'];
-const heroCluster=(cls,arr)=>`<div class="ihero-cluster ${cls}">${arr.map((n,i)=>`<figure class="ihero-pic s${i}"><img src="${IMG}c_${n}.jpg" alt=""></figure>`).join('')}</div>`;
-/* Infinite drag board: a base cell of clean, non-overlapping thumbnails tiled 3x3.
-   Thumbnails are clean (c_); the click-to-open view uses the watermarked copy. */
-const DCOLS=4,_cellW=440,_cellH=520;
-const dragImgs=['wed-1','wed-3','wed-4','wed-5','wed-8','wed-9','wed-10','por-2','por-3','por-6','por-8','por-9','por-11','baby-1','baby-6','baby-8','baby-9','baby-10','baby-16','arch-1'];
-/* Each frame (w,h) sits centred in its cell with a small clamped jitter that keeps
-   >=45px inside every edge — so neighbours are always >=90px apart (never overlap). */
-const _maxW=330,_maxH=420;
-const _basePics=dragImgs.map((n,i)=>{const c=i%DCOLS,r=Math.floor(i/DCOLS);const _d=DIMS['c_'+n+'.jpg']||[4,5];const _s=Math.min(_maxW/_d[0],_maxH/_d[1]);const w=Math.round(_d[0]*_s),h=Math.round(_d[1]*_s);const mx=Math.max(0,(_cellW-w)/2-40),my=Math.max(0,(_cellH-h)/2-40);const jx=Math.max(-mx,Math.min(mx,Math.round(Math.sin(i*2.7)*40))),jy=Math.max(-my,Math.min(my,Math.round(Math.cos(i*1.9)*40)));return{n,left:Math.round(c*_cellW+(_cellW-w)/2+jx),top:Math.round(r*_cellH+(_cellH-h)/2+jy),w,h};});
-const DCW=DCOLS*_cellW,DCH=Math.ceil(dragImgs.length/DCOLS)*_cellH;
-const dragTile=(ox,oy)=>_basePics.map(p=>`<figure class="drag-pic" style="left:${p.left+ox}px;top:${p.top+oy}px;width:${p.w}px;height:${p.h}px" data-full="${IMG}${p.n}.jpg"><img src="${IMG}c_${p.n}.jpg" alt="Aura Films photograph" loading="lazy" draggable="false"></figure>`).join('');
-let dragBoard='';for(let ty=0;ty<3;ty++){for(let tx=0;tx<3;tx++){dragBoard+=dragTile(tx*DCW,ty*DCH);}}
-const home=head('Aura Films, Wedding & Editorial Photography','Aura Films is a Kingston-based photography studio capturing weddings, portraits, maternity and architecture with a cinematic, editorial eye.','')+nav('Home')+`
-<header class="hero container" id="top" data-c="20,16,14">
-<span class="eyebrow reveal">Photography studio &middot; Kingston, Ontario</span>
-<h1 style="margin-top:18px">
-<span class="rise"><span>Four kinds of day,</span></span>
-<span class="rise"><span>photographed the way</span></span>
-<span class="rise"><span>they <em>actually went.</em></span></span>
-</h1>
-<p class="sub reveal d2">Weddings, portraits, growing families and the buildings we cannot walk past. Every frame shot and hand graded by Albin, across Kingston and the rest of Ontario.</p>
-<div class="cta-row reveal d3">
-<a class="btn btn-gold" href="about#contact">Book a date ${arrow}</a>
-<a class="btn btn-line" href="gallery">See the work</a>
-</div>
-<div class="stats reveal d3">
-<div class="stat"><b>10 to 21 days</b><span class="eyebrow">Gallery delivery</span></div>
-<div class="stat"><b>20 km</b><span class="eyebrow">Travel included</span></div>
-<div class="stat"><b>Every frame</b><span class="eyebrow">Graded by hand</span></div>
-<div class="stat"><b>One shooter</b><span class="eyebrow">Albin, on every job</span></div>
-</div>
-</header>
-
-<div class="marquee" aria-hidden="true"><div class="marquee-track">${Array(4).fill('<span class="marquee-item">Weddings</span><span class="marquee-item">Portraits</span><span class="marquee-item">Family &amp; Maternity</span><span class="marquee-item">Baby Showers</span><span class="marquee-item">Architecture</span><span class="marquee-item">Editorial</span>').join('')}</div></div>
-
-<section class="section intro-sec" data-c="20,16,14"><div class="container"><div class="intro-grid">
-<div class="reveal"><h2 class="serif intro-h">Photography that remembers the day the way it <em>felt</em>.</h2></div>
-<div class="reveal d1 intro-copy"><p>We're Aura Films, a photography studio based in <b style="color:var(--text);font-weight:600">Kingston, Ontario, Canada</b>. Weddings, portraits, maternity and the occasional building we fall for, shot the way it actually happened and hand-edited frame by frame.</p><p>No stiff poses, no conveyor-belt presets. Just the real moments, handed back to you as a gallery worth opening again and again.</p><a href="about" class="btn btn-line">Our story ${arrow}</a></div>
-</div></div></section>
-
-<section class="section" data-c="94,22,34"><div class="container">
-<div class="sec-head"><h2 class="sec-title serif reveal">What we <em>love</em> to capture.</h2></div>
-<div class="cat-list">
-${[['wed-1.jpg','Weddings','weddings','01','The full day, honestly told, from the quiet first look to the last dance.'],['por-8.jpg','Portraits','portraits','02','Editorial portraits that catch the real you in one quiet frame.'],['baby-1.jpg','Family &amp; Maternity','family','03','Tender, in-between moments kept close as your family grows.'],['arch-1.jpg','Architecture','architecture','04','Homes and spaces, shot with light, line and a sense of place.']].map(([f,c,cat,n,d],i)=>`<a href="gallery#${cat}" class="cat-row reveal${i%2?' alt':''}"><div class="cat-row-img"><img src="${IMG}${f}" alt="${c} by Aura Films" loading="lazy"></div><div class="cat-row-meta"><span class="cat-row-num">${n}</span><h3 class="serif">${c}</h3><p>${d}</p><span class="cat-row-link">View gallery ${arrow}</span></div></a>`).join('')}
-</div></div></section>
-
-<section class="dragsec" id="explore" data-c="30,58,46" aria-label="Drag to explore our work">
-<div class="drag-stage" id="dragStage" data-cw="${DCW}" data-ch="${DCH}"><div class="drag-board" id="dragBoard">${dragBoard}</div><div class="drag-pill" id="dragPill">Drag to explore</div></div>
-</section>
-<div class="drag-lb" id="dragLb" aria-hidden="true"><button class="drag-lb-close" id="dragLbClose" aria-label="Close">&times;</button><img id="dragLbImg" src="" alt="Aura Films photograph"></div>
-
-<section class="section" data-c="20,66,82"><div class="container">
-<div class="sec-head"><h2 class="sec-title serif reveal">How it <em>works</em>.</h2></div>
-<div class="steps">
-${[['Reach out','Tell us your date, your place and the feeling you want to keep.'],['The shoot','A relaxed session with real direction and zero awkwardness.'],['Your gallery','Hand-graded images delivered in 10 to 21 days, ready to relive.']].map((s,i)=>`<div class="step reveal d${i+1}"><span class="step-num">0${i+1}</span><h4 class="serif">${s[0]}</h4><p>${s[1]}</p></div>`).join('')}
-</div></div></section>
-
-<section class="section testi" data-c="58,64,72"><div class="container">
-<div class="sec-head"><h2 class="sec-title serif reveal">Trusted with the <em>biggest</em> days.</h2></div>
-${carousel}
-</div></section>
-
-<section class="cta" id="craft" data-c="20,16,14"><div class="cta-bg" style="opacity:.6"><img src="${IMG}albin-new.jpg" alt="Albin, Aura Films" style="object-position:50% 24%"></div><div class="cta-mesh"></div>
-<div class="cta-inner">
-<h2 class="serif reveal d1" style="margin-top:18px">Crafting <span class="rot word">${[['Memories','#D8B888'],['Experiences','#C58F6A'],['Stories','#B7C4D8'],['Moments','#D8B888'],['Commitment','#C7A8C9'],['Elegance','#E0C98A'],['Promises','#A9C2A0']].map(([w,c],i)=>`<span class="w${i===0?' on':''}" style="color:${c}">${w}.</span>`).join('')}</span></h2>
-<p class="reveal d2">Dates book months ahead. Send us the where and the when, and we'll craft a package around your story.</p>
-<div class="reveal d3"><a href="#contact" class="btn btn-gold">Contact Us ${arrow}</a></div></div></section>
-
-<section class="section testi" id="contact" data-c="20,16,14"><div class="container">
-<div class="sec-head"><h2 class="sec-title serif reveal">Let's <em>connect</em>.</h2><p class="lead reveal d1">Tell us about your day and we'll be in touch within 24 to 48 hours, or email us directly at <a href="mailto:itsaurafilms@gmail.com" style="color:var(--gold-ink);text-decoration:underline">itsaurafilms@gmail.com</a>.</p></div>
-<div class="reveal d1">${contactForm}</div>
-</div></section>
-`+foot(lightbox);
-
-/* ════════ GALLERY (hardcoded, deduped) ════════ */
+/* ════════ CONTENT KEPT FROM THE LIVE SITE ════════ */
 const GAL={
  weddings:['wed-1.jpg','wed-2.jpg','wed-3.jpg','wed-4.jpg','wed-5.jpg','wed-6.jpg','wed-7.jpg','wed-8.jpg','wed-9.jpg','wed-10.jpg','wed-11.jpg','wed-12.jpg','wed-13.jpg','_DSC8307.jpg','IMG_9548.JPG.jpeg','_DSC8637.jpg','_DSC8672.jpg','_DSC8231.jpg','_DSC8243.jpg','IMG_9356.JPG.jpeg','_DSC8034.jpg','_DSC8577.jpg','_DSC8016.jpg','_DSC8021.jpg','_DSC8238.jpg','_DSC8239.jpg','_DSC8241.jpg','IMG_9115.jpg','IMG_8926.JPG.jpeg','_DSC7542.jpg','_DSC7545.jpg'],
  portraits:['por-1.jpg','por-2.jpg','por-3.jpg','por-4.jpg','por-5.jpg','por-6.jpg','por-7.jpg','por-8.jpg','por-9.jpg','por-10.jpg','por-11.jpg','por-12.jpg','por-13.jpg','por-14.jpg','IMG_3431.JPG.jpeg','IMG_3432.JPG.jpeg','IMG_3437.JPG.jpeg','IMG_3438.JPG.jpeg','IMG_7777.JPG.jpeg','IMG_9906.JPG.jpeg','IMG_9907.JPG.jpeg','_DSC8015.jpg','_DSC8049.jpg','_DSC8215.jpg'],
@@ -233,19 +182,7 @@ const GAL={
  architecture:['arch-1.jpg','arch-2.jpg','arch-3.jpg','arch-4.jpg','arch-5.jpg','arch-6.jpg','arch-7.jpg','arch-8.jpg','arch-9.jpg'],
 };
 const LABELS={weddings:'Weddings',portraits:'Portraits',family:'Family & Maternity',architecture:'Architecture'};
-function buildGallery(){
-  let tiles='',seen=new Set();
-  for(const cat of Object.keys(GAL)) for(const f of GAL[cat]){ if(seen.has(f))continue; seen.add(f);
-    tiles+=`<div class="gitem" data-cat="${cat}" data-full="${IMG}${f}"><img src="${IMG}${f}" alt="${LABELS[cat]} by Aura Films" loading="lazy"><span class="cat">${LABELS[cat]}</span></div>\n`; }
-  return head('Gallery, Aura Films','Browse the full Aura Films gallery of weddings, portraits, maternity and architecture sessions.','gallery')+nav('Gallery')+`
-<header class="phero"><div class="bg-fixed" style="background-image:url('${IMG}baby-10.jpg');background-position:50% 42%"></div><div class="phero-veil"></div>
-<div class="phero-inner"><h1 class="serif">The <em>Gallery</em></h1><p>Real days, honestly told. Filter by what you're looking for, and tap any frame to view it large.</p></div></header>
-<section class="section"><div class="container">
-<div class="filters">${[['all','All'],['weddings','Weddings'],['portraits','Portraits'],['family','Family & Maternity'],['architecture','Architecture']].map(([c,l],i)=>`<button class="filter${i===0?' on':''}" data-cat="${c}">${l}</button>`).join('')}</div>
-<div class="gal-grid">${tiles}</div></div></section>`+foot(lightbox);
-}
 
-/* ════════ ABOUT ════════ */
 const faqItems=[
  ['How do we book a date?','Reach out through the contact form or email with your date and location. We hold dates with a signed agreement and a deposit, on a first-come basis.'],
  ['How much is the deposit?','A 30% non-refundable retainer secures your booking. The remaining balance is due on or before the day of the session.'],
@@ -254,44 +191,7 @@ const faqItems=[
  ['Do we get the raw files?','Galleries are delivered as hand-graded, high-resolution images. Unedited raw files are available as a paid add-on on request.'],
  ['What if we need to reschedule?','Rescheduling is accommodated once with reasonable notice. Weather-related outdoor reschedules are always at no extra charge.'],
 ];
-const faq=`<div class="faq">${faqItems.map(([q,a])=>`<div class="faq-item"><button class="faq-q">${q}<span class="pl"></span></button><div class="faq-a"><p>${a}</p></div></div>`).join('')}</div>`;
 
-const about=head('About Us, Aura Films','Meet Albin, the photographer behind Aura Films, a Kingston photography studio.','about')+nav('About Us')+`
-<header class="phero phero-albin" data-c="30,58,46"><div class="bg-fixed" style="background-image:url('${IMG}albin-new.jpg');background-position:50% 18%"></div><div class="phero-veil"></div>
-<div class="phero-inner"><h1 class="serif">Behind the <em>Lens</em></h1><p>One photographer, one obsession: the honest, unrepeatable moments that make a day yours.</p></div></header>
-
-<section class="section"><div class="container philo philo-center">
-<div><h2 class="philo-statement serif reveal">We don't pose moments. We <em>wait</em> for them, then make them timeless.</h2>
-<p class="philo-body reveal d1">I started Aura Films with a camera and a stubborn belief that honest craft makes memories you'll actually want to relive. From weddings to maternity, portraits to the odd building, I shoot and hand-grade every single frame myself, so your gallery feels like a keepsake, not a feed.</p></div>
-</div></section>
-
-<section class="section" style="padding-top:0"><div class="container">
-<div class="sec-head"><h2 class="sec-title serif reveal">The person <em>behind</em> it.</h2></div>
-<div class="founder-solo reveal">
-<div class="founder-solo-img"><img src="${IMG}albin-new.jpg" alt="Albin, photographer at Aura Films" style="object-position:50% 20%"></div>
-<div class="founder-solo-txt"><h3 class="serif nm">Albin</h3><div class="rl">Founder &amp; Photographer</div>
-<p class="founder-bio">My name is Albin, and I'm the photographer behind Aura Films. I shoot with a quiet, observant eye, patient to a fault, waiting for the glance before the vow and the laugh between the poses, because that's where the real photo lives.</p>
-<p class="founder-bio">My work is grounded, warm and unmistakably cinematic; the kind that makes people feel seen rather than posed. Every frame is shot and hand-graded by me, so nothing about your day is forgotten.</p></div>
-</div>
-</div></section>
-
-<section class="section" style="padding-top:0"><div class="container">
-<div class="sec-head"><h2 class="sec-title serif reveal">See the <em>work</em>.</h2><a href="gallery" class="btn btn-line reveal d1">View Full Gallery ${arrow}</a></div>
-<div class="cat-cards cards-2">
-<a href="gallery#weddings" class="ccard reveal"><img src="${IMG}wed-3.jpg" alt="Weddings"><div class="ccard-cap"><div class="c1">The full day</div><div class="c2 serif">Weddings</div></div></a>
-<a href="gallery#family" class="ccard reveal d1"><img src="${IMG}baby-2.jpg" alt="Family and Maternity"><div class="ccard-cap"><div class="c1">Tender moments</div><div class="c2 serif">Family &amp; Maternity</div></div></a>
-</div></div></section>
-
-<section class="section"><div class="container">
-<div class="sec-head"><h2 class="sec-title serif reveal">FAQs</h2></div>${faq}
-</div></section>
-
-<section class="section testi" id="contact" data-c="20,16,14"><div class="container">
-<div class="sec-head"><h2 class="sec-title serif reveal">Let's <em>connect</em>.</h2><p class="lead reveal d1">Use this form to get in touch, or email us directly at <a href="mailto:itsaurafilms@gmail.com" style="color:var(--gold-ink);text-decoration:underline">itsaurafilms@gmail.com</a>. We reply within 24 to 48 hours.</p></div>
-<div class="reveal d1">${CALENDLY?`<div class="cal-embed" data-cal-embed="${CALENDLY}" style="margin-bottom:28px"><p class="cal-note">Prefer to pick a time now? Loading the calendar connects to Calendly, which may set its own cookies.</p><button type="button" class="btn btn-line cal-load">Open booking calendar ${arrow}</button></div>`:''}${contactForm}</div>
-</div></section>`+foot();
-
-/* ════════ INVESTMENT ════════ */
 const PKG={
 Weddings:[
  ['Standard','Ceremony',399,'+$95/hr extra',['Up to 3 hours coverage','75 edited photos','Online gallery + sneak peek','10 to 14 day delivery'],false],
@@ -310,56 +210,215 @@ Portraits:[
  ['Standard','Portrait Hour',149,'1 hour',['Up to 1 hour','22 edited photos','Two looks','Gallery + retouching'],true],
  ['Premium','Full Session',229,'session',['Up to 2 hours','45 edited photos','Multiple looks / locations','Editorial retouching'],false]],
 };
-const pkImgs={
- Weddings:['wed-1.jpg','wed-4.jpg','wed-5.jpg','wed-8.jpg'],
- Events:['wed-6.jpg','baby-6.jpg','por-9.jpg','por-10.jpg'],
- Family:['baby-1.jpg','baby-8.jpg','baby-9.jpg','baby-10.jpg'],
- Portraits:['por-2.jpg','por-3.jpg','por-6.jpg','por-8.jpg'],
-};
-const pkRow=([tag,name,price,add,feats,feat])=>`<div class="pk-row"><div><div class="pk-row-name">${name}${feat?'<span class="tag">Recommended</span>':''}</div><div class="pk-row-desc">${feats.slice(0,2).join(' · ')}</div></div><div class="pk-row-price"><span>$</span>${price}</div></div>`;
-const pkPanel=(k,arr,i)=>`<div class="pk-panel${i===0?' on':''}" data-panel="${k}"><div class="pk-editorial">
-<div class="pk-list">${arr.map(pkRow).join('')}<div style="margin-top:28px"><a href="about#contact" class="btn btn-dark">Book ${k.toLowerCase()} ${arrow}</a></div></div>
-<div class="pk-grid">${(pkImgs[k]||[]).map(f=>`<img src="${IMG}${f}" alt="${k} by Aura Films" loading="lazy">`).join('')}</div>
-</div></div>`;
+
 const addons=[['Second location / travel','$50-100'],['Printed photo set (20)','$60'],['Extra edited images (10)','$50'],['Raw / unedited files','$80'],['Album &amp; prints','Custom'],['Rush delivery','$120']];
 
-const investment=head('Investment, Aura Films','Transparent photography packages from Aura Films. Weddings, events, family and portrait sessions.','investment')+nav('Investment')+`
-<header class="phero"><div class="bg-fixed" style="background-image:url('${IMG}invest-hero.jpg');background-position:50% 38%"></div><div class="phero-veil"></div>
-<div class="phero-inner"><h1 class="serif">The <em>Investment</em></h1><p>Real value, real moments. Every package is crafted to deliver exceptional quality, from intimate portraits to full-day wedding coverage.</p></div></header>
 
-<section class="section"><div class="container two-col">
-<div class="reveal">
-<ul class="chips">
-<li class="chip">${tick}<span><b>An assistant on bigger shoots.</b> A second pair of hands for weddings and events, so no moment is missed.</span></li>
-<li class="chip">${tick}<span><b>Hand-graded galleries.</b> Every frame is edited by us, never batch-filtered.</span></li>
-<li class="chip">${tick}<span><b>Fast, reliable delivery.</b> Sneak peeks within a week, full galleries in 10 to 21 days.</span></li>
-<li class="chip">${tick}<span><b>Honest, transparent pricing.</b> Prices in CAD, valid 30 days, 30% retainer to book.</span></li>
-</ul></div>
-<div class="reveal d1">
-<p class="lead" style="max-width:none">Based in <b style="color:var(--ink)">Kingston, Ontario</b> and available across Kingston and Ontario. Travel within 20km is included in every package; beyond that a small travel fee applies.</p>
-<div class="addons">${addons.map(([n,p])=>`<div class="addon"><span>${n}</span><b>${p}</b></div>`).join('')}</div></div>
+
+/* ════════ SHARED BLOCKS ════════ */
+const esc=s=>String(s).replace(/&(?!amp;)/g,'&amp;');
+const words=s=>s.split(' ').map(x=>x.startsWith('*')?`<em><span class="w">${x.replace(/\*/g,'')}</span></em>`:`<span class="w">${x}</span>`).join(' ');
+const plate=(f,alt,cap='',cls='')=>`<figure class="plate${cls?' '+cls:''}" data-c="${T(f)}"><div class="frame"><img src="images/${f}" alt="${alt}" loading="lazy"></div>${cap?`<figcaption>${cap}</figcaption>`:''}</figure>`;
+const calBox=CALENDLY?`<div class="cal-embed" data-cal-embed="${CALENDLY}"><p class="cal-note">Prefer to pick a time now? Loading the calendar connects to Calendly, which may set its own cookies.</p><button type="button" class="btn btn-ghost cal-load">Open booking calendar ${arrow}</button></div>`:'';
+const faqBlock=()=>`<section class="sec" id="faq" data-c="22,18,16"><div class="container narrow">
+<h2 class="h-xl reveal">Questions, <em>answered.</em></h2>
+<div class="faq">${faqItems.map(([q,a],i)=>`<div class="faq-item reveal"><button class="faq-q" id="fq${i}" type="button" aria-expanded="false" aria-controls="fa${i}">${q}<span class="pl" aria-hidden="true"></span></button><div class="faq-a" id="fa${i}" role="region" aria-labelledby="fq${i}"><p>${a}</p></div></div>`).join('')}</div>
+</div></section>`;
+const contactBlock=()=>`<section class="sec contact" id="contact" data-c="22,18,16"><div class="container"><div class="contact-grid">
+<div class="contact-copy">
+<h2 class="h-xl reveal">Tell us about <em>your day.</em></h2>
+<p class="lede reveal">Share the date, the place and the feeling you want to keep. We reply within 24 to 48 hours, or you can reach us directly.</p>
+<ul class="contact-list reveal">
+<li><span>Email</span><a href="mailto:itsaurafilms@gmail.com">itsaurafilms@gmail.com</a></li>
+<li><span>Phone</span><a href="tel:+13439894546">343 989 4546</a></li>
+<li><span>Instagram</span><a href="https://www.instagram.com/aura.filmsca/" target="_blank" rel="noopener">@aura.filmsca</a></li>
+<li><span>Based in</span><a href="https://www.google.com/maps/search/?api=1&amp;query=Kingston%2C+Ontario%2C+Canada" target="_blank" rel="noopener">Kingston, Ontario</a></li>
+</ul>
+<div class="reveal">${calBox}</div>
+</div>
+<div class="contact-panel reveal">${contactForm}</div>
+</div></div></section>`;
+
+/* ════════ HOME ════════ */
+const DECK=[
+ ['wed-4.jpg','Wedding · Kingston','A groom tucks a yellow flower behind his bride’s ear while she laughs'],
+ ['por-8.jpg','Portrait · Kingston','A woman in a white embroidered saree and red bangles, smiling softly'],
+ ['baby-1.jpg','Newborn · Kingston','A mother laughs down at her newborn while the father cradles the baby'],
+ ['wed-3.jpg','Ceremony · Lake Ontario','A couple exchange vows under a flower-covered arbour beside the lake'],
+ ['por-6.jpg','Portrait · Kingston','A woman in a mustard dupatta smiles among autumn trees'],
+ ['arch-1.jpg','Architecture · Ontario','A two-storey home with a stone facade and white trim'],
+ ['wed-8.jpg','Reception · Kingston','A couple feed each other cake in front of a red floral wall'],
+ ['baby-6.jpg','Newborn · Kingston','A sleeping newborn wrapped in a turquoise blanket'],
+];
+const CHAPTERS=[
+ {id:'weddings',title:'The full day, <em>honestly told.</em>',
+  body:'From the quiet first look to the last dance, and everything that happens in between when nobody thinks the camera is on them. Sneak peeks land inside the first week, and the full gallery follows in ten to twenty-one days.',
+  price:'From $399',link:'/gallery#weddings',cta:'See the weddings',
+  lead:['wed-3.jpg','A couple exchange vows under a flower-covered arbour beside the lake'],
+  pair:[['wed-1.jpg','A bride in a deep red saree leans on her groom under spring blossom'],['wed-8.jpg','A couple feed each other cake in front of a red floral wall']]},
+ {id:'portraits',title:'The real you, in one <em>quiet frame.</em>',
+  body:'Half an hour or a whole session, one look or a few. We talk, we walk, and somewhere along the way you forget the camera is up. That is the frame we were waiting for.',
+  price:'From $79',link:'/gallery#portraits',cta:'See the portraits',
+  lead:['por-2.jpg','A woman in a black off-shoulder dress in front of summer greenery'],
+  pair:[['por-8.jpg','A woman in a white embroidered saree and red bangles, smiling softly'],['por-6.jpg','A woman in a mustard dupatta smiles among autumn trees']]},
+ {id:'family',title:'Kept close while <em>it grows.</em>',
+  body:'Bumps, newborns and toddlers who refuse to sit still. We don’t fight it. The mess is usually the part you’ll want to remember, and the picture your children ask for one day is rarely the tidy one.',
+  price:'From $129',link:'/gallery#family',cta:'See family sessions',
+  lead:['baby-16.jpg','Parents lean in close to their toddler, who wears red bows in her hair'],
+  pair:[['baby-1.jpg','A mother laughs down at her newborn while the father cradles the baby'],['baby-6.jpg','A sleeping newborn wrapped in a turquoise blanket']]},
+ {id:'architecture',title:'Light, line and a <em>sense of place.</em>',
+  body:'Homes and spaces photographed for how they feel at seven in the evening, not only how they measure. Straight verticals, honest colour, and the patience to wait for the light to come round.',
+  price:'Quoted per project',link:'/gallery#architecture',cta:'See the architecture',
+  lead:['arch-4.jpg','A home photographed straight on in soft, even light'],
+  pair:[['arch-1.jpg','A two-storey home with a stone facade and white trim'],['arch-6.jpg','An exterior photographed straight on in soft daylight']]},
+];
+const chapter=(c,i)=>`<section class="ch${i%2?' ch--flip':''}" id="${c.id}" data-c="${T(c.lead[0])}"><div class="container">
+<div class="ch-head">
+<h2 class="h-xl reveal">${c.title}</h2>
+<div class="ch-body reveal"><p>${c.body}</p><div class="ch-meta"><span class="price-pill">${c.price}</span><a class="txt-link" href="${c.link}">${c.cta} ${arrow}</a></div></div>
+</div>
+${plate(c.lead[0],c.lead[1],'','plate--lead')}
+<div class="ch-pair">${plate(c.pair[0][0],c.pair[0][1])}${plate(c.pair[1][0],c.pair[1][1])}</div>
+</div></section>`;
+const STEPS=[['Reach out','Tell us your date, your place and the feeling you want to keep.'],['The shoot','A relaxed session with real direction and zero awkwardness.'],['Your gallery','Hand-graded images delivered in 10 to 21 days, ready to relive.']];
+const TEASE=[['Portraits','From thirty minutes to a full session, one look or several.',79,'pk-portraits'],['Family &amp; Maternity','Newborns, bumps and growing families.',129,'pk-family'],['Events &amp; Showers','Two photographers on every package.',249,'pk-events'],['Weddings','From a three-hour ceremony to a full documentary day.',399,'pk-weddings']];
+
+const home=head('Aura Films, Wedding and Portrait Photography in Kingston','Aura Films is a Kingston photography studio for weddings, portraits, family and architecture. Every frame shot and hand-graded by Albin.','')+nav('Home')+`
+<header class="hero" id="top" data-c="${T(DECK[0][0])}">
+<div class="container hero-grid">
+<div class="hero-copy">
+<h1 class="h-display"><span class="ln"><span>Photographs</span></span> <span class="ln"><span>that remember</span></span> <span class="ln"><span>how it <em>felt.</em></span></span></h1>
+<p class="hero-sub reveal">No stiff poses. No conveyor-belt presets. Just the real day, shot and hand-graded by Albin, and handed back as a gallery you’ll keep opening.</p>
+<div class="hero-cta reveal"><a class="btn btn-solid" href="#contact">Book a date ${arrow}</a><a class="btn btn-ghost" href="/gallery">See the work</a></div>
+</div>
+<div class="deck-wrap reveal">
+<div class="deck" id="deck" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Recent photographs. Use the arrow keys to browse.">
+${DECK.map(([f,cap,alt],i)=>`<figure class="card" data-c="${T(f)}" data-cap="${cap}"><img src="images/c_${f}" alt="${alt}"${i<2?'':' loading="lazy"'}></figure>`).join('')}
+</div>
+<div class="deck-bar">
+<span class="deck-num" id="deckNum">01 / ${String(DECK.length).padStart(2,'0')}</span>
+<span class="deck-track" aria-hidden="true"><i id="deckFill"></i></span>
+<span class="deck-cap" id="deckCap" aria-live="polite">${DECK[0][1]}</span>
+<span class="deck-btns"><button class="rb" id="deckPrev" type="button" aria-label="Previous photograph">${chevL}</button><button class="rb" id="deckNext" type="button" aria-label="Next photograph">${chevR}</button></span>
+</div>
+</div>
+</div>
+</header>
+
+<section class="mani" data-c="22,18,16"><div class="container">
+<p class="mani-text">${words('We don’t pose moments. We wait for them. The glance before the vow, the laugh between the poses, the look your dad gives you when he thinks nobody is watching. Then every frame is graded by hand, one at a time, until it looks the way the day *felt.*')}</p>
 </div></section>
 
-<section class="section" style="padding-top:0"><div class="container">
-<div class="sec-head"><h2 class="sec-title serif reveal">The <em>investment</em>.</h2></div>
-<div class="pk-tabs reveal">${Object.keys(PKG).map((k,i)=>`<button class="pk-tab${i===0?' on':''}" data-tab="${k}">${k}</button>`).join('')}</div>
-<div class="pk-stack reveal">${Object.entries(PKG).map(([k,arr],i)=>pkPanel(k,arr,i)).join('')}</div>
-<p class="lead reveal" style="max-width:none;margin-top:34px;font-size:16px;line-height:1.7;color:var(--text)"><strong style="color:var(--ink)">Good to know:</strong> Prices are in Canadian dollars (CAD) and valid for 30 days from inquiry. A 30% non-refundable retainer confirms your booking. Travel within 20&nbsp;km is included; beyond that a small fee applies.</p>
+${CHAPTERS.map(chapter).join('')}
+
+<section class="sec" data-c="22,30,48"><div class="container">
+<h2 class="h-xl reveal">How it <em>works.</em></h2>
+<ol class="steps">${STEPS.map(([t,d],i)=>`<li class="step reveal"><span class="step-n">0${i+1}</span><h3 class="h-md">${t}</h3><p>${d}</p></li>`).join('')}</ol>
 </div></section>
 
-<section class="section testi"><div class="container">
-<div class="sec-head"><h2 class="sec-title serif reveal">The <em>experience</em>.</h2></div>
-<div class="cat-cards">
-${[['Consult','We learn your vision, vibe and must-have moments.'],['Plan','Locations, timeline and shot list, locked in together.'],['Shoot','A relaxed day, real direction, zero awkwardness.'],['Deliver','A hand-graded gallery, ready to relive.']].map(([t,d],i)=>`<div class="reveal d${i+1}" style="background:var(--card);border:1px solid var(--line);border-radius:8px;padding:30px 26px"><div class="serif" style="font-size:46px;font-weight:300;color:var(--gold);line-height:1">0${i+1}</div><div class="serif" style="font-size:22px;margin:10px 0 8px">${t}</div><p style="color:var(--muted);font-size:14px;line-height:1.7">${d}</p></div>`).join('')}
-</div></div></section>
-
-<section class="section"><div class="container">
-<div class="sec-head"><h2 class="sec-title serif reveal">FAQs</h2></div>${faq}
+<section class="sec" data-c="${T(testimonials[0].img)}"><div class="container">
+<h2 class="h-xl reveal">Trusted with the <em>biggest days.</em></h2>
+<div class="quotes">${testimonials.map(t=>`<figure class="quote reveal"><div class="quote-pic"><img src="images/${t.img}" alt="${t.nm}" loading="lazy"></div><blockquote><p>${t.quote}</p><footer><cite>${t.nm}</cite><span>${t.role}</span></footer></blockquote></figure>`).join('')}</div>
 </div></section>
 
-<section class="section testi" id="contact" data-c="20,16,14"><div class="container">
-<div class="sec-head"><h2 class="sec-title serif reveal">Let's <em>connect</em>.</h2><p class="lead reveal d1">Use this form to get in touch, or email us directly at <a href="mailto:itsaurafilms@gmail.com" style="color:var(--gold-ink);text-decoration:underline">itsaurafilms@gmail.com</a>. We reply within 24 to 48 hours.</p></div>
-<div class="reveal d1">${CALENDLY?`<div class="cal-embed" data-cal-embed="${CALENDLY}" style="margin-bottom:28px"><p class="cal-note">Prefer to pick a time now? Loading the calendar connects to Calendly, which may set its own cookies.</p><button type="button" class="btn btn-line cal-load">Open booking calendar ${arrow}</button></div>`:''}${contactForm}</div></div></section>`+foot();
+<section class="sec" data-c="48,32,24"><div class="container">
+<div class="sec-head"><h2 class="h-xl reveal">The <em>investment.</em></h2><p class="lede reveal">Prices in Canadian dollars, out in the open.</p></div>
+<div class="tease">${TEASE.map(([n,d,p,id])=>`<a class="tease-row reveal" href="/investment#${id}"><h3 class="h-md">${n}</h3><p>${d}</p><span class="tease-price"><small>from</small>$${p}</span><span class="tease-go" aria-hidden="true">${arrow}</span></a>`).join('')}</div>
+</div></section>
+
+${contactBlock()}
+`+foot();
+
+/* ════════ GALLERY ════════ */
+function buildGallery(){
+  const seen=new Set();
+  const secs=Object.keys(GAL).map(cat=>{
+    const files=GAL[cat].filter(f=>!seen.has(f)&&seen.add(f));
+    return `<section class="gsec" id="${cat}" data-c="${T(files[0])}"><div class="container">
+<div class="ghead"><h2 class="h-xl reveal">${esc(LABELS[cat])}</h2><span class="gcount reveal">${files.length} photographs</span></div>
+<div class="gal-grid">${files.map(f=>`<figure class="gitem" data-full="images/${f}" tabindex="0" role="button" aria-label="Open ${esc(LABELS[cat])} photograph"><img src="images/${f}" alt="${esc(LABELS[cat])} by Aura Films" loading="lazy"></figure>`).join('')}</div>
+</div></section>`;
+  }).join('');
+  return head('Gallery, Aura Films','Browse Aura Films weddings, portraits, family and architecture photography from Kingston and across Ontario.','gallery')+nav('Gallery')+`
+<header class="phero" data-c="${T('wed-3.jpg')}"><div class="container">
+<h1 class="h-display">The <em>gallery.</em></h1>
+<p class="phero-sub reveal">Real days, honestly told. Tap any photograph to see it large.</p>
+</div></header>
+<div class="jump-bar"><div class="container"><nav class="jump" aria-label="Gallery sections">${Object.keys(GAL).map(c=>`<a href="#${c}">${esc(LABELS[c])}</a>`).join('')}</nav></div></div>
+${secs}`+foot(lightbox);
+}
+
+/* ════════ ABOUT ════════ */
+const about=head('About Albin, Aura Films','Meet Albin, the photographer behind Aura Films in Kingston, Ontario. Every frame is shot and hand-graded personally.','about')+nav('About')+`
+<header class="phero phero--split" data-c="${T('albin-new.jpg')}"><div class="container split">
+<div class="split-copy">
+<h1 class="h-display">Behind the <em>lens.</em></h1>
+<p class="phero-sub reveal">One photographer, one obsession: the honest, unrepeatable moments that make a day yours.</p>
+<div class="hero-cta reveal"><a class="btn btn-solid" href="#contact">Book a date ${arrow}</a><a class="btn btn-ghost" href="/gallery">See the work</a></div>
+</div>
+${plate('albin-new.jpg','Albin, founder of Aura Films, holding a camera in a sunflower field','Albin, founder and photographer','plate--portrait')}
+</div></header>
+
+<section class="mani" data-c="22,18,16"><div class="container">
+<p class="mani-text">${words('We don’t pose moments. We *wait* for them, then make them timeless.')}</p>
+</div></section>
+
+<section class="sec" data-c="${T('wed-5.jpg')}"><div class="container">
+<div class="split split--text">
+<div><h2 class="h-xl reveal">Hi, I’m <em>Albin.</em></h2><p class="role reveal">Founder and photographer</p></div>
+<div class="prose reveal">
+<p>I started Aura Films with a camera and a stubborn belief that honest craft makes memories you’ll actually want to relive. From weddings to maternity, portraits to the odd building, I shoot and hand-grade every single frame myself, so your gallery feels like a keepsake, not a feed.</p>
+<p>I shoot with a quiet, observant eye, patient to a fault, waiting for the glance before the vow and the laugh between the poses, because that’s where the real photo lives.</p>
+<p>My work is grounded, warm and unmistakably cinematic, the kind that makes people feel seen rather than posed. Every frame is shot and hand-graded by me, so nothing about your day is forgotten.</p>
+</div>
+</div>
+<div class="ch-pair">
+<a class="plate-link" href="/gallery#weddings">${plate('wed-5.jpg','A couple hold hands and laugh together in a sunlit park','Weddings')}</a>
+<a class="plate-link" href="/gallery#family">${plate('baby-2.jpg','A family and maternity session by Aura Films','Family and maternity')}</a>
+</div>
+</div></section>
+
+${faqBlock()}
+${contactBlock()}
+`+foot();
+
+/* ════════ INVESTMENT ════════ */
+const PKINFO={
+ Weddings:['pk-weddings','wed-1.jpg','A bride in a deep red saree leans on her groom under spring blossom','From a three-hour ceremony to a full documentary day with a second shooter.'],
+ Events:['pk-events','wed-8.jpg','A couple feed each other cake in front of a red floral wall','Two photographers on every package.'],
+ Family:['pk-family','baby-1.jpg','A mother laughs down at her newborn while the father cradles the baby','Newborns, bumps and growing families, with a maternity-friendly option.'],
+ Portraits:['pk-portraits','por-2.jpg','A woman in a black off-shoulder dress in front of summer greenery','From thirty minutes to a full session with editorial retouching.'],
+};
+const tier=([tag,name,price,add,feats,feat])=>`<article class="tier${feat?' tier--rec':''} reveal">${feat?'<span class="tier-tag">Recommended</span>':''}<h3 class="tier-name">${name}</h3><p class="tier-price"><span>$</span>${price}</p><p class="tier-note">${add}</p><ul class="tier-list">${feats.map(x=>`<li>${tick}<span>${x}</span></li>`).join('')}</ul><a class="btn btn-ghost tier-btn" href="#contact">Enquire about ${name}</a></article>`;
+const CHIPS=[['An assistant on bigger shoots','A second pair of hands for weddings and events, so no moment is missed.'],['Hand-graded galleries','Every frame is edited by us, never batch-filtered.'],['Fast, reliable delivery','Sneak peeks within a week, full galleries in 10 to 21 days.'],['Honest, transparent pricing','Prices in CAD, valid 30 days, 30% retainer to book.']];
+const EXP=[['Consult','We learn your vision, vibe and must-have moments.'],['Plan','Locations, timeline and shot list, locked in together.'],['Shoot','A relaxed day, real direction, zero awkwardness.'],['Deliver','A hand-graded gallery, ready to relive.']];
+
+const investment=head('Investment, Aura Films','Transparent photography packages from Aura Films in Kingston: weddings, events, family and portrait sessions, priced in CAD.','investment')+nav('Investment')+`
+<header class="phero" data-c="${T('wed-1.jpg')}"><div class="container">
+<h1 class="h-display">The <em>investment.</em></h1>
+<p class="phero-sub reveal">Real value, real moments. Every package is priced in the open, from a thirty-minute portrait to full-day wedding coverage.</p>
+<div class="chips">${CHIPS.map(([b,t])=>`<div class="chip reveal">${tick}<p><b>${b}.</b> ${t}</p></div>`).join('')}</div>
+</div></header>
+<div class="jump-bar"><div class="container"><nav class="jump" aria-label="Package categories">${Object.keys(PKG).map(k=>`<a href="#${PKINFO[k][0]}">${k}</a>`).join('')}</nav></div></div>
+${Object.entries(PKG).map(([k,arr],i)=>`<section class="pk${i%2?' pk--flip':''}" id="${PKINFO[k][0]}" data-c="${T(PKINFO[k][1])}"><div class="container">
+<div class="pk-head"><div class="pk-copy"><h2 class="h-xl reveal">${k}</h2><p class="lede reveal">${PKINFO[k][3]}</p></div>${plate(PKINFO[k][1],PKINFO[k][2],'','plate--pk')}</div>
+<div class="tiers">${arr.map(tier).join('')}</div>
+</div></section>`).join('')}
+
+<section class="sec" data-c="48,32,24"><div class="container split">
+<div><h2 class="h-xl reveal">Add-ons and <em>good to know.</em></h2>
+<p class="lede reveal">Prices are in Canadian dollars (CAD) and valid for 30 days from inquiry. A 30% non-refundable retainer confirms your booking. Travel within 20 km of Kingston is included; beyond that a small fee applies.</p></div>
+<ul class="addons reveal">${addons.map(([n,p])=>`<li><span>${n}</span><b>${p}</b></li>`).join('')}</ul>
+</div></section>
+
+<section class="sec" data-c="22,30,48"><div class="container">
+<h2 class="h-xl reveal">The <em>experience.</em></h2>
+<ol class="steps steps--4">${EXP.map(([t,d],i)=>`<li class="step reveal"><span class="step-n">0${i+1}</span><h3 class="h-md">${t}</h3><p>${d}</p></li>`).join('')}</ol>
+</div></section>
+
+${faqBlock()}
+${contactBlock()}
+`+foot();
 
 /* ════════ LEGAL ════════ */
 const legalShell=(title,body)=>head(title+', Aura Films','Aura Films '+title.toLowerCase()+'.',title.split(/[ &]/)[0].toLowerCase())+nav('')+`<main class="legal"><div class="container" style="max-width:860px"><h1 class="serif">${title}</h1><p class="updated">Last updated · September 2026</p>${body}</div></main>`+foot();
@@ -452,9 +511,9 @@ await writeFile('../404.html',finalize(head('Page not found, Aura Films','That p
 <p class="updated">Error 404</p>
 <h1 class="serif">That page has <em>wandered off.</em></h1>
 <p>The link may be old, or the page may have moved. Everything is still here:</p>
-<p style="margin-top:26px"><a class="btn btn-gold" href="/">Back to home</a> <a class="btn btn-line" href="gallery" style="margin-left:8px">See the gallery</a></p>
+<p style="margin-top:26px"><a class="btn btn-gold" href="/">Back to home</a> <a class="btn btn-line" href="/gallery" style="margin-left:8px">See the gallery</a></p>
 <h2>Or jump straight to</h2>
-<ul><li><a href="gallery">The full gallery</a></li><li><a href="investment">Packages and pricing</a></li><li><a href="about">About Albin</a></li><li><a href="about#contact">Get in touch</a></li></ul>
+<ul><li><a href="/gallery">The full gallery</a></li><li><a href="/investment">Packages and pricing</a></li><li><a href="/about">About Albin</a></li><li><a href="/about#contact">Get in touch</a></li></ul>
 </div></main>`+foot()));
 
 await writeFile('../index.html',withSchema(homeHTML));
