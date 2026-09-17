@@ -327,7 +327,7 @@ ${CHAPTERS.map(chapter).join('')}
 </div></section>
 
 <section class="sec" data-c="48,32,24"><div class="container">
-<div class="sec-head"><h2 class="h-xl reveal">The <em>investment.</em></h2><p class="lede reveal">Prices in Canadian dollars, out in the open.</p></div>
+<div class="sec-head"><h2 class="h-xl reveal">The <em>investment.</em></h2><p class="lede reveal">Prices in Canadian dollars.</p></div>
 <div class="tease">${TEASE.map(([n,d,p,id])=>`<a class="tease-row reveal" href="/investment#${id}"><h3 class="h-md">${n}</h3><p>${d}</p><span class="tease-price"><small>from</small>$${p}</span><span class="tease-go" aria-hidden="true">${arrow}</span></a>`).join('')}</div>
 </div></section>
 
@@ -340,7 +340,7 @@ function buildGallery(){
   const secs=Object.keys(GAL).map(cat=>{
     const files=GAL[cat].filter(f=>!seen.has(f)&&seen.add(f));
     return `<section class="gsec" id="${cat}" data-c="${T(files[0])}"><div class="container">
-<div class="ghead"><h2 class="h-xl reveal">${esc(LABELS[cat])}</h2><span class="gcount reveal">${files.length} photographs</span></div>
+<div class="ghead"><h2 class="h-xl reveal">${esc(LABELS[cat])}</h2></div>
 <div class="gal-grid">${files.map(f=>`<figure class="gitem" data-full="images/${f}" tabindex="0" role="button" aria-label="Open ${esc(LABELS[cat])} photograph"><img src="images/${f}" alt="${esc(LABELS[cat])} by Aura Films" loading="lazy"></figure>`).join('')}</div>
 </div></section>`;
   }).join('');
