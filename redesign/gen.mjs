@@ -251,7 +251,6 @@ const DECK=[
  ['wed-4.jpg','Wedding · Kingston','A groom tucks a yellow flower behind his bride’s ear while she laughs'],
  ['por-8.jpg','Portrait · Kingston','A woman in a white embroidered saree and red bangles, smiling softly'],
  ['baby-1.jpg','Newborn · Kingston','A mother laughs down at her newborn while the father cradles the baby'],
- ['wed-3.jpg','Ceremony · Lake Ontario','A couple exchange vows under a flower-covered arbour beside the lake'],
  ['por-6.jpg','Portrait · Kingston','A woman in a mustard dupatta smiles among autumn trees'],
  ['arch-1.jpg','Architecture · Ontario','A two-storey home with a stone facade and white trim'],
  ['wed-8.jpg','Reception · Kingston','A couple feed each other cake in front of a red floral wall'],
@@ -304,7 +303,7 @@ ${DECK.map(([f,cap,alt],i)=>`<figure class="card" data-c="${T(f)}" data-cap="${c
 </div>
 <div class="deck-bar">
 <span class="deck-num" id="deckNum">01 / ${String(DECK.length).padStart(2,'0')}</span>
-<span class="deck-track" aria-hidden="true"><i id="deckFill"></i></span>
+
 <span class="deck-cap" id="deckCap" aria-live="polite">${DECK[0][1]}</span>
 <span class="deck-btns"><button class="rb" id="deckPrev" type="button" aria-label="Previous photograph">${chevL}</button><button class="rb" id="deckNext" type="button" aria-label="Next photograph">${chevR}</button></span>
 </div>
