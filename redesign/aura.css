@@ -99,16 +99,16 @@ body.drawer-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45
 @media(max-width:480px){.brand img{height:26px}}
 
 /* ─── hero with the living photo deck ─── */
-.hero{min-height:100svh;display:flex;align-items:center;padding-block:calc(96px + 3vh) clamp(40px,6vh,72px)}
-.hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(28px,5vw,84px);align-items:center}
+.hero{min-height:100svh;display:flex;align-items:center;padding-block:calc(92px + 2vh) clamp(28px,4vh,56px)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,5vw,84px);align-items:center}
 .ln{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
 .ln>span{display:block}
-.hero .h-display{font-size:clamp(40px,5.7vw,96px)}
+.hero .h-display{font-size:clamp(40px,4.9vw,86px)}
 .split-copy .h-display{font-size:clamp(40px,7vw,118px)}
 .btn,.nav-link,.nav-cta,.price-pill,.txt-link,.jump a,.tier-tag,.tier-name,.mcta a,.fl,.faq-q,.deck-num,.contact-list span,.foot-col h3,.legal .updated,.tease-price,.step-n,.tier-price,.cform-thanks h3{word-spacing:.1em;letter-spacing:.01em}
 .hero-sub{margin-top:clamp(20px,3vh,32px);font-size:clamp(17px,1.4vw,21px);color:var(--paper-2);max-width:42ch}
 .hero-cta{margin-top:clamp(26px,4vh,42px);display:flex;gap:12px;flex-wrap:wrap}
-.deck{position:relative;height:clamp(330px,54vh,520px);touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab}
+.deck{position:relative;height:clamp(440px,76vh,860px);touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab}
 .deck:focus-visible{outline-offset:8px;border-radius:var(--r-lg)}
 .card{position:absolute;inset:0;display:grid;place-items:center;opacity:0;
   transition:transform .95s var(--e3),opacity .75s var(--e),filter .75s var(--e);will-change:transform}
@@ -130,7 +130,7 @@ body.drawer-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45
   .hero .h-display{font-size:clamp(40px,10.2vw,78px)}
   .hero{min-height:0;padding-top:118px}
   .hero-grid{grid-template-columns:1fr;gap:40px}
-  .deck{height:clamp(360px,64vh,540px)}
+  .deck{height:clamp(440px,70vh,780px)}
 }
 
 /* ─── manifesto: words brighten as you read ─── */
@@ -406,3 +406,53 @@ textarea.fi{min-height:150px;resize:vertical}
   .frame{clip-path:none}.frame img{transform:none}
   .mani-live .w{opacity:1}
 }
+
+/* ─── about ─── */
+.ab-hero{min-height:100svh;display:flex;align-items:center;padding-block:calc(92px + 2vh) clamp(36px,5vh,64px)}
+.ab-hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,84px);align-items:center}
+.ab-hero-copy .h-display{font-size:clamp(44px,7vw,120px)}
+.ab-portrait{justify-self:end;margin:0}
+.ab-mask{border-radius:var(--r-xl);overflow:hidden;box-shadow:0 44px 90px -34px rgba(0,0,0,.7)}
+.ab-mask img{display:block;width:auto;height:min(74vh,780px);max-width:100%;object-fit:contain;transform-origin:50% 60%}
+.ab-portrait figcaption{font:italic 500 16px/1.3 var(--p);color:var(--paper-2);margin-top:14px}
+
+.ab-story-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:clamp(32px,6vw,110px);align-items:start}
+.ab-bio .h-xl{margin-bottom:clamp(22px,4vh,40px)}
+.ab-bio .prose p{font-size:clamp(18px,1.4vw,22px);line-height:1.65;max-width:58ch}
+.ab-facts{position:sticky;top:110px;padding:clamp(24px,2.6vw,36px);border-radius:var(--r-lg);background:rgba(246,241,234,.06);border:1px solid var(--line)}
+.ab-facts h3{margin-bottom:18px}
+.ab-facts dl{margin:0}
+.ab-facts dl>div{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:14px;padding-block:14px;border-top:1px solid var(--line)}
+.ab-facts dt{font:600 13px/1.4 var(--d);letter-spacing:.02em;word-spacing:.12em;color:var(--paper-3)}
+.ab-facts dd{margin:0;font-size:16px;line-height:1.5;color:var(--paper)}
+
+.strip{padding-block:clamp(70px,12vh,140px);overflow:hidden}
+.strip-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px 40px;margin-bottom:clamp(24px,4vh,44px)}
+.strip-view{overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.strip-view::-webkit-scrollbar{display:none}
+.strip-view:focus-visible{outline:2px solid var(--acc);outline-offset:6px}
+.strip-track{display:flex;gap:clamp(14px,1.8vw,26px);width:max-content;padding-inline:max(var(--g),calc((100vw - var(--max))/2 + var(--g)))}
+.strip-card{position:relative;flex:0 0 auto;height:clamp(380px,64vh,660px);border-radius:var(--r-lg);overflow:hidden;scroll-snap-align:center;display:block}
+.strip-card img{display:block;height:100%;width:auto;max-width:none;transition:transform .9s var(--e)}
+.strip-tag{position:absolute;left:14px;bottom:14px;padding:8px 14px;border-radius:999px;background:rgba(22,18,15,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font:600 13px/1 var(--d);letter-spacing:.02em;word-spacing:.12em;color:var(--paper)}
+@media(hover:hover){.strip-card:hover img{transform:scale(1.04)}}
+.strip--pinned{min-height:100svh;display:flex;flex-direction:column;justify-content:center}
+.strip--pinned .strip-view{overflow:hidden;scroll-snap-type:none}
+
+.ab-quote figure{margin:0;text-align:center}
+.ab-quote blockquote{margin:0}
+.ab-quote blockquote p{font:500 clamp(24px,3vw,42px)/1.3 var(--p);color:var(--paper);max-width:32ch;margin-inline:auto}
+.ab-quote figcaption{display:inline-flex;align-items:center;gap:14px;margin-top:clamp(24px,4vh,40px);text-align:left}
+.ab-quote figcaption img{width:56px;height:56px;border-radius:50%;object-fit:cover;object-position:59% 43%}
+.ab-quote figcaption span{display:flex;flex-direction:column;font-size:15px;color:var(--paper-2)}
+.ab-quote cite{font:600 15px/1.3 var(--d);font-style:normal;color:var(--paper)}
+
+@media(max-width:900px){
+  .ab-hero{min-height:0;padding-top:112px}
+  .ab-hero-grid,.ab-story-grid{grid-template-columns:1fr}
+  .ab-portrait{justify-self:stretch}
+  .ab-mask img{width:100%;height:auto;max-height:none}
+  .ab-facts{position:static}
+  .strip-card{height:clamp(340px,58vh,560px)}
+}
+@media(max-width:480px){.strip-card{height:min(62vh,440px)}.ab-facts dl>div{grid-template-columns:1fr;gap:4px}}

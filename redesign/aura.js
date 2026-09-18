@@ -383,6 +383,24 @@
     });
   }
 
+  /* ── about: the portrait unmasks upward, the work strip travels sideways ── */
+  (function(){
+    var m=document.querySelector('.ab-mask');
+    if(m&&useG){
+      var im=m.querySelector('img');
+      G.fromTo(m,{clipPath:'inset(100% 0% 0% 0% round 32px)'},{clipPath:'inset(0% 0% 0% 0% round 32px)',duration:1.3,ease:TOK.ease.out,delay:.15});
+      if(im) G.fromTo(im,{scale:1.18},{scale:1,duration:1.6,ease:TOK.ease.out,delay:.15});
+    }
+    var sec=document.querySelector('.strip'); if(!sec) return;
+    var view=sec.querySelector('.strip-view'),track=sec.querySelector('.strip-track');
+    /* pinning only where scroll is wheel-driven and roomy; touch keeps native swipe */
+    if(!(rich&&fine&&matchMedia('(min-width:1024px)').matches)) return;
+    sec.classList.add('strip--pinned'); view.removeAttribute('tabindex');
+    var dist=function(){ return Math.max(0,track.scrollWidth-view.clientWidth); };
+    G.to(track,{x:function(){ return -dist(); },ease:TOK.ease.linear,
+      scrollTrigger:{trigger:sec,start:'top top',end:function(){ return '+='+dist(); },pin:true,scrub:1,invalidateOnRefresh:true,anticipatePin:1}});
+  })();
+
   /* ── page transitions: one continuous surface between pages ── */
   (function(){
     var pt=document.getElementById('pt');

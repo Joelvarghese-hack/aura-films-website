@@ -301,12 +301,6 @@ const home=head('Aura Films, Wedding and Portrait Photography in Kingston','Aura
 <div class="deck" id="deck" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Recent photographs. Use the arrow keys to browse.">
 ${DECK.map(([f,cap,alt],i)=>`<figure class="card" data-c="${T(f)}" data-cap="${cap}"><img src="images/c_${f}" alt="${alt}"${i<2?'':' loading="lazy"'}></figure>`).join('')}
 </div>
-<div class="deck-bar">
-<span class="deck-num" id="deckNum">01 / ${String(DECK.length).padStart(2,'0')}</span>
-
-<span class="deck-cap" id="deckCap" aria-live="polite">${DECK[0][1]}</span>
-<span class="deck-btns"><button class="rb" id="deckPrev" type="button" aria-label="Previous photograph">${chevL}</button><button class="rb" id="deckNext" type="button" aria-label="Next photograph">${chevR}</button></span>
-</div>
 </div>
 </div>
 </header>
@@ -355,33 +349,55 @@ ${secs}`+foot(lightbox);
 }
 
 /* ════════ ABOUT ════════ */
-const about=head('About Albin, Aura Films','Meet Albin, the photographer behind Aura Films in Kingston, Ontario. Every frame is shot and hand-graded personally.','about')+nav('About')+`
-<header class="phero phero--split" data-c="${T('albin-new.jpg')}"><div class="container split">
-<div class="split-copy">
-<h1 class="h-display">Behind the <em>lens.</em></h1>
-<p class="phero-sub reveal">Aura Films is one photographer, Albin, working out of Kingston.</p>
+const FACTS=[
+ ['Based in','Kingston, Ontario'],
+ ['What I shoot','Weddings, events, maternity, family, portraits and architecture'],
+ ['Editing','Every frame, by hand, by me'],
+ ['Turnaround','10 to 21 days. Wedding sneak peeks arrive in the first week.'],
+ ['Travel','Included within 20 km of Kingston'],
+ ['Sessions from','$79'],
+];
+const STRIP=[
+ ['wed-1.jpg','Wedding','weddings','A bride in a deep red saree leans on her groom under spring blossom'],
+ ['por-8.jpg','Portrait','portraits','A woman in a white embroidered saree and red bangles, smiling softly'],
+ ['baby-1.jpg','Newborn','family','A mother laughs down at her newborn while the father cradles the baby'],
+ ['wed-4.jpg','Wedding','weddings','A groom tucks a yellow flower behind his bride’s ear while she laughs'],
+ ['por-6.jpg','Portrait','portraits','A woman in a mustard dupatta smiles among autumn trees'],
+ ['wed-8.jpg','Reception','weddings','A couple feed each other cake in front of a red floral wall'],
+ ['baby-6.jpg','Newborn','family','A sleeping newborn wrapped in a turquoise blanket'],
+ ['arch-1.jpg','Architecture','architecture','A two-storey home with a stone facade and white trim'],
+];
+const about=head('About Albin, Aura Films','Meet Albin, the Kingston photographer behind Aura Films, who shoots weddings, portraits and family sessions and edits every photo by hand.','about')+nav('About')+`
+<header class="ab-hero" data-c="${T('albin-new.jpg')}"><div class="container ab-hero-grid">
+<div class="ab-hero-copy">
+<h1 class="h-display"><span class="ln"><span>Nice to</span></span> <span class="ln"><span><em>meet you.</em></span></span></h1>
+<p class="phero-sub reveal">I’m Albin, the photographer behind Aura Films in Kingston. If you book with us, I’m the one behind the camera on the day and the one editing every photo afterwards.</p>
 <div class="hero-cta reveal"><a class="btn btn-solid" href="#contact">Book a date ${arrow}</a><a class="btn btn-ghost" href="/gallery">See the work</a></div>
 </div>
-${plate('albin-new.jpg','Albin, founder of Aura Films, holding a camera in a sunflower field','Albin, founder and photographer','plate--portrait')}
+<figure class="ab-portrait"><div class="ab-mask"><img src="images/albin-new.jpg" alt="Albin, founder of Aura Films, holding a camera in a sunflower field"></div><figcaption>Albin, founder and photographer</figcaption></figure>
 </div></header>
 
-<section class="mani" data-c="22,18,16"><div class="container">
-<p class="mani-text">${words('Good photos mostly come from *waiting.*')}</p>
+<section class="sec ab-story" data-c="${T('wed-5.jpg')}"><div class="container ab-story-grid">
+<div class="ab-bio">
+<h2 class="h-xl reveal">Why I <em>do this.</em></h2>
+<div class="prose reveal">
+<p>I started Aura Films with one camera and a fairly stubborn idea. If I took my time over every shoot and every edit, people would end up with photos they actually go back to.</p>
+<p>Most of my work is weddings, maternity and portraits, with the occasional house or building when someone asks. On a shoot I’m pretty quiet. I give you enough direction that you’re never stuck wondering what to do, then I mostly watch for the glance before the vow or the laugh between poses. Those tend to be the ones people keep.</p>
+<p>Afterwards I edit every frame myself. My edits run warm and a little cinematic, and I try hard to keep everyone looking like themselves.</p>
+</div>
+</div>
+<aside class="ab-facts reveal" aria-label="The short version"><h3 class="h-md">The short version</h3>
+<dl>${FACTS.map(([k,v])=>`<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>
+</aside>
 </div></section>
 
-<section class="sec" data-c="${T('wed-5.jpg')}"><div class="container">
-<div class="split split--text">
-<div><h2 class="h-xl reveal">Hi, I’m <em>Albin.</em></h2><p class="role reveal">Founder and photographer</p></div>
-<div class="prose reveal">
-<p>I started Aura Films with one camera and a fairly stubborn idea: if I take my time over the craft, people end up with photos they actually look at again. I shoot weddings, maternity and portraits, and now and then a building, and I edit every frame myself.</p>
-<p>On a shoot I’m mostly quiet. I watch, and I wait for the glance before the vow or the laugh between poses, since those are usually the pictures people keep.</p>
-<p>My edits run warm and a little cinematic. Above all I want you to look like yourself in them.</p>
-</div>
-</div>
-<div class="ch-pair"${pairStyle('wed-5.jpg','baby-2.jpg')}>
-<a class="plate-link" href="/gallery#weddings">${plate('wed-5.jpg','A couple hold hands and laugh together in a sunlit park','Weddings')}</a>
-<a class="plate-link" href="/gallery#family">${plate('baby-2.jpg','A family and maternity session by Aura Films','Family and maternity')}</a>
-</div>
+<section class="strip" id="work" data-c="${T('wed-1.jpg')}">
+<div class="container strip-head"><h2 class="h-xl reveal">Recent <em>work.</em></h2><p class="lede reveal">A few favourites. Tap any photo to see the full set.</p></div>
+<div class="strip-view" tabindex="0" aria-label="Recent photographs, scroll sideways"><div class="strip-track">${STRIP.map(([f,l,cat,alt])=>`<a class="strip-card" href="/gallery#${cat}"><img src="images/${f}" alt="${alt}"><span class="strip-tag">${l}</span></a>`).join('')}</div></div>
+</section>
+
+<section class="sec ab-quote" data-c="${T(testimonials[2].img)}"><div class="container narrow">
+<figure class="reveal"><blockquote><p>“${testimonials[2].quote}”</p></blockquote><figcaption><img src="images/${testimonials[2].img}" alt="${testimonials[2].nm}" loading="lazy"><span><cite>${testimonials[2].nm}</cite>${testimonials[2].role}</span></figcaption></figure>
 </div></section>
 
 ${faqBlock()}
