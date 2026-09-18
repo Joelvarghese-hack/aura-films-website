@@ -114,10 +114,10 @@ return `<nav class="nav" id="nav" aria-label="Primary"><div class="nav-inner">
 
 /* ── footer ── */
 const footer=`<footer class="footer"><div class="container">
-<div class="foot-cta"><h2 class="h-xl">Let’s make something that <em>outlives the day.</em></h2><a class="btn btn-solid" href="/about#contact">Book a date ${arrow}</a></div>
+<div class="foot-cta"><h2 class="h-xl">Got a date in mind? <em>Let’s talk.</em></h2><a class="btn btn-solid" href="/about#contact">Book a date ${arrow}</a></div>
 <div class="foot-grid">
 <div class="foot-brand"><img src="/images/aura-logo-mark.png" alt="Aura Films" width="102" height="44" loading="lazy">
-<p>Shooting moments. Preserving memories. A photography studio in Kingston, available across Kingston and Ontario.</p></div>
+<p>A photography studio in Kingston, Ontario. We shoot weddings, portraits, families and the occasional building, anywhere in the province.</p></div>
 <div class="foot-col"><h3>Explore</h3><a href="/">Home</a><a href="/gallery">Gallery</a><a href="/about">About</a><a href="/investment">Investment</a></div>
 <div class="foot-col"><h3>Work</h3><a href="/gallery#weddings">Weddings</a><a href="/gallery#portraits">Portraits</a><a href="/gallery#family">Family &amp; Maternity</a><a href="/gallery#architecture">Architecture</a></div>
 <div class="foot-col"><h3>Reach us</h3><a href="mailto:itsaurafilms@gmail.com">itsaurafilms@gmail.com</a><a href="tel:+13439894546">343 989 4546</a><a href="https://www.instagram.com/aura.filmsca/" target="_blank" rel="noopener">Instagram, @aura.filmsca</a><a href="https://www.google.com/maps/search/?api=1&amp;query=Kingston%2C+Ontario%2C+Canada" target="_blank" rel="noopener">Kingston, Ontario</a></div>
@@ -168,15 +168,15 @@ const contactForm=`<div class="cform-wrap">
 <div><label class="fl" for="cf-email">Email</label><input class="fi" id="cf-email" type="email" name="email" required placeholder="you@email.com"></div>
 <div><label class="fl" for="cf-date">Event Date</label><input class="fi" id="cf-date" type="date" name="event_date"></div>
 <div><label class="fl" for="cf-svc">Service</label><input class="fi" id="cf-svc" name="service" placeholder="Wedding, portrait, maternity"></div>
-<div class="full"><label class="fl" for="cf-msg">Tell us about your day</label><textarea class="fi" id="cf-msg" name="message" required placeholder="Share your vision, the where, the when, the feeling."></textarea></div>
+<div class="full"><label class="fl" for="cf-msg">Tell us about your day</label><textarea class="fi" id="cf-msg" name="message" required placeholder="The date, the place, rough plans, anything you’re still unsure about."></textarea></div>
 ${HCAPTCHA?`<div class="full"><div class="h-captcha" data-sitekey="${HCAPTCHA}"></div></div>`:''}<div class="full consent-row"><label class="consent" for="cf-consent"><input type="checkbox" id="cf-consent" name="privacy_consent" value="I agree" required> <span>I've read the <a href="privacy" target="_blank" rel="noopener">Privacy Policy</a> and consent to Aura Films storing the details I've entered so they can respond to my enquiry. <span aria-hidden="true">*</span></span></label></div>
 <div class="full consent-row"><label class="consent" for="cf-marketing"><input type="checkbox" id="cf-marketing" name="marketing_optin" value="Yes, subscribe"> <span>Optional: email me occasional updates and offers. I can unsubscribe at any time.</span></label></div>
 <div class="full"><button class="btn btn-dark" id="cf-btn" type="submit">Send Enquiry ${arrow}</button></div>
 </form>
 <div class="cform-thanks" id="cformThanks">
 <div class="ct-ico"><svg viewBox="0 0 52 52" width="58" height="58" fill="none" stroke="currentColor" stroke-width="2"><circle cx="26" cy="26" r="24"/><path d="M16 27l7 7 13-14" stroke-width="2.4"/></svg></div>
-<h3 class="serif">Thank you for reaching out!</h3>
-<p>Your enquiry has been received. We will be in touch within <strong>24 to 48 hours</strong> to chat more about your session.</p>
+<h3 class="serif">Thanks, we’ve got it.</h3>
+<p>We’ll get back to you within 24 to 48 hours to talk about your session.</p>
 </div></div>`;
 
 /* ════════ CONTENT KEPT FROM THE LIVE SITE ════════ */
@@ -189,12 +189,12 @@ const GAL={
 const LABELS={weddings:'Weddings',portraits:'Portraits',family:'Family & Maternity',architecture:'Architecture'};
 
 const faqItems=[
- ['How do we book a date?','Reach out through the contact form or email with your date and location. We hold dates with a signed agreement and a deposit, on a first-come basis.'],
+ ['How do we book a date?','Send us your date and location through the form or by email. A signed agreement and a deposit hold the date, first come, first served.'],
  ['How much is the deposit?','A 30% non-refundable retainer secures your booking. The remaining balance is due on or before the day of the session.'],
- ['What is the turnaround time?','Sessions are delivered in 10 to 21 business days depending on the package. Weddings include a sneak-peek set within the first week.'],
- ['Do you travel?','Yes. Travel within 20km is included; beyond that a small travel fee applies. We shoot across Kingston and Ontario.'],
- ['Do we get the raw files?','Galleries are delivered as hand-graded, high-resolution images. Unedited raw files are available as a paid add-on on request.'],
- ['What if we need to reschedule?','Rescheduling is accommodated once with reasonable notice. Weather-related outdoor reschedules are always at no extra charge.'],
+ ['What is the turnaround time?','10 to 21 business days, depending on the package. Weddings also get a sneak peek within the first week.'],
+ ['Do you travel?','Yes. Travel within 20 km is included, and a small fee applies past that. We shoot all over Kingston and Ontario.'],
+ ['Do we get the raw files?','Galleries come as edited, high-resolution images. If you want the unedited raw files too, they’re a paid add-on.'],
+ ['What if we need to reschedule?','You can reschedule once with reasonable notice. If weather rules out an outdoor shoot, moving it costs nothing.'],
 ];
 
 const PKG={
@@ -226,13 +226,13 @@ const words=s=>s.split(' ').map(x=>x.startsWith('*')?`<em><span class="w">${x.re
 const plate=(f,alt,cap='',cls='')=>`<figure class="plate${cls?' '+cls:''}" data-c="${T(f)}"><div class="frame"><img src="images/${f}" alt="${alt}" loading="lazy"></div>${cap?`<figcaption>${cap}</figcaption>`:''}</figure>`;
 const calBox=CALENDLY?`<div class="cal-embed" data-cal-embed="${CALENDLY}"><p class="cal-note">Prefer to pick a time now? Loading the calendar connects to Calendly, which may set its own cookies.</p><button type="button" class="btn btn-ghost cal-load">Open booking calendar ${arrow}</button></div>`:'';
 const faqBlock=()=>`<section class="sec" id="faq" data-c="22,18,16"><div class="container narrow">
-<h2 class="h-xl reveal">Questions, <em>answered.</em></h2>
+<h2 class="h-xl reveal">Common <em>questions.</em></h2>
 <div class="faq">${faqItems.map(([q,a],i)=>`<div class="faq-item reveal"><button class="faq-q" id="fq${i}" type="button" aria-expanded="false" aria-controls="fa${i}">${q}<span class="pl" aria-hidden="true"></span></button><div class="faq-a" id="fa${i}" role="region" aria-labelledby="fq${i}"><p>${a}</p></div></div>`).join('')}</div>
 </div></section>`;
 const contactBlock=()=>`<section class="sec contact" id="contact" data-c="22,18,16"><div class="container"><div class="contact-grid">
 <div class="contact-copy">
 <h2 class="h-xl reveal">Tell us about <em>your day.</em></h2>
-<p class="lede reveal">Share the date, the place and the feeling you want to keep. We reply within 24 to 48 hours, or you can reach us directly.</p>
+<p class="lede reveal">Send the date, the place and anything you already have in mind. We usually reply within 24 to 48 hours. If you’d rather talk, call or message us.</p>
 <ul class="contact-list reveal">
 <li><span>Email</span><a href="mailto:itsaurafilms@gmail.com">itsaurafilms@gmail.com</a></li>
 <li><span>Phone</span><a href="tel:+13439894546">343 989 4546</a></li>
@@ -256,23 +256,23 @@ const DECK=[
  ['baby-6.jpg','Newborn · Kingston','A sleeping newborn wrapped in a turquoise blanket'],
 ];
 const CHAPTERS=[
- {id:'weddings',title:'The full day, <em>honestly told.</em>',
-  body:'From the quiet first look to the last dance, and everything that happens in between when nobody thinks the camera is on them. Sneak peeks land inside the first week, and the full gallery follows in ten to twenty-one days.',
+ {id:'weddings',title:'All of it, <em>start to finish.</em>',
+  body:'From the first look to the last dance, plus everything in between that nobody planned. You’ll see a sneak peek within the first week and the full gallery in 10 to 21 days.',
   price:'From $399',link:'/gallery#weddings',cta:'See the weddings',
   lead:['wed-3.jpg','A couple exchange vows under a flower-covered arbour beside the lake'],
   pair:[['wed-1.jpg','A bride in a deep red saree leans on her groom under spring blossom'],['wed-8.jpg','A couple feed each other cake in front of a red floral wall']]},
- {id:'portraits',title:'The real you, in one <em>quiet frame.</em>',
-  body:'Half an hour or a whole session, one look or a few. We talk, we walk, and somewhere along the way you forget the camera is up. That is the frame we were waiting for.',
+ {id:'portraits',title:'Photos that look <em>like you.</em>',
+  body:'Half an hour or a couple of hours, one outfit or a few. Mostly we walk and talk, and at some point you stop noticing the camera. That’s usually when the good ones happen.',
   price:'From $79',link:'/gallery#portraits',cta:'See the portraits',
   lead:['por-2.jpg','A woman in a black off-shoulder dress in front of summer greenery'],
   pair:[['por-8.jpg','A woman in a white embroidered saree and red bangles, smiling softly'],['por-6.jpg','A woman in a mustard dupatta smiles among autumn trees']]},
- {id:'family',title:'Kept close while <em>it grows.</em>',
-  body:'Bumps, newborns and toddlers who refuse to sit still. We don’t fight it. The mess is usually the part you’ll want to remember, and the picture your children ask for one day is rarely the tidy one.',
+ {id:'family',title:'Bumps, babies and <em>busy toddlers.</em>',
+  body:'Newborns sleep, toddlers run off, and we’re fine with both. We shoot plenty of the messy bits, because years from now the photo your kids ask about probably won’t be the tidy one.',
   price:'From $129',link:'/gallery#family',cta:'See family sessions',
   lead:['baby-16.jpg','Parents lean in close to their toddler, who wears red bows in her hair'],
   pair:[['baby-1.jpg','A mother laughs down at her newborn while the father cradles the baby'],['baby-6.jpg','A sleeping newborn wrapped in a turquoise blanket']]},
- {id:'architecture',title:'Light, line and a <em>sense of place.</em>',
-  body:'Homes and spaces photographed for how they feel at seven in the evening, not only how they measure. Straight verticals, honest colour, and the patience to wait for the light to come round.',
+ {id:'architecture',title:'Homes, shot in <em>good light.</em>',
+  body:'We photograph homes and spaces for how they feel at seven in the evening as well as how they measure. Verticals stay straight and colours stay accurate, and if the light isn’t right yet, we wait for it.',
   price:'Quoted per project',link:'/gallery#architecture',cta:'See the architecture',
   lead:['arch-4.jpg','A home photographed straight on in soft, even light'],
   pair:[['arch-1.jpg','A two-storey home with a stone facade and white trim'],['arch-6.jpg','An exterior photographed straight on in soft daylight']]},
@@ -285,15 +285,15 @@ const chapter=(c,i)=>`<section class="ch${i%2?' ch--flip':''}" id="${c.id}" data
 ${plate(c.lead[0],c.lead[1],'','plate--lead')}
 <div class="ch-pair">${plate(c.pair[0][0],c.pair[0][1])}${plate(c.pair[1][0],c.pair[1][1])}</div>
 </div></section>`;
-const STEPS=[['Reach out','Tell us your date, your place and the feeling you want to keep.'],['The shoot','A relaxed session with real direction and zero awkwardness.'],['Your gallery','Hand-graded images delivered in 10 to 21 days, ready to relive.']];
-const TEASE=[['Portraits','From thirty minutes to a full session, one look or several.',79,'pk-portraits'],['Family &amp; Maternity','Newborns, bumps and growing families.',129,'pk-family'],['Events &amp; Showers','Two photographers on every package.',249,'pk-events'],['Weddings','From a three-hour ceremony to a full documentary day.',399,'pk-weddings']];
+const STEPS=[['Reach out','Tell us the date, where it is and what you most want to remember.'],['The shoot','A relaxed session. We tell you where to stand and when to move, so you never have to wonder what to do with your hands.'],['Your gallery','Every photo edited by hand and delivered in 10 to 21 days.']];
+const TEASE=[['Portraits','Thirty minutes or a full session, in one outfit or several.',79,'pk-portraits'],['Family &amp; Maternity','Newborns, bumps and growing families.',129,'pk-family'],['Events &amp; Showers','Two photographers on every package.',249,'pk-events'],['Weddings','From a three-hour ceremony to a full documentary day.',399,'pk-weddings']];
 
 const home=head('Aura Films, Wedding and Portrait Photography in Kingston','Aura Films is a Kingston photography studio for weddings, portraits, family and architecture. Every frame shot and hand-graded by Albin.','')+nav('Home')+`
 <header class="hero" id="top" data-c="${T(DECK[0][0])}">
 <div class="container hero-grid">
 <div class="hero-copy">
 <h1 class="h-display"><span class="ln"><span>Photographs</span></span> <span class="ln"><span>that remember</span></span> <span class="ln"><span>how it <em>felt.</em></span></span></h1>
-<p class="hero-sub reveal">No stiff poses. No conveyor-belt presets. Just the real day, shot and hand-graded by Albin, and handed back as a gallery you’ll keep opening.</p>
+<p class="hero-sub reveal">Albin photographs weddings, portraits and families around Kingston, then edits every frame by hand. You get the day as it actually went, in a gallery you’ll keep going back to.</p>
 <div class="hero-cta reveal"><a class="btn btn-solid" href="#contact">Book a date ${arrow}</a><a class="btn btn-ghost" href="/gallery">See the work</a></div>
 </div>
 <div class="deck-wrap reveal">
@@ -311,7 +311,7 @@ ${DECK.map(([f,cap,alt],i)=>`<figure class="card" data-c="${T(f)}" data-cap="${c
 </header>
 
 <section class="mani" data-c="22,18,16"><div class="container">
-<p class="mani-text">${words('We don’t pose moments. We wait for them. The glance before the vow, the laugh between the poses, the look your dad gives you when he thinks nobody is watching. Then every frame is graded by hand, one at a time, until it looks the way the day *felt.*')}</p>
+<p class="mani-text">${words('Most of the good photos happen between the planned ones. The glance just before the vow. The look your dad gives you when he thinks nobody’s watching. We wait around for those, then edit each frame by hand until it looks the way the day *felt.*')}</p>
 </div></section>
 
 ${CHAPTERS.map(chapter).join('')}
@@ -322,7 +322,7 @@ ${CHAPTERS.map(chapter).join('')}
 </div></section>
 
 <section class="sec" data-c="${T(testimonials[0].img)}"><div class="container">
-<h2 class="h-xl reveal">Trusted with the <em>biggest days.</em></h2>
+<h2 class="h-xl reveal">What our clients <em>said.</em></h2>
 <div class="quotes">${testimonials.map(t=>`<figure class="quote reveal"><div class="quote-pic"><img src="images/${t.img}" alt="${t.nm}" loading="lazy"></div><blockquote><p>${t.quote}</p><footer><cite>${t.nm}</cite><span>${t.role}</span></footer></blockquote></figure>`).join('')}</div>
 </div></section>
 
@@ -347,7 +347,7 @@ function buildGallery(){
   return head('Gallery, Aura Films','Browse Aura Films weddings, portraits, family and architecture photography from Kingston and across Ontario.','gallery')+nav('Gallery')+`
 <header class="phero" data-c="${T('wed-3.jpg')}"><div class="container">
 <h1 class="h-display">The <em>gallery.</em></h1>
-<p class="phero-sub reveal">Real days, honestly told. Tap any photograph to see it large.</p>
+<p class="phero-sub reveal">Tap any photo to see it full size.</p>
 </div></header>
 <div class="jump-bar"><div class="container"><nav class="jump" aria-label="Gallery sections">${Object.keys(GAL).map(c=>`<a href="#${c}">${esc(LABELS[c])}</a>`).join('')}</nav></div></div>
 ${secs}`+foot(lightbox);
@@ -358,23 +358,23 @@ const about=head('About Albin, Aura Films','Meet Albin, the photographer behind 
 <header class="phero phero--split" data-c="${T('albin-new.jpg')}"><div class="container split">
 <div class="split-copy">
 <h1 class="h-display">Behind the <em>lens.</em></h1>
-<p class="phero-sub reveal">One photographer, one obsession: the honest, unrepeatable moments that make a day yours.</p>
+<p class="phero-sub reveal">Aura Films is one photographer, Albin, working out of Kingston.</p>
 <div class="hero-cta reveal"><a class="btn btn-solid" href="#contact">Book a date ${arrow}</a><a class="btn btn-ghost" href="/gallery">See the work</a></div>
 </div>
 ${plate('albin-new.jpg','Albin, founder of Aura Films, holding a camera in a sunflower field','Albin, founder and photographer','plate--portrait')}
 </div></header>
 
 <section class="mani" data-c="22,18,16"><div class="container">
-<p class="mani-text">${words('We don’t pose moments. We *wait* for them, then make them timeless.')}</p>
+<p class="mani-text">${words('Good photos mostly come from *waiting.*')}</p>
 </div></section>
 
 <section class="sec" data-c="${T('wed-5.jpg')}"><div class="container">
 <div class="split split--text">
 <div><h2 class="h-xl reveal">Hi, I’m <em>Albin.</em></h2><p class="role reveal">Founder and photographer</p></div>
 <div class="prose reveal">
-<p>I started Aura Films with a camera and a stubborn belief that honest craft makes memories you’ll actually want to relive. From weddings to maternity, portraits to the odd building, I shoot and hand-grade every single frame myself, so your gallery feels like a keepsake, not a feed.</p>
-<p>I shoot with a quiet, observant eye, patient to a fault, waiting for the glance before the vow and the laugh between the poses, because that’s where the real photo lives.</p>
-<p>My work is grounded, warm and unmistakably cinematic, the kind that makes people feel seen rather than posed. Every frame is shot and hand-graded by me, so nothing about your day is forgotten.</p>
+<p>I started Aura Films with one camera and a fairly stubborn idea: if I take my time over the craft, people end up with photos they actually look at again. I shoot weddings, maternity and portraits, and now and then a building, and I edit every frame myself.</p>
+<p>On a shoot I’m mostly quiet. I watch, and I wait for the glance before the vow or the laugh between poses, since those are usually the pictures people keep.</p>
+<p>My edits run warm and a little cinematic. Above all I want you to look like yourself in them.</p>
 </div>
 </div>
 <div class="ch-pair">
@@ -395,13 +395,13 @@ const PKINFO={
  Portraits:['pk-portraits','por-2.jpg','A woman in a black off-shoulder dress in front of summer greenery','From thirty minutes to a full session with editorial retouching.'],
 };
 const tier=([tag,name,price,add,feats,feat])=>`<article class="tier${feat?' tier--rec':''} reveal">${feat?'<span class="tier-tag">Recommended</span>':''}<h3 class="tier-name">${name}</h3><p class="tier-price"><span>$</span>${price}</p><p class="tier-note">${add}</p><ul class="tier-list">${feats.map(x=>`<li>${tick}<span>${x}</span></li>`).join('')}</ul><a class="btn btn-ghost tier-btn" href="#contact">Enquire about ${name}</a></article>`;
-const CHIPS=[['An assistant on bigger shoots','A second pair of hands for weddings and events, so no moment is missed.'],['Hand-graded galleries','Every frame is edited by us, never batch-filtered.'],['Fast, reliable delivery','Sneak peeks within a week, full galleries in 10 to 21 days.'],['Honest, transparent pricing','Prices in CAD, valid 30 days, 30% retainer to book.']];
-const EXP=[['Consult','We learn your vision, vibe and must-have moments.'],['Plan','Locations, timeline and shot list, locked in together.'],['Shoot','A relaxed day, real direction, zero awkwardness.'],['Deliver','A hand-graded gallery, ready to relive.']];
+const CHIPS=[['An assistant on bigger shoots','Weddings and events get a second pair of hands.'],['Edited by hand','We edit each photo on its own. No batch filters.'],['Quick turnaround','Sneak peeks within a week, full galleries in 10 to 21 days.'],['Clear pricing','Prices in CAD and valid for 30 days. A 30% retainer books your date.']];
+const EXP=[['Consult','We talk through what you want and which moments matter most to you.'],['Plan','We sort out locations, timing and a shot list together.'],['Shoot','A relaxed day with clear direction.'],['Deliver','You get a gallery edited by hand.']];
 
-const investment=head('Investment, Aura Films','Transparent photography packages from Aura Films in Kingston: weddings, events, family and portrait sessions, priced in CAD.','investment')+nav('Investment')+`
+const investment=head('Investment, Aura Films','Photography packages and prices from Aura Films in Kingston: weddings, events, family and portrait sessions, in CAD.','investment')+nav('Investment')+`
 <header class="phero" data-c="${T('wed-1.jpg')}"><div class="container">
 <h1 class="h-display">The <em>investment.</em></h1>
-<p class="phero-sub reveal">Real value, real moments. Every package is priced in the open, from a thirty-minute portrait to full-day wedding coverage.</p>
+<p class="phero-sub reveal">Every package and price is listed here, from a thirty-minute portrait to a full wedding day.</p>
 <div class="chips">${CHIPS.map(([b,t])=>`<div class="chip reveal">${tick}<p><b>${b}.</b> ${t}</p></div>`).join('')}</div>
 </div></header>
 <div class="jump-bar"><div class="container"><nav class="jump" aria-label="Package categories">${Object.keys(PKG).map(k=>`<a href="#${PKINFO[k][0]}">${k}</a>`).join('')}</nav></div></div>
@@ -411,13 +411,13 @@ ${Object.entries(PKG).map(([k,arr],i)=>`<section class="pk${i%2?' pk--flip':''}"
 </div></section>`).join('')}
 
 <section class="sec" data-c="48,32,24"><div class="container split">
-<div><h2 class="h-xl reveal">Add-ons and <em>good to know.</em></h2>
-<p class="lede reveal">Prices are in Canadian dollars (CAD) and valid for 30 days from inquiry. A 30% non-refundable retainer confirms your booking. Travel within 20 km of Kingston is included; beyond that a small fee applies.</p></div>
+<div><h2 class="h-xl reveal">Add-ons and <em>the fine print.</em></h2>
+<p class="lede reveal">Prices are in Canadian dollars and hold for 30 days from your enquiry. A 30% non-refundable retainer confirms the booking. Travel within 20 km of Kingston is included, and a small fee applies beyond that.</p></div>
 <ul class="addons reveal">${addons.map(([n,p])=>`<li><span>${n}</span><b>${p}</b></li>`).join('')}</ul>
 </div></section>
 
 <section class="sec" data-c="22,30,48"><div class="container">
-<h2 class="h-xl reveal">The <em>experience.</em></h2>
+<h2 class="h-xl reveal">What to <em>expect.</em></h2>
 <ol class="steps steps--4">${EXP.map(([t,d],i)=>`<li class="step reveal"><span class="step-n">0${i+1}</span><h3 class="h-md">${t}</h3><p>${d}</p></li>`).join('')}</ol>
 </div></section>
 
