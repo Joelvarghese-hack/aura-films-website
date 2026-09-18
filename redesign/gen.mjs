@@ -223,6 +223,8 @@ const addons=[['Second location / travel','$50-100'],['Printed photo set (20)','
 /* ════════ SHARED BLOCKS ════════ */
 const esc=s=>String(s).replace(/&(?!amp;)/g,'&amp;');
 const words=s=>s.split(' ').map(x=>x.startsWith('*')?`<em><span class="w">${x.replace(/\*/g,'')}</span></em>`:`<span class="w">${x}</span>`).join(' ');
+const ratio=f=>DIMS[f]?DIMS[f][0]/DIMS[f][1]:0.67;
+const pairStyle=(a,b)=>{const x=ratio(a),y=ratio(b);return ` style="--pc:${x.toFixed(3)}fr ${y.toFixed(3)}fr;--ps:${(x+y).toFixed(3)}"`;};
 const plate=(f,alt,cap='',cls='')=>`<figure class="plate${cls?' '+cls:''}" data-c="${T(f)}"><div class="frame"><img src="images/${f}" alt="${alt}" loading="lazy"></div>${cap?`<figcaption>${cap}</figcaption>`:''}</figure>`;
 const calBox=CALENDLY?`<div class="cal-embed" data-cal-embed="${CALENDLY}"><p class="cal-note">Prefer to pick a time now? Loading the calendar connects to Calendly, which may set its own cookies.</p><button type="button" class="btn btn-ghost cal-load">Open booking calendar ${arrow}</button></div>`:'';
 const faqBlock=()=>`<section class="sec" id="faq" data-c="22,18,16"><div class="container narrow">
@@ -283,7 +285,7 @@ const chapter=(c,i)=>`<section class="ch${i%2?' ch--flip':''}" id="${c.id}" data
 <div class="ch-body reveal"><p>${c.body}</p><div class="ch-meta"><span class="price-pill">${c.price}</span><a class="txt-link" href="${c.link}">${c.cta} ${arrow}</a></div></div>
 </div>
 ${plate(c.lead[0],c.lead[1],'','plate--lead')}
-<div class="ch-pair">${plate(c.pair[0][0],c.pair[0][1])}${plate(c.pair[1][0],c.pair[1][1])}</div>
+<div class="ch-pair"${pairStyle(c.pair[0][0],c.pair[1][0])}>${plate(c.pair[0][0],c.pair[0][1])}${plate(c.pair[1][0],c.pair[1][1])}</div>
 </div></section>`;
 const STEPS=[['Reach out','Tell us the date, where it is and what you most want to remember.'],['The shoot','A relaxed session. We tell you where to stand and when to move, so you never have to wonder what to do with your hands.'],['Your gallery','Every photo edited by hand and delivered in 10 to 21 days.']];
 const TEASE=[['Portraits','Thirty minutes or a full session, in one outfit or several.',79,'pk-portraits'],['Family &amp; Maternity','Newborns, bumps and growing families.',129,'pk-family'],['Events &amp; Showers','Two photographers on every package.',249,'pk-events'],['Weddings','From a three-hour ceremony to a full documentary day.',399,'pk-weddings']];
@@ -311,7 +313,7 @@ ${DECK.map(([f,cap,alt],i)=>`<figure class="card" data-c="${T(f)}" data-cap="${c
 </header>
 
 <section class="mani" data-c="22,18,16"><div class="container">
-<p class="mani-text">${words('Most of the good photos happen between the planned ones. The glance just before the vow. The look your dad gives you when he thinks nobody’s watching. We wait around for those, then edit each frame by hand until it looks the way the day *felt.*')}</p>
+<p class="mani-text">${words('Everyone remembers the posed photos. The ones people actually keep are the ones nobody set up, like your dad’s face just before the vow, or your best friend crying through the speech. We hang around for those, then edit every frame by hand until it looks the way the day *felt.*')}</p>
 </div></section>
 
 ${CHAPTERS.map(chapter).join('')}
@@ -377,7 +379,7 @@ ${plate('albin-new.jpg','Albin, founder of Aura Films, holding a camera in a sun
 <p>My edits run warm and a little cinematic. Above all I want you to look like yourself in them.</p>
 </div>
 </div>
-<div class="ch-pair">
+<div class="ch-pair"${pairStyle('wed-5.jpg','baby-2.jpg')}>
 <a class="plate-link" href="/gallery#weddings">${plate('wed-5.jpg','A couple hold hands and laugh together in a sunlit park','Weddings')}</a>
 <a class="plate-link" href="/gallery#family">${plate('baby-2.jpg','A family and maternity session by Aura Films','Family and maternity')}</a>
 </div>
