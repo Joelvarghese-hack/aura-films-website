@@ -2,6 +2,12 @@
    Every photograph lends the page its colour. Clash Display carries the
    voice, Playfair Display carries the reading. Soft corners throughout.
    ══════════════════════════════════════════════════════════ */
+@font-face{font-family:'Playfair Display';src:url('/redesign/fonts/playfair-display-latin-400-normal.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Playfair Display';src:url('/redesign/fonts/playfair-display-latin-500-normal.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'Playfair Display';src:url('/redesign/fonts/playfair-display-latin-600-normal.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:'Playfair Display';src:url('/redesign/fonts/playfair-display-latin-400-italic.woff2') format('woff2');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:'Playfair Display';src:url('/redesign/fonts/playfair-display-latin-500-italic.woff2') format('woff2');font-weight:500;font-style:italic;font-display:swap}
+@font-face{font-family:'Playfair Display';src:url('/redesign/fonts/playfair-display-latin-600-italic.woff2') format('woff2');font-weight:600;font-style:italic;font-display:swap}
 @font-face{font-family:'Clash Display';src:url('/redesign/fonts/clash-display-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
 @font-face{font-family:'Clash Display';src:url('/redesign/fonts/clash-display-600.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
 @font-face{font-family:'Clash Display';src:url('/redesign/fonts/clash-display-500.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
@@ -139,7 +145,7 @@ body.drawer-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45
 /* ─── manifesto: words brighten as you read ─── */
 .mani{padding-block:clamp(90px,17vh,210px)}
 .mani-text{font-family:var(--p);font-weight:500;font-size:clamp(26px,3.6vw,54px);line-height:1.24;letter-spacing:-.01em;max-width:40ch;margin-inline:auto;text-align:center}
-.mani-live .w{opacity:.2;transition:opacity .4s var(--e)}
+.mani-live .w{opacity:.5;transition:opacity .4s var(--e)}
 .mani-live .w.on{opacity:1}
 
 /* ─── chapters ─── */
@@ -238,7 +244,7 @@ input[type=date].fi{-webkit-appearance:none;appearance:none;line-height:1.4;text
 input[type=date].fi::-webkit-date-and-time-value{text-align:left;min-height:1.4em}
 input[type=date].fi::-webkit-calendar-picker-indicator{filter:invert(.85);opacity:.7}
 .fi[type=date]{color-scheme:dark}
-.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none}
+.hp{display:none!important}
 .consent{display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.55;color:var(--paper-2);cursor:pointer}
 .consent input[type=checkbox]{width:20px;height:20px;margin-top:3px;flex:0 0 auto;accent-color:var(--acc);cursor:pointer}
 .consent a{color:var(--acc);text-decoration:underline}
@@ -551,3 +557,4 @@ html.theme-light .brand img,html.theme-light .foot-brand img{filter:invert(1) br
   .offer-pic{height:190px;min-height:0}
   .offer-body{padding:24px 20px 22px}
 }
+.legal p a,.legal li a{text-decoration:underline;text-underline-offset:2px}

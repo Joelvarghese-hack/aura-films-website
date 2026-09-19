@@ -129,8 +129,7 @@ const head=(title,desc,path='')=>`<!DOCTYPE html><html lang="en"><head>
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${title}">
 <meta name="twitter:description" content="${desc}"><meta name="twitter:image" content="${SITE}images/wed-3.jpg">
 <link rel="preload" href="/redesign/fonts/clash-display-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="preload" href="/redesign/fonts/playfair-display-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/redesign/aura.css?v=${V('aura.css')}">${CALENDLY?`<link rel="preconnect" href="https://assets.calendly.com"><link rel="dns-prefetch" href="https://calendly.com">`:''}${HCAPTCHA?`<script src="https://js.hcaptcha.com/1/api.js" async defer></script>`:''}<script>window.AURA_CALENDLY=${JSON.stringify(CALENDLY)};</script></head><body><a href="#main" class="skip-link">Skip to content</a><div class="progress" id="progress" aria-hidden="true"></div><div class="pt" id="pt" aria-hidden="true"></div>`;
 
 /* ── nav ── */
@@ -154,7 +153,7 @@ const footer=`<footer class="footer"><div class="container">
 <div class="foot-col"><h3>Work</h3><a href="/gallery#weddings">Weddings</a><a href="/gallery#portraits">Portraits</a><a href="/gallery#family">Family &amp; Maternity</a><a href="/gallery#architecture">Architecture</a></div>
 <div class="foot-col"><h3>Reach us</h3><a href="mailto:itsaurafilms@gmail.com">itsaurafilms@gmail.com</a><a href="tel:+13439894546">343 989 4546</a><a href="https://www.instagram.com/aura.filmsca/" target="_blank" rel="noopener">Instagram, @aura.filmsca</a><a href="https://www.google.com/maps/search/?api=1&amp;query=Kingston%2C+Ontario%2C+Canada" target="_blank" rel="noopener">Kingston, Ontario</a></div>
 </div>
-<div class="foot-bot"><p>© 2026 Aura Films. All rights reserved. <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms &amp; Conditions</a> · <a href="/cookie">Cookie Policy</a> · <a href="/refund">Refund Policy</a></p>
+<div class="foot-bot"><p>© 2026 Aura Films. All rights reserved. <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms &amp; Conditions</a> · <a href="/cookie">Cookie Policy</a> · <a href="/refund">Refund Policy</a> · <a href="/accessibility">Accessibility</a></p>
 <p class="foot-legal-id">Aura Films is a sole proprietorship operated by Albin, based in Kingston, Ontario, Canada. Contact <a href="mailto:itsaurafilms@gmail.com">itsaurafilms@gmail.com</a> · <a href="tel:+13439894546">343&nbsp;989&nbsp;4546</a>.</p>
 <p>Design &amp; SEO by <a href="https://joelvarghese-hack.github.io/Marketing-Portfolio/" target="_blank" rel="noopener">Joel Varghese</a></p></div>
 </div></footer>`;
@@ -173,8 +172,8 @@ if(a)a.addEventListener('click',function(){set('accepted');});
 if(m)m.addEventListener('click',function(){window.__AURA_ESSENTIAL_ONLY=true;set('essential');});
 }catch(e){}})();</script>`;
 
-const mcta=`<div class="mcta"><a href="tel:+13439894546">Call</a><a class="p" href="/about#contact">Book a date</a></div>`;
-const foot=(extra='')=>footer+toTop+mcta+extra+offer+cookieNotice+`<script src="/redesign/vendor/gsap.min.js?v=3.12.5" defer></script><script src="/redesign/vendor/ScrollTrigger.min.js?v=3.12.5" defer></script><script src="/redesign/vendor/lenis.min.js?v=1.1.20" defer></script><script src="/redesign/aura.js?v=${V('aura.js')}" defer></script></body></html>`;
+const mcta=`<nav class="mcta" aria-label="Quick contact"><a href="tel:+13439894546">Call</a><a class="p" href="/about#contact">Book a date</a></nav>`;
+const foot=(extra='')=>footer+toTop+mcta+extra+(MARKETING?offer:'')+cookieNotice+`<script src="/redesign/vendor/gsap.min.js?v=3.12.5" defer></script><script src="/redesign/vendor/ScrollTrigger.min.js?v=3.12.5" defer></script><script src="/redesign/vendor/lenis.min.js?v=1.1.20" defer></script><script src="/redesign/aura.js?v=${V('aura.js')}" defer></script></body></html>`;
 
 /* ── testimonials carousel ── */
 const testimonials=[
@@ -190,6 +189,12 @@ const carousel=`<div class="tcar reveal" id="tcar">
 
 /* ── contact form (Web3Forms + date picker + on-page thanks) ── */
 const ACCESS_KEY='21c2f497-6482-4b89-899b-4653e72aefc1';
+/* CASL: every request for email consent, and every marketing email, must name a postal address.
+   Email sign-ups (the optional contact-form box and the first-session offer) stay switched off
+   until MAIL_ADDR is set, e.g. 'PO Box 123, Kingston, ON K7L 0A0'. */
+const MAIL_ADDR='';
+const MARKETING=!!MAIL_ADDR;
+const CASL_ID='Aura Films (Albin), '+(MAIL_ADDR||'Kingston, Ontario')+', itsaurafilms@gmail.com';
 /* ── first-session offer: email + explicit CASL consent, sent through Web3Forms ── */
 const offer=`<div class="offer" id="offer" role="dialog" aria-modal="true" aria-labelledby="offerTitle" aria-describedby="offerLede" hidden>
 <div class="offer-scrim" data-offer-close></div>
@@ -206,7 +211,7 @@ const offer=`<div class="offer" id="offer" role="dialog" aria-modal="true" aria-
 <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
 <label class="fl" for="of-email">Email</label>
 <input class="fi" id="of-email" type="email" name="email" required maxlength="254" autocomplete="email" inputmode="email" placeholder="you@email.com">
-<label class="consent" for="of-consent"><input type="checkbox" id="of-consent" name="marketing_consent" value="Yes, subscribed via the 10% offer" required> <span>Yes, email me offers and news from Aura Films. I can unsubscribe at any time. <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a></span></label>
+<label class="consent" for="of-consent"><input type="checkbox" id="of-consent" name="marketing_consent" value="Yes, subscribed via the 10% offer" required> <span>Yes, email me offers and news from ${CASL_ID}. I can unsubscribe at any time. <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a></span></label>
 <p class="offer-err" id="offerErr" role="alert" hidden></p>
 <button class="btn btn-solid offer-btn" id="offerBtn" type="submit">Claim 10% off ${arrow}</button>
 <p class="offer-fine">For new clients on regular-priced sessions. One per client, not combinable with other offers.</p>
@@ -227,7 +232,7 @@ const contactForm=`<div class="cform-wrap">
 <div><label class="fl" for="cf-svc">Service</label><input class="fi" id="cf-svc" name="service" placeholder="Wedding, portrait, maternity"></div>
 <div class="full"><label class="fl" for="cf-msg">Tell us about your day</label><textarea class="fi" id="cf-msg" name="message" required placeholder="The date, the place, rough plans, anything you’re still unsure about."></textarea></div>
 ${HCAPTCHA?`<div class="full"><div class="h-captcha" data-sitekey="${HCAPTCHA}"></div></div>`:''}<div class="full consent-row"><label class="consent" for="cf-consent"><input type="checkbox" id="cf-consent" name="privacy_consent" value="I agree" required> <span>I've read the <a href="privacy" target="_blank" rel="noopener">Privacy Policy</a> and consent to Aura Films storing the details I've entered so they can respond to my enquiry. <span aria-hidden="true">*</span></span></label></div>
-<div class="full consent-row"><label class="consent" for="cf-marketing"><input type="checkbox" id="cf-marketing" name="marketing_optin" value="Yes, subscribe"> <span>Optional: email me occasional updates and offers. I can unsubscribe at any time.</span></label></div>
+${MARKETING?`<div class="full consent-row"><label class="consent" for="cf-marketing"><input type="checkbox" id="cf-marketing" name="marketing_optin" value="Yes, subscribe"> <span>Optional: email me occasional updates and offers from ${CASL_ID}. I can unsubscribe at any time.</span></label></div>`:''}
 <div class="full"><button class="btn btn-dark" id="cf-btn" type="submit">Send Enquiry ${arrow}</button></div>
 </form>
 <div class="cform-thanks" id="cformThanks">
@@ -511,23 +516,24 @@ const privacy=legalShell('Privacy Policy',`
 <li><strong>Contact details</strong> you provide: name, email, phone, event date and location.</li>
 <li><strong>Booking information:</strong> package choice, preferences, and correspondence.</li>
 <li><strong>Images</strong> captured during your session.</li>
-<li><strong>Website data:</strong> basic analytics such as pages visited and device type.</li></ul>
+<li><strong>Technical data:</strong> like any website, our host (Cloudflare) processes standard technical information such as IP address and browser type to deliver the site and protect it from abuse. We do not use analytics, session recording or tracking tools.</li></ul>
 <h2>2. How We Use Your Information</h2><p>To respond to enquiries, prepare quotes and contracts, deliver your session and gallery, process payments, and improve our services. We do not sell your personal information.</p>
-<h2>3. Consent</h2><p>We collect and use your information with your consent, which you may withdraw at any time by contacting us (subject to existing contractual obligations).</p><p>We only send marketing or promotional emails if you have <strong>expressly opted in</strong> (for example, by ticking the optional box on our contact form), in line with Canada's Anti-Spam Legislation (CASL). Enquiries you send us are not added to any marketing list. Every promotional email includes an unsubscribe link, and you can opt out at any time.</p>
+<h2>3. Consent</h2><p>We collect and use your information with your consent, which you may withdraw at any time by contacting us (subject to existing contractual obligations).</p><p>We only send marketing or promotional emails if you have <strong>expressly opted in</strong> (for example, by ticking an optional sign-up box on our website), in line with Canada's Anti-Spam Legislation (CASL). Enquiries you send us are not added to any marketing list. Every promotional email includes an unsubscribe link, and you can opt out at any time.</p>
 <h2>4. Service Providers &amp; Disclosure</h2><p>We share information only with trusted service providers ("processors") needed to run our business and website, and only for that purpose. These currently include:</p>
 <ul>
-<li><strong>Web3Forms</strong> &mdash; delivers our contact-form submissions to our inbox.</li>
+<li><strong>Web3Forms</strong> &mdash; delivers our contact-form and offer sign-up submissions to our inbox.</li>
+<li><strong>Cloudflare</strong> &mdash; hosts the website and protects it from attacks; processes technical data such as IP addresses to do so.</li>
 <li><strong>Calendly</strong> &mdash; powers optional online booking, and is loaded only if you choose to open the booking calendar.</li>
-<li><strong>Google Fonts</strong> &mdash; serves the website's typefaces; your browser's IP address may be processed by Google to deliver them.</li>
+
 <li>Our email, cloud storage and online gallery providers, used to prepare and deliver your session.</li>
 </ul>
 <p>Some providers are located outside Canada (including in the United States), so your information may be processed abroad under that country's laws. We share only what is necessary, require providers to protect your data, and <strong>never sell</strong> your personal information. We may also disclose information where required by law.</p>
-<h2>5. Image &amp; Portfolio Use</h2><p>Unless you request otherwise in writing, Aura Films may use selected images from your session for portfolio, website and social media. You can opt out of portfolio use at any time by emailing us.</p>
+<h2>5. Image &amp; Portfolio Use</h2><p>We use images in which you can be identified for our portfolio, website or social media only with the permission you give in your booking agreement. Images of children are used only with a parent or guardian’s express written consent. You can withdraw permission at any time by emailing us, and we will stop any further use and remove the images from our website.</p>
 <h2>6. Storage &amp; Retention</h2><p>Your gallery and files are stored securely and retained for a limited period after delivery (typically 12 months) unless a longer archive is agreed. We retain booking records as required for tax and legal purposes.</p>
-<h2>7. Cookies &amp; Tracking</h2><p>We do <strong>not</strong> use advertising, marketing or analytics cookies, and we do not track you across other websites. The site uses only functional technologies: your cookie-notice choice is stored locally on your device, our fonts load from Google, and the optional Calendly booking tool may set its own cookies <em>only</em> if you choose to open it. Full details, and how to control cookies, are in our <a href="cookie" style="color:var(--gold-ink);text-decoration:underline">Cookie Policy</a>.</p>
+<h2>7. Cookies &amp; Tracking</h2><p>We do <strong>not</strong> use advertising, marketing or analytics cookies, and we do not track you across other websites. The site uses only functional technologies: your cookie-notice choice is stored locally on your device, our fonts are hosted on our own website, and if you close our first-session offer we store a small reminder so it does not reappear, and the optional Calendly booking tool may set its own cookies <em>only</em> if you choose to open it. Full details, and how to control cookies, are in our <a href="cookie" style="color:var(--gold-ink);text-decoration:underline">Cookie Policy</a>.</p>
 <h2>8. Your Rights</h2><p>You have the right to access the personal information we hold about you, request corrections, and ask that it be deleted where we are not legally required to keep it. Email <a href="mailto:itsaurafilms@gmail.com" style="color:var(--gold-ink);text-decoration:underline">itsaurafilms@gmail.com</a> to make a request.</p>
 <p>If you are located in the <strong>EU or UK</strong>, you also have rights under the GDPR, including access, rectification, erasure, restriction, portability and objection. Our lawful bases for processing are your consent and the performance of our contract with you. You may lodge a complaint with your local data-protection authority. Canadian visitors may contact the Office of the Privacy Commissioner of Canada.</p>
-<h2>9. Children</h2><p>Sessions involving minors are booked and consented to by a parent or guardian.</p>
+<h2>9. Children</h2><p>Sessions involving minors are booked and consented to by a parent or guardian. Our website and its forms are intended for adults; we do not knowingly collect personal information online from children. If you believe a child has sent us information, contact us and we will delete it.</p>
 <h2>10. Changes</h2><p>We may update this policy from time to time. The "last updated" date reflects the current version.</p>
 <h2>11. Contact</h2><p>Questions? Reach us at <a href="mailto:itsaurafilms@gmail.com" style="color:var(--gold-ink);text-decoration:underline">itsaurafilms@gmail.com</a> or 343 989 4546, Kingston, Ontario.</p>`);
 const terms=legalShell('Terms & Conditions',`
@@ -536,7 +542,7 @@ const terms=legalShell('Terms & Conditions',`
 <h2>2. Payment</h2><p>The remaining balance is due on or before the day of the session unless otherwise agreed in writing. Prices are quoted in Canadian dollars (CAD) and are valid for 30 days from the date of quotation.</p>
 <h2>3. Cancellation &amp; Rescheduling</h2><p>The retainer is non-refundable on cancellation. Rescheduling is permitted once with reasonable notice, subject to availability. Weather-related rescheduling for outdoor sessions is accommodated at no additional charge. Full details, including what happens if we ever have to cancel, are set out in our <a href="refund" style="color:var(--gold-ink);text-decoration:underline">Refund &amp; Cancellation Policy</a>.</p>
 <h2>4. Copyright &amp; Licence</h2><p>Aura Films retains <strong>copyright in all images</strong> under the Canadian <em>Copyright Act</em>. Upon final payment, the Client is granted a personal, non-exclusive licence to use delivered images for personal, non-commercial purposes (printing and sharing). Commercial use, resale, or licensing to third parties requires our written permission.</p>
-<h2>5. Image Release</h2><p>Unless the Client opts out in writing, Aura Films may use selected images for portfolio, marketing and social media. Where minors appear, a parent or guardian consents on their behalf.</p>
+<h2>5. Image Release</h2><p>Aura Films may use selected images for portfolio, marketing and social media only with the permission the Client gives in the booking agreement. Images of minors are used only with a parent or guardian’s express written consent. The Client may withdraw permission for future use at any time by written notice.</p>
 <h2>6. Deliverables &amp; Turnaround</h2><p>Edited galleries are delivered within the timeframe stated for your package (typically 10 to 21 business days). Aura Films delivers hand-graded, high-resolution images; unedited raw files are not included unless purchased as an add-on. The number of edited images stated per package is what is delivered; selection is at our professional discretion.</p>
 <h2>7. Client Conduct &amp; Safety</h2><p>The Client agrees to provide a safe working environment. We reserve the right to end a session where the safety of our team or equipment is at risk, without refund.</p>
 <h2>8. Force Majeure</h2><p>Aura Films is not liable for failure to perform due to events beyond our reasonable control (illness, extreme weather, equipment failure, emergencies). In such cases we will make reasonable efforts to reschedule or arrange a suitable substitute.</p>
@@ -553,13 +559,14 @@ const cookie=legalShell('Cookie Policy',`
 <h2>3. What we actually use</h2>
 <ul>
 <li><strong>Your cookie-notice choice (local storage, first-party, essential).</strong> When you respond to our cookie notice, we store that choice in your browser so we don't ask again. It stays on your device and is not sent to us.</li>
-<li><strong>Google Fonts (third-party, functional).</strong> Our fonts are served by Google Fonts. This does not set advertising cookies, but your IP address is processed by Google to deliver the files. To avoid this you can block requests to <em>fonts.gstatic.com</em> in your browser; the site then falls back to standard system fonts.</li>
+<li><strong>Offer reminder (local storage, first-party, functional).</strong> If you close or complete our first-session offer, we store a small note in your browser so it does not appear again for a while. It contains no personal information and is not sent to us.</li>
+<li><strong>Fonts (first-party).</strong> Our typefaces are hosted on our own website, so loading them does not contact any third party.</li>
 <li><strong>Calendly (third-party, functional, on request only).</strong> Our optional booking calendar is <strong>not</strong> loaded when you open the site. It loads only if you click "Book a Date" or "Open booking calendar", at which point Calendly may set its own cookies to run the scheduling tool. See Calendly's own privacy and cookie notices for details.</li>
 </ul>
 <h2>4. What we do NOT use</h2><p>No Google Analytics or other analytics, no Meta/Facebook pixel, and no advertising or re-targeting cookies. Our Instagram and other links are ordinary links; following them takes you to those sites, which have their own policies.</p>
 <h2>5. Contact-form submissions</h2><p>Our contact form is delivered by Web3Forms and does not set cookies simply by your browsing the site. Information you submit is handled as described in our <a href="privacy" ${GI}>Privacy Policy</a>.</p>
 <h2>6. Managing cookies</h2><p>You can delete or block cookies, and clear local storage, through your browser settings. Blocking functional items may affect booking or the site's appearance. Your browser's help pages explain how.</p>
-<h2>7. Visitors from the EU/UK</h2><p>Because we occasionally have visitors from the EU and UK, we aim for the higher standard: no non-essential cookies are set without a clear action by you, and the only third party contacted automatically is Google Fonts (functional), which you can block as above.</p>
+<h2>7. Visitors from the EU/UK</h2><p>Because we occasionally have visitors from the EU and UK, we aim for the higher standard: no non-essential cookies are set without a clear action by you, and no third party is contacted automatically when you browse. Our host, Cloudflare, delivers the site and processes technical data such as IP addresses to keep it secure.</p>
 <h2>8. Changes &amp; contact</h2><p>We may update this policy; the "last updated" date shows the current version. Questions? <a href="mailto:itsaurafilms@gmail.com" ${GI}>itsaurafilms@gmail.com</a> &middot; 343 989 4546, Kingston, Ontario.</p>`);
 const refund=legalShell('Refund & Cancellation Policy',`
 <p>This Refund &amp; Cancellation Policy applies to photography services provided by Aura Films, a sole proprietorship operated by Albin in Kingston, Ontario, Canada. It forms part of, and should be read with, our <a href="terms" ${GI}>Terms &amp; Conditions</a>. All amounts are in Canadian dollars (CAD).</p>
@@ -580,7 +587,7 @@ const homeHTML=finalize(home);
 const schema=`<script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","additionalType":"https://schema.org/PhotographStore","name":"Aura Films","url":"${SITE}","image":"${SITE}images/wed-3.jpg","description":"Photography studio in Kingston, Ontario. Weddings, portraits, family and architecture, shot and hand graded by Albin.","email":"itsaurafilms@gmail.com","telephone":"+1-343-989-4546","priceRange":"$85 - $1049","address":{"@type":"PostalAddress","addressLocality":"Kingston","addressRegion":"ON","addressCountry":"CA"},"areaServed":{"@type":"State","name":"Ontario"},"founder":{"@type":"Person","name":"Albin"},"sameAs":["https://www.instagram.com/aura.filmsca/"]}</script>`;
 const withSchema=h=>h.replace('</head>',schema+'</head>');
 
-const PAGES=[['',1.0],['gallery',0.9],['about',0.8],['investment',0.9],['privacy',0.3],['terms',0.3],['cookie',0.3],['refund',0.3]];
+const PAGES=[['',1.0],['gallery',0.9],['about',0.8],['investment',0.9],['privacy',0.3],['terms',0.3],['cookie',0.3],['refund',0.3],['accessibility',0.3]];
 const today=new Date().toISOString().slice(0,10);
 const NL=String.fromCharCode(10);
 if(sharp) await writeFile(TONES_FILE,JSON.stringify(TONES));
@@ -608,4 +615,11 @@ await writeFile('../privacy.html',finalize(privacy));
 await writeFile('../terms.html',finalize(terms));
 await writeFile('../cookie.html',finalize(cookie));
 await writeFile('../refund.html',finalize(refund));
+const accessibility=legalShell('Accessibility',`
+<p>Aura Films wants everyone to be able to browse our work, read our prices and get in touch, whatever device or assistive technology they use.</p>
+<h2>1. Our standard</h2><p>We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.1 at Level AA. We test the site with automated accessibility tools and by keyboard, and we fix what we find.</p>
+<h2>2. What the site does</h2><ul><li>Text alternatives that describe each photograph.</li><li>Full keyboard access, a skip link, visible focus and labelled form fields.</li><li>Text and background colours that meet WCAG contrast ratios.</li><li>Animation that switches off when your device’s “reduce motion” setting is on.</li><li>Layouts that adapt from small phones to large screens.</li></ul>
+<h2>3. Known limitations</h2><p>Our optional booking calendar is provided by Calendly, and we do not control its accessibility. If it does not work for you, email or call us and we will book you directly.</p>
+<h2>4. Feedback and other formats</h2><p>If anything on this site is hard to use, or you would like information in another format, contact us at <a href="mailto:itsaurafilms@gmail.com">itsaurafilms@gmail.com</a> or <a href="tel:+13439894546">343 989 4546</a>. We reply within 24 to 48 hours.</p>`);
+await writeFile('../accessibility.html',finalize(accessibility));
 console.log('✓ generated 8 pages + 404, sitemap.xml, robots.txt');
