@@ -361,7 +361,7 @@ ${CHAPTERS.map(chapter).join('')}
 </div></section>
 
 <section class="sec" data-c="48,32,24"><div class="container">
-<div class="sec-head"><h2 class="h-xl reveal">The <em>investment.</em></h2><p class="lede reveal">Prices in Canadian dollars, plus tax.</p></div>
+<div class="sec-head"><h2 class="h-xl reveal">The <em>investment.</em></h2><p class="lede reveal">Prices in Canadian dollars.</p></div>
 <div class="tease">${TEASE.map(([n,d,p,id])=>`<a class="tease-row reveal" href="/investment#${id}"><h3 class="h-md">${n}</h3><p>${d}</p><span class="tease-price"><small>from</small>$${p}</span><span class="tease-go" aria-hidden="true">${arrow}</span></a>`).join('')}</div>
 </div></section>
 
@@ -394,7 +394,7 @@ const FACTS=[
  ['Editing','Every frame, by hand, by me'],
  ['Turnaround','10 to 21 days. Wedding sneak peeks arrive in the first week.'],
  ['Travel','Included within 20 km of Kingston'],
- ['Sessions from','$85 plus tax'],
+ ['Sessions from','$85'],
 ];
 const STRIP=[
  ['wed-2.jpg','Ceremony','weddings','A couple exchange vows beneath a lakeside gazebo'],
@@ -448,7 +448,7 @@ const PKINFO={
 };
 const pkStack=k=>{const [,f,alt,,b1,b2]=PKINFO[k];return `<div class="pk-stack"><span class="pk-back pk-back--2" aria-hidden="true"><img src="images/${b2}" alt="" loading="lazy"></span><span class="pk-back pk-back--1" aria-hidden="true"><img src="images/${b1}" alt="" loading="lazy"></span>${plate(f,alt,'','plate--pk')}</div>`;};
 const tier=([tag,name,price,add,feats,feat])=>`<article class="tier${feat?' tier--rec':''} reveal">${feat?'<span class="tier-tag">Recommended</span>':''}<h3 class="tier-name">${name}</h3><p class="tier-price"><span>$</span>${price}</p><p class="tier-note">${add}</p><ul class="tier-list">${feats.map(x=>`<li>${tick}<span>${x}</span></li>`).join('')}</ul><a class="btn btn-ghost tier-btn" href="#contact">Enquire about ${name}</a></article>`;
-const CHIPS=[['An assistant on bigger shoots','Weddings and events get a second pair of hands.'],['Edited by hand','We edit each photo on its own. No batch filters.'],['Quick turnaround','Sneak peeks within a week, full galleries in 10 to 21 days.'],['Clear pricing','Prices in CAD plus tax, valid for 30 days. A 30% retainer books your date.']];
+const CHIPS=[['An assistant on bigger shoots','Weddings and events get a second pair of hands.'],['Edited by hand','We edit each photo on its own. No batch filters.'],['Quick turnaround','Sneak peeks within a week, full galleries in 10 to 21 days.'],['Clear pricing','Prices in CAD and valid for 30 days. A 30% retainer books your date.']];
 const EXP=[['Consult','We talk through what you want and which moments matter most to you.'],['Plan','We sort out locations, timing and a shot list together.'],['Shoot','A relaxed day with clear direction.'],['Deliver','You get a gallery edited by hand.']];
 
 const investment=head('Investment, Aura Films','Photography packages and prices from Aura Films in Kingston: weddings, events, family and portrait sessions, in CAD.','investment')+nav('Investment')+`
@@ -465,7 +465,7 @@ ${Object.entries(PKG).map(([k,arr],i)=>`<section class="pk${i%2?' pk--flip':''}"
 
 <section class="sec" data-c="48,32,24"><div class="container split">
 <div><h2 class="h-xl reveal">Add-ons and <em>the fine print.</em></h2>
-<p class="lede reveal">Prices are in Canadian dollars, plus applicable tax, and hold for 30 days from your enquiry. A 30% non-refundable retainer confirms the booking. Travel within 20 km of Kingston is included, and a small fee applies beyond that.</p></div>
+<p class="lede reveal">Prices are in Canadian dollars and hold for 30 days from your enquiry. A 30% non-refundable retainer confirms the booking. Travel within 20 km of Kingston is included, and a small fee applies beyond that.</p></div>
 <ul class="addons reveal">${addons.map(([n,p])=>`<li><span>${n}</span><b>${p}</b></li>`).join('')}</ul>
 </div></section>
 
