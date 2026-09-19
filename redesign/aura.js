@@ -32,7 +32,7 @@
   /* ── weighted wheel scrolling; touch stays native ── */
   var lenis=null;
   if(window.Lenis&&!reduce){
-    root.classList.add('has-lenis');
+    root.classList.add('aura-glide');
     lenis=new window.Lenis({lerp:.085,wheelMultiplier:.95,smoothWheel:true,syncTouch:false});
     if(useG){ lenis.on('scroll',ST.update); G.ticker.add(function(t){ lenis.raf(t*1000); }); G.ticker.lagSmoothing(0); }
     else (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })(0);

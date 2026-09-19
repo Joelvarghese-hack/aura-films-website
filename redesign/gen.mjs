@@ -1,5 +1,8 @@
 let sharp=null; try{ sharp=(await import('sharp')).default; }catch(e){ console.warn('sharp unavailable, using cached tones'); }
-import { readdirSync } from 'fs';
+import { readdirSync, readFileSync } from 'fs';
+import { createHash } from 'crypto';
+/* asset version tags: a changed file always gets a new URL, so no browser keeps a stale copy */
+const V=f=>createHash('md5').update(readFileSync(f)).digest('hex').slice(0,8);
 import { writeFile, readFile } from 'fs/promises';
 const IMG='images/';
 const DIMS=JSON.parse(await readFile(new URL('./image-dims.json',import.meta.url)));
@@ -99,7 +102,7 @@ const head=(title,desc,path='')=>`<!DOCTYPE html><html lang="en"><head>
 <link rel="preload" href="/redesign/fonts/clash-display-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/redesign/aura.css">${CALENDLY?`<link rel="preconnect" href="https://assets.calendly.com"><link rel="dns-prefetch" href="https://calendly.com">`:''}${HCAPTCHA?`<script src="https://js.hcaptcha.com/1/api.js" async defer></script>`:''}<script>window.AURA_CALENDLY=${JSON.stringify(CALENDLY)};</script></head><body><a href="#main" class="skip-link">Skip to content</a><div class="progress" id="progress" aria-hidden="true"></div><div class="pt" id="pt" aria-hidden="true"></div>`;
+<link rel="stylesheet" href="/redesign/aura.css?v=${V('aura.css')}">${CALENDLY?`<link rel="preconnect" href="https://assets.calendly.com"><link rel="dns-prefetch" href="https://calendly.com">`:''}${HCAPTCHA?`<script src="https://js.hcaptcha.com/1/api.js" async defer></script>`:''}<script>window.AURA_CALENDLY=${JSON.stringify(CALENDLY)};</script></head><body><a href="#main" class="skip-link">Skip to content</a><div class="progress" id="progress" aria-hidden="true"></div><div class="pt" id="pt" aria-hidden="true"></div>`;
 
 /* ── nav ── */
 const nav=(active)=>{const L=[['/','Home'],['/gallery','Gallery'],['/about','About'],['/investment','Investment']];
@@ -142,7 +145,7 @@ if(m)m.addEventListener('click',function(){window.__AURA_ESSENTIAL_ONLY=true;set
 }catch(e){}})();</script>`;
 
 const mcta=`<div class="mcta"><a href="tel:+13439894546">Call</a><a class="p" href="/about#contact">Book a date</a></div>`;
-const foot=(extra='')=>footer+toTop+mcta+extra+cookieNotice+`<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js" defer></script><script src="/redesign/aura.js" defer></script></body></html>`;
+const foot=(extra='')=>footer+toTop+mcta+extra+cookieNotice+`<script src="/redesign/vendor/gsap.min.js?v=3.12.5" defer></script><script src="/redesign/vendor/ScrollTrigger.min.js?v=3.12.5" defer></script><script src="/redesign/vendor/lenis.min.js?v=1.1.20" defer></script><script src="/redesign/aura.js?v=${V('aura.js')}" defer></script></body></html>`;
 
 /* ── testimonials carousel ── */
 const testimonials=[

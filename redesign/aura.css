@@ -22,7 +22,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 [hidden]{display:none!important}
 html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:clip;-webkit-text-size-adjust:100%}
-html:not(.has-lenis){scroll-behavior:smooth}
+html:not(.aura-glide){scroll-behavior:smooth}
 body{background:rgb(var(--bgc));color:var(--paper);font-family:var(--p);font-size:17px;line-height:1.7;overflow-x:clip}
 img{display:block;width:100%;height:auto}          /* height:auto means a photograph is never cropped */
 picture{display:contents}
