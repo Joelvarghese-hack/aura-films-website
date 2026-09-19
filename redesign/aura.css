@@ -231,6 +231,12 @@ body.drawer-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45
 .fi::placeholder{color:var(--paper-3)}
 .fi:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(237,181,126,.24)}
 textarea.fi{min-height:150px;resize:vertical}
+/* iOS Safari gives date inputs an intrinsic minimum width that ignores width:100% */
+.cform>div{min-width:0}
+.fi{display:block;min-width:0;max-width:100%}
+input[type=date].fi{-webkit-appearance:none;appearance:none;line-height:1.4;text-align:left}
+input[type=date].fi::-webkit-date-and-time-value{text-align:left;min-height:1.4em}
+input[type=date].fi::-webkit-calendar-picker-indicator{filter:invert(.85);opacity:.7}
 .fi[type=date]{color-scheme:dark}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none}
 .consent{display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.55;color:var(--paper-2);cursor:pointer}
