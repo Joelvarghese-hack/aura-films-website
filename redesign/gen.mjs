@@ -615,6 +615,22 @@ await writeFile('../privacy.html',finalize(privacy));
 await writeFile('../terms.html',finalize(terms));
 await writeFile('../cookie.html',finalize(cookie));
 await writeFile('../refund.html',finalize(refund));
+/* ── only the public site is reachable: everything else in the repo (notes, scripts, fonts
+   under licence, screenshots, tooling) is redirected home. Regenerated on every build, so
+   anything added later is covered automatically. */
+{
+  const ROOT_OK=/^(.*.html|sitemap.xml|robots.txt|favicon.ico|favicon(-32)?.png|apple-touch-icon.png|_headers|_redirects)$/;
+  const DIR_OK=new Set(['images','redesign']),RD_OK=new Set(['aura.css','aura.js','fonts','vendor']);
+  const enc=p=>p.split('/').map(encodeURIComponent).join('/');
+  const rules=[];
+  for(const d of readdirSync('..',{withFileTypes:true})){
+    if(d.name==='.git') continue;
+    if(d.isDirectory()){ if(!DIR_OK.has(d.name)) rules.push('/'+enc(d.name)+'/* / 301'); }
+    else if(!ROOT_OK.test(d.name)) rules.push('/'+enc(d.name)+' / 301');
+  }
+  for(const d of readdirSync('.',{withFileTypes:true})) if(!RD_OK.has(d.name)) rules.push('/redesign/'+enc(d.name)+(d.isDirectory()?'/*':'')+' / 301');
+  await writeFile('../_redirects',rules.join(NL)+NL);
+}
 const accessibility=legalShell('Accessibility',`
 <p>Aura Films wants everyone to be able to browse our work, read our prices and get in touch, whatever device or assistive technology they use.</p>
 <h2>1. Our standard</h2><p>We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.1 at Level AA. We test the site with automated accessibility tools and by keyboard, and we fix what we find.</p>
