@@ -70,7 +70,12 @@
     if(!worlds.length) return;
     var read=function(el){ return el.dataset.c.split(',').map(Number); };
     var cur=read(worlds[0]),want=cur.slice(),painting=false;
-    function set(c){ document.body.style.backgroundColor='rgb('+Math.round(c[0])+','+Math.round(c[1])+','+Math.round(c[2])+')'; }
+    var light=false;
+    function set(c){
+      document.body.style.backgroundColor='rgb('+Math.round(c[0])+','+Math.round(c[1])+','+Math.round(c[2])+')';
+      var L=(.2126*c[0]+.7152*c[1]+.0722*c[2])/255;
+      if(!light&&L>.58){ light=true; root.classList.add('theme-light'); } else if(light&&L<.5){ light=false; root.classList.remove('theme-light'); }
+    }
     function pick(){
       var mid=innerHeight*.5,best=null;
       for(var i=0;i<worlds.length;i++){
@@ -336,13 +341,28 @@
   var items=[].slice.call(document.querySelectorAll('.gitem[data-full]')),lb=document.getElementById('lb');
   if(lb&&items.length){
     var lbImg=document.getElementById('lbImg'),idx=0,opener=null;
-    var load=function(t){
+    var load=function(t,from){
       lbImg.classList.remove('show');
       var src=t.dataset.full,alt=(t.querySelector('img')||{}).alt||'',pre=new Image(); pre.src=src;
-      var put=function(){ lbImg.src=src; lbImg.alt=alt; requestAnimationFrame(function(){ lbImg.classList.add('show'); }); };
+      var put=function(){
+        lbImg.src=src; lbImg.alt=alt;
+        if(useG&&from){
+          lbImg.style.transition='none'; lbImg.classList.add('show');
+          requestAnimationFrame(function(){
+            var f=lbImg.getBoundingClientRect(); if(!f.width){ lbImg.style.transition=''; return; }
+            G.fromTo(lbImg,{x:(from.left+from.width/2)-(f.left+f.width/2),y:(from.top+from.height/2)-(f.top+f.height/2),scale:from.width/f.width},
+              {x:0,y:0,scale:1,duration:.8,ease:TOK.ease.out,onComplete:function(){ G.set(lbImg,{clearProps:'transform'}); lbImg.style.transition=''; }});
+          });
+        } else requestAnimationFrame(function(){ lbImg.classList.add('show'); });
+      };
       if(pre.decode) pre.decode().then(put).catch(put); else { pre.onload=put; pre.onerror=put; }
     };
-    var open=function(t){ opener=t; idx=items.indexOf(t); lb.classList.add('open'); root.style.overflow='hidden'; if(lenis) lenis.stop(); load(items[idx]); document.getElementById('lbClose').focus(); };
+    var open=function(t){
+      opener=t; idx=items.indexOf(t); lb.classList.add('open'); root.style.overflow='hidden'; if(lenis) lenis.stop();
+      var im=t.querySelector('img'),from=im?im.getBoundingClientRect():null;
+      if(useG) G.fromTo(lb,{opacity:0},{opacity:1,duration:TOK.dur.normal,ease:TOK.ease.smooth});
+      load(items[idx],from); document.getElementById('lbClose').focus();
+    };
     var close=function(){ lb.classList.remove('open'); lbImg.classList.remove('show'); root.style.overflow=''; if(lenis) lenis.start(); if(opener) opener.focus(); };
     var step=function(d){ idx=(idx+d+items.length)%items.length; load(items[idx]); };
     items.forEach(function(t){
@@ -353,6 +373,18 @@
     document.getElementById('lbPrev').addEventListener('click',function(){ step(-1); });
     document.getElementById('lbNext').addEventListener('click',function(){ step(1); });
     lb.addEventListener('click',function(e){ if(e.target===lb) close(); });
+    var wanted=new URLSearchParams(location.search).get('photo');
+    if(wanted){
+      var target=null; for(var w=0;w<items.length;w++){ if(items[w].dataset.full==='images/'+wanted){ target=items[w]; break; } }
+      try{ history.replaceState(null,'',location.pathname+location.hash); }catch(_){}
+      if(target){
+        var reveal=function(){ target.classList.add('in'); open(target); };
+        setTimeout(function(){
+          if(lenis) lenis.scrollTo(target,{offset:-innerHeight*.22,duration:1.1,onComplete:function(){ setTimeout(reveal,120); }});
+          else { target.scrollIntoView({block:'center',behavior:reduce?'auto':'smooth'}); setTimeout(reveal,reduce?50:700); }
+        },useG?650:150);
+      }
+    }
     addEventListener('keydown',function(e){
       if(!lb.classList.contains('open')) return;
       if(e.key==='Escape') close(); else if(e.key==='ArrowLeft') step(-1); else if(e.key==='ArrowRight') step(1);
@@ -409,7 +441,7 @@
 
     /* photographs lift out of the page in perspective as they arrive */
     /* a bento rises as one block so its rows never drift apart */
-    if(rich) G.utils.toArray('.plate, .bento').filter(function(p){ return !(p.classList.contains('plate')&&p.closest('.bento')); }).forEach(function(p){
+    if(rich) G.utils.toArray('.plate, .bento, .pk-stack').filter(function(p){ return !(p.classList.contains('plate')&&p.closest('.bento, .pk-stack')); }).forEach(function(p){
       G.fromTo(p,{rotationX:13,y:80,transformPerspective:1400,transformOrigin:'50% 100%'},
         {rotationX:0,y:0,ease:TOK.ease.linear,scrollTrigger:{trigger:p,start:'top bottom',end:'top 58%',scrub:.6}});
     });

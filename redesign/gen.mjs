@@ -36,44 +36,73 @@ function finalize(html){
   return pictureize(html);
 }
 
-/* ── colour: every photograph lends the page its own deep tone ──
-   The most vivid hue in each image (saree red, lawn green, a turquoise wrap)
-   is found, then deepened so light text always stays readable on it. */
+/* ── colour: every photograph lends the page its tone ──
+   The hue that covers the most of the frame wins (a hint of red never beats a sky
+   of blue). Mostly-bright frames give an ivory page with dark text; everything else
+   gives a deep jewel tone (emerald, sapphire, garnet, plum, cognac) that keeps light
+   text readable. Tones are cached so the site still builds without sharp. */
 const TONES_FILE=new URL('./tones.json',import.meta.url);
+const TONE_V=3;
 let TONES={};
-try{ TONES=JSON.parse(await readFile(TONES_FILE,'utf8')); }catch(e){}
-async function toneOf(file){
-  const {data}=await sharp('../images/'+file).resize(28,28,{fit:'inside'}).removeAlpha().raw().toBuffer({resolveWithObject:true});
-  const bins=Array.from({length:12},()=>({w:0,raw:0,r:0,g:0,b:0}));
-  let ar=0,ag=0,ab=0,n=0;
-  for(let i=0;i<data.length;i+=3){
-    const r=data[i],g=data[i+1],b=data[i+2]; ar+=r;ag+=g;ab+=b;n++;
-    const mx=Math.max(r,g,b),mn=Math.min(r,g,b),d=mx-mn,v=mx/255,s=mx?d/mx:0;
-    if(v<0.18||v>0.97||s<0.22) continue;
-    const h=d===0?0:mx===r?((g-b)/d+6)%6:mx===g?(b-r)/d+2:(r-g)/d+4;
-    const k=Math.floor(h*2)%12,w=s*s*v*(k>=2&&k<=4?0.4:1); /* foliage is usually background: let the subject win */
-    bins[k].w+=w;bins[k].raw+=s*s*v;bins[k].r+=r*w;bins[k].g+=g*w;bins[k].b+=b*w;
-  }
-  const best=bins.reduce((a,c)=>c.w>a.w?c:a,{w:0});
-  let r,g,b,fixedS=null;
-  if(best.raw>n*0.012){r=best.r/best.w;g=best.g/best.w;b=best.b/best.w;}
-  else{r=ar/n;g=ag/n;b=ab/n;fixedS=0.1;}
-  r/=255;g/=255;b/=255;
-  const mx=Math.max(r,g,b),mn=Math.min(r,g,b);let h=0,s=0;
-  if(mx!==mn){const d=mx-mn,l0=(mx+mn)/2;s=l0>.5?d/(2-mx-mn):d/(mx+mn);
-    h=mx===r?((g-b)/d+(g<b?6:0)):mx===g?((b-r)/d+2):((r-g)/d+4);h/=6;}
-  s=fixedS!==null?fixedS:Math.min(0.62,Math.max(0.34,s));
-  const l=0.17,q=l<.5?l*(1+s):l+s-l*s,p=2*l-q;
+try{ const c=JSON.parse(await readFile(TONES_FILE,'utf8')); if(c._v===TONE_V) TONES=c; }catch(e){}
+async function pixelsOf(file){
+  const {data}=await sharp('../images/'+file).resize(48,48,{fit:'inside'}).removeAlpha().raw().toBuffer({resolveWithObject:true});
+  return data;
+}
+function hsl2rgb(h,s,l){
+  const q=l<.5?l*(1+s):l+s-l*s,p=2*l-q;
   const f=t=>{if(t<0)t+=1;if(t>1)t-=1;return t<1/6?p+(q-p)*6*t:t<1/2?q:t<2/3?p+(q-p)*(2/3-t)*6:p;};
   return [f(h+1/3),f(h),f(h-1/3)].map(x=>Math.round(x*255)).join(',');
 }
-if(sharp){
-  for(const f of readdirSync('../images').filter(f=>/.jpe?g$/i.test(f)&&!/^c_/.test(f))){
-    try{TONES[f]=await toneOf(f);}catch(e){TONES[f]=TONES[f]||'22,18,16';}
+/* hue families, each deepened toward its most luxurious reading (degrees) */
+function jewel(deg){
+  if(deg<15||deg>=325) return 345;        /* reds, pinks  -> garnet  */
+  if(deg<45) return 22;                    /* oranges, skin-> cognac  */
+  if(deg<75) return 34;                    /* yellows, gold-> amber   */
+  if(deg<165) return 152;                  /* greens       -> emerald */
+  if(deg<200) return 184;                  /* teals        -> deep teal */
+  if(deg<262) return 222;                  /* blues        -> sapphire */
+  return 282;                              /* violets      -> plum    */
+}
+function toneFrom(buffers){
+  const bins=new Float64Array(24),hx=new Float64Array(24),hy=new Float64Array(24);
+  let n=0,bright=0,chroma=0;
+  for(const data of buffers) for(let i=0;i<data.length;i+=3){
+    const r=data[i]/255,g=data[i+1]/255,b=data[i+2]/255;n++;
+    const mx=Math.max(r,g,b),mn=Math.min(r,g,b),d=mx-mn,v=mx,s=mx?d/mx:0,l=(mx+mn)/2;
+    if(l>.8&&s<.22) bright++;
+    if(s<.18||v<.16) continue;
+    let h=d===0?0:mx===r?((g-b)/d+6)%6:mx===g?(b-r)/d+2:(r-g)/d+4; h*=60;
+    const k=Math.floor(h/15)%24;
+    let w=s*(.35+.65*v);                   /* area first, with a mild pull toward vivid pixels */
+    if(h>=70&&h<165) w*=.7;                /* grass and leaves count, but less than the subject */
+    bins[k]+=w;hx[k]+=w*Math.cos(h*Math.PI/180);hy[k]+=w*Math.sin(h*Math.PI/180);chroma+=w;
   }
-  await writeFile(TONES_FILE,JSON.stringify(TONES));
+  let best=0,bs=-1;
+  for(let k=0;k<24;k++){const sc=bins[(k+23)%24]*.5+bins[k]+bins[(k+1)%24]*.5;if(sc>bs){bs=sc;best=k;}}
+  let X=0,Y=0;for(const j of [(best+23)%24,best,(best+1)%24]){X+=hx[j];Y+=hy[j];}
+  const hue=((Math.atan2(Y,X)*180/Math.PI)+360)%360,share=chroma/n;
+  if(bright/n>.36) return hsl2rgb((share>.06?hue:38)/360,share>.06?.26:.2,.935);   /* ivory, champagne, blush */
+  if(share<.09) return hsl2rgb((share>.03?jewel(hue):30)/360,.1,.115);              /* soft charcoal */
+  const j=jewel(hue),sat=Math.min(.56,Math.max(.34,share*1.6));
+  return hsl2rgb(j/360,sat,j>=200&&j<300?.15:.135);
+}
+if(sharp){
+  TONES={_v:TONE_V};
+  for(const f of readdirSync('../images').filter(f=>/.jpe?g$/i.test(f)&&!/^c_/.test(f))){
+    try{TONES[f]=toneFrom([await pixelsOf(f)]);}catch(e){TONES[f]='22,18,16';}
+  }
+}
+/* a gallery section takes the tone its photographs share, read across all of them */
+async function catTone(key,files){
+  if(sharp&&!TONES['cat:'+key]){
+    const bufs=[];for(const f of files){try{bufs.push(await pixelsOf(f));}catch(e){}}
+    TONES['cat:'+key]=bufs.length?toneFrom(bufs):'22,18,16';
+  }
+  return TONES['cat:'+key]||'22,18,16';
 }
 const T=f=>TONES[f]||'22,18,16';
+
 
 /* ── icons ── */
 const arrow=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
@@ -190,6 +219,7 @@ const GAL={
  architecture:['arch-1.jpg','arch-2.jpg','arch-3.jpg','arch-4.jpg','arch-5.jpg','arch-6.jpg','arch-7.jpg','arch-8.jpg','arch-9.jpg'],
 };
 const LABELS={weddings:'Weddings',portraits:'Portraits',family:'Family & Maternity',architecture:'Architecture'};
+const CAT_T={};for(const k of Object.keys(GAL)) CAT_T[k]=await catTone(k,GAL[k]);
 
 const faqItems=[
  ['How do we book a date?','Send us your date and location through the form or by email. A signed agreement and a deposit hold the date, first come, first served.'],
@@ -214,7 +244,7 @@ Family:[
  ['Standard','Family Story',219,'1 hour',['Up to 1 hour','35 edited photos','One location','Gallery + print release'],false],
  ['Most Loved','The Experience',299,'session',['Up to 2 hours','55 edited photos','Two looks / locations','Maternity friendly','Priority delivery'],true]],
 Portraits:[
- ['Mini','Quick Shoot',79,'30 min',['Up to 30 minutes','10 edited photos','One look','Online gallery'],false],
+ ['Mini','Quick Shoot',85,'30 min',['Up to 30 minutes','10 edited photos','One look','Online gallery'],false],
  ['Standard','Portrait Hour',149,'1 hour',['Up to 1 hour','22 edited photos','Two looks','Gallery + retouching'],true],
  ['Premium','Full Session',229,'session',['Up to 2 hours','45 edited photos','Multiple looks / locations','Editorial retouching'],false]],
 };
@@ -264,30 +294,30 @@ const CHAPTERS=[
   body:'From the first look to the last dance, plus everything in between that nobody planned. You’ll see a sneak peek within the first week and the full gallery in 10 to 21 days.',
   price:'From $399',link:'/gallery#weddings',cta:'See the weddings',
   lead:['wed-3.jpg','A couple exchange vows under a flower-covered arbour beside the lake'],
-  pair:[['wed-1.jpg','A bride in a deep red saree leans on her groom under spring blossom'],['wed-8.jpg','A couple feed each other cake in front of a red floral wall']],
-  more:[['wed-5.jpg','A couple hold hands and laugh together in a sunlit park'],['IMG_9548.JPG.jpeg','A bride and groom on their wedding day in Kingston']]},
+  pair:[['wed-1.jpg','A bride in a deep red saree leans on her groom under spring blossom'],['wed-11.jpg','A bride in white surrounded by her bridesmaids and flower girls']],
+  more:[['wed-5.jpg','A couple hold hands and laugh together in a sunlit park'],['wed-6.jpg','A bride laughs with her bridesmaids in a garden']]},
  {id:'portraits',title:'Photos that look <em>like you.</em>',
   body:'Half an hour or a couple of hours, one outfit or a few. Mostly we walk and talk, and at some point you stop noticing the camera. That’s usually when the good ones happen.',
-  price:'From $79',link:'/gallery#portraits',cta:'See the portraits',
+  price:'From $85',link:'/gallery#portraits',cta:'See the portraits',
   lead:['por-2.jpg','A woman in a black off-shoulder dress in front of summer greenery'],
-  pair:[['por-8.jpg','A woman in a white embroidered saree and red bangles, smiling softly'],['por-6.jpg','A woman in a mustard dupatta smiles among autumn trees']],
-  more:[['IMG_3431.JPG.jpeg','Sara during her portrait session in Kingston'],['por-4.jpg','A portrait session by Aura Films']]},
+  pair:[['por-3.jpg','A woman in a yellow floral dress sits among potted plants'],['por-5.jpg','A woman in a wide-brimmed hat stands in a field of sunflowers']],
+  more:[['IMG_7777.JPG.jpeg','A woman in red stands among soft pink blossoms'],['por-10.jpg','A woman in a white cardigan and yellow dress beside a garden']]},
  {id:'family',title:'Bumps, babies and <em>busy toddlers.</em>',
   body:'Newborns sleep, toddlers run off, and we’re fine with both. We shoot plenty of the messy bits, because years from now the photo your kids ask about probably won’t be the tidy one.',
   price:'From $129',link:'/gallery#family',cta:'See family sessions',
   lead:['baby-16.jpg','Parents lean in close to their toddler, who wears red bows in her hair'],
-  pair:[['baby-1.jpg','A mother laughs down at her newborn while the father cradles the baby'],['baby-6.jpg','A sleeping newborn wrapped in a turquoise blanket']],
-  more:[['_DSC7798.jpeg','An expecting couple during their maternity session'],['baby-5.jpg','A family session by Aura Films']]},
+  pair:[['baby-8.jpg','A toddler with a bow in her hair grins at the camera, in black and white'],['baby-9.jpg','An expecting couple smile together beside blue balloons']],
+  more:[['baby-5.jpg','A newborn asleep in a soft white wrap, in black and white'],['baby-3.jpg','A newborn’s tiny hand wrapped around a parent’s fingers']]},
  {id:'architecture',title:'Homes, shot in <em>good light.</em>',
   body:'We photograph homes and spaces for how they feel at seven in the evening as well as how they measure. Verticals stay straight and colours stay accurate, and if the light isn’t right yet, we wait for it.',
   price:'Quoted per project',link:'/gallery#architecture',cta:'See the architecture',
   lead:['arch-4.jpg','A home photographed straight on in soft, even light'],
-  pair:[['arch-1.jpg','A two-storey home with a stone facade and white trim'],['arch-6.jpg','An exterior photographed straight on in soft daylight']],
-  more:[['arch-2.jpg','A home photographed by Aura Films'],['arch-7.jpg','A home exterior photographed by Aura Films']]},
+  pair:[['arch-3.jpg','A bright kitchen with pendant lights and glass-front cabinets'],['arch-6.jpg','An exterior photographed straight on in soft daylight']],
+  more:[['arch-2.jpg','An interior photographed by Aura Films'],['arch-7.jpg','A home photographed by Aura Films']]},
 ];
 const rowStyle=fs=>` style="--pc:${fs.map(f=>ratio(f).toFixed(3)+'fr').join(' ')}"`;
 const bento=(c,flip)=>{const r1=flip?[c.pair[0],c.lead]:[c.lead,c.pair[0]],r2=[c.pair[1],...(c.more||[])];
-  return `<div class="bento">${[r1,r2].map(r=>`<div class="bento-row"${rowStyle(r.map(x=>x[0]))}>${r.map(x=>plate(x[0],x[1])).join('')}</div>`).join('')}</div>`;};
+  return `<div class="bento">${[r1,r2].map(r=>`<div class="bento-row"${rowStyle(r.map(x=>x[0]))}>${r.map(x=>`<a class="plate-link" href="/gallery?photo=${encodeURIComponent(x[0])}#${c.id}">${plate(x[0],x[1])}</a>`).join('')}</div>`).join('')}</div>`;};
 const chapter=(c,i)=>`<section class="ch${i%2?' ch--flip':''}" id="${c.id}" data-c="${T(c.lead[0])}"><div class="container">
 <div class="ch-head">
 <h2 class="h-xl reveal">${c.title}</h2>
@@ -296,7 +326,7 @@ const chapter=(c,i)=>`<section class="ch${i%2?' ch--flip':''}" id="${c.id}" data
 ${bento(c,i%2===1)}
 </div></section>`;
 const STEPS=[['Reach out','Tell us the date, where it is and what you most want to remember.'],['The shoot','A relaxed session. We tell you where to stand and when to move, so you never have to wonder what to do with your hands.'],['Your gallery','Every photo edited by hand and delivered in 10 to 21 days.']];
-const TEASE=[['Portraits','Thirty minutes or a full session, in one outfit or several.',79,'pk-portraits'],['Family &amp; Maternity','Newborns, bumps and growing families.',129,'pk-family'],['Events &amp; Showers','Two photographers on every package.',249,'pk-events'],['Weddings','From a three-hour ceremony to a full documentary day.',399,'pk-weddings']];
+const TEASE=[['Portraits','Thirty minutes or a full session, in one outfit or several.',85,'pk-portraits'],['Family &amp; Maternity','Newborns, bumps and growing families.',129,'pk-family'],['Events &amp; Showers','Two photographers on every package.',249,'pk-events'],['Weddings','From a three-hour ceremony to a full documentary day.',399,'pk-weddings']];
 
 const home=head('Aura Films, Wedding and Portrait Photography in Kingston','Aura Films is a Kingston photography studio for weddings, portraits, family and architecture. Every frame shot and hand-graded by Albin.','')+nav('Home')+`
 <header class="hero" id="top" data-c="${T(DECK[0][0])}">
@@ -315,7 +345,7 @@ const home=head('Aura Films, Wedding and Portrait Photography in Kingston','Aura
 </header>
 
 <section class="mani" data-c="22,18,16"><div class="container">
-<p class="mani-text">${words('The photos people end up framing are rarely the ones anyone planned. It’s your mom straightening a collar that was already straight, or a cousin asleep across two chairs by eleven. We keep shooting through all of it, then edit each frame by hand until it looks the way the day *felt.*')}</p>
+<p class="mani-text">${words('Aura Films started with a habit more than a plan: look at the light before lifting the camera. That attention carries through the whole shoot, into the small details that make a moment belong to someone, and into the edit, where every frame is finished by hand until it looks the way the moment *felt.*')}</p>
 </div></section>
 
 ${CHAPTERS.map(chapter).join('')}
@@ -331,7 +361,7 @@ ${CHAPTERS.map(chapter).join('')}
 </div></section>
 
 <section class="sec" data-c="48,32,24"><div class="container">
-<div class="sec-head"><h2 class="h-xl reveal">The <em>investment.</em></h2><p class="lede reveal">Prices in Canadian dollars.</p></div>
+<div class="sec-head"><h2 class="h-xl reveal">The <em>investment.</em></h2><p class="lede reveal">Prices in Canadian dollars, plus tax.</p></div>
 <div class="tease">${TEASE.map(([n,d,p,id])=>`<a class="tease-row reveal" href="/investment#${id}"><h3 class="h-md">${n}</h3><p>${d}</p><span class="tease-price"><small>from</small>$${p}</span><span class="tease-go" aria-hidden="true">${arrow}</span></a>`).join('')}</div>
 </div></section>
 
@@ -343,7 +373,7 @@ function buildGallery(){
   const seen=new Set();
   const secs=Object.keys(GAL).map(cat=>{
     const files=GAL[cat].filter(f=>!seen.has(f)&&seen.add(f));
-    return `<section class="gsec" id="${cat}" data-c="${T(files[0])}"><div class="container">
+    return `<section class="gsec" id="${cat}" data-c="${CAT_T[cat]}"><div class="container">
 <div class="ghead"><h2 class="h-xl reveal">${esc(LABELS[cat])}</h2></div>
 <div class="gal-grid">${files.map(f=>`<figure class="gitem" data-full="images/${f}" tabindex="0" role="button" aria-label="Open ${esc(LABELS[cat])} photograph"><img src="images/${f}" alt="${esc(LABELS[cat])} by Aura Films" loading="lazy"></figure>`).join('')}</div>
 </div></section>`;
@@ -364,17 +394,17 @@ const FACTS=[
  ['Editing','Every frame, by hand, by me'],
  ['Turnaround','10 to 21 days. Wedding sneak peeks arrive in the first week.'],
  ['Travel','Included within 20 km of Kingston'],
- ['Sessions from','$79'],
+ ['Sessions from','$85 plus tax'],
 ];
 const STRIP=[
- ['wed-1.jpg','Wedding','weddings','A bride in a deep red saree leans on her groom under spring blossom'],
- ['por-8.jpg','Portrait','portraits','A woman in a white embroidered saree and red bangles, smiling softly'],
- ['baby-1.jpg','Newborn','family','A mother laughs down at her newborn while the father cradles the baby'],
- ['wed-4.jpg','Wedding','weddings','A groom tucks a yellow flower behind his bride’s ear while she laughs'],
- ['por-6.jpg','Portrait','portraits','A woman in a mustard dupatta smiles among autumn trees'],
- ['wed-8.jpg','Reception','weddings','A couple feed each other cake in front of a red floral wall'],
- ['baby-6.jpg','Newborn','family','A sleeping newborn wrapped in a turquoise blanket'],
- ['arch-1.jpg','Architecture','architecture','A two-storey home with a stone facade and white trim'],
+ ['wed-2.jpg','Ceremony','weddings','A couple exchange vows beneath a lakeside gazebo'],
+ ['por-9.jpg','Portrait','portraits','A woman in a deep green gown stands in a summer garden'],
+ ['baby-13.jpg','Newborn','family','A newborn asleep in a soft knit, in black and white'],
+ ['wed-13.jpg','Ceremony','weddings','Hands meeting during the ring exchange'],
+ ['IMG_9356.JPG.jpeg','Groom','weddings','A groom in a black suit on a bridge, in black and white'],
+ ['wed-10.jpg','Wedding','weddings','A couple rest forehead to forehead in a spring park'],
+ ['baby-15.jpg','Newborn','family','A newborn asleep on white bedding, in black and white'],
+ ['arch-8.jpg','Architecture','architecture','A bathroom with a dark stone vanity and warm lighting'],
 ];
 const about=head('About Albin, Aura Films','Meet Albin, the Kingston photographer behind Aura Films, who shoots weddings, portraits and family sessions and edits every photo by hand.','about')+nav('About')+`
 <header class="ab-hero" data-c="${T('albin-new.jpg')}"><div class="container ab-hero-grid">
@@ -390,9 +420,9 @@ const about=head('About Albin, Aura Films','Meet Albin, the Kingston photographe
 <div class="ab-bio">
 <h2 class="h-xl reveal">Why I <em>do this.</em></h2>
 <div class="prose reveal">
-<p>I started Aura Films with one camera and a fairly stubborn idea. If I took my time over every shoot and every edit, people would end up with photos they actually go back to.</p>
-<p>Most of my work is weddings, maternity and portraits, with the occasional house or building when someone asks. On a shoot I’m pretty quiet. I give you enough direction that you’re never stuck wondering what to do, then I mostly watch for the glance before the vow or the laugh between poses. Those tend to be the ones people keep.</p>
-<p>Afterwards I edit every frame myself. My edits run warm and a little cinematic, and I try hard to keep everyone looking like themselves.</p>
+<p>Aura Films began with a single camera and a conviction I still work by: a photograph should carry the feeling of a moment as faithfully as its details.</p>
+<p>I photograph weddings, maternity, families and portraits, and I take on architectural commissions when a space asks to be seen properly. On every shoot I read the light first. My direction stays gentle, enough to put you at ease, so what the camera keeps is genuinely yours.</p>
+<p>Every image is finished by my own hand. I grade toward warmth and a restrained, cinematic depth, and I stop well before a photograph begins to look like anyone other than you.</p>
 </div>
 </div>
 <aside class="ab-facts reveal" aria-label="The short version"><h3 class="h-md">The short version</h3>
@@ -402,12 +432,8 @@ const about=head('About Albin, Aura Films','Meet Albin, the Kingston photographe
 
 <section class="strip" id="work" data-c="${T('wed-1.jpg')}">
 <div class="container strip-head"><h2 class="h-xl reveal">Recent <em>work.</em></h2><p class="lede reveal">A few favourites. Tap any photo to see the full set.</p></div>
-<div class="strip-view" tabindex="0" aria-label="Recent photographs, scroll sideways"><div class="strip-track">${STRIP.map(([f,l,cat,alt])=>`<a class="strip-card" href="/gallery#${cat}"><img src="images/${f}" alt="${alt}"><span class="strip-tag">${l}</span></a>`).join('')}</div></div>
+<div class="strip-view" tabindex="0" aria-label="Recent photographs, scroll sideways"><div class="strip-track">${STRIP.map(([f,l,cat,alt])=>`<a class="strip-card" href="/gallery?photo=${encodeURIComponent(f)}#${cat}"><img src="images/${f}" alt="${alt}"><span class="strip-tag">${l}</span></a>`).join('')}</div></div>
 </section>
-
-<section class="sec ab-quote" data-c="${T(testimonials[2].img)}"><div class="container narrow">
-<figure class="reveal"><blockquote><p>“${testimonials[2].quote}”</p></blockquote><figcaption><img src="images/${testimonials[2].img}" alt="${testimonials[2].nm}" loading="lazy"><span><cite>${testimonials[2].nm}</cite>${testimonials[2].role}</span></figcaption></figure>
-</div></section>
 
 ${faqBlock()}
 ${contactBlock()}
@@ -415,13 +441,14 @@ ${contactBlock()}
 
 /* ════════ INVESTMENT ════════ */
 const PKINFO={
- Weddings:['pk-weddings','wed-1.jpg','A bride in a deep red saree leans on her groom under spring blossom','From a three-hour ceremony to a full documentary day with a second shooter.'],
- Events:['pk-events','wed-8.jpg','A couple feed each other cake in front of a red floral wall','Two photographers on every package.'],
- Family:['pk-family','baby-1.jpg','A mother laughs down at her newborn while the father cradles the baby','Newborns, bumps and growing families, with a maternity-friendly option.'],
- Portraits:['pk-portraits','por-2.jpg','A woman in a black off-shoulder dress in front of summer greenery','From thirty minutes to a full session with editorial retouching.'],
+ Weddings:['pk-weddings','wed-9.jpg','A groom kisses his bride beneath a leafy tree','From a three-hour ceremony to a full documentary day with a second shooter.','wed-12.jpg','wed-10.jpg'],
+ Events:['pk-events','baby-12.jpg','An expecting mother at her baby shower among blue balloons','Two photographers on every package.','wed-6.jpg','_DSC8672.jpg'],
+ Family:['pk-family','baby-2.jpg','Parents hold their newborn close','Newborns, bumps and growing families, with a maternity-friendly option.','baby-13.jpg','baby-15.jpg'],
+ Portraits:['pk-portraits','por-11.jpg','A woman in a lavender top stands beneath autumn trees','From thirty minutes to a full session with editorial retouching.','por-12.jpg','por-7.jpg'],
 };
+const pkStack=k=>{const [,f,alt,,b1,b2]=PKINFO[k];return `<div class="pk-stack"><span class="pk-back pk-back--2" aria-hidden="true"><img src="images/${b2}" alt="" loading="lazy"></span><span class="pk-back pk-back--1" aria-hidden="true"><img src="images/${b1}" alt="" loading="lazy"></span>${plate(f,alt,'','plate--pk')}</div>`;};
 const tier=([tag,name,price,add,feats,feat])=>`<article class="tier${feat?' tier--rec':''} reveal">${feat?'<span class="tier-tag">Recommended</span>':''}<h3 class="tier-name">${name}</h3><p class="tier-price"><span>$</span>${price}</p><p class="tier-note">${add}</p><ul class="tier-list">${feats.map(x=>`<li>${tick}<span>${x}</span></li>`).join('')}</ul><a class="btn btn-ghost tier-btn" href="#contact">Enquire about ${name}</a></article>`;
-const CHIPS=[['An assistant on bigger shoots','Weddings and events get a second pair of hands.'],['Edited by hand','We edit each photo on its own. No batch filters.'],['Quick turnaround','Sneak peeks within a week, full galleries in 10 to 21 days.'],['Clear pricing','Prices in CAD and valid for 30 days. A 30% retainer books your date.']];
+const CHIPS=[['An assistant on bigger shoots','Weddings and events get a second pair of hands.'],['Edited by hand','We edit each photo on its own. No batch filters.'],['Quick turnaround','Sneak peeks within a week, full galleries in 10 to 21 days.'],['Clear pricing','Prices in CAD plus tax, valid for 30 days. A 30% retainer books your date.']];
 const EXP=[['Consult','We talk through what you want and which moments matter most to you.'],['Plan','We sort out locations, timing and a shot list together.'],['Shoot','A relaxed day with clear direction.'],['Deliver','You get a gallery edited by hand.']];
 
 const investment=head('Investment, Aura Films','Photography packages and prices from Aura Films in Kingston: weddings, events, family and portrait sessions, in CAD.','investment')+nav('Investment')+`
@@ -432,13 +459,13 @@ const investment=head('Investment, Aura Films','Photography packages and prices 
 </div></header>
 <div class="jump-bar"><div class="container"><nav class="jump" aria-label="Package categories">${Object.keys(PKG).map(k=>`<a href="#${PKINFO[k][0]}">${k}</a>`).join('')}</nav></div></div>
 ${Object.entries(PKG).map(([k,arr],i)=>`<section class="pk${i%2?' pk--flip':''}" id="${PKINFO[k][0]}" data-c="${T(PKINFO[k][1])}"><div class="container">
-<div class="pk-head"><div class="pk-copy"><h2 class="h-xl reveal">${k}</h2><p class="lede reveal">${PKINFO[k][3]}</p></div>${plate(PKINFO[k][1],PKINFO[k][2],'','plate--pk')}</div>
+<div class="pk-head"><div class="pk-copy"><h2 class="h-xl reveal">${k}</h2><p class="lede reveal">${PKINFO[k][3]}</p></div>${pkStack(k)}</div>
 <div class="tiers">${arr.map(tier).join('')}</div>
 </div></section>`).join('')}
 
 <section class="sec" data-c="48,32,24"><div class="container split">
 <div><h2 class="h-xl reveal">Add-ons and <em>the fine print.</em></h2>
-<p class="lede reveal">Prices are in Canadian dollars and hold for 30 days from your enquiry. A 30% non-refundable retainer confirms the booking. Travel within 20 km of Kingston is included, and a small fee applies beyond that.</p></div>
+<p class="lede reveal">Prices are in Canadian dollars, plus applicable tax, and hold for 30 days from your enquiry. A 30% non-refundable retainer confirms the booking. Travel within 20 km of Kingston is included, and a small fee applies beyond that.</p></div>
 <ul class="addons reveal">${addons.map(([n,p])=>`<li><span>${n}</span><b>${p}</b></li>`).join('')}</ul>
 </div></section>
 
@@ -525,12 +552,13 @@ const refund=legalShell('Refund & Cancellation Policy',`
 /* Home keeps the additive motion layer (home page only). */
 const homeHTML=finalize(home);
 
-const schema=`<script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","additionalType":"https://schema.org/PhotographStore","name":"Aura Films","url":"${SITE}","image":"${SITE}images/wed-3.jpg","description":"Photography studio in Kingston, Ontario. Weddings, portraits, family and architecture, shot and hand graded by Albin.","email":"itsaurafilms@gmail.com","telephone":"+1-343-989-4546","priceRange":"$79 - $1049","address":{"@type":"PostalAddress","addressLocality":"Kingston","addressRegion":"ON","addressCountry":"CA"},"areaServed":{"@type":"State","name":"Ontario"},"founder":{"@type":"Person","name":"Albin"},"sameAs":["https://www.instagram.com/aura.filmsca/"]}</script>`;
+const schema=`<script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","additionalType":"https://schema.org/PhotographStore","name":"Aura Films","url":"${SITE}","image":"${SITE}images/wed-3.jpg","description":"Photography studio in Kingston, Ontario. Weddings, portraits, family and architecture, shot and hand graded by Albin.","email":"itsaurafilms@gmail.com","telephone":"+1-343-989-4546","priceRange":"$85 - $1049","address":{"@type":"PostalAddress","addressLocality":"Kingston","addressRegion":"ON","addressCountry":"CA"},"areaServed":{"@type":"State","name":"Ontario"},"founder":{"@type":"Person","name":"Albin"},"sameAs":["https://www.instagram.com/aura.filmsca/"]}</script>`;
 const withSchema=h=>h.replace('</head>',schema+'</head>');
 
 const PAGES=[['',1.0],['gallery',0.9],['about',0.8],['investment',0.9],['privacy',0.3],['terms',0.3],['cookie',0.3],['refund',0.3]];
 const today=new Date().toISOString().slice(0,10);
 const NL=String.fromCharCode(10);
+if(sharp) await writeFile(TONES_FILE,JSON.stringify(TONES));
 await writeFile('../sitemap.xml',
   ['<?xml version="1.0" encoding="UTF-8"?>','<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     .concat(PAGES.map(([p,pr])=>'  <url><loc>'+SITE+p+'</loc><lastmod>'+today+'</lastmod><priority>'+pr.toFixed(1)+'</priority></url>'))
