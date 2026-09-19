@@ -103,7 +103,8 @@ body.drawer-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45
 .hero-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,5vw,84px);align-items:center}
 .ln{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
 .ln>span{display:block}
-.hero .h-display{font-size:clamp(40px,4.9vw,86px)}
+.hero-copy{container-type:inline-size}
+.hero .h-display{font-size:min(clamp(40px,4.9vw,86px),12.6cqi)}
 .split-copy .h-display{font-size:clamp(40px,7vw,118px)}
 .btn,.nav-link,.nav-cta,.price-pill,.txt-link,.jump a,.tier-tag,.tier-name,.mcta a,.fl,.faq-q,.deck-num,.contact-list span,.foot-col h3,.legal .updated,.tease-price,.step-n,.tier-price,.cform-thanks h3{word-spacing:.1em;letter-spacing:.01em}
 .hero-sub{margin-top:clamp(20px,3vh,32px);font-size:clamp(17px,1.4vw,21px);color:var(--paper-2);max-width:42ch}
@@ -116,8 +117,7 @@ body.drawer-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45
 .deck-3d{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
 .card-media{position:relative;display:block;width:min(100cqw,calc(100cqh * var(--ar)));aspect-ratio:var(--ar);border-radius:var(--r-lg);overflow:hidden;background:var(--panel);box-shadow:0 44px 90px -34px rgba(0,0,0,.75),0 10px 24px -12px rgba(0,0,0,.45)}
 .card-media img{display:block;width:100%!important;height:100%!important;object-fit:cover;pointer-events:none}
-.card-glare{position:absolute;left:-50%;top:-50%;width:200%;height:200%;pointer-events:none;background:radial-gradient(circle at 50% 50%,rgba(255,250,240,.26),rgba(255,250,240,.07) 24%,transparent 46%);opacity:0;transition:opacity .5s var(--e);will-change:transform}
-.deck.is-tilting .card-glare{opacity:1}
+
 .deck-bar{display:flex;align-items:center;gap:14px;margin-top:22px}
 .deck-num{font:600 14px/1 var(--d);font-variant-numeric:tabular-nums;letter-spacing:.02em;flex:0 0 auto}
 .deck-track{flex:1 1 60px;min-width:40px;height:3px;border-radius:3px;background:var(--line);overflow:hidden}
@@ -130,7 +130,7 @@ body.drawer-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45
 .rb:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}
 .rb:active{transform:scale(.94)}
 @media(max-width:900px){
-  .hero .h-display{font-size:clamp(40px,10.2vw,78px)}
+  .hero .h-display{font-size:min(clamp(40px,10.2vw,78px),12.6cqi)}
   .hero{min-height:0;padding-top:118px}
   .hero-grid{grid-template-columns:1fr;gap:40px}
   .deck{height:clamp(440px,70vh,780px)}
@@ -460,10 +460,8 @@ textarea.fi{min-height:150px;resize:vertical}
 }
 @media(max-width:480px){.strip-card{height:min(62vh,440px)}.ab-facts dl>div{grid-template-columns:1fr;gap:4px}}
 
-/* ─── depth layer: tilt, glare, reel, cursor, grain ─── */
+/* ─── depth layer: tilt, reel, grain ─── */
 .tilt{position:relative}
-.tilt>.glare{position:absolute;left:-50%;top:-50%;width:200%;height:200%;z-index:2;pointer-events:none;background:radial-gradient(circle at 50% 50%,rgba(255,250,240,.2),rgba(255,250,240,.05) 24%,transparent 46%);opacity:0;transition:opacity .45s var(--e);will-change:transform}
-.tilt.is-tilting>.glare{opacity:1}
 .strip-view{perspective:1400px}
 .strip-track{position:relative;transform-style:preserve-3d}
 .strip-card{backface-visibility:hidden;will-change:transform}
@@ -472,3 +470,9 @@ textarea.fi{min-height:150px;resize:vertical}
 body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.055;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px 180px}
 
 .gitem,.strip-card,.plate-link,.deck{cursor:pointer}
+
+/* ─── chapter bento: full-width rows, columns sized by each photo's shape ─── */
+.bento{--bg:clamp(8px,1.3vw,18px);display:grid;gap:var(--bg)}
+.bento-row{display:grid;grid-template-columns:var(--pc);gap:var(--bg);align-items:start}
+.bento .plate{margin:0}
+.bento .frame{border-radius:clamp(12px,1.6vw,var(--r-lg))}

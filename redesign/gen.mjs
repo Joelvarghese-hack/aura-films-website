@@ -264,30 +264,36 @@ const CHAPTERS=[
   body:'From the first look to the last dance, plus everything in between that nobody planned. You’ll see a sneak peek within the first week and the full gallery in 10 to 21 days.',
   price:'From $399',link:'/gallery#weddings',cta:'See the weddings',
   lead:['wed-3.jpg','A couple exchange vows under a flower-covered arbour beside the lake'],
-  pair:[['wed-1.jpg','A bride in a deep red saree leans on her groom under spring blossom'],['wed-8.jpg','A couple feed each other cake in front of a red floral wall']]},
+  pair:[['wed-1.jpg','A bride in a deep red saree leans on her groom under spring blossom'],['wed-8.jpg','A couple feed each other cake in front of a red floral wall']],
+  more:[['wed-5.jpg','A couple hold hands and laugh together in a sunlit park'],['IMG_9548.JPG.jpeg','A bride and groom on their wedding day in Kingston']]},
  {id:'portraits',title:'Photos that look <em>like you.</em>',
   body:'Half an hour or a couple of hours, one outfit or a few. Mostly we walk and talk, and at some point you stop noticing the camera. That’s usually when the good ones happen.',
   price:'From $79',link:'/gallery#portraits',cta:'See the portraits',
   lead:['por-2.jpg','A woman in a black off-shoulder dress in front of summer greenery'],
-  pair:[['por-8.jpg','A woman in a white embroidered saree and red bangles, smiling softly'],['por-6.jpg','A woman in a mustard dupatta smiles among autumn trees']]},
+  pair:[['por-8.jpg','A woman in a white embroidered saree and red bangles, smiling softly'],['por-6.jpg','A woman in a mustard dupatta smiles among autumn trees']],
+  more:[['IMG_3431.JPG.jpeg','Sara during her portrait session in Kingston'],['por-4.jpg','A portrait session by Aura Films']]},
  {id:'family',title:'Bumps, babies and <em>busy toddlers.</em>',
   body:'Newborns sleep, toddlers run off, and we’re fine with both. We shoot plenty of the messy bits, because years from now the photo your kids ask about probably won’t be the tidy one.',
   price:'From $129',link:'/gallery#family',cta:'See family sessions',
   lead:['baby-16.jpg','Parents lean in close to their toddler, who wears red bows in her hair'],
-  pair:[['baby-1.jpg','A mother laughs down at her newborn while the father cradles the baby'],['baby-6.jpg','A sleeping newborn wrapped in a turquoise blanket']]},
+  pair:[['baby-1.jpg','A mother laughs down at her newborn while the father cradles the baby'],['baby-6.jpg','A sleeping newborn wrapped in a turquoise blanket']],
+  more:[['_DSC7798.jpeg','An expecting couple during their maternity session'],['baby-5.jpg','A family session by Aura Films']]},
  {id:'architecture',title:'Homes, shot in <em>good light.</em>',
   body:'We photograph homes and spaces for how they feel at seven in the evening as well as how they measure. Verticals stay straight and colours stay accurate, and if the light isn’t right yet, we wait for it.',
   price:'Quoted per project',link:'/gallery#architecture',cta:'See the architecture',
   lead:['arch-4.jpg','A home photographed straight on in soft, even light'],
-  pair:[['arch-1.jpg','A two-storey home with a stone facade and white trim'],['arch-6.jpg','An exterior photographed straight on in soft daylight']]},
+  pair:[['arch-1.jpg','A two-storey home with a stone facade and white trim'],['arch-6.jpg','An exterior photographed straight on in soft daylight']],
+  more:[['arch-2.jpg','A home photographed by Aura Films'],['arch-7.jpg','A home exterior photographed by Aura Films']]},
 ];
+const rowStyle=fs=>` style="--pc:${fs.map(f=>ratio(f).toFixed(3)+'fr').join(' ')}"`;
+const bento=(c,flip)=>{const r1=flip?[c.pair[0],c.lead]:[c.lead,c.pair[0]],r2=[c.pair[1],...(c.more||[])];
+  return `<div class="bento">${[r1,r2].map(r=>`<div class="bento-row"${rowStyle(r.map(x=>x[0]))}>${r.map(x=>plate(x[0],x[1])).join('')}</div>`).join('')}</div>`;};
 const chapter=(c,i)=>`<section class="ch${i%2?' ch--flip':''}" id="${c.id}" data-c="${T(c.lead[0])}"><div class="container">
 <div class="ch-head">
 <h2 class="h-xl reveal">${c.title}</h2>
 <div class="ch-body reveal"><p>${c.body}</p><div class="ch-meta"><span class="price-pill">${c.price}</span><a class="txt-link" href="${c.link}">${c.cta} ${arrow}</a></div></div>
 </div>
-${plate(c.lead[0],c.lead[1],'','plate--lead')}
-<div class="ch-pair"${pairStyle(c.pair[0][0],c.pair[1][0])}>${plate(c.pair[0][0],c.pair[0][1])}${plate(c.pair[1][0],c.pair[1][1])}</div>
+${bento(c,i%2===1)}
 </div></section>`;
 const STEPS=[['Reach out','Tell us the date, where it is and what you most want to remember.'],['The shoot','A relaxed session. We tell you where to stand and when to move, so you never have to wonder what to do with your hands.'],['Your gallery','Every photo edited by hand and delivered in 10 to 21 days.']];
 const TEASE=[['Portraits','Thirty minutes or a full session, in one outfit or several.',79,'pk-portraits'],['Family &amp; Maternity','Newborns, bumps and growing families.',129,'pk-family'],['Events &amp; Showers','Two photographers on every package.',249,'pk-events'],['Weddings','From a three-hour ceremony to a full documentary day.',399,'pk-weddings']];
@@ -302,14 +308,14 @@ const home=head('Aura Films, Wedding and Portrait Photography in Kingston','Aura
 </div>
 <div class="deck-wrap reveal">
 <div class="deck" id="deck" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Recent photographs. Use the arrow keys to browse.">
-<div class="deck-3d">${DECK.map(([f,cap,alt],i)=>{const d=DIMS['c_'+f]||DIMS[f]||[2,3];return `<figure class="card" data-c="${T(f)}" data-cap="${cap}"><span class="card-media" style="--ar:${(d[0]/d[1]).toFixed(4)}"><img src="images/c_${f}" alt="${alt}"${i<2?'':' loading="lazy"'}><i class="card-glare" aria-hidden="true"></i></span></figure>`;}).join('')}</div>
+<div class="deck-3d">${DECK.map(([f,cap,alt],i)=>{const d=DIMS['c_'+f]||DIMS[f]||[2,3];return `<figure class="card" data-c="${T(f)}" data-cap="${cap}"><span class="card-media" style="--ar:${(d[0]/d[1]).toFixed(4)}"><img src="images/c_${f}" alt="${alt}"${i<2?'':' loading="lazy"'}></span></figure>`;}).join('')}</div>
 </div>
 </div>
 </div>
 </header>
 
 <section class="mani" data-c="22,18,16"><div class="container">
-<p class="mani-text">${words('Everyone remembers the posed photos. The ones people actually keep are the ones nobody set up, like your dad’s face just before the vow, or your best friend crying through the speech. We hang around for those, then edit every frame by hand until it looks the way the day *felt.*')}</p>
+<p class="mani-text">${words('The photos people end up framing are rarely the ones anyone planned. It’s your mom straightening a collar that was already straight, or a cousin asleep across two chairs by eleven. We keep shooting through all of it, then edit each frame by hand until it looks the way the day *felt.*')}</p>
 </div></section>
 
 ${CHAPTERS.map(chapter).join('')}

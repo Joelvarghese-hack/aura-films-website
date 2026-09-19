@@ -192,7 +192,7 @@
     var deck=document.getElementById('deck'); if(!deck) return;
     var cards=[].slice.call(deck.querySelectorAll('.card')),n=cards.length; if(!n) return;
     var hero=document.getElementById('top'),num=document.getElementById('deckNum'),cap=document.getElementById('deckCap'),fill=document.getElementById('deckFill');
-    var cur=0,prev=-1,timer=null,onScreen=true,hovered=false,DUR=4200;
+    var cur=0,prev=-1,timer=null,onScreen=true,hovered=false,DUR=3300;
     var POS=[
       {x:'0%',y:'0%',r:0,s:1,o:1,f:'brightness(1)',z:0,ry:0},
       {x:'7%',y:'-3%',r:5,s:.94,o:.95,f:'brightness(.6)',z:-110,ry:-9},
@@ -201,7 +201,7 @@
     function pad(x){ return (x<10?'0':'')+x; }
     function apply(c,p,animate){
       var to={xPercent:parseFloat(p.x),yPercent:parseFloat(p.y),rotate:p.r,scale:p.s,opacity:p.o,filter:p.f,z:p.z||0,rotationY:p.ry||0};
-      if(useG&&animate) G.to(c,Object.assign({duration:TOK.dur.crawl,ease:TOK.ease.smooth,overwrite:'auto'},to));
+      if(useG&&animate) G.to(c,Object.assign({duration:.82,ease:TOK.ease.smooth,overwrite:'auto'},to));
       else if(useG) G.set(c,to);
       else { c.style.transform='translate3d('+p.x+','+p.y+',0) rotate('+p.r+'deg) scale('+p.s+')'; c.style.opacity=p.o; c.style.filter=p.f; }
     }
@@ -393,12 +393,10 @@
     if(d3){
       if(fine){
         var rx=G.quickTo(d3,'rotationX',{duration:.9,ease:'power3'}),ry=G.quickTo(d3,'rotationY',{duration:.9,ease:'power3'});
-        var gl=[].slice.call(deck.querySelectorAll('.card-glare')).map(function(g){ return [G.quickTo(g,'xPercent',{duration:.7,ease:'power3'}),G.quickTo(g,'yPercent',{duration:.7,ease:'power3'})]; });
         deck.addEventListener('pointermove',function(e){
           if(e.pointerType!=='mouse') return;
           var r=deck.getBoundingClientRect(),nx=(e.clientX-r.left)/r.width-.5,ny=(e.clientY-r.top)/r.height-.5;
           deck.classList.add('is-tilting'); rx(-ny*16); ry(nx*20);
-          for(var i=0;i<gl.length;i++){ gl[i][0](nx*42); gl[i][1](ny*42); }
         });
         deck.addEventListener('pointerleave',function(){ deck.classList.remove('is-tilting'); rx(0); ry(0); });
       } else {
@@ -410,18 +408,17 @@
     }
 
     /* photographs lift out of the page in perspective as they arrive */
-    if(rich) G.utils.toArray('.plate').forEach(function(p){
+    /* a bento rises as one block so its rows never drift apart */
+    if(rich) G.utils.toArray('.plate, .bento').filter(function(p){ return !(p.classList.contains('plate')&&p.closest('.bento')); }).forEach(function(p){
       G.fromTo(p,{rotationX:13,y:80,transformPerspective:1400,transformOrigin:'50% 100%'},
         {rotationX:0,y:0,ease:TOK.ease.linear,scrollTrigger:{trigger:p,start:'top bottom',end:'top 58%',scrub:.6}});
     });
 
-    /* every photograph tilts under the cursor with its own glare */
+    /* every photograph tilts toward the cursor */
     if(rich&&fine) G.utils.toArray('.plate .frame, .gitem, .quote-pic, .ab-mask').forEach(function(el){
       el.classList.add('tilt');
-      var g=document.createElement('i'); g.className='glare'; g.setAttribute('aria-hidden','true'); el.appendChild(g);
       G.set(el,{transformPerspective:1100});
       var tx=G.quickTo(el,'rotationX',{duration:.7,ease:'power3'}),ty=G.quickTo(el,'rotationY',{duration:.7,ease:'power3'});
-      var gx=G.quickTo(g,'xPercent',{duration:.6,ease:'power3'}),gy=G.quickTo(g,'yPercent',{duration:.6,ease:'power3'});
       el.addEventListener('pointerenter',function(){
         /* a gallery tile owns a CSS transform transition for its reveal: hand transform to the tilt once revealed */
         if(el.classList.contains('gitem')&&el.classList.contains('in')) el.style.transition='opacity .9s '+TOK.css;
@@ -429,14 +426,14 @@
       });
       el.addEventListener('pointermove',function(e){
         var r=el.getBoundingClientRect(),nx=(e.clientX-r.left)/r.width-.5,ny=(e.clientY-r.top)/r.height-.5;
-        tx(-ny*7); ty(nx*9); gx(nx*40); gy(ny*40);
+        tx(-ny*7); ty(nx*9);
       });
       el.addEventListener('pointerleave',function(){ el.classList.remove('is-tilting'); tx(0); ty(0); });
     });
 
     /* scrolling speed leans the photo grids a touch, then they settle */
     if(rich&&lenis){
-      var leaners=G.utils.toArray('.gal-grid, .ch-pair').map(function(el){ return G.quickTo(el,'skewY',{duration:.55,ease:'power3'}); });
+      var leaners=G.utils.toArray('.gal-grid, .bento').map(function(el){ return G.quickTo(el,'skewY',{duration:.55,ease:'power3'}); });
       if(leaners.length) lenis.on('scroll',function(e){ var k=clamp(e.velocity*.045,-2.2,2.2); for(var i=0;i<leaners.length;i++) leaners[i](k); });
     }
 
