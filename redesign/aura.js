@@ -33,7 +33,7 @@
   var lenis=null;
   if(window.Lenis&&!reduce){
     root.classList.add('has-lenis');
-    lenis=new window.Lenis({duration:1.1,easing:function(t){return Math.min(1,1.001-Math.pow(2,-10*t));},smoothWheel:true,syncTouch:false});
+    lenis=new window.Lenis({lerp:.085,wheelMultiplier:.95,smoothWheel:true,syncTouch:false});
     if(useG){ lenis.on('scroll',ST.update); G.ticker.add(function(t){ lenis.raf(t*1000); }); G.ticker.lagSmoothing(0); }
     else (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })(0);
   }
@@ -194,13 +194,13 @@
     var hero=document.getElementById('top'),num=document.getElementById('deckNum'),cap=document.getElementById('deckCap'),fill=document.getElementById('deckFill');
     var cur=0,prev=-1,timer=null,onScreen=true,hovered=false,DUR=4200;
     var POS=[
-      {x:'0%',y:'0%',r:0,s:1,o:1,f:'brightness(1)'},
-      {x:'6%',y:'-3%',r:5,s:.92,o:.95,f:'brightness(.6)'},
-      {x:'-6%',y:'-5%',r:-6,s:.85,o:.75,f:'brightness(.42)'}
-    ],GONE={x:'-38%',y:'6%',r:-13,s:.95,o:0,f:'brightness(1)'},BACK={x:'0%',y:'-7%',r:0,s:.78,o:0,f:'brightness(.4)'};
+      {x:'0%',y:'0%',r:0,s:1,o:1,f:'brightness(1)',z:0,ry:0},
+      {x:'7%',y:'-3%',r:5,s:.94,o:.95,f:'brightness(.6)',z:-110,ry:-9},
+      {x:'-7%',y:'-5%',r:-6,s:.88,o:.75,f:'brightness(.42)',z:-220,ry:9}
+    ],GONE={x:'-42%',y:'5%',r:-12,s:.96,o:0,f:'brightness(1)',z:180,ry:-34},BACK={x:'0%',y:'-7%',r:0,s:.82,o:0,f:'brightness(.4)',z:-320,ry:0};
     function pad(x){ return (x<10?'0':'')+x; }
     function apply(c,p,animate){
-      var to={xPercent:parseFloat(p.x),yPercent:parseFloat(p.y),rotate:p.r,scale:p.s,opacity:p.o,filter:p.f};
+      var to={xPercent:parseFloat(p.x),yPercent:parseFloat(p.y),rotate:p.r,scale:p.s,opacity:p.o,filter:p.f,z:p.z||0,rotationY:p.ry||0};
       if(useG&&animate) G.to(c,Object.assign({duration:TOK.dur.crawl,ease:TOK.ease.smooth,overwrite:'auto'},to));
       else if(useG) G.set(c,to);
       else { c.style.transform='translate3d('+p.x+','+p.y+',0) rotate('+p.r+'deg) scale('+p.s+')'; c.style.opacity=p.o; c.style.filter=p.f; }
@@ -383,6 +383,105 @@
     });
   }
 
+  /* ── depth: the stack, the photographs and the reel respond in 3D ── */
+  (function(){
+    if(!useG) return;
+    var clamp=function(v,a,b){ return v<a?a:v>b?b:v; };
+
+    /* the hero stack tilts toward the cursor on a spring; light slides across the print */
+    var deck=document.getElementById('deck'),d3=deck&&deck.querySelector('.deck-3d');
+    if(d3){
+      if(fine){
+        var rx=G.quickTo(d3,'rotationX',{duration:.9,ease:'power3'}),ry=G.quickTo(d3,'rotationY',{duration:.9,ease:'power3'});
+        var gl=[].slice.call(deck.querySelectorAll('.card-glare')).map(function(g){ return [G.quickTo(g,'xPercent',{duration:.7,ease:'power3'}),G.quickTo(g,'yPercent',{duration:.7,ease:'power3'})]; });
+        deck.addEventListener('pointermove',function(e){
+          if(e.pointerType!=='mouse') return;
+          var r=deck.getBoundingClientRect(),nx=(e.clientX-r.left)/r.width-.5,ny=(e.clientY-r.top)/r.height-.5;
+          deck.classList.add('is-tilting'); rx(-ny*16); ry(nx*20);
+          for(var i=0;i<gl.length;i++){ gl[i][0](nx*42); gl[i][1](ny*42); }
+        });
+        deck.addEventListener('pointerleave',function(){ deck.classList.remove('is-tilting'); rx(0); ry(0); });
+      } else {
+        /* touch screens: the stack breathes slowly instead, and only while it is on screen */
+        G.set(d3,{rotationY:-6,rotationX:3});
+        var drift=G.to(d3,{rotationY:6,rotationX:-3,duration:4.5,ease:'sine.inOut',yoyo:true,repeat:-1});
+        ST.create({trigger:deck,start:'top bottom',end:'bottom top',onToggle:function(st){ st.isActive?drift.play():drift.pause(); }});
+      }
+    }
+
+    /* photographs lift out of the page in perspective as they arrive */
+    if(rich) G.utils.toArray('.plate').forEach(function(p){
+      G.fromTo(p,{rotationX:13,y:80,transformPerspective:1400,transformOrigin:'50% 100%'},
+        {rotationX:0,y:0,ease:TOK.ease.linear,scrollTrigger:{trigger:p,start:'top bottom',end:'top 58%',scrub:.6}});
+    });
+
+    /* every photograph tilts under the cursor with its own glare */
+    if(rich&&fine) G.utils.toArray('.plate .frame, .gitem, .quote-pic, .ab-mask').forEach(function(el){
+      el.classList.add('tilt');
+      var g=document.createElement('i'); g.className='glare'; g.setAttribute('aria-hidden','true'); el.appendChild(g);
+      G.set(el,{transformPerspective:1100});
+      var tx=G.quickTo(el,'rotationX',{duration:.7,ease:'power3'}),ty=G.quickTo(el,'rotationY',{duration:.7,ease:'power3'});
+      var gx=G.quickTo(g,'xPercent',{duration:.6,ease:'power3'}),gy=G.quickTo(g,'yPercent',{duration:.6,ease:'power3'});
+      el.addEventListener('pointerenter',function(){
+        /* a gallery tile owns a CSS transform transition for its reveal: hand transform to the tilt once revealed */
+        if(el.classList.contains('gitem')&&el.classList.contains('in')) el.style.transition='opacity .9s '+TOK.css;
+        el.classList.add('is-tilting');
+      });
+      el.addEventListener('pointermove',function(e){
+        var r=el.getBoundingClientRect(),nx=(e.clientX-r.left)/r.width-.5,ny=(e.clientY-r.top)/r.height-.5;
+        tx(-ny*7); ty(nx*9); gx(nx*40); gy(ny*40);
+      });
+      el.addEventListener('pointerleave',function(){ el.classList.remove('is-tilting'); tx(0); ty(0); });
+    });
+
+    /* scrolling speed leans the photo grids a touch, then they settle */
+    if(rich&&lenis){
+      var leaners=G.utils.toArray('.gal-grid, .ch-pair').map(function(el){ return G.quickTo(el,'skewY',{duration:.55,ease:'power3'}); });
+      if(leaners.length) lenis.on('scroll',function(e){ var k=clamp(e.velocity*.045,-2.2,2.2); for(var i=0;i<leaners.length;i++) leaners[i](k); });
+    }
+
+    /* the about strip bends into a film reel: cards turn toward you as they cross the middle */
+    var sec=document.querySelector('.strip');
+    if(sec){
+      var view=sec.querySelector('.strip-view'),track=sec.querySelector('.strip-track'),cards=[].slice.call(track.querySelectorAll('.strip-card'));
+      var reel=function(){
+        var w=view.clientWidth,x=sec.classList.contains('strip--pinned')?G.getProperty(track,'x'):-view.scrollLeft;
+        for(var i=0;i<cards.length;i++){
+          var c=cards[i],d=clamp((x+c.offsetLeft+c.offsetWidth/2-w/2)/w,-1.2,1.2);
+          G.set(c,{rotationY:-d*28,z:-Math.abs(d)*200,transformOrigin:'50% 50%'});
+        }
+      };
+      sec._reel=reel;
+      view.addEventListener('scroll',function(){ requestAnimationFrame(reel); },{passive:true});
+      addEventListener('resize',reel); reel();
+    }
+  })();
+
+  /* ── cursor: a ring that trails the pointer and says what a click will do ── */
+  (function(){
+    if(!useG||!fine) return;
+    var ring=document.createElement('div'),lab=document.createElement('div');
+    ring.className='cursor is-off'; lab.className='cursor-label'; ring.setAttribute('aria-hidden','true'); lab.setAttribute('aria-hidden','true');
+    document.body.appendChild(ring); document.body.appendChild(lab);
+    G.set(lab,{xPercent:-50,yPercent:-50});
+    var rx=G.quickTo(ring,'x',{duration:.45,ease:'power3'}),ry=G.quickTo(ring,'y',{duration:.45,ease:'power3'});
+    var lx=G.quickTo(lab,'x',{duration:.45,ease:'power3'}),ly=G.quickTo(lab,'y',{duration:.45,ease:'power3'});
+    var sx=G.quickTo(ring,'scaleX',{duration:.4,ease:'power3'}),sy=G.quickTo(ring,'scaleY',{duration:.4,ease:'power3'});
+    var scale=function(v){ sx(v); sy(v); };
+    var MEDIA=[['.deck','Drag'],['.gitem','View'],['.strip-card','Open'],['.plate-link','Open'],['.plate .frame','']];
+    addEventListener('pointermove',function(e){
+      if(e.pointerType!=='mouse') return;
+      ring.classList.remove('is-off'); rx(e.clientX); ry(e.clientY); lx(e.clientX); ly(e.clientY);
+      var t=e.target,label=null;
+      for(var i=0;i<MEDIA.length;i++){ if(t.closest&&t.closest(MEDIA[i][0])){ label=MEDIA[i][1]; break; } }
+      if(label!==null&&label!==''){ ring.classList.add('is-media'); lab.textContent=label; lab.classList.add('on'); scale(5.2); }
+      else if(t.closest&&t.closest('a,button,input,textarea,select,label,[role=button]')){ ring.classList.remove('is-media'); lab.classList.remove('on'); scale(2.6); }
+      else { ring.classList.remove('is-media'); lab.classList.remove('on'); scale(label===''?2:1); }
+    },{passive:true});
+    document.addEventListener('pointerleave',function(){ ring.classList.add('is-off'); lab.classList.remove('on'); });
+    addEventListener('blur',function(){ ring.classList.add('is-off'); });
+  })();
+
   /* ── about: the portrait unmasks upward, the work strip travels sideways ── */
   (function(){
     var m=document.querySelector('.ab-mask');
@@ -398,6 +497,7 @@
     sec.classList.add('strip--pinned'); view.removeAttribute('tabindex');
     var dist=function(){ return Math.max(0,track.scrollWidth-view.clientWidth); };
     G.to(track,{x:function(){ return -dist(); },ease:TOK.ease.linear,
+      onUpdate:function(){ if(sec._reel) sec._reel(); },
       scrollTrigger:{trigger:sec,start:'top top',end:function(){ return '+='+dist(); },pin:true,scrub:1,invalidateOnRefresh:true,anticipatePin:1}});
   })();
 

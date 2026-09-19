@@ -299,7 +299,7 @@ const home=head('Aura Films, Wedding and Portrait Photography in Kingston','Aura
 </div>
 <div class="deck-wrap reveal">
 <div class="deck" id="deck" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Recent photographs. Use the arrow keys to browse.">
-${DECK.map(([f,cap,alt],i)=>`<figure class="card" data-c="${T(f)}" data-cap="${cap}"><img src="images/c_${f}" alt="${alt}"${i<2?'':' loading="lazy"'}></figure>`).join('')}
+<div class="deck-3d">${DECK.map(([f,cap,alt],i)=>{const d=DIMS['c_'+f]||DIMS[f]||[2,3];return `<figure class="card" data-c="${T(f)}" data-cap="${cap}"><span class="card-media" style="--ar:${(d[0]/d[1]).toFixed(4)}"><img src="images/c_${f}" alt="${alt}"${i<2?'':' loading="lazy"'}><i class="card-glare" aria-hidden="true"></i></span></figure>`;}).join('')}</div>
 </div>
 </div>
 </div>

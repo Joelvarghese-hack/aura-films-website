@@ -108,13 +108,16 @@ body.drawer-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45
 .btn,.nav-link,.nav-cta,.price-pill,.txt-link,.jump a,.tier-tag,.tier-name,.mcta a,.fl,.faq-q,.deck-num,.contact-list span,.foot-col h3,.legal .updated,.tease-price,.step-n,.tier-price,.cform-thanks h3{word-spacing:.1em;letter-spacing:.01em}
 .hero-sub{margin-top:clamp(20px,3vh,32px);font-size:clamp(17px,1.4vw,21px);color:var(--paper-2);max-width:42ch}
 .hero-cta{margin-top:clamp(26px,4vh,42px);display:flex;gap:12px;flex-wrap:wrap}
-.deck{position:relative;height:clamp(440px,76vh,860px);touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab}
+.deck{position:relative;height:clamp(440px,76vh,860px);perspective:1800px;perspective-origin:50% 40%;container-type:size;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab}
 .deck:focus-visible{outline-offset:8px;border-radius:var(--r-lg)}
 .card{position:absolute;inset:0;display:grid;place-items:center;opacity:0;
   transition:transform .95s var(--e3),opacity .75s var(--e),filter .75s var(--e);will-change:transform}
 .card:first-child{opacity:1}
-.card picture{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-.card img{width:auto!important;height:auto!important;max-width:100%;max-height:100%;border-radius:var(--r-lg);box-shadow:0 44px 90px -34px rgba(0,0,0,.75);pointer-events:none}
+.deck-3d{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
+.card-media{position:relative;display:block;width:min(100cqw,calc(100cqh * var(--ar)));aspect-ratio:var(--ar);border-radius:var(--r-lg);overflow:hidden;background:var(--panel);box-shadow:0 44px 90px -34px rgba(0,0,0,.75),0 10px 24px -12px rgba(0,0,0,.45)}
+.card-media img{display:block;width:100%!important;height:100%!important;object-fit:cover;pointer-events:none}
+.card-glare{position:absolute;left:-50%;top:-50%;width:200%;height:200%;pointer-events:none;background:radial-gradient(circle at 50% 50%,rgba(255,250,240,.26),rgba(255,250,240,.07) 24%,transparent 46%);opacity:0;transition:opacity .5s var(--e);will-change:transform}
+.deck.is-tilting .card-glare{opacity:1}
 .deck-bar{display:flex;align-items:center;gap:14px;margin-top:22px}
 .deck-num{font:600 14px/1 var(--d);font-variant-numeric:tabular-nums;letter-spacing:.02em;flex:0 0 auto}
 .deck-track{flex:1 1 60px;min-width:40px;height:3px;border-radius:3px;background:var(--line);overflow:hidden}
@@ -456,3 +459,21 @@ textarea.fi{min-height:150px;resize:vertical}
   .strip-card{height:clamp(340px,58vh,560px)}
 }
 @media(max-width:480px){.strip-card{height:min(62vh,440px)}.ab-facts dl>div{grid-template-columns:1fr;gap:4px}}
+
+/* ─── depth layer: tilt, glare, reel, cursor, grain ─── */
+.tilt{position:relative}
+.tilt>.glare{position:absolute;left:-50%;top:-50%;width:200%;height:200%;z-index:2;pointer-events:none;background:radial-gradient(circle at 50% 50%,rgba(255,250,240,.2),rgba(255,250,240,.05) 24%,transparent 46%);opacity:0;transition:opacity .45s var(--e);will-change:transform}
+.tilt.is-tilting>.glare{opacity:1}
+.strip-view{perspective:1400px}
+.strip-track{position:relative;transform-style:preserve-3d}
+.strip-card{backface-visibility:hidden;will-change:transform}
+
+.cursor,.cursor-label{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;will-change:transform}
+.cursor{width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;border:1.5px solid rgba(246,241,234,.85);transition:opacity .3s var(--e),background-color .3s var(--e),border-color .3s var(--e)}
+.cursor.is-media{background:rgba(246,241,234,.92);border-color:transparent}
+.cursor-label{margin:0;font:600 12px/1 var(--d);letter-spacing:.06em;word-spacing:.1em;text-transform:uppercase;color:var(--ink);opacity:0;transition:opacity .25s var(--e)}
+.cursor-label.on{opacity:1}
+.cursor.is-off,.cursor.is-off+.cursor-label{opacity:0}
+
+body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.055;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px 180px}
+@media(prefers-reduced-motion:reduce){.cursor,.cursor-label{display:none}}
