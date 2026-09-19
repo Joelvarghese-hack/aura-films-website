@@ -174,7 +174,7 @@ if(m)m.addEventListener('click',function(){window.__AURA_ESSENTIAL_ONLY=true;set
 }catch(e){}})();</script>`;
 
 const mcta=`<div class="mcta"><a href="tel:+13439894546">Call</a><a class="p" href="/about#contact">Book a date</a></div>`;
-const foot=(extra='')=>footer+toTop+mcta+extra+cookieNotice+`<script src="/redesign/vendor/gsap.min.js?v=3.12.5" defer></script><script src="/redesign/vendor/ScrollTrigger.min.js?v=3.12.5" defer></script><script src="/redesign/vendor/lenis.min.js?v=1.1.20" defer></script><script src="/redesign/aura.js?v=${V('aura.js')}" defer></script></body></html>`;
+const foot=(extra='')=>footer+toTop+mcta+extra+offer+cookieNotice+`<script src="/redesign/vendor/gsap.min.js?v=3.12.5" defer></script><script src="/redesign/vendor/ScrollTrigger.min.js?v=3.12.5" defer></script><script src="/redesign/vendor/lenis.min.js?v=1.1.20" defer></script><script src="/redesign/aura.js?v=${V('aura.js')}" defer></script></body></html>`;
 
 /* ── testimonials carousel ── */
 const testimonials=[
@@ -190,6 +190,31 @@ const carousel=`<div class="tcar reveal" id="tcar">
 
 /* ── contact form (Web3Forms + date picker + on-page thanks) ── */
 const ACCESS_KEY='21c2f497-6482-4b89-899b-4653e72aefc1';
+/* ── first-session offer: email + explicit CASL consent, sent through Web3Forms ── */
+const offer=`<div class="offer" id="offer" role="dialog" aria-modal="true" aria-labelledby="offerTitle" aria-describedby="offerLede" hidden>
+<div class="offer-scrim" data-offer-close></div>
+<div class="offer-card">
+<button class="offer-x" type="button" aria-label="Close" data-offer-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+<figure class="offer-pic"><img src="/images/albin-new.jpg" alt="Albin, the photographer behind Aura Films, holding his camera in a sunflower field" width="1638" height="2048" loading="lazy"></figure>
+<div class="offer-body">
+<h2 class="offer-title" id="offerTitle">10% off your <em>first session.</em></h2>
+<p class="offer-lede" id="offerLede">Join the Aura Films list and we’ll take 10% off your first booking. We write now and then, with new work and open dates.</p>
+<form class="offer-form" id="offerForm" novalidate>
+<input type="hidden" name="access_key" value="${ACCESS_KEY}">
+<input type="hidden" name="subject" value="New subscriber: 10% first-session offer">
+<input type="hidden" name="from_name" value="Aura Films Website">
+<input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
+<label class="fl" for="of-email">Email</label>
+<input class="fi" id="of-email" type="email" name="email" required maxlength="254" autocomplete="email" inputmode="email" placeholder="you@email.com">
+<label class="consent" for="of-consent"><input type="checkbox" id="of-consent" name="marketing_consent" value="Yes, subscribed via the 10% offer" required> <span>Yes, email me offers and news from Aura Films. I can unsubscribe at any time. <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a></span></label>
+<p class="offer-err" id="offerErr" role="alert" hidden></p>
+<button class="btn btn-solid offer-btn" id="offerBtn" type="submit">Claim 10% off ${arrow}</button>
+<p class="offer-fine">For new clients on regular-priced sessions. One per client, not combinable with other offers.</p>
+</form>
+<div class="offer-done" id="offerDone" hidden tabindex="-1"><h3 class="offer-title">You’re on <em>the list.</em></h3><p>Mention code <b class="offer-code">AURA10</b> when you book and we’ll take 10% off your first session.</p><button class="btn btn-ghost" type="button" data-offer-close>Back to the site</button></div>
+</div>
+</div>
+</div>`;
 const contactForm=`<div class="cform-wrap">
 <form class="cform" id="cform" action="https://api.web3forms.com/submit" method="POST">
 <input type="hidden" name="access_key" value="${ACCESS_KEY}">

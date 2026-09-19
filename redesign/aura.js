@@ -415,6 +415,70 @@
     });
   }
 
+  /* ── first-session offer: appears once the visitor has scrolled a little way in ──
+     Never on legal pages, never twice in two weeks, never over the lightbox, menu or
+     a half-filled enquiry. Stores only a timestamp flag, never the email. */
+  (function(){
+    var o=document.getElementById('offer'); if(!o||document.querySelector('main.legal')) return;
+    var KEY='aura_offer',DAY=864e5,st=null;
+    try{ st=JSON.parse(localStorage.getItem(KEY)||'null'); }catch(_){}
+    if(st&&(st.s==='done'||Date.now()-st.t<14*DAY)) return;
+    var save=function(s){ try{ localStorage.setItem(KEY,JSON.stringify({s:s,t:Date.now()})); }catch(_){} };
+    var card=o.querySelector('.offer-card'),pic=o.querySelector('.offer-pic'),form=document.getElementById('offerForm'),
+        email=document.getElementById('of-email'),consent=document.getElementById('of-consent'),err=document.getElementById('offerErr'),
+        btn=document.getElementById('offerBtn'),done=document.getElementById('offerDone'),opener=null,shown=false,armed=false;
+    setTimeout(function(){ armed=true; },2500);                 /* no ambush on arrival */
+    var busy=function(){
+      var a=document.activeElement;
+      return (document.getElementById('lb')||{}).classList&&document.getElementById('lb').classList.contains('open')
+        ||document.body.classList.contains('drawer-open')
+        ||(a&&a.closest&&a.closest('#cform'));
+    };
+    var focusables=function(){ return [].slice.call(o.querySelectorAll('button,a[href],input:not([type=hidden]):not(.hp)')).filter(function(e){ return e.offsetParent!==null; }); };
+    function show(){
+      shown=true; opener=document.activeElement; o.hidden=false; root.style.overflow='hidden'; if(lenis) lenis.stop();
+      if(useG){
+        G.fromTo(o.querySelector('.offer-scrim'),{opacity:0},{opacity:1,duration:TOK.dur.slow,ease:TOK.ease.smooth});
+        G.fromTo(card,{y:40,scale:.96,opacity:0},{y:0,scale:1,opacity:1,duration:.75,ease:TOK.ease.out});
+        if(pic) G.fromTo(pic,{clipPath:'inset(100% 0% 0% 0%)'},{clipPath:'inset(0% 0% 0% 0%)',duration:1,ease:TOK.ease.out,delay:.12});
+      }
+      setTimeout(function(){ email.focus({preventScroll:true}); },reduce?0:300);
+    }
+    function hide(){
+      var fin=function(){ o.hidden=true; root.style.overflow=''; if(lenis) lenis.start(); if(opener&&opener.focus) opener.focus({preventScroll:true}); };
+      if(useG) G.to(card,{y:24,opacity:0,duration:TOK.dur.normal,ease:TOK.ease.sharp,onComplete:fin}),G.to(o.querySelector('.offer-scrim'),{opacity:0,duration:TOK.dur.normal});
+      else fin();
+    }
+    function close(){ if(!done.hidden) save('done'); else save('dismissed'); hide(); }
+    onScroll(function(){ if(!shown&&armed&&scrollY>innerHeight*1.15&&!busy()) show(); });
+    o.addEventListener('click',function(e){ if(e.target.closest('[data-offer-close]')) close(); });
+    o.addEventListener('keydown',function(e){
+      if(e.key==='Escape'){ e.preventDefault(); close(); return; }
+      if(e.key!=='Tab') return;
+      var f=focusables(); if(!f.length) return;
+      var first=f[0],last=f[f.length-1];
+      if(e.shiftKey&&document.activeElement===first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey&&document.activeElement===last){ e.preventDefault(); first.focus(); }
+    });
+    var fail=function(msg){ err.textContent=msg; err.hidden=false; btn.disabled=false; btn.classList.remove('loading'); };
+    form.addEventListener('submit',function(e){
+      e.preventDefault(); err.hidden=true;
+      var v=email.value.trim();
+      if(!/^[^\s@]{1,64}@[^\s@]{1,190}\.[^\s@]{2,24}$/.test(v)) return fail('Please enter a valid email address.'),email.focus();
+      if(!consent.checked) return fail('Please tick the box so we have your permission to email you.'),consent.focus();
+      if(form.querySelector('.hp').checked) return;          /* bots fill the hidden box; say nothing */
+      email.value=v; btn.disabled=true; btn.classList.add('loading');
+      fetch('https://api.web3forms.com/submit',{method:'POST',body:new FormData(form),headers:{Accept:'application/json'}})
+        .then(function(r){ return r.json(); })
+        .then(function(j){
+          if(!j.success) return fail('That didn’t go through. Please try again, or email itsaurafilms@gmail.com.');
+          save('done'); form.hidden=true; done.hidden=false; done.focus({preventScroll:true});
+          if(useG) G.fromTo(done,{y:16,opacity:0},{y:0,opacity:1,duration:TOK.dur.slow,ease:TOK.ease.out});
+        })
+        .catch(function(){ fail('You seem to be offline. Please try again in a moment.'); });
+    });
+  })();
+
   /* ── depth: the stack, the photographs and the reel respond in 3D ── */
   (function(){
     if(!useG) return;
