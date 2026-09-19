@@ -108,7 +108,7 @@ body.drawer-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45
 .btn,.nav-link,.nav-cta,.price-pill,.txt-link,.jump a,.tier-tag,.tier-name,.mcta a,.fl,.faq-q,.deck-num,.contact-list span,.foot-col h3,.legal .updated,.tease-price,.step-n,.tier-price,.cform-thanks h3{word-spacing:.1em;letter-spacing:.01em}
 .hero-sub{margin-top:clamp(20px,3vh,32px);font-size:clamp(17px,1.4vw,21px);color:var(--paper-2);max-width:42ch}
 .hero-cta{margin-top:clamp(26px,4vh,42px);display:flex;gap:12px;flex-wrap:wrap}
-.deck{position:relative;height:clamp(440px,76vh,860px);perspective:1800px;perspective-origin:50% 40%;container-type:size;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab}
+.deck{position:relative;height:clamp(440px,76vh,860px);perspective:1800px;perspective-origin:50% 40%;container-type:size;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:pointer}
 .deck:focus-visible{outline-offset:8px;border-radius:var(--r-lg)}
 .card{position:absolute;inset:0;display:grid;place-items:center;opacity:0;
   transition:transform .95s var(--e3),opacity .75s var(--e),filter .75s var(--e);will-change:transform}
@@ -468,12 +468,7 @@ textarea.fi{min-height:150px;resize:vertical}
 .strip-track{position:relative;transform-style:preserve-3d}
 .strip-card{backface-visibility:hidden;will-change:transform}
 
-.cursor,.cursor-label{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;will-change:transform}
-.cursor{width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;border:1.5px solid rgba(246,241,234,.85);transition:opacity .3s var(--e),background-color .3s var(--e),border-color .3s var(--e)}
-.cursor.is-media{background:rgba(246,241,234,.92);border-color:transparent}
-.cursor-label{margin:0;font:600 12px/1 var(--d);letter-spacing:.06em;word-spacing:.1em;text-transform:uppercase;color:var(--ink);opacity:0;transition:opacity .25s var(--e)}
-.cursor-label.on{opacity:1}
-.cursor.is-off,.cursor.is-off+.cursor-label{opacity:0}
 
 body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.055;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px 180px}
-@media(prefers-reduced-motion:reduce){.cursor,.cursor-label{display:none}}
+
+.gitem,.strip-card,.plate-link,.deck{cursor:pointer}

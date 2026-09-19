@@ -457,31 +457,6 @@
     }
   })();
 
-  /* ── cursor: a ring that trails the pointer and says what a click will do ── */
-  (function(){
-    if(!useG||!fine) return;
-    var ring=document.createElement('div'),lab=document.createElement('div');
-    ring.className='cursor is-off'; lab.className='cursor-label'; ring.setAttribute('aria-hidden','true'); lab.setAttribute('aria-hidden','true');
-    document.body.appendChild(ring); document.body.appendChild(lab);
-    G.set(lab,{xPercent:-50,yPercent:-50});
-    var rx=G.quickTo(ring,'x',{duration:.45,ease:'power3'}),ry=G.quickTo(ring,'y',{duration:.45,ease:'power3'});
-    var lx=G.quickTo(lab,'x',{duration:.45,ease:'power3'}),ly=G.quickTo(lab,'y',{duration:.45,ease:'power3'});
-    var sx=G.quickTo(ring,'scaleX',{duration:.4,ease:'power3'}),sy=G.quickTo(ring,'scaleY',{duration:.4,ease:'power3'});
-    var scale=function(v){ sx(v); sy(v); };
-    var MEDIA=[['.deck','Drag'],['.gitem','View'],['.strip-card','Open'],['.plate-link','Open'],['.plate .frame','']];
-    addEventListener('pointermove',function(e){
-      if(e.pointerType!=='mouse') return;
-      ring.classList.remove('is-off'); rx(e.clientX); ry(e.clientY); lx(e.clientX); ly(e.clientY);
-      var t=e.target,label=null;
-      for(var i=0;i<MEDIA.length;i++){ if(t.closest&&t.closest(MEDIA[i][0])){ label=MEDIA[i][1]; break; } }
-      if(label!==null&&label!==''){ ring.classList.add('is-media'); lab.textContent=label; lab.classList.add('on'); scale(5.2); }
-      else if(t.closest&&t.closest('a,button,input,textarea,select,label,[role=button]')){ ring.classList.remove('is-media'); lab.classList.remove('on'); scale(2.6); }
-      else { ring.classList.remove('is-media'); lab.classList.remove('on'); scale(label===''?2:1); }
-    },{passive:true});
-    document.addEventListener('pointerleave',function(){ ring.classList.add('is-off'); lab.classList.remove('on'); });
-    addEventListener('blur',function(){ ring.classList.add('is-off'); });
-  })();
-
   /* ── about: the portrait unmasks upward, the work strip travels sideways ── */
   (function(){
     var m=document.querySelector('.ab-mask');
