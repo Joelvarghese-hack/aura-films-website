@@ -173,7 +173,7 @@ if(m)m.addEventListener('click',function(){window.__AURA_ESSENTIAL_ONLY=true;set
 }catch(e){}})();</script>`;
 
 const mcta=`<nav class="mcta" aria-label="Quick contact"><a href="tel:+13439894546">Call</a><a class="p" href="/about#contact">Book a date</a></nav>`;
-const foot=(extra='')=>footer+toTop+mcta+extra+(MARKETING?offer:'')+cookieNotice+`<script src="/redesign/vendor/gsap.min.js?v=3.12.5" defer></script><script src="/redesign/vendor/ScrollTrigger.min.js?v=3.12.5" defer></script><script src="/redesign/vendor/lenis.min.js?v=1.1.20" defer></script><script src="/redesign/aura.js?v=${V('aura.js')}" defer></script></body></html>`;
+const foot=(extra='')=>footer+toTop+mcta+extra+offer+cookieNotice+`<script src="/redesign/vendor/gsap.min.js?v=3.12.5" defer></script><script src="/redesign/vendor/ScrollTrigger.min.js?v=3.12.5" defer></script><script src="/redesign/vendor/lenis.min.js?v=1.1.20" defer></script><script src="/redesign/aura.js?v=${V('aura.js')}" defer></script></body></html>`;
 
 /* ── testimonials carousel ── */
 const testimonials=[
@@ -193,7 +193,7 @@ const ACCESS_KEY='21c2f497-6482-4b89-899b-4653e72aefc1';
    Email sign-ups (the optional contact-form box and the first-session offer) stay switched off
    until MAIL_ADDR is set, e.g. 'PO Box 123, Kingston, ON K7L 0A0'. */
 const MAIL_ADDR='';
-const MARKETING=!!MAIL_ADDR;
+const MARKETING=!!MAIL_ADDR;   /* newsletter opt-in: needs the postal address */
 const CASL_ID='Aura Films (Albin), '+(MAIL_ADDR||'Kingston, Ontario')+', itsaurafilms@gmail.com';
 /* ── first-session offer: email + explicit CASL consent, sent through Web3Forms ── */
 const offer=`<div class="offer" id="offer" role="dialog" aria-modal="true" aria-labelledby="offerTitle" aria-describedby="offerLede" hidden>
@@ -203,20 +203,20 @@ const offer=`<div class="offer" id="offer" role="dialog" aria-modal="true" aria-
 <figure class="offer-pic"><img src="/images/albin-new.jpg" alt="Albin, the photographer behind Aura Films, holding his camera in a sunflower field" width="1638" height="2048" loading="lazy"></figure>
 <div class="offer-body">
 <h2 class="offer-title" id="offerTitle">10% off your <em>first session.</em></h2>
-<p class="offer-lede" id="offerLede">Join the Aura Films list and we’ll take 10% off your first booking. We write now and then, with new work and open dates.</p>
+<p class="offer-lede" id="offerLede">${MARKETING?`Join the Aura Films list and we’ll take 10% off your first booking. We write now and then, with new work and open dates.`:`Tell us where to send your code and we’ll take 10% off your first booking. One email, just the code, nothing else unless you ask.`}</p>
 <form class="offer-form" id="offerForm" novalidate>
 <input type="hidden" name="access_key" value="${ACCESS_KEY}">
-<input type="hidden" name="subject" value="New subscriber: 10% first-session offer">
+<input type="hidden" name="subject" value="${MARKETING?'New subscriber: 10% first-session offer':'10% code requested'}">
 <input type="hidden" name="from_name" value="Aura Films Website">
 <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
 <label class="fl" for="of-email">Email</label>
 <input class="fi" id="of-email" type="email" name="email" required maxlength="254" autocomplete="email" inputmode="email" placeholder="you@email.com">
-<label class="consent" for="of-consent"><input type="checkbox" id="of-consent" name="marketing_consent" value="Yes, subscribed via the 10% offer" required> <span>Yes, email me offers and news from ${CASL_ID}. I can unsubscribe at any time. <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a></span></label>
+<label class="consent" for="of-consent"><input type="checkbox" id="of-consent" name="${MARKETING?'marketing_consent':'code_consent'}" value="${MARKETING?'Yes, subscribed via the 10% offer':'Yes, send my 10% code'}" required> <span>${MARKETING?`Yes, email me offers and news from ${CASL_ID}. I can unsubscribe at any time.`:`Yes, email me my 10% code. Aura Films (Albin), Kingston, Ontario, itsaurafilms@gmail.com will use your address only to send the code, and will not add you to any mailing list.`} <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a></span></label>
 <p class="offer-err" id="offerErr" role="alert" hidden></p>
 <button class="btn btn-solid offer-btn" id="offerBtn" type="submit">Claim 10% off ${arrow}</button>
 <p class="offer-fine">For new clients on regular-priced sessions. One per client, not combinable with other offers.</p>
 </form>
-<div class="offer-done" id="offerDone" hidden tabindex="-1"><h3 class="offer-title">You’re on <em>the list.</em></h3><p>Mention code <b class="offer-code">AURA10</b> when you book and we’ll take 10% off your first session.</p><button class="btn btn-ghost" type="button" data-offer-close>Back to the site</button></div>
+<div class="offer-done" id="offerDone" hidden tabindex="-1"><h3 class="offer-title">${MARKETING?`You’re on <em>the list.</em>`:`That’s <em>yours.</em>`}</h3><p>Your code is <b class="offer-code">AURA10</b>. Mention it when you book and we’ll take 10% off your first session. It’s on its way to your inbox too.</p><button class="btn btn-ghost" type="button" data-offer-close>Back to the site</button></div>
 </div>
 </div>
 </div>`;
@@ -422,6 +422,7 @@ const FACTS=[
  ['Based in','Kingston, Ontario'],
  ['What I shoot','Weddings, events, maternity, family, portraits and architecture'],
  ['Editing','Every frame, by hand, by me'],
+ ['Our photographs','Real photographs from real sessions. No AI-generated images.'],
  ['Turnaround','10 to 21 days. Wedding sneak peeks arrive in the first week.'],
  ['Travel','Included within 20 km of Kingston'],
  ['Sessions from','$85'],
@@ -543,13 +544,14 @@ const terms=legalShell('Terms & Conditions',`
 <h2>3. Cancellation &amp; Rescheduling</h2><p>The retainer is non-refundable on cancellation. Rescheduling is permitted once with reasonable notice, subject to availability. Weather-related rescheduling for outdoor sessions is accommodated at no additional charge. Full details, including what happens if we ever have to cancel, are set out in our <a href="refund" style="color:var(--gold-ink);text-decoration:underline">Refund &amp; Cancellation Policy</a>.</p>
 <h2>4. Copyright &amp; Licence</h2><p>Aura Films retains <strong>copyright in all images</strong> under the Canadian <em>Copyright Act</em>. Upon final payment, the Client is granted a personal, non-exclusive licence to use delivered images for personal, non-commercial purposes (printing and sharing). Commercial use, resale, or licensing to third parties requires our written permission.</p>
 <h2>5. Image Release</h2><p>Aura Films may use selected images for portfolio, marketing and social media only with the permission the Client gives in the booking agreement. Images of minors are used only with a parent or guardian’s express written consent. The Client may withdraw permission for future use at any time by written notice.</p>
-<h2>6. Deliverables &amp; Turnaround</h2><p>Edited galleries are delivered within the timeframe stated for your package (typically 10 to 21 business days). Aura Films delivers hand-graded, high-resolution images; unedited raw files are not included unless purchased as an add-on. The number of edited images stated per package is what is delivered; selection is at our professional discretion.</p>
+<h2>6. Deliverables, Turnaround &amp; Authenticity</h2><p>Every image we deliver and publish is a photograph captured by Aura Films. We do not generate images with artificial intelligence or present generated imagery as photography; editing is limited to standard retouching, colour and finishing work. Edited galleries are delivered within the timeframe stated for your package (typically 10 to 21 business days). Aura Films delivers hand-graded, high-resolution images; unedited raw files are not included unless purchased as an add-on. The number of edited images stated per package is what is delivered; selection is at our professional discretion.</p>
 <h2>7. Client Conduct &amp; Safety</h2><p>The Client agrees to provide a safe working environment. We reserve the right to end a session where the safety of our team or equipment is at risk, without refund.</p>
 <h2>8. Force Majeure</h2><p>Aura Films is not liable for failure to perform due to events beyond our reasonable control (illness, extreme weather, equipment failure, emergencies). In such cases we will make reasonable efforts to reschedule or arrange a suitable substitute.</p>
 <h2>9. Limitation of Liability</h2><p>In the unlikely event of loss or inability to deliver due to circumstances beyond our control, our total liability is limited to a refund of fees paid for the affected service. We are not liable for indirect or consequential losses.</p>
 <h2>10. Privacy</h2><p>Personal information is handled in accordance with our <a href="privacy" style="color:var(--gold-ink);text-decoration:underline">Privacy Policy</a> and PIPEDA.</p>
-<h2>11. Governing Law</h2><p>These Terms are governed by the laws of the Province of Ontario and the federal laws of Canada applicable therein.</p>
-<h2>12. Contact</h2><p><a href="mailto:itsaurafilms@gmail.com" style="color:var(--gold-ink);text-decoration:underline">itsaurafilms@gmail.com</a> · 343 989 4546 · Kingston, Ontario.</p>`);
+<h2>11. If Something Goes Wrong</h2><p>If you are unhappy with any part of our service, please tell us in writing first at <a href="mailto:itsaurafilms@gmail.com" style="color:var(--gold-ink);text-decoration:underline">itsaurafilms@gmail.com</a>. We will reply within 5 business days and try to resolve it with you directly. If that does not settle matters, we are willing to attend mediation in Kingston, Ontario, with each side paying its own share of the mediator's fee. If it still cannot be resolved, either of us may take the matter to court. <strong>Nothing in this section takes away any right you have under Ontario or Canadian consumer-protection law, including your right to bring or join a court proceeding.</strong></p>
+<h2>12. Governing Law</h2><p>These Terms are governed by the laws of the Province of Ontario and the federal laws of Canada applicable therein.</p>
+<h2>13. Contact</h2><p><a href="mailto:itsaurafilms@gmail.com" style="color:var(--gold-ink);text-decoration:underline">itsaurafilms@gmail.com</a> · 343 989 4546 · Kingston, Ontario.</p>`);
 
 const GI=`style="color:var(--gold-ink);text-decoration:underline"`;
 const cookie=legalShell('Cookie Policy',`

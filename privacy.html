@@ -59,7 +59,30 @@
 <div class="foot-bot"><p>© 2026 Aura Films. All rights reserved. <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms &amp; Conditions</a> · <a href="/cookie">Cookie Policy</a> · <a href="/refund">Refund Policy</a> · <a href="/accessibility">Accessibility</a></p>
 <p class="foot-legal-id">Aura Films is a sole proprietorship operated by Albin, based in Kingston, Ontario, Canada. Contact <a href="mailto:itsaurafilms@gmail.com">itsaurafilms@gmail.com</a> · <a href="tel:+13439894546">343&nbsp;989&nbsp;4546</a>.</p>
 <p>Design &amp; SEO by <a href="https://joelvarghese-hack.github.io/Marketing-Portfolio/" target="_blank" rel="noopener">Joel Varghese</a></p></div>
-</div></footer><button class="totop" id="toTop" type="button" aria-label="Back to top"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button><nav class="mcta" aria-label="Quick contact"><a href="tel:+13439894546">Call</a><a class="p" href="/about#contact">Book a date</a></nav><div class="cookie-notice" id="cookieNotice" role="region" aria-label="Cookie notice" hidden>
+</div></footer><button class="totop" id="toTop" type="button" aria-label="Back to top"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button><nav class="mcta" aria-label="Quick contact"><a href="tel:+13439894546">Call</a><a class="p" href="/about#contact">Book a date</a></nav><div class="offer" id="offer" role="dialog" aria-modal="true" aria-labelledby="offerTitle" aria-describedby="offerLede" hidden>
+<div class="offer-scrim" data-offer-close></div>
+<div class="offer-card">
+<button class="offer-x" type="button" aria-label="Close" data-offer-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+<figure class="offer-pic"><img src="/images/albin-new.jpg" alt="Albin, the photographer behind Aura Films, holding his camera in a sunflower field" width="1638" height="2048" loading="lazy"></figure>
+<div class="offer-body">
+<h2 class="offer-title" id="offerTitle">10% off your <em>first session.</em></h2>
+<p class="offer-lede" id="offerLede">Tell us where to send your code and we’ll take 10% off your first booking. One email, just the code, nothing else unless you ask.</p>
+<form class="offer-form" id="offerForm" novalidate>
+<input type="hidden" name="access_key" value="21c2f497-6482-4b89-899b-4653e72aefc1">
+<input type="hidden" name="subject" value="10% code requested">
+<input type="hidden" name="from_name" value="Aura Films Website">
+<input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
+<label class="fl" for="of-email">Email</label>
+<input class="fi" id="of-email" type="email" name="email" required maxlength="254" autocomplete="email" inputmode="email" placeholder="you@email.com">
+<label class="consent" for="of-consent"><input type="checkbox" id="of-consent" name="code_consent" value="Yes, send my 10% code" required> <span>Yes, email me my 10% code. Aura Films (Albin), Kingston, Ontario, itsaurafilms@gmail.com will use your address only to send the code, and will not add you to any mailing list. <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a></span></label>
+<p class="offer-err" id="offerErr" role="alert" hidden></p>
+<button class="btn btn-solid offer-btn" id="offerBtn" type="submit">Claim 10% off <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+<p class="offer-fine">For new clients on regular-priced sessions. One per client, not combinable with other offers.</p>
+</form>
+<div class="offer-done" id="offerDone" hidden tabindex="-1"><h3 class="offer-title">That’s <em>yours.</em></h3><p>Your code is <b class="offer-code">AURA10</b>. Mention it when you book and we’ll take 10% off your first session. It’s on its way to your inbox too.</p><button class="btn btn-ghost" type="button" data-offer-close>Back to the site</button></div>
+</div>
+</div>
+</div><div class="cookie-notice" id="cookieNotice" role="region" aria-label="Cookie notice" hidden>
 <div class="cookie-inner"><p>We use only essential, functional cookies &mdash; no advertising or tracking. Google Fonts and the optional booking calendar load as described in our <a href="/cookie">Cookie Policy</a>.</p>
 <div class="cookie-btns"><button type="button" class="btn btn-gold ck-accept" id="ckAccept">Got it</button><button type="button" class="btn btn-line ck-min" id="ckMin">Only essential</button></div></div></div>
 <script>(function(){try{var K='aura_cookie_choice',n=document.getElementById('cookieNotice');if(!n)return;var stored=null;try{stored=localStorage.getItem(K);}catch(e){}if(!stored){n.hidden=false;}
