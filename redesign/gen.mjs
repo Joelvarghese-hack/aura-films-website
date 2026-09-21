@@ -262,24 +262,24 @@ const faqItems=[
 
 const PKG={
 Weddings:[
- ['Standard','Ceremony',399,'+$95/hr extra',['Up to 3 hours coverage','75 edited photos','Online gallery + sneak peek','10 to 14 day delivery'],false],
- ['Most Popular','Full Ceremony',749,'sneak peek in 48h',['Up to 6 hours coverage','180 edited photos','Two looks / locations','Social-ready edit set','7 to 10 day delivery'],true],
- ['Premium','Full Day',1049,'full documentary day',['Full-day documentary coverage','320 hand-graded photos','Second shooter included','Fine-art album (optional)','Priority delivery'],false]],
+ ['Standard','Micro-wedding',1195,'+$195/hr extra',['Up to 3 hours coverage','150 edited photos','Online gallery + sneak peek','10 to 14 day delivery'],false],
+ ['Most Popular','Full Ceremony',1895,'engagement session included',['Up to 6 hours coverage','300 edited photos','Engagement session included','Two looks / locations','7 to 10 day delivery'],true],
+ ['Premium','Full Day',2695,'second shooter included',['Up to 10 hours documentary coverage','450 hand-graded photos','Second shooter included','Engagement session included','Timeline planning and priority delivery'],false]],
 Events:[
- ['Basic','Essentials',249,'+$65/hr extra',['Up to 2 hours · 2 photographers','35 edited photos','Online gallery download','14 to 21 day turnaround'],false],
- ['Standard','Signature',399,'+$75/hr extra',['Up to 4 hours · 2 photographers','70 edited photos','Gallery + social media kit','Sneak-peek gallery','10 to 14 day turnaround'],true],
- ['Premium','Elite',599,'+$85/hr extra',['Up to 6 hours · 2 photographers','150 edited photos','12 social-ready edits','Event highlights gallery','Priority 7-day delivery'],false]],
+ ['Basic','Essentials',449,'+$120/hr extra',['Up to 2 hours · 2 photographers','60 edited photos','Online gallery download','14 to 21 day turnaround'],false],
+ ['Standard','Signature',749,'+$150/hr extra',['Up to 4 hours · 2 photographers','120 edited photos','Gallery + social media kit','Sneak-peek gallery','10 to 14 day turnaround'],true],
+ ['Premium','Elite',1050,'+$175/hr extra',['Up to 6 hours · 2 photographers','200 edited photos','12 social-ready edits','Event highlights gallery','Priority 7-day delivery'],false]],
 Family:[
- ['Mini','Quick Session',129,'30 min',['Up to 30 minutes','18 edited photos','Online gallery','7 to 10 day delivery'],false],
- ['Standard','Family Story',219,'1 hour',['Up to 1 hour','35 edited photos','One location','Gallery + print release'],false],
- ['Most Loved','The Experience',299,'session',['Up to 2 hours','55 edited photos','Two looks / locations','Maternity friendly','Priority delivery'],true]],
+ ['Mini','Quick Session',179,'30 min',['Up to 30 minutes','15 edited photos','Online gallery','7 to 10 day delivery'],false],
+ ['Standard','Family Story',299,'1 hour',['Up to 1 hour','35 edited photos','One location','Gallery + print release'],false],
+ ['Most Loved','The Experience',429,'session',['Up to 2 hours','55 edited photos','Two looks / locations','Maternity friendly','Priority delivery'],true]],
 Portraits:[
- ['Mini','Quick Shoot',85,'30 min',['Up to 30 minutes','10 edited photos','One look','Online gallery'],false],
- ['Standard','Portrait Hour',149,'1 hour',['Up to 1 hour','22 edited photos','Two looks','Gallery + retouching'],true],
- ['Premium','Full Session',229,'session',['Up to 2 hours','45 edited photos','Multiple looks / locations','Editorial retouching'],false]],
+ ['Mini','Quick Shoot',149,'30 min',['Up to 30 minutes','12 edited photos','One look','Online gallery'],false],
+ ['Standard','Portrait Hour',275,'1 hour',['Up to 1 hour','25 edited photos','Two looks','Gallery + retouching'],true],
+ ['Premium','Full Session',379,'session',['Up to 2 hours','45 edited photos','Multiple looks / locations','Editorial retouching'],false]],
 };
 
-const addons=[['Second location / travel','$50-100'],['Printed photo set (20)','$60'],['Extra edited images (10)','$50'],['Raw / unedited files','$80'],['Album &amp; prints','Custom'],['Rush delivery','$120']];
+const addons=[['Extra hour of coverage','$195'],['Second shooter for a wedding','$350'],['Engagement session','$325'],['Second location / travel','$50-100'],['Extra edited images (10)','$75'],['Printed photo set (20)','$60'],['Raw / unedited files','$150'],['Album &amp; prints','Custom'],['Rush delivery','$150']];
 
 
 
@@ -322,19 +322,19 @@ const DECK=[
 const CHAPTERS=[
  {id:'weddings',title:'All of it, <em>start to finish.</em>',
   body:'From the first look to the last dance, plus everything in between that nobody planned. You’ll see a sneak peek within the first week and the full gallery in 10 to 21 days.',
-  price:'From $399',link:'/gallery#weddings',cta:'See the weddings',
+  price:'From $1,195',link:'/gallery#weddings',cta:'See the weddings',
   lead:['wed-3.jpg','A couple exchange vows under a flower-covered arbour beside the lake'],
   pair:[['wed-1.jpg','A bride in a deep red saree leans on her groom under spring blossom'],['wed-11.jpg','A bride in white surrounded by her bridesmaids and flower girls']],
   more:[['wed-5.jpg','A couple hold hands and laugh together in a sunlit park'],['wed-6.jpg','A bride laughs with her bridesmaids in a garden']]},
  {id:'portraits',title:'Photos that look <em>like you.</em>',
   body:'Half an hour or a couple of hours, one outfit or a few. Mostly we walk and talk, and at some point you stop noticing the camera. That’s usually when the good ones happen.',
-  price:'From $85',link:'/gallery#portraits',cta:'See the portraits',
+  price:'From $149',link:'/gallery#portraits',cta:'See the portraits',
   lead:['por-2.jpg','A woman in a black off-shoulder dress in front of summer greenery'],
   pair:[['por-3.jpg','A woman in a yellow floral dress sits among potted plants'],['por-5.jpg','A woman in a wide-brimmed hat stands in a field of sunflowers']],
   more:[['IMG_7777.JPG.jpeg','A woman in red stands among soft pink blossoms'],['por-10.jpg','A woman in a white cardigan and yellow dress beside a garden']]},
  {id:'family',title:'Bumps, babies and <em>busy toddlers.</em>',
   body:'Newborns sleep, toddlers run off, and we’re fine with both. We shoot plenty of the messy bits, because years from now the photo your kids ask about probably won’t be the tidy one.',
-  price:'From $129',link:'/gallery#family',cta:'See family sessions',
+  price:'From $179',link:'/gallery#family',cta:'See family sessions',
   lead:['baby-16.jpg','Parents lean in close to their toddler, who wears red bows in her hair'],
   pair:[['baby-8.jpg','A toddler with a bow in her hair grins at the camera, in black and white'],['baby-9.jpg','An expecting couple smile together beside blue balloons']],
   more:[['baby-5.jpg','A newborn asleep in a soft white wrap, in black and white'],['baby-3.jpg','A newborn’s tiny hand wrapped around a parent’s fingers']]},
@@ -356,7 +356,7 @@ const chapter=(c,i)=>`<section class="ch${i%2?' ch--flip':''}" id="${c.id}" data
 ${bento(c,i%2===1)}
 </div></section>`;
 const STEPS=[['Reach out','Tell us the date, where it is and what you most want to remember.'],['The shoot','A relaxed session. We tell you where to stand and when to move, so you never have to wonder what to do with your hands.'],['Your gallery','Every photo edited by hand and delivered in 10 to 21 days.']];
-const TEASE=[['Portraits','Thirty minutes or a full session, in one outfit or several.',85,'pk-portraits'],['Family &amp; Maternity','Newborns, bumps and growing families.',129,'pk-family'],['Events &amp; Showers','Two photographers on every package.',249,'pk-events'],['Weddings','From a three-hour ceremony to a full documentary day.',399,'pk-weddings']];
+const TEASE=[['Portraits','Thirty minutes or a full session, in one outfit or several.',149,'pk-portraits'],['Family &amp; Maternity','Newborns, bumps and growing families.',179,'pk-family'],['Events &amp; Showers','Two photographers on every package.',449,'pk-events'],['Weddings','From a three-hour micro-wedding to a full documentary day.',1195,'pk-weddings']];
 
 const home=head('Aura Films, Wedding and Portrait Photography in Kingston','Aura Films is a Kingston photography studio for weddings, portraits, family and architecture. Every frame shot and hand-graded by Albin.','')+nav('Home')+`
 <header class="hero" id="top" data-c="${T(DECK[0][0])}">
@@ -392,7 +392,7 @@ ${CHAPTERS.map(chapter).join('')}
 
 <section class="sec" data-c="48,32,24"><div class="container">
 <div class="sec-head"><h2 class="h-xl reveal">The <em>investment.</em></h2><p class="lede reveal">Prices in Canadian dollars.</p></div>
-<div class="tease">${TEASE.map(([n,d,p,id])=>`<a class="tease-row reveal" href="/investment#${id}"><h3 class="h-md">${n}</h3><p>${d}</p><span class="tease-price"><small>from</small>$${p}</span><span class="tease-go" aria-hidden="true">${arrow}</span></a>`).join('')}</div>
+<div class="tease">${TEASE.map(([n,d,p,id])=>`<a class="tease-row reveal" href="/investment#${id}"><h3 class="h-md">${n}</h3><p>${d}</p><span class="tease-price"><small>from</small>$${p.toLocaleString('en-CA')}</span><span class="tease-go" aria-hidden="true">${arrow}</span></a>`).join('')}</div>
 </div></section>
 
 ${contactBlock()}
@@ -425,7 +425,7 @@ const FACTS=[
  ['Our photographs','Real photographs from real sessions. No AI-generated images.'],
  ['Turnaround','10 to 21 days. Wedding sneak peeks arrive in the first week.'],
  ['Travel','Included within 20 km of Kingston'],
- ['Sessions from','$85'],
+ ['Sessions from','$149'],
 ];
 const STRIP=[
  ['wed-2.jpg','Ceremony','weddings','A couple exchange vows beneath a lakeside gazebo'],
@@ -472,13 +472,13 @@ ${contactBlock()}
 
 /* ════════ INVESTMENT ════════ */
 const PKINFO={
- Weddings:['pk-weddings','wed-9.jpg','A groom kisses his bride beneath a leafy tree','From a three-hour ceremony to a full documentary day with a second shooter.','wed-12.jpg','wed-10.jpg'],
+ Weddings:['pk-weddings','wed-9.jpg','A groom kisses his bride beneath a leafy tree','From a three-hour micro-wedding to a full documentary day, with an engagement session in the larger packages.','wed-12.jpg','wed-10.jpg'],
  Events:['pk-events','baby-12.jpg','An expecting mother at her baby shower among blue balloons','Two photographers on every package.','wed-6.jpg','_DSC8672.jpg'],
  Family:['pk-family','baby-2.jpg','Parents hold their newborn close','Newborns, bumps and growing families, with a maternity-friendly option.','baby-13.jpg','baby-15.jpg'],
  Portraits:['pk-portraits','por-11.jpg','A woman in a lavender top stands beneath autumn trees','From thirty minutes to a full session with editorial retouching.','por-12.jpg','por-7.jpg'],
 };
 const pkStack=k=>{const [,f,alt,,b1,b2]=PKINFO[k];return `<div class="pk-stack"><span class="pk-back pk-back--2" aria-hidden="true"><img src="images/${b2}" alt="" loading="lazy"></span><span class="pk-back pk-back--1" aria-hidden="true"><img src="images/${b1}" alt="" loading="lazy"></span>${plate(f,alt,'','plate--pk')}</div>`;};
-const tier=([tag,name,price,add,feats,feat])=>`<article class="tier${feat?' tier--rec':''} reveal">${feat?'<span class="tier-tag">Recommended</span>':''}<h3 class="tier-name">${name}</h3><p class="tier-price"><span>$</span>${price}</p><p class="tier-note">${add}</p><ul class="tier-list">${feats.map(x=>`<li>${tick}<span>${x}</span></li>`).join('')}</ul><a class="btn btn-ghost tier-btn" href="#contact">Enquire about ${name}</a></article>`;
+const tier=([tag,name,price,add,feats,feat])=>`<article class="tier${feat?' tier--rec':''} reveal">${feat?'<span class="tier-tag">Recommended</span>':''}<h3 class="tier-name">${name}</h3><p class="tier-price"><span>$</span>${price.toLocaleString('en-CA')}</p><p class="tier-note">${add}</p><ul class="tier-list">${feats.map(x=>`<li>${tick}<span>${x}</span></li>`).join('')}</ul><a class="btn btn-ghost tier-btn" href="#contact">Enquire about ${name}</a></article>`;
 const CHIPS=[['An assistant on bigger shoots','Weddings and events get a second pair of hands.'],['Edited by hand','We edit each photo on its own. No batch filters.'],['Quick turnaround','Sneak peeks within a week, full galleries in 10 to 21 days.'],['Clear pricing','Prices in CAD and valid for 30 days. A 30% retainer books your date.']];
 const EXP=[['Consult','We talk through what you want and which moments matter most to you.'],['Plan','We sort out locations, timing and a shot list together.'],['Shoot','A relaxed day with clear direction.'],['Deliver','You get a gallery edited by hand.']];
 
@@ -586,7 +586,7 @@ const refund=legalShell('Refund & Cancellation Policy',`
 /* Home keeps the additive motion layer (home page only). */
 const homeHTML=finalize(home);
 
-const schema=`<script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","additionalType":"https://schema.org/PhotographStore","name":"Aura Films","url":"${SITE}","image":"${SITE}images/wed-3.jpg","description":"Photography studio in Kingston, Ontario. Weddings, portraits, family and architecture, shot and hand graded by Albin.","email":"itsaurafilms@gmail.com","telephone":"+1-343-989-4546","priceRange":"$85 - $1049","address":{"@type":"PostalAddress","addressLocality":"Kingston","addressRegion":"ON","addressCountry":"CA"},"areaServed":{"@type":"State","name":"Ontario"},"founder":{"@type":"Person","name":"Albin"},"sameAs":["https://www.instagram.com/aura.filmsca/"]}</script>`;
+const schema=`<script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","additionalType":"https://schema.org/PhotographStore","name":"Aura Films","url":"${SITE}","image":"${SITE}images/wed-3.jpg","description":"Photography studio in Kingston, Ontario. Weddings, portraits, family and architecture, shot and hand graded by Albin.","email":"itsaurafilms@gmail.com","telephone":"+1-343-989-4546","priceRange":"$149 - $2695","address":{"@type":"PostalAddress","addressLocality":"Kingston","addressRegion":"ON","addressCountry":"CA"},"areaServed":{"@type":"State","name":"Ontario"},"founder":{"@type":"Person","name":"Albin"},"sameAs":["https://www.instagram.com/aura.filmsca/"]}</script>`;
 const withSchema=h=>h.replace('</head>',schema+'</head>');
 
 const PAGES=[['',1.0],['gallery',0.9],['about',0.8],['investment',0.9],['privacy',0.3],['terms',0.3],['cookie',0.3],['refund',0.3],['accessibility',0.3]];
