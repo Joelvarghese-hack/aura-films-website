@@ -303,9 +303,9 @@ Architecture:[
  ['Standard','Full Day',1400,'up to 8 hours on site',['Up to 8 hours on site','40 edited images','Advanced lighting and blending','One-year web, social and print licence'],true],
  ['Premium','Full Day + Extended Licence',1950,'wider usage rights',['Up to 8 hours on site','55 edited images','Twilight exterior set','Unlimited-term licence, advertising included'],false]],
 Portraits:[
- ['Mini','Quick Shoot',149,'30 min',['Up to 30 minutes','15 edited photos','One look','Online gallery'],false],
- ['Standard','Portrait Hour',275,'1 hour',['Up to 1 hour','30 edited photos','Two looks','Gallery + retouching'],true],
- ['Premium','Full Session',379,'session',['Up to 2 hours','55 edited photos','Multiple looks / locations','Editorial retouching'],false]],
+ ['Mini','Quick Shoot',85,'30 min',['Up to 30 minutes','15 edited photos','One look','Online gallery'],false],
+ ['Standard','Portrait Hour',165,'1 hour',['Up to 1 hour','30 edited photos','Two looks','Gallery + retouching'],true],
+ ['Premium','Full Session',250,'session',['Up to 2 hours','55 edited photos','Multiple looks / locations','Editorial retouching'],false]],
 };
 
 const addons=[['Extra hour of coverage','$195'],['Second shooter for a wedding','$350'],['Engagement session','$325'],['Second location / travel','$50-100'],['Extra edited images (10)','$75'],['Printed photo set (20)','$60'],['Raw / unedited files','$150'],['Album &amp; prints','Custom'],['Rush delivery','$150']];
@@ -357,7 +357,7 @@ const CHAPTERS=[
   more:[['wed-5.jpg','A couple hold hands and laugh together in a sunlit park'],['wed-6.jpg','A bride laughs with her bridesmaids in a garden']]},
  {id:'portraits',title:'Photos that look <em>like you.</em>',
   body:'Half an hour or a couple of hours, one outfit or a few. Mostly we walk and talk, and at some point you stop noticing the camera. That’s usually when the good ones happen.',
-  price:'From $149',link:'/gallery#portraits',cta:'See the portraits',
+  price:'From $85',link:'/gallery#portraits',cta:'See the portraits',
   lead:['por-2.jpg','A woman in a black off-shoulder dress in front of summer greenery'],
   pair:[['por-3.jpg','A woman in a yellow floral dress sits among potted plants'],['por-5.jpg','A woman in a wide-brimmed hat stands in a field of sunflowers']],
   more:[['IMG_7777.JPG.jpeg','A woman in red stands among soft pink blossoms'],['por-10.jpg','A woman in a white cardigan and yellow dress beside a garden']]},
@@ -385,7 +385,7 @@ const chapter=(c,i)=>`<section class="ch${i%2?' ch--flip':''}" id="${c.id}" data
 ${bento(c,i%2===1)}
 </div></section>`;
 const STEPS=[['Reach out','Tell us the date, where it is and what you most want to remember.'],['The shoot','A relaxed session. We tell you where to stand and when to move, so you never have to wonder what to do with your hands.'],['Your gallery','Every photo edited by hand and delivered in 10 to 21 days.']];
-const TEASE=[['Portraits','Thirty minutes or a full session, in one outfit or several.',149,'pk-portraits'],['Family &amp; Maternity','Newborns, bumps and growing families.',179,'pk-family'],['Events &amp; Showers','Two photographers on every package.',449,'pk-events'],['Weddings','From a three-hour micro-wedding to a full documentary day.',1195,'pk-weddings'],['Architecture','Interiors and exteriors, by the half or full day.',750,'pk-architecture']];
+const TEASE=[['Portraits','Thirty minutes or a full session, in one outfit or several.',85,'pk-portraits'],['Family &amp; Maternity','Newborns, bumps and growing families.',179,'pk-family'],['Events &amp; Showers','Two photographers on every package.',449,'pk-events'],['Weddings','From a three-hour micro-wedding to a full documentary day.',1195,'pk-weddings'],['Architecture','Interiors and exteriors, by the half or full day.',750,'pk-architecture']];
 
 const home=head('Aura Films, Wedding and Portrait Photography in Kingston','Aura Films is a Kingston photography studio for weddings, portraits, family and architecture. Every frame shot and hand-graded by Albin.','')+nav('Home')+`
 <header class="hero" id="top" data-c="${T(DECK[0][0])}">
@@ -454,7 +454,7 @@ const FACTS=[
  ['Our photographs','Real photographs from real sessions. No AI-generated images.'],
  ['Turnaround','10 to 21 days. Wedding sneak peeks arrive in the first week.'],
  ['Travel','Included within 20 km of Kingston'],
- ['Sessions from','$149'],
+ ['Sessions from','$85'],
 ];
 const STRIP=[
  ['wed-2.jpg','Ceremony','weddings','A couple exchange vows beneath a lakeside gazebo'],
@@ -616,7 +616,7 @@ const refund=legalShell('Refund & Cancellation Policy',`
 /* Home keeps the additive motion layer (home page only). */
 const homeHTML=finalize(home);
 
-const schema=`<script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","additionalType":"https://schema.org/PhotographStore","name":"Aura Films","url":"${SITE}","image":"${SITE}images/wed-3.jpg","description":"Photography studio in Kingston, Ontario. Weddings, portraits, family and architecture, shot and hand graded by Albin.","email":"itsaurafilms@gmail.com","telephone":"+1-343-989-4546","priceRange":"$149 - $2695","address":{"@type":"PostalAddress","addressLocality":"Kingston","addressRegion":"ON","addressCountry":"CA"},"areaServed":{"@type":"State","name":"Ontario"},"founder":{"@type":"Person","name":"Albin"},"sameAs":["https://www.instagram.com/aura.filmsca/"]}</script>`;
+const schema=`<script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","additionalType":"https://schema.org/PhotographStore","name":"Aura Films","url":"${SITE}","image":"${SITE}images/wed-3.jpg","description":"Photography studio in Kingston, Ontario. Weddings, portraits, family and architecture, shot and hand graded by Albin.","email":"itsaurafilms@gmail.com","telephone":"+1-343-989-4546","priceRange":"$85 - $2695","address":{"@type":"PostalAddress","addressLocality":"Kingston","addressRegion":"ON","addressCountry":"CA"},"areaServed":{"@type":"State","name":"Ontario"},"founder":{"@type":"Person","name":"Albin"},"sameAs":["https://www.instagram.com/aura.filmsca/"]}</script>`;
 const withSchema=h=>h.replace('</head>',schema+'</head>');
 
 const PAGES=[['',1.0],['gallery',0.9],['about',0.8],['investment',0.9],['privacy',0.3],['terms',0.3],['cookie',0.3],['refund',0.3],['accessibility',0.3]];
