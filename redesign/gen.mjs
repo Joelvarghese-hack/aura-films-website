@@ -42,7 +42,7 @@ function finalize(html){
    gives a deep jewel tone (emerald, sapphire, garnet, plum, cognac) that keeps light
    text readable. Tones are cached so the site still builds without sharp. */
 const TONES_FILE=new URL('./tones.json',import.meta.url);
-const TONE_V=3;
+const TONE_V=4;
 let TONES={};
 try{ const c=JSON.parse(await readFile(TONES_FILE,'utf8')); if(c._v===TONE_V) TONES=c; }catch(e){}
 async function pixelsOf(file){
@@ -82,10 +82,10 @@ function toneFrom(buffers){
   for(let k=0;k<24;k++){const sc=bins[(k+23)%24]*.5+bins[k]+bins[(k+1)%24]*.5;if(sc>bs){bs=sc;best=k;}}
   let X=0,Y=0;for(const j of [(best+23)%24,best,(best+1)%24]){X+=hx[j];Y+=hy[j];}
   const hue=((Math.atan2(Y,X)*180/Math.PI)+360)%360,share=chroma/n;
-  if(bright/n>.36) return hsl2rgb((share>.06?hue:38)/360,share>.06?.26:.2,.935);   /* ivory, champagne, blush */
-  if(share<.09) return hsl2rgb((share>.03?jewel(hue):30)/360,.1,.115);              /* soft charcoal */
-  const j=jewel(hue),sat=Math.min(.56,Math.max(.34,share*1.6));
-  return hsl2rgb(j/360,sat,j>=200&&j<300?.15:.135);
+  if(bright/n>.36) return hsl2rgb((share>.06?hue:38)/360,share>.06?.20:.13,.912);  /* eggshell, marble, warm chalk */
+  if(share<.07) return hsl2rgb((share>.03?jewel(hue):28)/360,.17,.155);             /* tinted charcoal, never flat black */
+  const j=jewel(hue),sat=Math.min(.60,Math.max(.40,share*1.7));
+  return hsl2rgb(j/360,sat,j>=140&&j<300?.19:.17);   /* deep enough for light text, bright enough to read as a colour */
 }
 if(sharp){
   TONES={_v:TONE_V};
@@ -93,13 +93,38 @@ if(sharp){
     try{TONES[f]=toneFrom([await pixelsOf(f)]);}catch(e){TONES[f]='22,18,16';}
   }
 }
-/* a gallery section takes the tone its photographs share, read across all of them */
+/* a gallery section takes the colour family most of its photographs share.
+   Averaging every pixel just makes mud, so each photograph votes with its own tone
+   and the winning family is averaged on its own. */
+function familyOf(rgb){
+  const [r,g,b]=rgb.split(',').map(Number);
+  const mx=Math.max(r,g,b),mn=Math.min(r,g,b);
+  if(mx-mn<12) return 'neutral';
+  let h=0;const d=mx-mn;
+  h=mx===r?((g-b)/d+6)%6:mx===g?(b-r)/d+2:(r-g)/d+4;
+  return String(jewel(h*60));
+}
+let FAM_ALL=null;const TAKEN=new Set();   /* neighbouring sections should not repeat a colour */
+function famCounts(list){ const c={}; for(const f of list){ const t=TONES[f]; if(t) c[familyOf(t)]=(c[familyOf(t)]||0)+1; } return c; }
 async function catTone(key,files){
-  if(sharp&&!TONES['cat:'+key]){
-    const bufs=[];for(const f of files){try{bufs.push(await pixelsOf(f));}catch(e){}}
-    TONES['cat:'+key]=bufs.length?toneFrom(bufs):'22,18,16';
+  if(!TONES['cat:'+key]){
+    if(!FAM_ALL) FAM_ALL=famCounts(Object.keys(TONES).filter(k=>!k.startsWith('cat:')&&k!=='_v'));
+    const total=Object.values(FAM_ALL).reduce((a,b)=>a+b,0);
+    const mine=famCounts(files),n=files.length;
+    /* a family that is common here but rare across the whole library says most about this section */
+    let best=null,bs=-1;
+    for(const [fam,c] of Object.entries(mine)){
+      if(c<2||fam==='neutral'||TAKEN.has(fam)) continue;
+      const lift=(c/n)/((FAM_ALL[fam]||1)/total);
+      const score=lift*Math.min(1,c/4);
+      if(score>bs){ bs=score; best=fam; }
+    }
+    if(!best) best=Object.entries(mine).sort((x,y)=>y[1]-x[1])[0]?.[0];
+    if(best) TAKEN.add(best);
+    const hits=files.map(f=>TONES[f]).filter(t=>t&&familyOf(t)===best).map(t=>t.split(',').map(Number));
+    TONES['cat:'+key]=hits.length?hits.reduce((a,c)=>a.map((v,k)=>v+c[k]/hits.length),[0,0,0]).map(Math.round).join(','):'26,21,18';
   }
-  return TONES['cat:'+key]||'22,18,16';
+  return TONES['cat:'+key];
 }
 const T=f=>TONES[f]||'22,18,16';
 
@@ -270,13 +295,17 @@ Events:[
  ['Standard','Signature',749,'+$150/hr extra',['Up to 4 hours · 2 photographers','120 edited photos','Gallery + social media kit','Sneak-peek gallery','10 to 14 day turnaround'],true],
  ['Premium','Elite',1050,'+$175/hr extra',['Up to 6 hours · 2 photographers','200 edited photos','12 social-ready edits','Event highlights gallery','Priority 7-day delivery'],false]],
 Family:[
- ['Mini','Quick Session',179,'30 min',['Up to 30 minutes','15 edited photos','Online gallery','7 to 10 day delivery'],false],
- ['Standard','Family Story',299,'1 hour',['Up to 1 hour','35 edited photos','One location','Gallery + print release'],false],
- ['Most Loved','The Experience',429,'session',['Up to 2 hours','55 edited photos','Two looks / locations','Maternity friendly','Priority delivery'],true]],
+ ['Mini','Quick Session',179,'30 min',['Up to 30 minutes','20 edited photos','Online gallery','7 to 10 day delivery'],false],
+ ['Standard','Family Story',299,'1 hour',['Up to 1 hour','45 edited photos','One location','Gallery + print release'],false],
+ ['Most Loved','The Experience',429,'session',['Up to 2 hours','70 edited photos','Two looks / locations','Maternity friendly','Priority delivery'],true]],
+Architecture:[
+ ['Half day','Half Day',750,'up to 4 hours on site',['Up to 4 hours on site','20 edited images','Straight verticals, true colour','One-year web and social licence'],false],
+ ['Standard','Full Day',1400,'up to 8 hours on site',['Up to 8 hours on site','40 edited images','Advanced lighting and blending','One-year web, social and print licence'],true],
+ ['Premium','Full Day + Extended Licence',1950,'wider usage rights',['Up to 8 hours on site','55 edited images','Twilight exterior set','Unlimited-term licence, advertising included'],false]],
 Portraits:[
- ['Mini','Quick Shoot',149,'30 min',['Up to 30 minutes','12 edited photos','One look','Online gallery'],false],
- ['Standard','Portrait Hour',275,'1 hour',['Up to 1 hour','25 edited photos','Two looks','Gallery + retouching'],true],
- ['Premium','Full Session',379,'session',['Up to 2 hours','45 edited photos','Multiple looks / locations','Editorial retouching'],false]],
+ ['Mini','Quick Shoot',149,'30 min',['Up to 30 minutes','15 edited photos','One look','Online gallery'],false],
+ ['Standard','Portrait Hour',275,'1 hour',['Up to 1 hour','30 edited photos','Two looks','Gallery + retouching'],true],
+ ['Premium','Full Session',379,'session',['Up to 2 hours','55 edited photos','Multiple looks / locations','Editorial retouching'],false]],
 };
 
 const addons=[['Extra hour of coverage','$195'],['Second shooter for a wedding','$350'],['Engagement session','$325'],['Second location / travel','$50-100'],['Extra edited images (10)','$75'],['Printed photo set (20)','$60'],['Raw / unedited files','$150'],['Album &amp; prints','Custom'],['Rush delivery','$150']];
@@ -340,7 +369,7 @@ const CHAPTERS=[
   more:[['baby-5.jpg','A newborn asleep in a soft white wrap, in black and white'],['baby-3.jpg','A newborn’s tiny hand wrapped around a parent’s fingers']]},
  {id:'architecture',title:'Homes, shot in <em>good light.</em>',
   body:'We photograph homes and spaces for how they feel at seven in the evening as well as how they measure. Verticals stay straight and colours stay accurate, and if the light isn’t right yet, we wait for it.',
-  price:'Quoted per project',link:'/gallery#architecture',cta:'See the architecture',
+  price:'From $750 a half day',link:'/gallery#architecture',cta:'See the architecture',
   lead:['arch-4.jpg','A home photographed straight on in soft, even light'],
   pair:[['arch-3.jpg','A bright kitchen with pendant lights and glass-front cabinets'],['arch-6.jpg','An exterior photographed straight on in soft daylight']],
   more:[['arch-2.jpg','An interior photographed by Aura Films'],['arch-7.jpg','A home photographed by Aura Films']]},
@@ -356,7 +385,7 @@ const chapter=(c,i)=>`<section class="ch${i%2?' ch--flip':''}" id="${c.id}" data
 ${bento(c,i%2===1)}
 </div></section>`;
 const STEPS=[['Reach out','Tell us the date, where it is and what you most want to remember.'],['The shoot','A relaxed session. We tell you where to stand and when to move, so you never have to wonder what to do with your hands.'],['Your gallery','Every photo edited by hand and delivered in 10 to 21 days.']];
-const TEASE=[['Portraits','Thirty minutes or a full session, in one outfit or several.',149,'pk-portraits'],['Family &amp; Maternity','Newborns, bumps and growing families.',179,'pk-family'],['Events &amp; Showers','Two photographers on every package.',449,'pk-events'],['Weddings','From a three-hour micro-wedding to a full documentary day.',1195,'pk-weddings']];
+const TEASE=[['Portraits','Thirty minutes or a full session, in one outfit or several.',149,'pk-portraits'],['Family &amp; Maternity','Newborns, bumps and growing families.',179,'pk-family'],['Events &amp; Showers','Two photographers on every package.',449,'pk-events'],['Weddings','From a three-hour micro-wedding to a full documentary day.',1195,'pk-weddings'],['Architecture','Interiors and exteriors, by the half or full day.',750,'pk-architecture']];
 
 const home=head('Aura Films, Wedding and Portrait Photography in Kingston','Aura Films is a Kingston photography studio for weddings, portraits, family and architecture. Every frame shot and hand-graded by Albin.','')+nav('Home')+`
 <header class="hero" id="top" data-c="${T(DECK[0][0])}">
@@ -475,6 +504,7 @@ const PKINFO={
  Weddings:['pk-weddings','wed-9.jpg','A groom kisses his bride beneath a leafy tree','From a three-hour micro-wedding to a full documentary day, with an engagement session in the larger packages.','wed-12.jpg','wed-10.jpg'],
  Events:['pk-events','baby-12.jpg','An expecting mother at her baby shower among blue balloons','Two photographers on every package.','wed-6.jpg','_DSC8672.jpg'],
  Family:['pk-family','baby-2.jpg','Parents hold their newborn close','Newborns, bumps and growing families, with a maternity-friendly option.','baby-13.jpg','baby-15.jpg'],
+ Architecture:['pk-architecture','arch-9.jpg','A kitchen with stainless appliances and warm wood cabinets','Interiors and exteriors photographed for how a space feels, charged by the day plus a usage licence.','arch-5.jpg','arch-8.jpg'],
  Portraits:['pk-portraits','por-11.jpg','A woman in a lavender top stands beneath autumn trees','From thirty minutes to a full session with editorial retouching.','por-12.jpg','por-7.jpg'],
 };
 const pkStack=k=>{const [,f,alt,,b1,b2]=PKINFO[k];return `<div class="pk-stack"><span class="pk-back pk-back--2" aria-hidden="true"><img src="images/${b2}" alt="" loading="lazy"></span><span class="pk-back pk-back--1" aria-hidden="true"><img src="images/${b1}" alt="" loading="lazy"></span>${plate(f,alt,'','plate--pk')}</div>`;};
