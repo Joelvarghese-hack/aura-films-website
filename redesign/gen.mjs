@@ -291,9 +291,9 @@ Weddings:[
  ['Most Popular','Full Ceremony',1895,'engagement session included',['Up to 6 hours coverage','300 edited photos','Engagement session included','Two looks / locations','7 to 10 day delivery'],true],
  ['Premium','Full Day',2695,'second shooter included',['Up to 10 hours documentary coverage','450 hand-graded photos','Second shooter included','Engagement session included','Timeline planning and priority delivery'],false]],
 Events:[
- ['Basic','Essentials',449,'+$120/hr extra',['Up to 2 hours · 2 photographers','60 edited photos','Online gallery download','14 to 21 day turnaround'],false],
- ['Standard','Signature',749,'+$150/hr extra',['Up to 4 hours · 2 photographers','120 edited photos','Gallery + social media kit','Sneak-peek gallery','10 to 14 day turnaround'],true],
- ['Premium','Elite',1050,'+$175/hr extra',['Up to 6 hours · 2 photographers','200 edited photos','12 social-ready edits','Event highlights gallery','Priority 7-day delivery'],false]],
+ ['Basic','Essentials',399,'+$120/hr extra',['Up to 2 hours · 2 photographers','60 edited photos','Online gallery download','14 to 21 day turnaround'],false],
+ ['Standard','Signature',665,'+$150/hr extra',['Up to 4 hours · 2 photographers','120 edited photos','Gallery + social media kit','Sneak-peek gallery','10 to 14 day turnaround'],true],
+ ['Premium','Elite',935,'+$175/hr extra',['Up to 6 hours · 2 photographers','200 edited photos','12 social-ready edits','Event highlights gallery','Priority 7-day delivery'],false]],
 Family:[
  ['Mini','Quick Session',179,'30 min',['Up to 30 minutes','20 edited photos','Online gallery','7 to 10 day delivery'],false],
  ['Standard','Family Story',299,'1 hour',['Up to 1 hour','45 edited photos','One location','Gallery + print release'],false],
@@ -385,7 +385,7 @@ const chapter=(c,i)=>`<section class="ch${i%2?' ch--flip':''}" id="${c.id}" data
 ${bento(c,i%2===1)}
 </div></section>`;
 const STEPS=[['Reach out','Tell us the date, where it is and what you most want to remember.'],['The shoot','A relaxed session. We tell you where to stand and when to move, so you never have to wonder what to do with your hands.'],['Your gallery','Every photo edited by hand and delivered in 10 to 21 days.']];
-const TEASE=[['Portraits','Thirty minutes or a full session, in one outfit or several.',85,'pk-portraits'],['Family &amp; Maternity','Newborns, bumps and growing families.',179,'pk-family'],['Events &amp; Showers','Two photographers on every package.',449,'pk-events'],['Weddings','From a three-hour micro-wedding to a full documentary day.',1195,'pk-weddings'],['Architecture','Interiors and exteriors, by the half or full day.',750,'pk-architecture']];
+const TEASE=[['Portraits','Thirty minutes or a full session, in one outfit or several.',85,'pk-portraits'],['Family &amp; Maternity','Newborns, bumps and growing families.',179,'pk-family'],['Events &amp; Showers','Two photographers on every package.',399,'pk-events'],['Weddings','From a three-hour micro-wedding to a full documentary day.',1195,'pk-weddings'],['Architecture','Interiors and exteriors, by the half or full day.',750,'pk-architecture']];
 
 const home=head('Aura Films, Wedding and Portrait Photography in Kingston','Aura Films is a Kingston photography studio for weddings, portraits, family and architecture. Every frame shot and hand-graded by Albin.','')+nav('Home')+`
 <header class="hero" id="top" data-c="${T(DECK[0][0])}">
