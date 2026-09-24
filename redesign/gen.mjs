@@ -14,6 +14,11 @@ const CALENDLY='https://calendly.com/itsaurafilms/30min';
    verified from a custom domain, which silently rejected real submissions.
    Only set a key here with a paid Web3Forms plan that supports your own key. */
 const HCAPTCHA='';
+/* Heatmaps + session replays: Microsoft Clarity (free). Paste the project ID from
+   clarity.microsoft.com → Settings → Overview (10 letters/numbers, e.g. 'abcde12345').
+   Leave '' and nothing loads. Even when set, Clarity loads ONLY for visitors who press
+   "Allow" on the cookie notice. */
+const CLARITY='';
 
 /* Wrap photo <img>s in <picture> with a WebP source + real width/height (cuts
    bandwidth and stops layout shift). Logos are left untouched. */
@@ -188,13 +193,18 @@ const lightbox=`<div class="lb" id="lb" role="dialog" aria-modal="true" aria-lab
 <img id="lbImg" src="" alt=""><button class="lb-btn lb-next" id="lbNext" type="button" aria-label="Next photograph">${chevR}</button></div>`;
 const toTop=`<button class="totop" id="toTop" type="button" aria-label="Back to top"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>`;
 const cookieNotice=`<div class="cookie-notice" id="cookieNotice" role="region" aria-label="Cookie notice" hidden>
-<div class="cookie-inner"><p>We use only essential, functional cookies &mdash; no advertising or tracking. Google Fonts and the optional booking calendar load as described in our <a href="/cookie">Cookie Policy</a>.</p>
-<div class="cookie-btns"><button type="button" class="btn btn-gold ck-accept" id="ckAccept">Got it</button><button type="button" class="btn btn-line ck-min" id="ckMin">Only essential</button></div></div></div>
-<script>(function(){try{var K='aura_cookie_choice',n=document.getElementById('cookieNotice');if(!n)return;var stored=null;try{stored=localStorage.getItem(K);}catch(e){}if(!stored){n.hidden=false;}
-function set(v){try{localStorage.setItem(K,v);}catch(e){}n.hidden=true;}
+<div class="cookie-inner"><p>${CLARITY?'May we use Microsoft Clarity to see how visitors scroll and click, so we can improve the site? It hides anything you type into forms, and it only starts if you allow it.':'We use only essential, functional storage and a cookie-free visit count, with no advertising or tracking.'} Details are in our <a href="/cookie">Cookie Policy</a>.</p>
+<div class="cookie-btns"><button type="button" class="btn btn-gold ck-accept" id="ckAccept">${CLARITY?'Allow':'Got it'}</button><button type="button" class="btn btn-line ck-min" id="ckMin">Only essential</button></div></div></div>
+<script>(function(){try{var ID=${JSON.stringify(CLARITY)},K=ID?'aura_consent_clarity':'aura_cookie_choice',n=document.getElementById('cookieNotice');
+function clarity(){if(!ID||window.clarity)return;(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script",ID);}
+window.AURA_TRACK=function(e){try{if(window.clarity)window.clarity('event',e);}catch(_){}};
+var stored=null;try{stored=localStorage.getItem(K);}catch(e){}
+if(stored==='accepted')clarity();else if(!stored&&n)n.hidden=false;
+function set(v){try{localStorage.setItem(K,v);}catch(e){}if(n)n.hidden=true;if(v==='accepted')clarity();}
 var a=document.getElementById('ckAccept'),m=document.getElementById('ckMin');
 if(a)a.addEventListener('click',function(){set('accepted');});
 if(m)m.addEventListener('click',function(){window.__AURA_ESSENTIAL_ONLY=true;set('essential');});
+var r=document.getElementById('ckReset');if(r)r.addEventListener('click',function(){try{localStorage.removeItem(K);}catch(e){}location.reload();});
 }catch(e){}})();</script>`;
 
 const mcta=`<nav class="mcta" aria-label="Quick contact"><a href="tel:+13439894546">Call</a><a class="p" href="/about#contact">Book a date</a></nav>`;
@@ -291,8 +301,8 @@ Weddings:[
  ['Most Popular','Full Ceremony',1895,'engagement session included',['Up to 6 hours coverage','300 edited photos','Engagement session included','Two looks / locations','7 to 10 day delivery'],true],
  ['Premium','Full Day',2695,'second shooter included',['Up to 10 hours documentary coverage','450 hand-graded photos','Second shooter included','Engagement session included','Timeline planning and priority delivery'],false]],
 Events:[
- ['Basic','Essentials',399,'+$120/hr extra',['Up to 2 hours · 2 photographers','60 edited photos','Online gallery download','14 to 21 day turnaround'],false],
- ['Standard','Signature',665,'+$150/hr extra',['Up to 4 hours · 2 photographers','120 edited photos','Gallery + social media kit','Sneak-peek gallery','10 to 14 day turnaround'],true],
+ ['Basic','Essentials',399,'+$120/hr extra',['Up to 2 hours of coverage','60 edited photos','Online gallery download','14 to 21 day turnaround'],false],
+ ['Standard','Signature',665,'+$150/hr extra',['Up to 4 hours of coverage','120 edited photos','Gallery + social media kit','Sneak-peek gallery','10 to 14 day turnaround'],true],
  ['Premium','Elite',935,'+$175/hr extra',['Up to 6 hours · 2 photographers','200 edited photos','12 social-ready edits','Event highlights gallery','Priority 7-day delivery'],false]],
 Family:[
  ['Mini','Quick Session',179,'30 min',['Up to 30 minutes','20 edited photos','Online gallery','7 to 10 day delivery'],false],
@@ -303,9 +313,9 @@ Architecture:[
  ['Standard','Full Day',1400,'up to 8 hours on site',['Up to 8 hours on site','40 edited images','Advanced lighting and blending','One-year web, social and print licence'],true],
  ['Premium','Full Day + Extended Licence',1950,'wider usage rights',['Up to 8 hours on site','55 edited images','Twilight exterior set','Unlimited-term licence, advertising included'],false]],
 Portraits:[
- ['Mini','Quick Shoot',85,'30 min',['Up to 30 minutes','15 edited photos','One look','Online gallery'],false],
- ['Standard','Portrait Hour',165,'1 hour',['Up to 1 hour','30 edited photos','Two looks','Gallery + retouching'],true],
- ['Premium','Full Session',250,'session',['Up to 2 hours','55 edited photos','Multiple looks / locations','Editorial retouching'],false]],
+ ['Mini','Quick Shoot',85,'+$15 per extra 30 min',['Up to 30 minutes','15 edited photos','One look','Online gallery'],false],
+ ['Standard','Portrait Hour',165,'+$15 per extra 30 min',['Up to 1 hour','30 edited photos','Two looks','Gallery + retouching'],true],
+ ['Premium','Full Session',250,'+$15 per extra 30 min',['Up to 2 hours','55 edited photos','Multiple looks / locations','Editorial retouching'],false]],
 };
 
 const addons=[['Extra hour of coverage','$195'],['Second shooter for a wedding','$350'],['Engagement session','$325'],['Second location / travel','$50-100'],['Extra edited images (10)','$75'],['Printed photo set (20)','$60'],['Raw / unedited files','$150'],['Album &amp; prints','Custom'],['Rush delivery','$150']];
@@ -385,7 +395,7 @@ const chapter=(c,i)=>`<section class="ch${i%2?' ch--flip':''}" id="${c.id}" data
 ${bento(c,i%2===1)}
 </div></section>`;
 const STEPS=[['Reach out','Tell us the date, where it is and what you most want to remember.'],['The shoot','A relaxed session. We tell you where to stand and when to move, so you never have to wonder what to do with your hands.'],['Your gallery','Every photo edited by hand and delivered in 10 to 21 days.']];
-const TEASE=[['Portraits','Thirty minutes or a full session, in one outfit or several.',85,'pk-portraits'],['Family &amp; Maternity','Newborns, bumps and growing families.',179,'pk-family'],['Events &amp; Showers','Two photographers on every package.',399,'pk-events'],['Weddings','From a three-hour micro-wedding to a full documentary day.',1195,'pk-weddings'],['Architecture','Interiors and exteriors, by the half or full day.',750,'pk-architecture']];
+const TEASE=[['Portraits','Thirty minutes or a full session, in one outfit or several.',85,'pk-portraits'],['Family &amp; Maternity','Newborns, bumps and growing families.',179,'pk-family'],['Events &amp; Showers','Birthdays, showers and parties. Two photographers on Elite.',399,'pk-events'],['Weddings','From a three-hour micro-wedding to a full documentary day.',1195,'pk-weddings'],['Architecture','Interiors and exteriors, by the half or full day.',750,'pk-architecture']];
 
 const home=head('Aura Films, Wedding and Portrait Photography in Kingston','Aura Films is a Kingston photography studio for weddings, portraits, family and architecture. Every frame shot and hand-graded by Albin.','')+nav('Home')+`
 <header class="hero" id="top" data-c="${T(DECK[0][0])}">
@@ -502,7 +512,7 @@ ${contactBlock()}
 /* ════════ INVESTMENT ════════ */
 const PKINFO={
  Weddings:['pk-weddings','wed-9.jpg','A groom kisses his bride beneath a leafy tree','From a three-hour micro-wedding to a full documentary day, with an engagement session in the larger packages.','wed-12.jpg','wed-10.jpg'],
- Events:['pk-events','baby-12.jpg','An expecting mother at her baby shower among blue balloons','Two photographers on every package.','wed-6.jpg','_DSC8672.jpg'],
+ Events:['pk-events','baby-12.jpg','An expecting mother at her baby shower among blue balloons','Birthdays, showers and parties. A second photographer joins on Elite.','wed-6.jpg','_DSC8672.jpg'],
  Family:['pk-family','baby-2.jpg','Parents hold their newborn close','Newborns, bumps and growing families, with a maternity-friendly option.','baby-13.jpg','baby-15.jpg'],
  Architecture:['pk-architecture','arch-9.jpg','A kitchen with stainless appliances and warm wood cabinets','Interiors and exteriors photographed for how a space feels, charged by the day plus a usage licence.','arch-5.jpg','arch-8.jpg'],
  Portraits:['pk-portraits','por-11.jpg','A woman in a lavender top stands beneath autumn trees','From thirty minutes to a full session with editorial retouching.','por-12.jpg','por-7.jpg'],
@@ -547,13 +557,13 @@ const privacy=legalShell('Privacy Policy',`
 <li><strong>Contact details</strong> you provide: name, email, phone, event date and location.</li>
 <li><strong>Booking information:</strong> package choice, preferences, and correspondence.</li>
 <li><strong>Images</strong> captured during your session.</li>
-<li><strong>Technical data:</strong> like any website, our host (Cloudflare) processes standard technical information such as IP address and browser type to deliver the site and protect it from abuse. We do not use analytics, session recording or tracking tools.</li></ul>
+<li><strong>Technical data:</strong> like any website, our host (Cloudflare) processes standard technical information such as IP address and browser type to deliver the site and protect it from abuse. Cloudflare also gives us a cookie-free count of visits (pages viewed, referring site, country and device type). If you choose &ldquo;Allow&rdquo; on our cookie notice, Microsoft Clarity records how you scroll and click (see section 7).</li></ul>
 <h2>2. How We Use Your Information</h2><p>To respond to enquiries, prepare quotes and contracts, deliver your session and gallery, process payments, and improve our services. We do not sell your personal information.</p>
 <h2>3. Consent</h2><p>We collect and use your information with your consent, which you may withdraw at any time by contacting us (subject to existing contractual obligations).</p><p>We only send marketing or promotional emails if you have <strong>expressly opted in</strong> (for example, by ticking an optional sign-up box on our website), in line with Canada's Anti-Spam Legislation (CASL). Enquiries you send us are not added to any marketing list. Every promotional email includes an unsubscribe link, and you can opt out at any time.</p>
 <h2>4. Service Providers &amp; Disclosure</h2><p>We share information only with trusted service providers ("processors") needed to run our business and website, and only for that purpose. These currently include:</p>
 <ul>
 <li><strong>Web3Forms</strong> &mdash; delivers our contact-form and offer sign-up submissions to our inbox.</li>
-<li><strong>Cloudflare</strong> &mdash; hosts the website and protects it from attacks; processes technical data such as IP addresses to do so.</li>
+<li><strong>Cloudflare</strong> &mdash; hosts the website and protects it from attacks, and provides a cookie-free visit count; processes technical data such as IP addresses to do so.</li><li><strong>Microsoft Clarity</strong> &mdash; only if you allow it on our cookie notice: records scrolling, clicks and page movement so we can see which parts of the site work. Text typed into forms is masked and not recorded.</li>
 <li><strong>Calendly</strong> &mdash; powers optional online booking, and is loaded only if you choose to open the booking calendar.</li>
 
 <li>Our email, cloud storage and online gallery providers, used to prepare and deliver your session.</li>
@@ -561,7 +571,7 @@ const privacy=legalShell('Privacy Policy',`
 <p>Some providers are located outside Canada (including in the United States), so your information may be processed abroad under that country's laws. We share only what is necessary, require providers to protect your data, and <strong>never sell</strong> your personal information. We may also disclose information where required by law.</p>
 <h2>5. Image &amp; Portfolio Use</h2><p>We use images in which you can be identified for our portfolio, website or social media only with the permission you give in your booking agreement. Images of children are used only with a parent or guardian’s express written consent. You can withdraw permission at any time by emailing us, and we will stop any further use and remove the images from our website.</p>
 <h2>6. Storage &amp; Retention</h2><p>Your gallery and files are stored securely and retained for a limited period after delivery (typically 12 months) unless a longer archive is agreed. We retain booking records as required for tax and legal purposes.</p>
-<h2>7. Cookies &amp; Tracking</h2><p>We do <strong>not</strong> use advertising, marketing or analytics cookies, and we do not track you across other websites. The site uses only functional technologies: your cookie-notice choice is stored locally on your device, our fonts are hosted on our own website, and if you close our first-session offer we store a small reminder so it does not reappear, and the optional Calendly booking tool may set its own cookies <em>only</em> if you choose to open it. Full details, and how to control cookies, are in our <a href="cookie" style="color:var(--gold-ink);text-decoration:underline">Cookie Policy</a>.</p>
+<h2>7. Cookies &amp; Tracking</h2><p>We do <strong>not</strong> use advertising or marketing cookies, and we do not track you across other websites. Cloudflare counts visits without cookies. Microsoft Clarity, which uses analytics cookies to show us how the site is used, loads <strong>only if you press &ldquo;Allow&rdquo;</strong> on our cookie notice. Everything else is functional: your cookie-notice choice is stored locally on your device, our fonts are hosted on our own website, and if you close our first-session offer we store a small reminder so it does not reappear, and the optional Calendly booking tool may set its own cookies <em>only</em> if you choose to open it. Full details, and how to control cookies, are in our <a href="cookie" style="color:var(--gold-ink);text-decoration:underline">Cookie Policy</a>.</p>
 <h2>8. Your Rights</h2><p>You have the right to access the personal information we hold about you, request corrections, and ask that it be deleted where we are not legally required to keep it. Email <a href="mailto:itsaurafilms@gmail.com" style="color:var(--gold-ink);text-decoration:underline">itsaurafilms@gmail.com</a> to make a request.</p>
 <p>If you are located in the <strong>EU or UK</strong>, you also have rights under the GDPR, including access, rectification, erasure, restriction, portability and objection. Our lawful bases for processing are your consent and the performance of our contract with you. You may lodge a complaint with your local data-protection authority. Canadian visitors may contact the Office of the Privacy Commissioner of Canada.</p>
 <h2>9. Children</h2><p>Sessions involving minors are booked and consented to by a parent or guardian. Our website and its forms are intended for adults; we do not knowingly collect personal information online from children. If you believe a child has sent us information, contact us and we will delete it.</p>
@@ -587,18 +597,20 @@ const GI=`style="color:var(--gold-ink);text-decoration:underline"`;
 const cookie=legalShell('Cookie Policy',`
 <p>This Cookie Policy explains the cookies and similar technologies used on the Aura Films website, operated by Albin (a sole proprietorship in Kingston, Ontario, Canada). It supplements our <a href="privacy" ${GI}>Privacy Policy</a>.</p>
 <h2>1. What are cookies?</h2><p>Cookies are small text files a website can store on your device. "Similar technologies" include browser local storage, which works in a comparable way. They can be set by us ("first-party") or by an outside service ("third-party").</p>
-<h2>2. Our approach</h2><p>We keep this to the minimum. <strong>We do not use any advertising, marketing or analytics cookies, and we do not track you across other websites or build a profile of you.</strong></p>
+<h2>2. Our approach</h2><p>We keep this to the minimum. <strong>We do not use any advertising or marketing cookies, and we do not track you across other websites.</strong> The one analytics tool that sets cookies, Microsoft Clarity, runs only if you allow it.</p>
 <h2>3. What we actually use</h2>
 <ul>
 <li><strong>Your cookie-notice choice (local storage, first-party, essential).</strong> When you respond to our cookie notice, we store that choice in your browser so we don't ask again. It stays on your device and is not sent to us.</li>
 <li><strong>Offer reminder (local storage, first-party, functional).</strong> If you close or complete our first-session offer, we store a small note in your browser so it does not appear again for a while. It contains no personal information and is not sent to us.</li>
+<li><strong>Cloudflare Web Analytics (first-party host, no cookies).</strong> Our host counts page views, referring sites, countries and device types without setting cookies or building a profile of you.</li>
+<li><strong>Microsoft Clarity (third-party, analytics, only with your permission).</strong> If you press &ldquo;Allow&rdquo; on our cookie notice, Clarity sets cookies (such as <code>_clck</code> and <code>_clsk</code>, kept for up to one year) and records scrolling, clicks and page movement as heatmaps and session replays. Text you type into forms is masked. If you choose &ldquo;Only essential&rdquo;, Clarity never loads. See Microsoft's privacy statement for details.</li>
 <li><strong>Fonts (first-party).</strong> Our typefaces are hosted on our own website, so loading them does not contact any third party.</li>
 <li><strong>Calendly (third-party, functional, on request only).</strong> Our optional booking calendar is <strong>not</strong> loaded when you open the site. It loads only if you click "Book a Date" or "Open booking calendar", at which point Calendly may set its own cookies to run the scheduling tool. See Calendly's own privacy and cookie notices for details.</li>
 </ul>
-<h2>4. What we do NOT use</h2><p>No Google Analytics or other analytics, no Meta/Facebook pixel, and no advertising or re-targeting cookies. Our Instagram and other links are ordinary links; following them takes you to those sites, which have their own policies.</p>
+<h2>4. What we do NOT use</h2><p>No Google Analytics, no Meta/Facebook pixel, and no advertising or re-targeting cookies. Our Instagram and other links are ordinary links; following them takes you to those sites, which have their own policies.</p>
 <h2>5. Contact-form submissions</h2><p>Our contact form is delivered by Web3Forms and does not set cookies simply by your browsing the site. Information you submit is handled as described in our <a href="privacy" ${GI}>Privacy Policy</a>.</p>
-<h2>6. Managing cookies</h2><p>You can delete or block cookies, and clear local storage, through your browser settings. Blocking functional items may affect booking or the site's appearance. Your browser's help pages explain how.</p>
-<h2>7. Visitors from the EU/UK</h2><p>Because we occasionally have visitors from the EU and UK, we aim for the higher standard: no non-essential cookies are set without a clear action by you, and no third party is contacted automatically when you browse. Our host, Cloudflare, delivers the site and processes technical data such as IP addresses to keep it secure.</p>
+<h2>6. Managing cookies</h2><p>You can delete or block cookies, and clear local storage, through your browser settings. Blocking functional items may affect booking or the site's appearance. Your browser's help pages explain how.</p><p>To change the choice you made on our cookie notice: <button type="button" class="btn btn-line" id="ckReset">Reset my cookie choice</button></p>
+<h2>7. Visitors from the EU/UK</h2><p>Because we occasionally have visitors from the EU and UK, we aim for the higher standard: no non-essential cookies are set without a clear action by you, and no analytics third party is contacted unless you press &ldquo;Allow&rdquo;. Our host, Cloudflare, delivers the site, counts visits without cookies and processes technical data such as IP addresses to keep it secure.</p>
 <h2>8. Changes &amp; contact</h2><p>We may update this policy; the "last updated" date shows the current version. Questions? <a href="mailto:itsaurafilms@gmail.com" ${GI}>itsaurafilms@gmail.com</a> &middot; 343 989 4546, Kingston, Ontario.</p>`);
 const refund=legalShell('Refund & Cancellation Policy',`
 <p>This Refund &amp; Cancellation Policy applies to photography services provided by Aura Films, a sole proprietorship operated by Albin in Kingston, Ontario, Canada. It forms part of, and should be read with, our <a href="terms" ${GI}>Terms &amp; Conditions</a>. All amounts are in Canadian dollars (CAD).</p>

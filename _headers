@@ -1,8 +1,15 @@
 /*
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://assets.calendly.com; style-src 'self' 'unsafe-inline' https://assets.calendly.com; font-src 'self'; img-src 'self' data: https://assets.calendly.com; frame-src https://calendly.com; connect-src 'self' https://api.web3forms.com https://calendly.com; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://assets.calendly.com https://static.cloudflareinsights.com https://*.clarity.ms; style-src 'self' 'unsafe-inline' https://assets.calendly.com; font-src 'self'; img-src 'self' data: https://assets.calendly.com https://*.clarity.ms https://c.bing.com; frame-src https://calendly.com; connect-src 'self' https://api.web3forms.com https://calendly.com https://cloudflareinsights.com https://*.clarity.ms https://c.bing.com; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; upgrade-insecure-requests
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), camera=(), microphone=()
   Cross-Origin-Opener-Policy: same-origin
+
+# The Cloudflare preview address is a duplicate of itsaurafilms.com: keep it out of Google
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex

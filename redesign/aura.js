@@ -398,6 +398,18 @@
     toTop.addEventListener('click',function(){ if(lenis) lenis.scrollTo(0); else scrollTo({top:0,behavior:reduce?'auto':'smooth'}); });
   }
 
+  /* ── named moments for the heatmap tool (no-op unless the visitor allowed analytics) ── */
+  var track=function(e){ if(window.AURA_TRACK) window.AURA_TRACK(e); };
+  document.addEventListener('click',function(e){
+    var el=e.target.closest('a,button'); if(!el) return;
+    var h=el.getAttribute('href')||'';
+    if(/^tel:/.test(h)) track('call_tap');
+    else if(/^mailto:/.test(h)) track('email_tap');
+    else if(/instagram\.com/.test(h)) track('instagram_tap');
+    else if(el.closest('.tier')) track('package_enquire');
+    else if(el.matches('.cal-load,[data-cal]')||/book/i.test(el.textContent)) track('book_click');
+  },{passive:true});
+
   /* ── contact form ── */
   var cf=document.getElementById('cform');
   if(cf){
@@ -408,7 +420,7 @@
       fetch('https://api.web3forms.com/submit',{method:'POST',body:new FormData(cf),headers:{Accept:'application/json'}})
         .then(function(r){ return r.json(); })
         .then(function(j){
-          if(j.success){ cf.classList.add('sent'); document.getElementById('cformThanks').classList.add('show'); }
+          if(j.success){ track('enquiry_sent'); cf.classList.add('sent'); document.getElementById('cformThanks').classList.add('show'); }
           else { btn.classList.remove('loading'); btn.innerHTML=label; alert('Your message could not be sent. Please try again, or email itsaurafilms@gmail.com.'); }
         })
         .catch(function(){ btn.classList.remove('loading'); btn.innerHTML=label; alert('Your message could not be sent. Please check your connection, or email itsaurafilms@gmail.com.'); });
@@ -471,7 +483,7 @@
       fetch('https://api.web3forms.com/submit',{method:'POST',body:new FormData(form),headers:{Accept:'application/json'}})
         .then(function(r){ return r.json(); })
         .then(function(j){
-          if(!j.success) return fail('That didn’t go through. Please try again, or email itsaurafilms@gmail.com.');
+          if(!j.success) return fail('That didn’t go through. Please try again, or email itsaurafilms@gmail.com.'); track('offer_signup');
           save('done'); form.hidden=true; done.hidden=false; done.focus({preventScroll:true});
           if(useG) G.fromTo(done,{y:16,opacity:0},{y:0,opacity:1,duration:TOK.dur.slow,ease:TOK.ease.out});
         })
