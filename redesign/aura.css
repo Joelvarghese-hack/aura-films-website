@@ -558,3 +558,8 @@ html.theme-light .brand img,html.theme-light .foot-brand img{filter:invert(1) br
   .offer-body{padding:24px 20px 22px}
 }
 .legal p a,.legal li a{text-decoration:underline;text-underline-offset:2px}
+
+/* ─── photographs are not for saving: no long-press menu, no drag, no direct hit ─── */
+img{-webkit-touch-callout:none;-webkit-user-drag:none;-khtml-user-drag:none;user-select:none;-webkit-user-select:none}
+.gitem img,.frame img,.card-media img,.strip-card img,.pk-back img,.offer-pic img,.quote-pic img,.ab-mask img,.lb img,.tslide-img img{pointer-events:none}
+.gitem,.frame,.card-media,.strip-card,.lb{-webkit-touch-callout:none}

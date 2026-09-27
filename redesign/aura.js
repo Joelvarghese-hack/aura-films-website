@@ -26,7 +26,7 @@
   if(useG) G.registerPlugin(ST);
 
   /* ── protect the photographs ── */
-  document.addEventListener('contextmenu',function(e){ if(e.target.closest('img,.frame,.gitem,.card,.lb')) e.preventDefault(); });
+  document.addEventListener('contextmenu',function(e){ if(e.target.closest&&e.target.closest('img,picture,.frame,.gitem,.card,.card-media,.strip-card,.plate,.pk-stack,.pk-back,.offer-pic,.quote-pic,.ab-mask,.tslide-img,.lb')) e.preventDefault(); });
   document.addEventListener('dragstart',function(e){ if(e.target.tagName==='IMG') e.preventDefault(); });
 
   /* ── weighted wheel scrolling; touch stays native ── */
