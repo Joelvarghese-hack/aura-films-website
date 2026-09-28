@@ -27,7 +27,7 @@ const CANONICAL_FOOTER = `  <!-- FOOTER -->
           </a>
         </div>
         <div class="footer-contact-info">
-          <div class="footer-contact-item">31 Bayswater Pl, Kingston, ON K7M 2B8</div>
+          <div class="footer-contact-item">Kingston, Ontario</div>
           <div class="footer-contact-item"><a href="mailto:hello@aurafilms.ca">hello@aurafilms.ca</a></div>
           <div class="footer-contact-item"><a href="tel:+16135551234">+1 (613) 555-1234</a></div>
         </div>
