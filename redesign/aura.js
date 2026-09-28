@@ -479,28 +479,32 @@
     });
   })();
 
-  /* ── the phone in your pocket: holds the scroll briefly while the film plays ── */
+  /* ── the phone in your pocket ──
+     The scroll is never taken away from the reader. The phone turns as it passes,
+     and the film runs only while the section is on screen, rewinding to its first
+     frame the moment they leave it in either direction. */
   (function(){
     var sec=document.getElementById('pocket'),ph=document.getElementById('phoneMock'),v=document.getElementById('phoneFilm');
     if(!sec||!ph||!v) return;
-    var small=matchMedia('(max-width:1023px)');
-    var play=function(){ var p=v.play(); if(p&&p.catch) p.catch(function(){}); };
-    if(!useG||reduce||!small.matches){
-      if('IntersectionObserver' in window)
-        new IntersectionObserver(function(e){ e[0].isIntersecting&&!reduce?play():v.pause(); },{threshold:.4}).observe(v);
-      return;
-    }
+    var near=false;
+    var play=function(){ if(reduce) return; var p=v.play(); if(p&&p.catch) p.catch(function(){}); };
+    var rewind=function(){ v.pause(); try{ v.currentTime=0; }catch(_){} };
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(es){
+        near=es[0].isIntersecting;
+        near?play():rewind();
+      },{threshold:.4}).observe(sec);
+    } else { play(); }
+    document.addEventListener('visibilitychange',function(){ document.hidden?v.pause():(near&&play()); });
+
+    if(!useG||reduce||!matchMedia('(max-width:1023px)').matches) return;
     G.set(ph,{transformPerspective:1100,transformOrigin:'50% 55%'});
-    /* approach: the phone turns from three-quarter view to face on */
-    G.fromTo(ph,{rotationY:26,rotationX:7,y:56,scale:.92},
+    /* three-quarter view on the way in, face on at the middle, away again on the way out */
+    G.fromTo(ph,{rotationY:22,rotationX:6,y:44,scale:.93},
       {rotationY:0,rotationX:0,y:0,scale:1,ease:TOK.ease.linear,
-       scrollTrigger:{trigger:sec,start:'top 85%',end:'top top',scrub:.9}});
-    /* the hold: a short pin while the film runs, then it turns away again */
-    ST.create({trigger:sec,start:'top top',end:'+=90%',pin:true,pinSpacing:true,anticipatePin:1,
-      onEnter:play,onEnterBack:play,onLeave:function(){ v.pause(); },onLeaveBack:function(){ v.pause(); }});
-    G.fromTo(ph,{rotationY:0},{rotationY:-14,ease:TOK.ease.linear,
-      scrollTrigger:{trigger:sec,start:'top top',end:'+=90%',scrub:1}});
-    document.addEventListener('visibilitychange',function(){ if(document.hidden) v.pause(); });
+       scrollTrigger:{trigger:sec,start:'top bottom',end:'center center',scrub:.9}});
+    G.fromTo(ph,{rotationY:0},{rotationY:-16,ease:TOK.ease.linear,
+      scrollTrigger:{trigger:sec,start:'center center',end:'bottom top',scrub:.9}});
   })();
 
   /* ── depth: the stack, the photographs and the reel respond in 3D ── */
