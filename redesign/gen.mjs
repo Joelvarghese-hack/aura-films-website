@@ -160,7 +160,7 @@ const head=(title,desc,path='')=>`<!DOCTYPE html><html lang="en"><head>
 /* ── nav ── */
 const nav=(active)=>{const L=[['/','Home'],['/gallery','Gallery'],['/about','About'],['/investment','Investment']];
 return `<nav class="nav" id="nav" aria-label="Primary"><div class="nav-inner">
-<a href="/" class="brand" aria-label="Aura Films, home"><img src="/images/aura-logo-mark.png" alt="Aura Films" width="102" height="44"></a>
+<a href="/" class="brand" aria-label="Aura Films, home"><img class="mk mk-on-dark" src="/images/aura-mark-light.png" alt="" width="1539" height="668"><img class="mk mk-on-light" src="/images/aura-mark-dark.png" alt="" width="1539" height="668"></a>
 <div class="nav-links">${L.map(([h,t])=>`<a href="${h}" class="nav-link${active===t?' active':''}"${active===t?' aria-current="page"':''}>${t}</a>`).join('')}</div>
 <a href="/about#contact" class="nav-cta">Book a date</a>
 <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span></button>
@@ -172,7 +172,7 @@ return `<nav class="nav" id="nav" aria-label="Primary"><div class="nav-inner">
 const footer=`<footer class="footer"><div class="container">
 <div class="foot-cta"><h2 class="h-xl">Got a date in mind? <em>Let’s talk.</em></h2><a class="btn btn-solid" href="/about#contact">Book a date ${arrow}</a></div>
 <div class="foot-grid">
-<div class="foot-brand"><img src="/images/aura-logo-mark.png" alt="Aura Films" width="102" height="44" loading="lazy">
+<div class="foot-brand"><img class="mk mk-on-dark" src="/images/aura-mark-light.png" alt="" width="1539" height="668" loading="lazy"><img class="mk mk-on-light" src="/images/aura-mark-dark.png" alt="" width="1539" height="668" loading="lazy">
 <p>A photography studio in Kingston, Ontario. We shoot weddings, portraits, families and the occasional building, anywhere in the province.</p></div>
 <div class="foot-col"><h3>Explore</h3><a href="/">Home</a><a href="/gallery">Gallery</a><a href="/about">About</a><a href="/investment">Investment</a></div>
 <div class="foot-col"><h3>Work</h3><a href="/gallery#weddings">Weddings</a><a href="/gallery#portraits">Portraits</a><a href="/gallery#family">Family &amp; Maternity</a><a href="/gallery#architecture">Architecture</a></div>
