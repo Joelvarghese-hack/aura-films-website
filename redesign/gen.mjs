@@ -185,7 +185,7 @@ const footer=`<footer class="footer"><div class="container">
 
 const lightbox=`<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photograph viewer"><button class="lb-btn lb-close" id="lbClose" type="button" aria-label="Close">&times;</button>
 <button class="lb-btn lb-prev" id="lbPrev" type="button" aria-label="Previous photograph">${chevL}</button>
-<img id="lbImg" src="" alt=""><button class="lb-btn lb-next" id="lbNext" type="button" aria-label="Next photograph">${chevR}</button></div>`;
+<span class="lb-wrap"><img id="lbImg" src="" alt=""></span><button class="lb-btn lb-next" id="lbNext" type="button" aria-label="Next photograph">${chevR}</button></div>`;
 const toTop=`<button class="totop" id="toTop" type="button" aria-label="Back to top"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>`;
 const cookieNotice=`<div class="cookie-notice" id="cookieNotice" role="region" aria-label="Cookie notice" hidden>
 <div class="cookie-inner"><p>We use only essential, functional cookies &mdash; no advertising or tracking. Google Fonts and the optional booking calendar load as described in our <a href="/cookie">Cookie Policy</a>.</p>
