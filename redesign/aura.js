@@ -479,6 +479,30 @@
     });
   })();
 
+  /* ── the phone in your pocket: holds the scroll briefly while the film plays ── */
+  (function(){
+    var sec=document.getElementById('pocket'),ph=document.getElementById('phoneMock'),v=document.getElementById('phoneFilm');
+    if(!sec||!ph||!v) return;
+    var small=matchMedia('(max-width:1023px)');
+    var play=function(){ var p=v.play(); if(p&&p.catch) p.catch(function(){}); };
+    if(!useG||reduce||!small.matches){
+      if('IntersectionObserver' in window)
+        new IntersectionObserver(function(e){ e[0].isIntersecting&&!reduce?play():v.pause(); },{threshold:.4}).observe(v);
+      return;
+    }
+    G.set(ph,{transformPerspective:1100,transformOrigin:'50% 55%'});
+    /* approach: the phone turns from three-quarter view to face on */
+    G.fromTo(ph,{rotationY:26,rotationX:7,y:56,scale:.92},
+      {rotationY:0,rotationX:0,y:0,scale:1,ease:TOK.ease.linear,
+       scrollTrigger:{trigger:sec,start:'top 85%',end:'top top',scrub:.9}});
+    /* the hold: a short pin while the film runs, then it turns away again */
+    ST.create({trigger:sec,start:'top top',end:'+=90%',pin:true,pinSpacing:true,anticipatePin:1,
+      onEnter:play,onEnterBack:play,onLeave:function(){ v.pause(); },onLeaveBack:function(){ v.pause(); }});
+    G.fromTo(ph,{rotationY:0},{rotationY:-14,ease:TOK.ease.linear,
+      scrollTrigger:{trigger:sec,start:'top top',end:'+=90%',scrub:1}});
+    document.addEventListener('visibilitychange',function(){ if(document.hidden) v.pause(); });
+  })();
+
   /* ── depth: the stack, the photographs and the reel respond in 3D ── */
   (function(){
     if(!useG) return;

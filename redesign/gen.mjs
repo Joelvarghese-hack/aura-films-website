@@ -409,6 +409,25 @@ const home=head('Aura Films, Wedding and Portrait Photography in Kingston','Aura
 
 ${CHAPTERS.map(chapter).join('')}
 
+<section class="pocket" id="pocket" data-c="${T('aura-films-hero-poster.jpg')}"><div class="container">
+<div class="pocket-copy">
+<h2 class="h-xl reveal">Your gallery, <em>in your pocket.</em></h2>
+<p class="lede reveal">Every session comes with an online gallery. Open it on your phone, send the link to family, download the files whenever you want them.</p>
+</div>
+<div class="pocket-stage" aria-hidden="true">
+<div class="phone" id="phoneMock">
+<span class="phone-side phone-side--power" aria-hidden="true"></span><span class="phone-side phone-side--up" aria-hidden="true"></span><span class="phone-side phone-side--down" aria-hidden="true"></span>
+<div class="phone-screen">
+<video id="phoneFilm" muted loop playsinline preload="metadata" poster="/images/aura-films-hero-poster.jpg">
+<source src="/images/aura-films-hero-1080p.webm" type="video/webm">
+<source src="/images/aura-films-hero-1080p.mp4" type="video/mp4">
+</video>
+<span class="phone-island" aria-hidden="true"></span>
+</div>
+</div>
+</div>
+</div></section>
+
 <section class="sec" data-c="22,30,48"><div class="container">
 <h2 class="h-xl reveal">How it <em>works.</em></h2>
 <ol class="steps">${STEPS.map(([t,d],i)=>`<li class="step reveal"><span class="step-n">0${i+1}</span><h3 class="h-md">${t}</h3><p>${d}</p></li>`).join('')}</ol>
