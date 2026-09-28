@@ -221,7 +221,7 @@
       var a=cards[cur];
       if(num) num.textContent=pad(cur+1)+' / '+pad(n);
       if(cap) cap.textContent=a.dataset.cap||'';
-      if(hero){ hero.dataset.c=a.dataset.c; dispatchEvent(new Event('aura:tone')); }
+      if(hero&&deck.offsetParent!==null){ hero.dataset.c=a.dataset.c; dispatchEvent(new Event('aura:tone')); }
       if(fill){
         fill.style.transition='none'; fill.style.width='0%';
         if(playing()){ void fill.offsetWidth; fill.style.transition='width '+DUR+'ms linear'; fill.style.width='100%'; }
@@ -477,6 +477,16 @@
         })
         .catch(function(){ fail('You seem to be offline. Please try again in a moment.'); });
     });
+  })();
+
+  /* ── hero film: plays while it is on screen, still for reduced motion ── */
+  (function(){
+    var v=document.getElementById('heroFilm'); if(!v) return;
+    if(reduce){ v.removeAttribute('autoplay'); v.pause(); return; }
+    var play=function(){ var p=v.play(); if(p&&p.catch) p.catch(function(){}); };
+    if('IntersectionObserver' in window)
+      new IntersectionObserver(function(es){ es[0].isIntersecting?play():v.pause(); },{threshold:.15}).observe(v);
+    document.addEventListener('visibilitychange',function(){ document.hidden?v.pause():play(); });
   })();
 
   /* ── depth: the stack, the photographs and the reel respond in 3D ── */

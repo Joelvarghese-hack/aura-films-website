@@ -388,7 +388,14 @@ const STEPS=[['Reach out','Tell us the date, where it is and what you most want 
 const TEASE=[['Portraits','Thirty minutes or a full session, in one outfit or several.',85,'pk-portraits'],['Family &amp; Maternity','Newborns, bumps and growing families.',179,'pk-family'],['Events &amp; Showers','Two photographers on every package.',399,'pk-events'],['Weddings','From a three-hour micro-wedding to a full documentary day.',1195,'pk-weddings'],['Architecture','Interiors and exteriors, by the half or full day.',750,'pk-architecture']];
 
 const home=head('Aura Films, Wedding and Portrait Photography in Kingston','Aura Films is a Kingston photography studio for weddings, portraits, family and architecture. Every frame shot and hand-graded by Albin.','')+nav('Home')+`
-<header class="hero" id="top" data-c="${T(DECK[0][0])}">
+<header class="hero" id="top" data-c="${T('aura-films-hero-poster.jpg')}">
+<div class="hero-film" aria-hidden="true">
+<video class="hero-film-v" id="heroFilm" autoplay muted loop playsinline preload="auto" poster="/images/aura-films-hero-poster.jpg">
+<source src="/images/aura-films-hero-1080p.webm" type="video/webm">
+<source src="/images/aura-films-hero-1080p.mp4" type="video/mp4">
+</video>
+<span class="hero-film-scrim"></span>
+</div>
 <div class="container hero-grid">
 <div class="hero-copy">
 <h1 class="h-display"><span class="ln"><span>Photographs</span></span> <span class="ln"><span>that remember</span></span> <span class="ln"><span>how it <em>felt.</em></span></span></h1>
@@ -401,6 +408,7 @@ const home=head('Aura Films, Wedding and Portrait Photography in Kingston','Aura
 </div>
 </div>
 </div>
+<a class="hero-cue" href="#weddings" aria-label="Scroll to the work"><span class="hero-cue-line"></span>Scroll</a>
 </header>
 
 <section class="mani" data-c="22,18,16"><div class="container">
