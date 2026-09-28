@@ -1,12 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://itsaurafilms.com/</loc><lastmod>2026-09-19</lastmod><priority>1.0</priority></url>
-  <url><loc>https://itsaurafilms.com/gallery</loc><lastmod>2026-09-19</lastmod><priority>0.9</priority></url>
-  <url><loc>https://itsaurafilms.com/about</loc><lastmod>2026-09-19</lastmod><priority>0.8</priority></url>
-  <url><loc>https://itsaurafilms.com/investment</loc><lastmod>2026-09-19</lastmod><priority>0.9</priority></url>
-  <url><loc>https://itsaurafilms.com/privacy</loc><lastmod>2026-09-19</lastmod><priority>0.3</priority></url>
-  <url><loc>https://itsaurafilms.com/terms</loc><lastmod>2026-09-19</lastmod><priority>0.3</priority></url>
-  <url><loc>https://itsaurafilms.com/cookie</loc><lastmod>2026-09-19</lastmod><priority>0.3</priority></url>
-  <url><loc>https://itsaurafilms.com/refund</loc><lastmod>2026-09-19</lastmod><priority>0.3</priority></url>
-  <url><loc>https://itsaurafilms.com/accessibility</loc><lastmod>2026-09-19</lastmod><priority>0.3</priority></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url><loc>https://itsaurafilms.com/</loc><lastmod>2026-09-28</lastmod><priority>1.0</priority></url>
+  <url><loc>https://itsaurafilms.com/gallery</loc><lastmod>2026-09-28</lastmod><priority>0.9</priority>
+    <image:image><image:loc>https://itsaurafilms.com/images/wed-1.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/wed-2.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/wed-3.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/wed-4.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/wed-5.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/wed-6.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/wed-7.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/wed-8.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/wed-9.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/wed-10.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/wed-11.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/wed-12.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/wed-13.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC8307.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/IMG_9548.JPG.jpeg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC8637.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC8672.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC8231.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC8243.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/IMG_9356.JPG.jpeg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC8034.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC8577.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC8016.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC8021.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC8238.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC8239.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC8241.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/IMG_9115.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/IMG_8926.JPG.jpeg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC7542.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC7545.jpg</image:loc><image:title>Weddings photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/por-1.jpg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/por-2.jpg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/por-3.jpg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/por-4.jpg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/por-5.jpg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/por-6.jpg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/por-7.jpg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/por-8.jpg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/por-9.jpg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/por-10.jpg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/por-11.jpg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/por-12.jpg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/por-13.jpg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/por-14.jpg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/IMG_3431.JPG.jpeg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/IMG_3432.JPG.jpeg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/IMG_3437.JPG.jpeg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/IMG_3438.JPG.jpeg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/IMG_7777.JPG.jpeg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/IMG_9906.JPG.jpeg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/IMG_9907.JPG.jpeg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC8015.jpg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC8049.jpg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC8215.jpg</image:loc><image:title>Portraits photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/baby-1.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/baby-2.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/baby-3.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/baby-4.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/baby-5.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/baby-6.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/baby-7.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/baby-8.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/baby-9.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/baby-10.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/baby-11.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/baby-12.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/baby-13.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/baby-14.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/baby-15.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/baby-16.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/baby-17.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/baby-18.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/baby-19.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC7794.jpeg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC7798.jpeg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC7883.jpeg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC1248.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC1267.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC1347.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC1351.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC1352.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC1487.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC1500.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/_DSC1534.jpg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/IMG_8816.JPG.jpeg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/IMG_8829.JPG.jpeg</image:loc><image:title>Family &amp; Maternity photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/arch-1.jpg</image:loc><image:title>Architecture photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/arch-2.jpg</image:loc><image:title>Architecture photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/arch-3.jpg</image:loc><image:title>Architecture photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/arch-4.jpg</image:loc><image:title>Architecture photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/arch-5.jpg</image:loc><image:title>Architecture photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/arch-6.jpg</image:loc><image:title>Architecture photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/arch-7.jpg</image:loc><image:title>Architecture photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/arch-8.jpg</image:loc><image:title>Architecture photography by Aura Films, Kingston Ontario</image:title></image:image>
+    <image:image><image:loc>https://itsaurafilms.com/images/arch-9.jpg</image:loc><image:title>Architecture photography by Aura Films, Kingston Ontario</image:title></image:image>
+  </url>
+  <url><loc>https://itsaurafilms.com/about</loc><lastmod>2026-09-28</lastmod><priority>0.8</priority></url>
+  <url><loc>https://itsaurafilms.com/investment</loc><lastmod>2026-09-28</lastmod><priority>0.9</priority></url>
+  <url><loc>https://itsaurafilms.com/privacy</loc><lastmod>2026-09-28</lastmod><priority>0.3</priority></url>
+  <url><loc>https://itsaurafilms.com/terms</loc><lastmod>2026-09-28</lastmod><priority>0.3</priority></url>
+  <url><loc>https://itsaurafilms.com/cookie</loc><lastmod>2026-09-28</lastmod><priority>0.3</priority></url>
+  <url><loc>https://itsaurafilms.com/refund</loc><lastmod>2026-09-28</lastmod><priority>0.3</priority></url>
+  <url><loc>https://itsaurafilms.com/accessibility</loc><lastmod>2026-09-28</lastmod><priority>0.3</priority></url>
 </urlset>

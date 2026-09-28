@@ -623,9 +623,13 @@ const PAGES=[['',1.0],['gallery',0.9],['about',0.8],['investment',0.9],['privacy
 const today=new Date().toISOString().slice(0,10);
 const NL=String.fromCharCode(10);
 if(sharp) await writeFile(TONES_FILE,JSON.stringify(TONES));
+/* the gallery's photographs are listed so they can surface in image search */
+const imgTag=(f,cat)=>'    <image:image><image:loc>'+SITE+'images/'+encodeURIComponent(f)+'</image:loc><image:title>'+esc(LABELS[cat])+' photography by Aura Films, Kingston Ontario</image:title></image:image>';
+const PAGE_IMAGES={gallery:Object.entries(GAL).flatMap(([cat,files])=>files.map(f=>imgTag(f,cat)))};
 await writeFile('../sitemap.xml',
-  ['<?xml version="1.0" encoding="UTF-8"?>','<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-    .concat(PAGES.map(([p,pr])=>'  <url><loc>'+SITE+p+'</loc><lastmod>'+today+'</lastmod><priority>'+pr.toFixed(1)+'</priority></url>'))
+  ['<?xml version="1.0" encoding="UTF-8"?>','<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
+    .concat(PAGES.map(([p,pr])=>{const imgs=PAGE_IMAGES[p];
+      return '  <url><loc>'+SITE+p+'</loc><lastmod>'+today+'</lastmod><priority>'+pr.toFixed(1)+'</priority>'+(imgs?NL+imgs.join(NL)+NL+'  ':'')+'</url>';}))
     .concat(['</urlset>','']).join(NL));
 await writeFile('../robots.txt',
   ['User-agent: *','Allow: /','Disallow: /_originals/','','Sitemap: '+SITE+'sitemap.xml',''].join(NL));
