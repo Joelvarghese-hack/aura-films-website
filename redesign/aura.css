@@ -611,17 +611,19 @@ html.theme-light .mk-on-light{display:inline-block}
 .pocket{display:none}
 @media(max-width:1023px){
   /* a phone on its side is short, so the section is sized to it, not to the screen */
-  .pocket{display:grid;align-content:center;padding-block:clamp(78px,12vh,150px);overflow:hidden}
+  .pocket{display:grid;align-content:center;padding-block:clamp(40px,5.5vh,80px);overflow:hidden}
   /* the fixed mobile call bar must not sit over it */
-  @media(max-width:767px){.pocket{padding-bottom:clamp(104px,15vh,150px)}}
-  .pocket .container{display:grid;gap:clamp(22px,4vh,40px);justify-items:center;text-align:center}
+  @media(max-width:767px){.pocket{padding-bottom:clamp(86px,12vh,118px)}}
+  .pocket .container{display:grid;gap:clamp(26px,4.5vh,44px);justify-items:center;text-align:center}
+  /* with the paragraph gone the phone carries the section, so let it fill the width */
+  .pocket .container{padding-inline:clamp(12px,3vw,28px)}
   .pocket-copy .lede{margin-top:14px;margin-inline:auto}
   .pocket-stage{position:relative;perspective:1200px;width:100%;display:flex;justify-content:center}
-  .pocket-stage::before{content:"";position:absolute;left:50%;top:50%;width:min(620px,124%);aspect-ratio:1.6;
+  .pocket-stage::before{content:"";position:absolute;left:50%;top:50%;width:min(760px,128%);aspect-ratio:1.55;
     transform:translate(-50%,-50%);pointer-events:none;
     background:radial-gradient(closest-side,rgba(232,167,72,.16),rgba(232,167,72,.05) 52%,transparent 74%)}
   /* held sideways, the way you watch something on a phone */
-  .phone{position:relative;width:min(430px,88vw);aspect-ratio:19.5/9;border-radius:6.2%/13.5%;
+  .phone{position:relative;width:min(760px,96vw);aspect-ratio:19.5/9;border-radius:6.2%/13.5%;
     background:linear-gradient(120deg,#2e2f33,#141417 32%,#0c0c0e 68%,#26272b);
     padding:3px;box-shadow:0 34px 70px -28px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.06) inset;
     transform-style:preserve-3d;will-change:transform}

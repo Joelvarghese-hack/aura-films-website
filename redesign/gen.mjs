@@ -433,7 +433,6 @@ ${CHAPTERS.map(chapter).join('')}
 <section class="pocket" id="pocket" data-c="${T('aura-films-hero-poster.jpg')}"><div class="container">
 <div class="pocket-copy">
 <h2 class="h-xl reveal">A minute of <em>the work.</em></h2>
-<p class="lede reveal">Weddings, portraits, families and the rooms in between &mdash; the short film Albin cut from this year. No sound needed.</p>
 </div>
 <div class="pocket-stage" aria-hidden="true">
 <div class="phone" id="phoneMock">
