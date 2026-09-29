@@ -517,7 +517,10 @@ body{transition:color .45s var(--e)}
   .pk-stack:hover .pk-back--1{transform:translate(16%,-3%) rotate(9deg) scale(.93)}
   .pk-stack:hover .pk-back--2{transform:translate(-16%,-5%) rotate(-10deg) scale(.87)}
 }
-@media(max-width:1000px){.pk-stack{margin-left:0;max-width:min(380px,82%)}}
+/* one column below 1000px, so the stack centres instead of hugging the left edge */
+@media(max-width:1000px){.pk-stack{margin-inline:auto;max-width:min(440px,88%)}
+  .pk--flip .pk-stack{margin-inline:auto}
+  .tiers{margin-inline:auto}}
 @media(prefers-reduced-motion:reduce){.pk-back{transition:none}}
 
 /* ─── first-session offer ─── */
