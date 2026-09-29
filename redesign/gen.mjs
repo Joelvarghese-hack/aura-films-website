@@ -404,9 +404,9 @@ const TEASE=[['Portraits','Thirty minutes or a full session, in one outfit or se
 const home=head('Aura Films, Wedding and Portrait Photography in Kingston','Aura Films is a Kingston photography studio for weddings, portraits, family and architecture. Every frame shot and hand-graded by Albin.','')+nav('Home')+`
 <header class="hero" id="top" data-c="${T('aura-films-hero-poster.jpg')}">
 <div class="hero-film" aria-hidden="true">
-<video class="hero-film-v" id="heroFilm" autoplay muted loop playsinline preload="auto" poster="/images/aura-films-hero-poster.jpg">
-<source src="/images/aura-films-hero-1080p.webm" type="video/webm">
+<video class="hero-film-v" id="heroFilm" muted loop playsinline preload="none" poster="/images/aura-films-hero-poster.jpg">
 <source src="/images/aura-films-hero-1080p.mp4" type="video/mp4">
+<source src="/images/aura-films-hero-1080p.webm" type="video/webm">
 </video>
 <span class="hero-film-scrim"></span>
 </div>
@@ -430,6 +430,24 @@ const home=head('Aura Films, Wedding and Portrait Photography in Kingston','Aura
 </div></section>
 
 ${CHAPTERS.map(chapter).join('')}
+<section class="pocket" id="pocket" data-c="${T('aura-films-hero-poster.jpg')}"><div class="container">
+<div class="pocket-copy">
+<h2 class="h-xl reveal">A minute of <em>the work.</em></h2>
+<p class="lede reveal">Weddings, portraits, families and the rooms in between &mdash; the short film Albin cut from this year. No sound needed.</p>
+</div>
+<div class="pocket-stage" aria-hidden="true">
+<div class="phone" id="phoneMock">
+<span class="phone-side phone-side--power" aria-hidden="true"></span><span class="phone-side phone-side--up" aria-hidden="true"></span><span class="phone-side phone-side--down" aria-hidden="true"></span>
+<div class="phone-screen">
+<video id="phoneFilm" muted loop playsinline preload="none" poster="/images/aura-films-hero-poster.jpg">
+<source src="/images/aura-films-hero-1080p.mp4" type="video/mp4">
+<source src="/images/aura-films-hero-1080p.webm" type="video/webm">
+</video>
+<span class="phone-island" aria-hidden="true"></span>
+</div>
+</div>
+</div>
+</div></section>
 
 <section class="sec" data-c="22,30,48"><div class="container">
 <h2 class="h-xl reveal">How it <em>works.</em></h2>

@@ -64,6 +64,7 @@
 /update-pages.mjs / 301
 /verify2.mjs / 301
 /webp.mjs / 301
+/_v.mjs / 301
 /redesign/gen.mjs / 301
 /redesign/image-dims.json / 301
 /redesign/tones.json / 301

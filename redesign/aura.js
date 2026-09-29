@@ -479,15 +479,54 @@
     });
   })();
 
-  /* ── hero film: plays while it is on screen, still for reduced motion ── */
+
+  /* ── the phone in your pocket ──
+     The film simply runs. It is never paused, never rewound and never waits for
+     the reader to arrive; the phone just turns as it passes. */
   (function(){
-    var v=document.getElementById('heroFilm'); if(!v) return;
-    if(reduce){ v.removeAttribute('autoplay'); v.pause(); return; }
-    var play=function(){ var p=v.play(); if(p&&p.catch) p.catch(function(){}); };
-    if('IntersectionObserver' in window)
-      new IntersectionObserver(function(es){ es[0].isIntersecting?play():v.pause(); },{threshold:.15}).observe(v);
-    document.addEventListener('visibilitychange',function(){ document.hidden?v.pause():play(); });
+    var sec=document.getElementById('pocket'),ph=document.getElementById('phoneMock'),v=document.getElementById('phoneFilm');
+    if(!sec||!ph||!v) return;
+    if(!useG||reduce||!matchMedia('(max-width:1023px)').matches) return;
+    G.set(ph,{transformPerspective:1100,transformOrigin:'50% 55%'});
+    /* three-quarter view on the way in, face on at the middle, away again on the way out */
+    G.fromTo(ph,{rotationY:22,rotationX:6,y:44,scale:.93},
+      {rotationY:0,rotationX:0,y:0,scale:1,ease:TOK.ease.linear,
+       scrollTrigger:{trigger:sec,start:'top bottom',end:'center center',scrub:.9}});
+    G.fromTo(ph,{rotationY:0},{rotationY:-16,ease:TOK.ease.linear,
+      scrollTrigger:{trigger:sec,start:'center center',end:'bottom top',scrub:.9}});
   })();
+
+  /* ── keep a looping film moving ──
+     Two films exist in the page and only one is ever shown at a given width, so
+     neither is fetched until its own layout box exists. After that: some browsers
+     stall a muted loop at the wrap point, or stop it when a tab comes back or the
+     device drops into low power. Without this the film plays once and freezes. */
+  function keepLooping(v){
+    if(!v||reduce) return;
+    var shown=function(){ return v.getClientRects().length>0; };
+    var go=function(){
+      if(!shown()){ if(!v.paused) v.pause(); return; }
+      if(v.preload!=='auto'){ v.preload='auto'; v.load(); }
+      var p=v.play(); if(p&&p.catch) p.catch(function(){});
+    };
+    v.addEventListener('ended',function(){ try{ v.currentTime=0; }catch(_){} go(); });
+    v.addEventListener('pause',function(){ if(!document.hidden) go(); });
+    v.addEventListener('stalled',go);
+    document.addEventListener('visibilitychange',function(){ if(!document.hidden) go(); });
+    addEventListener('resize',go,{passive:true});
+    var last=-1,stuck=0;
+    setInterval(function(){
+      if(document.hidden||!shown()){ last=-1; return; }
+      if(v.readyState<2){ go(); return; }
+      if(v.currentTime===last){                        /* not advancing */
+        if(++stuck>=2){ stuck=0; try{ v.currentTime=0; }catch(_){} go(); }
+      } else stuck=0;
+      last=v.currentTime;
+    },2000);
+    go();
+  }
+  keepLooping(document.getElementById('heroFilm'));
+  keepLooping(document.getElementById('phoneFilm'));
 
   /* ── depth: the stack, the photographs and the reel respond in 3D ── */
   (function(){
