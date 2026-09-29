@@ -645,3 +645,33 @@ html.theme-light .mk-on-light{display:inline-block}
   .phone-side--down{top:-2px;left:26%;width:7%}
 }
 @media(prefers-reduced-motion:reduce){.phone{transform:none!important}}
+
+/* ─── editorial pages: the services, the places and the questions ─── */
+.lp{padding-top:clamp(96px,14vh,168px)}
+.lp-top{padding-bottom:clamp(30px,5vh,52px)}
+.lp .kicker{font:500 12px/1 var(--d);letter-spacing:.24em;text-transform:uppercase;color:var(--acc);margin-bottom:22px}
+.lp .h-display{font-size:clamp(40px,7.4vw,104px);line-height:.94;max-width:16ch}
+.lp-lede{margin-top:clamp(20px,3vh,30px);font-size:clamp(18px,1.6vw,23px);line-height:1.55;color:var(--paper-2);max-width:56ch}
+.lp-hero{margin:clamp(26px,5vh,56px) 0 0}
+.lp-hero .frame{display:block;border-radius:var(--r-lg);overflow:hidden}
+.lp-hero img{width:100%;height:auto;display:block;aspect-ratio:3/2;object-fit:cover}
+.lp-body{padding-block:clamp(40px,6vh,84px);display:grid;gap:clamp(40px,6vh,72px);
+  max-width:calc(820px + 2*var(--g));margin-inline:0}
+.lp-sec h2{margin-bottom:20px}
+.lp-sec p{font-size:clamp(16px,1.25vw,18.5px);line-height:1.72;color:var(--paper-2);max-width:66ch}
+.lp-sec p+p{margin-top:18px}
+.lp-faq dl{display:grid;gap:26px;margin-top:8px}
+.lp-faq dt{font:600 clamp(17px,1.4vw,20px)/1.4 var(--d);letter-spacing:-.01em;color:var(--paper)}
+.lp-faq dd{margin:10px 0 0;font-size:clamp(16px,1.2vw,18px);line-height:1.7;color:var(--paper-2);max-width:66ch}
+.lp-faq dd+dt{padding-top:22px;border-top:1px solid var(--line)}
+.lp-next{padding-top:clamp(30px,5vh,48px);border-top:1px solid var(--line)}
+.lp-links{display:flex;flex-wrap:wrap;gap:12px 26px;margin:22px 0 34px}
+.lp-links a{display:inline-flex;align-items:center;gap:8px;font:500 16px/1.4 var(--d);color:var(--paper-2);
+  text-decoration:none;border-bottom:1px solid transparent;transition:color .3s var(--e),border-color .3s var(--e)}
+.lp-links a:hover,.lp-links a:focus-visible{color:var(--acc);border-bottom-color:var(--acc)}
+.lp-links svg{width:16px;height:16px}
+@media(max-width:700px){
+  .lp{padding-top:clamp(84px,12vh,120px)}
+  .lp-hero img{aspect-ratio:4/5}
+  .lp-links{gap:10px 18px}
+}

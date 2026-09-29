@@ -169,7 +169,7 @@ const head=(title,desc,path='')=>`<!DOCTYPE html><html lang="en"><head>
 <meta name="twitter:description" content="${desc}"><meta name="twitter:image" content="${SITE}images/wed-3.jpg">
 <link rel="preload" href="/redesign/fonts/clash-display-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/redesign/fonts/playfair-display-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/redesign/aura.css?v=${V('aura.css')}">${CALENDLY?`<link rel="preconnect" href="https://assets.calendly.com"><link rel="dns-prefetch" href="https://calendly.com">`:''}${HCAPTCHA?`<script src="https://js.hcaptcha.com/1/api.js" async defer></script>`:''}<script>window.AURA_CALENDLY=${JSON.stringify(CALENDLY)};</script>${analytics}</head><body><a href="#main" class="skip-link">Skip to content</a><div class="progress" id="progress" aria-hidden="true"></div><div class="pt" id="pt" aria-hidden="true"></div>`;
+<link rel="stylesheet" href="/redesign/aura.min.css?v=${V('aura.css')}">${CALENDLY?`<link rel="preconnect" href="https://assets.calendly.com"><link rel="dns-prefetch" href="https://calendly.com">`:''}${HCAPTCHA?`<script src="https://js.hcaptcha.com/1/api.js" async defer></script>`:''}<script>window.AURA_CALENDLY=${JSON.stringify(CALENDLY)};</script>${analytics}</head><body><a href="#main" class="skip-link">Skip to content</a><div class="progress" id="progress" aria-hidden="true"></div><div class="pt" id="pt" aria-hidden="true"></div>`;
 
 /* ── nav ── */
 const nav=(active)=>{const L=[['/','Home'],['/gallery','Gallery'],['/about','About'],['/investment','Investment']];
@@ -189,7 +189,7 @@ const footer=`<footer class="footer"><div class="container">
 <div class="foot-brand"><img class="mk mk-on-dark" src="/images/aura-mark-light.png" alt="" width="1539" height="668" loading="lazy"><img class="mk mk-on-light" src="/images/aura-mark-dark.png" alt="" width="1539" height="668" loading="lazy">
 <p>A photography studio in Kingston, Ontario. We shoot weddings, portraits, families and the occasional building, anywhere in the province.</p></div>
 <div class="foot-col"><h3>Explore</h3><a href="/">Home</a><a href="/gallery">Gallery</a><a href="/about">About</a><a href="/investment">Investment</a></div>
-<div class="foot-col"><h3>Work</h3><a href="/gallery#weddings">Weddings</a><a href="/gallery#portraits">Portraits</a><a href="/gallery#family">Family &amp; Maternity</a><a href="/gallery#architecture">Architecture</a></div>
+<div class="foot-col"><h3>Work</h3><a href="/gallery#weddings">Weddings</a><a href="/engagements">Engagements</a><a href="/family-maternity">Family &amp; Maternity</a><a href="/gallery#architecture">Architecture</a><a href="/faq">Questions</a></div><div class="foot-col"><h3>Across Ontario</h3><a href="/gananoque">Gananoque</a><a href="/napanee">Napanee</a><a href="/brockville">Brockville</a><a href="/belleville">Belleville</a><a href="/prince-edward-county">Prince Edward County</a><a href="/ottawa">Ottawa</a></div>
 <div class="foot-col"><h3>Reach us</h3><a href="mailto:itsaurafilms@gmail.com">itsaurafilms@gmail.com</a><a href="tel:+13439894546">343 989 4546</a><a href="https://www.instagram.com/aura.filmsca/" target="_blank" rel="noopener">Instagram, @aura.filmsca</a><a href="https://www.google.com/maps/search/?api=1&amp;query=Kingston%2C+Ontario%2C+Canada" target="_blank" rel="noopener">Kingston, Ontario</a></div>
 </div>
 <div class="foot-bot"><p>© 2026 Aura Films. All rights reserved. <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms &amp; Conditions</a> · <a href="/cookie">Cookie Policy</a> · <a href="/refund">Refund Policy</a> · <a href="/accessibility">Accessibility</a></p>
@@ -212,7 +212,7 @@ if(m)m.addEventListener('click',function(){window.__AURA_ESSENTIAL_ONLY=true;set
 }catch(e){}})();</script>`;
 
 const mcta=`<nav class="mcta" aria-label="Quick contact"><a href="tel:+13439894546">Call</a><a class="p" href="/about#contact">Book a date</a></nav>`;
-const foot=(extra='')=>footer+toTop+mcta+extra+offer+cookieNotice+`<script src="/redesign/vendor/gsap.min.js?v=3.12.5" defer></script><script src="/redesign/vendor/ScrollTrigger.min.js?v=3.12.5" defer></script><script src="/redesign/vendor/lenis.min.js?v=1.1.20" defer></script><script src="/redesign/aura.js?v=${V('aura.js')}" defer></script></body></html>`;
+const foot=(extra='')=>footer+toTop+mcta+extra+offer+cookieNotice+`<script src="/redesign/vendor/gsap.min.js?v=3.12.5" defer></script><script src="/redesign/vendor/ScrollTrigger.min.js?v=3.12.5" defer></script><script src="/redesign/vendor/lenis.min.js?v=1.1.20" defer></script><script src="/redesign/aura.min.js?v=${V('aura.js')}" defer></script></body></html>`;
 
 /* ── testimonials carousel ── */
 const testimonials=[
@@ -302,11 +302,11 @@ const faqItems=[
 const PKG={
 Weddings:[
  ['Standard','Micro-wedding',1195,'+$195/hr extra',['Up to 3 hours coverage','150 edited photos','Online gallery + sneak peek','10 to 14 day delivery'],false],
- ['Most Popular','Full Ceremony',1895,'engagement session included',['Up to 6 hours coverage','300 edited photos','Engagement session included','Two looks / locations','7 to 10 day delivery'],true],
- ['Premium','Full Day',2695,'second shooter included',['Up to 10 hours documentary coverage','450 hand-graded photos','Second shooter included','Engagement session included','Timeline planning and priority delivery'],false]],
+ ['Most Popular','Full Ceremony',1895,'two photographers',['Up to 6 hours coverage · 2 photographers','300 edited photos','Engagement session included','Two looks / locations','7 to 10 day delivery'],true],
+ ['Premium','Full Day',2695,'two photographers',['Up to 10 hours documentary coverage · 2 photographers','450 hand-graded photos','Engagement session included','Timeline planning and priority delivery'],false]],
 Events:[
- ['Basic','Essentials',399,'+$120/hr extra',['Up to 2 hours · 2 photographers','60 edited photos','Online gallery download','14 to 21 day turnaround'],false],
- ['Standard','Signature',665,'+$150/hr extra',['Up to 4 hours · 2 photographers','120 edited photos','Gallery + social media kit','Sneak-peek gallery','10 to 14 day turnaround'],true],
+ ['Basic','Essentials',399,'+$120/hr extra',['Up to 2 hours','60 edited photos','Online gallery download','14 to 21 day turnaround'],false],
+ ['Standard','Signature',665,'+$150/hr extra',['Up to 4 hours','120 edited photos','Gallery + social media kit','Sneak-peek gallery','10 to 14 day turnaround'],true],
  ['Premium','Elite',935,'+$175/hr extra',['Up to 6 hours · 2 photographers','200 edited photos','12 social-ready edits','Event highlights gallery','Priority 7-day delivery'],false]],
 Family:[
  ['Mini','Quick Session',179,'30 min',['Up to 30 minutes','20 edited photos','Online gallery','7 to 10 day delivery'],false],
@@ -399,7 +399,7 @@ const chapter=(c,i)=>`<section class="ch${i%2?' ch--flip':''}" id="${c.id}" data
 ${bento(c,i%2===1)}
 </div></section>`;
 const STEPS=[['Reach out','Tell us the date, where it is and what you most want to remember.'],['The shoot','A relaxed session. We tell you where to stand and when to move, so you never have to wonder what to do with your hands.'],['Your gallery','Every photo edited by hand and delivered in 10 to 21 days.']];
-const TEASE=[['Portraits','Thirty minutes or a full session, in one outfit or several.',85,'pk-portraits'],['Family &amp; Maternity','Newborns, bumps and growing families.',179,'pk-family'],['Events &amp; Showers','Two photographers on every package.',399,'pk-events'],['Weddings','From a three-hour micro-wedding to a full documentary day.',1195,'pk-weddings'],['Architecture','Interiors and exteriors, by the half or full day.',750,'pk-architecture']];
+const TEASE=[['Portraits','Thirty minutes or a full session, in one outfit or several.',85,'pk-portraits'],['Family &amp; Maternity','Newborns, bumps and growing families.',179,'pk-family'],['Events &amp; Showers','Two hours to six, across Ontario.',399,'pk-events'],['Weddings','From a three-hour micro-wedding to a full documentary day.',1195,'pk-weddings'],['Architecture','Interiors and exteriors, by the half or full day.',750,'pk-architecture']];
 
 const home=head('Aura Films, Wedding and Portrait Photography in Kingston','Aura Films is a Kingston photography studio for weddings, portraits, family and architecture. Every frame shot and hand-graded by Albin.','')+nav('Home')+`
 <header class="hero" id="top" data-c="${T('aura-films-hero-poster.jpg')}">
@@ -541,7 +541,7 @@ ${contactBlock()}
 /* ════════ INVESTMENT ════════ */
 const PKINFO={
  Weddings:['pk-weddings','wed-9.jpg','A groom kisses his bride beneath a leafy tree','From a three-hour micro-wedding to a full documentary day, with an engagement session in the larger packages.','wed-12.jpg','wed-10.jpg'],
- Events:['pk-events','baby-12.jpg','An expecting mother at her baby shower among blue balloons','Two photographers on every package.','wed-6.jpg','_DSC8672.jpg'],
+ Events:['pk-events','baby-12.jpg','An expecting mother at her baby shower among blue balloons','Showers, birthdays and the parties in between.','wed-6.jpg','_DSC8672.jpg'],
  Family:['pk-family','baby-2.jpg','Parents hold their newborn close','Newborns, bumps and growing families, with a maternity-friendly option.','baby-13.jpg','baby-15.jpg'],
  Architecture:['pk-architecture','arch-9.jpg','A kitchen with stainless appliances and warm wood cabinets','Interiors and exteriors photographed for how a space feels, charged by the day plus a usage licence.','arch-5.jpg','arch-8.jpg'],
  Portraits:['pk-portraits','por-11.jpg','A woman in a lavender top stands beneath autumn trees','From thirty minutes to a full session with editorial retouching.','por-12.jpg','por-7.jpg'],
@@ -660,18 +660,268 @@ const homeHTML=finalize(home);
 const schema=`<script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","additionalType":"https://schema.org/PhotographStore","name":"Aura Films","url":"${SITE}","image":"${SITE}images/wed-3.jpg","description":"Photography studio in Kingston, Ontario. Weddings, portraits, family and architecture, shot and hand graded by Albin.","email":"itsaurafilms@gmail.com","telephone":"+1-343-989-4546","priceRange":"$85 - $2695","address":{"@type":"PostalAddress","addressLocality":"Kingston","addressRegion":"ON","addressCountry":"CA"},"areaServed":{"@type":"State","name":"Ontario"},"founder":{"@type":"Person","name":"Albin"},"sameAs":["https://www.instagram.com/aura.filmsca/"]}</script>`;
 const withSchema=h=>h.replace('</head>',schema+'</head>');
 
-const PAGES=[['',1.0],['gallery',0.9],['about',0.8],['investment',0.9],['privacy',0.3],['terms',0.3],['cookie',0.3],['refund',0.3],['accessibility',0.3]];
+const PAGES=[['',1.0],['gallery',0.9],['about',0.8],['investment',0.9],['faq',0.7],['family-maternity',0.8],['engagements',0.8],['gananoque',0.6],['napanee',0.6],['brockville',0.6],['belleville',0.6],['prince-edward-county',0.7],['ottawa',0.6],['privacy',0.3],['terms',0.3],['cookie',0.3],['refund',0.3],['accessibility',0.3]];
 const today=new Date().toISOString().slice(0,10);
 const NL=String.fromCharCode(10);
 if(sharp) await writeFile(TONES_FILE,JSON.stringify(TONES));
 /* the gallery's photographs are listed so they can surface in image search */
 const imgTag=(f,cat)=>'    <image:image><image:loc>'+SITE+'images/'+encodeURIComponent(f)+'</image:loc><image:title>'+esc(LABELS[cat])+' photography by Aura Films, Kingston Ontario</image:title></image:image>';
 const PAGE_IMAGES={gallery:Object.entries(GAL).flatMap(([cat,files])=>files.map(f=>imgTag(f,cat)))};
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Editorial pages: the services and the places. Thin on pages was the one fair
+   criticism in the audit, and these are the searches the site could not answer.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+const lpShell=(o)=>finalize(head(o.title,o.desc,o.slug)+nav('')+`
+<main id="main" class="lp" data-c="${T(o.hero)}">
+<header class="lp-top"><div class="container">
+<div class="kicker reveal">${o.kicker}</div>
+<h1 class="h-display reveal">${o.h1}</h1>
+<p class="lp-lede reveal">${o.lede}</p>
+</div></header>
+<div class="container"><figure class="lp-hero reveal"><span class="frame">
+<picture><source type="image/webp" srcset="images/${o.hero}.webp"><img src="images/${o.hero}" alt="${o.heroAlt}" width="1600" height="1067" loading="eager"></picture>
+</span></figure></div>
+<div class="container lp-body">
+${o.sections.map(x=>`<section class="lp-sec reveal"><h2 class="h-md">${x.h}</h2>${x.p.map(t=>`<p>${t}</p>`).join('')}</section>`).join('')}
+${o.faq?`<section class="lp-sec lp-faq reveal"><h2 class="h-md">${o.faqTitle||'Questions we get asked'}</h2>
+<dl>${o.faq.map(f=>`<dt>${f.q}</dt><dd>${f.a}</dd>`).join('')}</dl></section>`:''}
+<section class="lp-next reveal">
+<h2 class="h-md">${o.nextTitle||'Where to next'}</h2>
+<div class="lp-links">${o.links.map(l=>`<a href="${l[0]}">${l[1]} ${arrow}</a>`).join('')}</div>
+<a class="btn btn-solid lp-cta" href="/about#contact">Book a date ${arrow}</a>
+</section>
+</div>
+</main>`+foot());
+
+/* every page has to answer a real question, so the copy is specific or it is not there */
+const SERVICE_PAGES=[
+{slug:'family-maternity', hero:'baby-1.jpg', out:'family-maternity.html',
+ title:'Family &amp; Maternity Photography, Kingston &amp; Ontario · Aura Films',
+ desc:'Newborn, maternity and family photography in Kingston and across Ontario. Sessions at home or on location, from $179, every frame edited by hand.',
+ kicker:'Family &amp; Maternity',
+ h1:'Family and maternity photography, <em>at home.</em>',
+ heroAlt:'A mother laughs down at her newborn while the father cradles the baby',
+ lede:'Newborns, bumps and growing families, photographed in Kingston and anywhere in Ontario worth driving to. Sessions start at $179.',
+ sections:[
+  {h:'We come to you', p:[
+   'Almost every newborn session happens at home, because that is where the light is honest and where nobody has to get a three-week-old into the car. You do not need to tidy. We will find the brightest room, usually a bedroom with a big window, and work there.',
+   'Maternity and family sessions can go either way. At home if you want the version of your life you actually live in, on location if you want the trees and the water. Both are the same price.']},
+  {h:'What actually happens', p:[
+   'The first ten minutes are noisy and nothing works. That is normal and it is built into the time. Children stop performing once they are bored of you, and that is the point at which the photographs start being worth keeping.',
+   'No props, no baskets, no headbands unless you want them. In ten years nobody looks back and wishes there had been more styling.']},
+  {h:'What you get', p:[
+   'An online gallery in ten to twenty-one days, with a print release so you can order prints wherever you like. Between twenty and seventy edited photographs depending on the package, all graded by hand rather than run through a preset.',
+   'Sessions run from $179 for a thirty-minute mini up to $429 for two hours across two locations. The full breakdown is on the investment page.']}],
+ faqTitle:'Before you book',
+ faq:[
+  {q:'How old should a newborn be?', a:'Between five and fifteen days is easiest, because they sleep through most of it. Older is still fine, it just becomes a different and slightly livelier set of photographs.'},
+  {q:'What should we wear?', a:'One colour across the family in two or three shades, and textures rather than patterns. Anything new, wear it for an hour first so it stops looking new.'},
+  {q:'Do you travel outside Kingston?', a:'Yes, anywhere in Ontario. Travel inside an hour of Kingston is included; beyond that we agree it in writing before you book.'}],
+ links:[['/investment#pk-family','Family packages and prices'],['/gallery#family','Family photographs'],['/faq','Questions, answered']]},
+
+{slug:'engagements', hero:'wed-4.jpg', out:'engagements.html',
+ title:'Engagement Photography, Kingston &amp; Ontario · Aura Films',
+ desc:'Engagement and couples photography in Kingston and across Ontario. An hour somewhere that means something, included free with two wedding packages.',
+ kicker:'Engagements',
+ h1:'Engagement sessions, <em>before the day.</em>',
+ heroAlt:'A groom tucks a yellow flower behind his bride’s ear while she laughs',
+ lede:'An hour, somewhere that means something to you. Included at no cost with the Full Ceremony and Full Day wedding packages.',
+ sections:[
+  {h:'Why it is worth doing', p:[
+   'Most couples have never been photographed properly together, and the first twenty minutes of a wedding day is a poor time to find that out. An engagement session gets the awkwardness out of the way months early, with nobody watching and no schedule.',
+   'By the wedding you already know what this feels like, and so do we. It shows in the photographs.']},
+  {h:'Where we shoot', p:[
+   'The street you live on is usually better than anywhere we would drive to, because you are relaxed on it. Failing that: City Park under the old trees, the waterfront west of the crowds, or anywhere in Ontario that actually means something to the two of you.',
+   'Late afternoon, roughly an hour before sunset. It is not a preference, it is just when the light is worth using.']},
+  {h:'What it costs', p:[
+   'Included with the Full Ceremony ($1,895) and Full Day ($2,695) wedding packages. Booked on its own it runs as a portrait session from $165.',
+   'You get the gallery in ten to fourteen days, in time to use the photographs for save-the-dates if that is the plan.']}],
+ faqTitle:'Common questions',
+ faq:[
+  {q:'How long does it take?', a:'About an hour. Longer rarely improves it.'},
+  {q:'Can we bring the dog?', a:'Yes, and you should. Bring someone who can hold the lead when they are not in frame.'},
+  {q:'Do we have to be getting married?', a:'No. Plenty of these are just couples who wanted decent photographs of themselves.'}],
+ links:[['/investment#pk-weddings','Wedding packages'],['/gallery#weddings','Wedding photographs'],['/faq','Questions, answered']]},
+];
+
+/* Places worth a page: somewhere people actually search, and near enough to shoot well. */
+const PLACES=[
+{slug:'gananoque', name:'Gananoque', hero:'wed-3.jpg', drive:'25 minutes',
+ blurb:'the Thousand Islands, the river and a main street that photographs better than it has any right to',
+ spots:'The waterfront and the marina at the end of the day, Confederation Park, and the stretch of King Street where the light bounces off the shopfronts. The islands themselves if you have a boat organised.',
+ note:'Gananoque weddings often run to island venues, which means timings are tied to boats. Tell us that early and we will build the day around it.'},
+{slug:'napanee', name:'Napanee', hero:'por-6.jpg', drive:'35 minutes',
+ blurb:'the river, the conservation land and the quiet that makes portraits easy',
+ spots:'Springside Park and the falls, the riverside paths, and the farmland just outside town in the hour before sunset.',
+ note:'Napanee is close enough that travel is included, and quiet enough that you are rarely photographing around other people.'},
+{slug:'brockville', name:'Brockville', hero:'arch-3.jpg', drive:'1 hour',
+ blurb:'the waterfront, the old stone and the islands beyond it',
+ spots:'Blockhouse Island and the harbour, the Victorian streets around Court House Square, and the St Lawrence shoreline east of town.',
+ note:'Brockville has some of the best stone architecture between Kingston and Cornwall, which matters more than people expect for a winter wedding when you need somewhere to shoot indoors.'},
+{slug:'belleville', name:'Belleville', hero:'baby-2.jpg', drive:'1 hour',
+ blurb:'the Bay of Quinte, the parks and an easy run down into the County',
+ spots:'Zwick’s Island and the waterfront, Meyers Pier, and the residential streets north of the river for something quieter.',
+ note:'Belleville sits at the top of Prince Edward County, so plenty of days start here and end at a winery half an hour south.'},
+{slug:'prince-edward-county', name:'Prince Edward County', hero:'wed-8.jpg', drive:'1 hour 15',
+ blurb:'wineries, dunes and barns, and more wedding venues per square kilometre than anywhere else in eastern Ontario',
+ spots:'The vineyards through the middle of the County, Sandbanks and the dunes, and the barn and farmhouse venues scattered between Bloomfield and Picton.',
+ note:'The County books up further ahead than anywhere else we shoot. If you have a summer Saturday in mind, it is worth saying so a year out.'},
+{slug:'ottawa', name:'Ottawa', hero:'wed-11.jpg', drive:'2 hours',
+ blurb:'the river, the stonework and a city that gives you five completely different backdrops inside twenty minutes',
+ spots:'Major’s Hill Park and the locks, the Arboretum and Dow’s Lake, the Glebe for something residential, and Gatineau across the river when the trees turn.',
+ note:'Ottawa is a full travel day rather than a drive, so it is quoted with travel included and usually booked as a full-day package.'},
+];
+
+const placePage=(x)=>lpShell({
+ slug:x.slug, hero:x.hero, out:x.slug+'.html',
+ title:'Wedding &amp; Portrait Photographer in '+x.name+', Ontario · Aura Films',
+ desc:'Wedding, portrait and family photography in '+x.name+', Ontario, by Albin of Aura Films in Kingston. Prices published openly, every frame edited by hand.',
+ kicker:x.name+', Ontario',
+ h1:'Photography in <em>'+x.name+'.</em>',
+ heroAlt:'A photograph from an Aura Films session',
+ lede:x.name+' is '+x.drive+' from the studio in Kingston, and we shoot there often: '+x.blurb+'.',
+ sections:[
+  {h:'Where we shoot in '+x.name, p:[x.spots, x.note]},
+  {h:'How it works', p:[
+   'The same as it does anywhere else. Albin photographs the session himself and edits every frame by hand, which is why galleries take ten to twenty-one days rather than three.',
+   'Prices are the same in '+x.name+' as they are in Kingston. Portraits from $85, family sessions from $179, events from $399, weddings from $1,195 and architectural work from $750. Travel within an hour of Kingston is included; anything further is agreed in writing before you book.']},
+  {h:'Anywhere else in Ontario', p:[
+   'This page exists because people search for a photographer by the name of their town, not because '+x.name+' is a limit. We work across Ontario and travel for weddings wherever they are.',
+   'If your date is somewhere not listed on this site, ask anyway. The answer is usually yes.']}],
+ links:[['/investment','Packages and prices'],['/gallery','The gallery'],['/faq','Questions, answered'],['/about','About Albin']]
+});
+
+/* The FAQ page, and the same questions as structured data so Google can use them. */
+const FAQ=[
+{q:'Where are you based, and how far do you travel?',
+ a:'The studio is in Kingston, Ontario. We work across the province and travel for weddings anywhere in Ontario. Travel within an hour of Kingston is included in the price; beyond that it is agreed in writing before you book.'},
+{q:'How long until we get our photographs?',
+ a:'Ten to twenty-one days for most sessions. Wedding clients get a sneak peek within the first week. Every frame is edited by hand rather than run through a preset, which is the reason it is not three days.'},
+{q:'Do we get two photographers?',
+ a:'On the Full Ceremony and Full Day wedding packages, yes. On events, the Elite package includes a second photographer. Everything else is Albin on his own, which for a portrait or family session is the right number.'},
+{q:'How do we hold a date?',
+ a:'A 30% retainer confirms it, and the balance is due on or before the day. The retainer is non-refundable because holding your date means turning other work away.'},
+{q:'What happens if it rains?',
+ a:'For portraits and family sessions we move the date at no cost. For weddings we shoot it anyway, because the day is happening either way, and we will have found the indoor options in advance.'},
+{q:'Can we print the photographs ourselves?',
+ a:'Yes. Every gallery comes with a print release, so you can print wherever you like, at whatever size.'},
+{q:'Do you hand over the RAW files?',
+ a:'No. The editing is half of what you are paying for, and an unedited file is not finished work. You get the full set of edited photographs at high resolution.'},
+{q:'What should we wear?',
+ a:'One colour across the group in two or three shades, textures rather than small patterns, and nothing straight out of the packaging. If you are unsure, send photos of the options and we will tell you honestly.'},
+{q:'Are any of your photographs AI generated?',
+ a:'None. Every image on this site is a real photograph taken by Albin of real people who agreed to appear.'},
+{q:'Do you photograph anything besides weddings?',
+ a:'Portraits, families, newborns, maternity, baby showers, birthdays, corporate events and architecture. The full list with prices is on the investment page.'},
+{q:'Can we see a full gallery rather than the highlights?',
+ a:'Yes, ask. Highlight reels flatter everyone, so it is a fair question and we are happy to send a complete set from a comparable day.'},
+{q:'How do we pay?',
+ a:'E-transfer, in Canadian dollars. Prices on the site are current and hold for thirty days from a written quote.'},
+];
+
+const faqPage=finalize(head('Questions, Answered · Aura Films',
+ 'Straight answers about booking, travel across Ontario, turnaround, second photographers, print releases and prices at Aura Films in Kingston.','faq')+nav('')+`
+<main id="main" class="lp" data-c="${T('por-8.jpg')}">
+<header class="lp-top"><div class="container">
+<div class="kicker reveal">Questions</div>
+<h1 class="h-display reveal">Asked and <em>answered.</em></h1>
+<p class="lp-lede reveal">The things people email about before they book. If yours is not here, ask and we will add it.</p>
+</div></header>
+<div class="container lp-body">
+<section class="lp-sec lp-faq reveal"><dl>${FAQ.map(f=>`<dt>${f.q}</dt><dd>${f.a}</dd>`).join('')}</dl></section>
+<section class="lp-next reveal"><h2 class="h-md">Where to next</h2>
+<div class="lp-links">${[['/investment','Packages and prices'],['/gallery','The gallery'],['/about','About Albin'],['/family-maternity','Family &amp; maternity'],['/engagements','Engagement sessions']].map(l=>`<a href="${l[0]}">${l[1]} ${arrow}</a>`).join('')}</div>
+<a class="btn btn-solid lp-cta" href="/about#contact">Book a date ${arrow}</a>
+</section>
+</div></main>`+foot())
+ .replace('</head>','<script type="application/ld+json">'+JSON.stringify({
+   '@context':'https://schema.org','@type':'FAQPage',
+   mainEntity:FAQ.map(f=>({'@type':'Question',name:f.q,acceptedAnswer:{'@type':'Answer',text:f.a}}))
+ })+'</script></head>');
+
+await writeFile('../faq.html',faqPage);
+for(const sp of SERVICE_PAGES) await writeFile('../'+sp.out,withSchema(lpShell(sp)));
+for(const x of PLACES) await writeFile('../'+x.slug+'.html',withSchema(placePage(x)));
+
 await writeFile('../sitemap.xml',
   ['<?xml version="1.0" encoding="UTF-8"?>','<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
     .concat(PAGES.map(([p,pr])=>{const imgs=PAGE_IMAGES[p];
       return '  <url><loc>'+SITE+p+'</loc><lastmod>'+today+'</lastmod><priority>'+pr.toFixed(1)+'</priority>'+(imgs?NL+imgs.join(NL)+NL+'  ':'')+'</url>';}))
     .concat(['</urlset>','']).join(NL));
+/* ── minify the stylesheet and the script; if esbuild is missing, ship the source ── */
+{
+  const { execFileSync } = await import('node:child_process');
+  const { copyFileSync } = await import('node:fs');
+  for (const [src, out] of [['aura.css','aura.min.css'], ['aura.js','aura.min.js']]) {
+    try {
+      execFileSync('npx', ['--yes','esbuild', src, '--minify', '--outfile=' + out],
+                   { stdio: 'ignore', shell: true });
+    } catch {
+      copyFileSync(src, out);
+      console.log('esbuild unavailable, shipping ' + src + ' unminified');
+    }
+  }
+}
+
+await writeFile('../llms.txt', [
+'# Aura Films',
+'',
+'> Photography studio in Kingston, Ontario, run by Albin. Weddings, portraits, family and',
+'> newborn sessions, events and architectural photography, across Kingston and Ontario.',
+'> Every session is photographed by Albin and every frame is edited by hand.',
+'',
+'Founded and run by Albin. Sessions are photographed by him personally and graded by hand',
+'rather than batch-processed, which is why galleries take 10 to 21 days. Prices are published',
+'openly on the website. Contact: itsaurafilms@gmail.com, 343 989 4546.',
+'',
+'## Services and prices (CAD)',
+'',
+'- [Portrait sessions](' + SITE + 'investment#pk-portraits): from $85. 30 minutes to a full session, one outfit or several.',
+'- [Family and maternity](' + SITE + 'investment#pk-family): from $179. Newborns, bumps and growing families, at home or on location.',
+'- [Events and showers](' + SITE + 'investment#pk-events): from $399. Two to six hours; the top tier includes a second photographer.',
+'- [Weddings](' + SITE + 'investment#pk-weddings): from $1,195. Micro-weddings to full documentary days; the two upper tiers include a second photographer.',
+'- [Architecture](' + SITE + 'investment#pk-architecture): from $750. Interiors and exteriors, half or full day, with a usage licence.',
+'',
+'## Pages',
+'',
+'- [Home](' + SITE + '): the studio, the work and how a booking runs.',
+'- [Gallery](' + SITE + 'gallery): 96 photographs across weddings, portraits, family and architecture.',
+'- [About](' + SITE + 'about): who Albin is and how he works.',
+'- [Investment](' + SITE + 'investment): every package and price, in full.',
+'- [Questions answered](' + SITE + 'faq): booking, travel, turnaround, second photographers, print releases.',
+'- [Family and maternity](' + SITE + 'family-maternity): newborn, maternity and family sessions.',
+'- [Engagement sessions](' + SITE + 'engagements): couples sessions before the wedding day.',
+'',
+'## Places we work',
+'',
+'Based in Kingston and working across Ontario. Pages for the places we are asked about most:',
+'',
+'- [Gananoque](' + SITE + 'gananoque)',
+'- [Napanee](' + SITE + 'napanee)',
+'- [Brockville](' + SITE + 'brockville)',
+'- [Belleville](' + SITE + 'belleville)',
+'- [Prince Edward County](' + SITE + 'prince-edward-county)',
+'- [Ottawa](' + SITE + 'ottawa)',
+'',
+'## Policies',
+'',
+'- [Privacy policy](' + SITE + 'privacy)',
+'- [Cookie policy](' + SITE + 'cookie)',
+'- [Terms and conditions](' + SITE + 'terms)',
+'- [Refund and cancellation policy](' + SITE + 'refund)',
+'- [Accessibility statement](' + SITE + 'accessibility)',
+'',
+'## Notes for AI search',
+'',
+'- Based in Kingston, Ontario, Canada. Travels across Ontario.',
+'- No photograph on this site is AI generated. Every image is a real photograph taken by Albin.',
+'- Prices are current and in Canadian dollars. Quote them with the currency.',
+'- Galleries are delivered in 10 to 21 days; wedding clients receive a sneak peek within a week.',
+''
+].join(NL));
+
 await writeFile('../robots.txt',
   ['User-agent: *','Allow: /','Disallow: /_originals/','','Sitemap: '+SITE+'sitemap.xml',''].join(NL));
 await writeFile('../404.html',finalize(head('Page not found, Aura Films','That page does not exist. Browse the Aura Films gallery, packages or get in touch.','404')+nav('')+
@@ -696,8 +946,8 @@ await writeFile('../refund.html',finalize(refund));
    under licence, screenshots, tooling) is redirected home. Regenerated on every build, so
    anything added later is covered automatically. */
 {
-  const ROOT_OK=/^(.*.html|sitemap.xml|robots.txt|favicon.ico|favicon(-32)?.png|apple-touch-icon.png|_headers|_redirects)$/;
-  const DIR_OK=new Set(['images','redesign']),RD_OK=new Set(['aura.css','aura.js','fonts','vendor']);
+  const ROOT_OK=/^(.*.html|sitemap.xml|robots.txt|llms.txt|favicon.ico|favicon(-32)?.png|apple-touch-icon.png|_headers|_redirects)$/;
+  const DIR_OK=new Set(['images','redesign']),RD_OK=new Set(['aura.css','aura.js','aura.min.css','aura.min.js','fonts','vendor']);
   const enc=p=>p.split('/').map(encodeURIComponent).join('/');
   const rules=[];
   for(const d of readdirSync('..',{withFileTypes:true})){
