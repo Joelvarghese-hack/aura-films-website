@@ -425,15 +425,16 @@ ${CHAPTERS.map(chapter).join('')}
 
 <section class="pocket" id="pocket" data-c="${T('aura-films-hero-poster.jpg')}"><div class="container">
 <div class="pocket-copy">
-<h2 class="h-xl reveal">Your gallery, <em>in your pocket.</em></h2>
-<p class="lede reveal">Every session comes with an online gallery. Open it on your phone, send the link to family, download the files whenever you want them.</p>
+<h2 class="h-xl reveal">A minute of <em>the work.</em></h2>
+<p class="lede reveal">Weddings, portraits, families and the rooms in between &mdash; the short film Albin cut from this year. No sound needed.</p>
 </div>
 <div class="pocket-stage" aria-hidden="true">
 <div class="phone" id="phoneMock">
 <span class="phone-side phone-side--power" aria-hidden="true"></span><span class="phone-side phone-side--up" aria-hidden="true"></span><span class="phone-side phone-side--down" aria-hidden="true"></span>
 <div class="phone-screen">
-<video id="phoneFilm" muted loop playsinline preload="metadata" poster="/images/aura-films-hero-vertical-poster.jpg">
-<source src="/images/aura-films-hero-vertical.mp4" type="video/mp4">
+<video id="phoneFilm" muted loop playsinline preload="metadata" poster="/images/aura-films-hero-poster.jpg">
+<source src="/images/aura-films-hero-1080p.webm" type="video/webm">
+<source src="/images/aura-films-hero-1080p.mp4" type="video/mp4">
 </video>
 <span class="phone-island" aria-hidden="true"></span>
 </div>
