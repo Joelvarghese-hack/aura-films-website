@@ -138,6 +138,20 @@ const chevR=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-w
 
 /* ── head: Clash Display (self-hosted) + Playfair Display ── */
 const SITE='https://itsaurafilms.com/';
+const analytics=`<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',functionality_storage:'granted',security_storage:'granted'});
+window.auraAnalytics=function(){if(window.__auraGA)return;window.__auraGA=1;
+gtag('consent','update',{analytics_storage:'granted'});
+var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-GMDL0XG02W';document.head.appendChild(s);
+gtag('js',new Date());gtag('config','G-GMDL0XG02W');};
+(function(){var c=null;try{c=localStorage.getItem('aura_cookie_choice');}catch(e){}if(c==='accepted')window.auraAnalytics();})();
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a,button');if(!a||!window.__auraGA)return;
+var h=a.getAttribute('href')||'',t=(a.textContent||'').trim();
+if(h.indexOf('tel:')===0)gtag('event','call_click');
+else if(h.indexOf('mailto:')===0)gtag('event','email_click');
+else if(/calendly/.test(h)||/book a date/i.test(t))gtag('event','booking_intent',{link_text:t.slice(0,40)});
+else if(/instagram\\.com/.test(h))gtag('event','instagram_click');},true);<\/script>`;
+
 const head=(title,desc,path='')=>`<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 <title>${title}</title><meta name="description" content="${desc}">
@@ -155,7 +169,7 @@ const head=(title,desc,path='')=>`<!DOCTYPE html><html lang="en"><head>
 <meta name="twitter:description" content="${desc}"><meta name="twitter:image" content="${SITE}images/wed-3.jpg">
 <link rel="preload" href="/redesign/fonts/clash-display-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/redesign/fonts/playfair-display-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/redesign/aura.css?v=${V('aura.css')}">${CALENDLY?`<link rel="preconnect" href="https://assets.calendly.com"><link rel="dns-prefetch" href="https://calendly.com">`:''}${HCAPTCHA?`<script src="https://js.hcaptcha.com/1/api.js" async defer></script>`:''}<script>window.AURA_CALENDLY=${JSON.stringify(CALENDLY)};</script></head><body><a href="#main" class="skip-link">Skip to content</a><div class="progress" id="progress" aria-hidden="true"></div><div class="pt" id="pt" aria-hidden="true"></div>`;
+<link rel="stylesheet" href="/redesign/aura.css?v=${V('aura.css')}">${CALENDLY?`<link rel="preconnect" href="https://assets.calendly.com"><link rel="dns-prefetch" href="https://calendly.com">`:''}${HCAPTCHA?`<script src="https://js.hcaptcha.com/1/api.js" async defer></script>`:''}<script>window.AURA_CALENDLY=${JSON.stringify(CALENDLY)};</script>${analytics}</head><body><a href="#main" class="skip-link">Skip to content</a><div class="progress" id="progress" aria-hidden="true"></div><div class="pt" id="pt" aria-hidden="true"></div>`;
 
 /* ── nav ── */
 const nav=(active)=>{const L=[['/','Home'],['/gallery','Gallery'],['/about','About'],['/investment','Investment']];
@@ -188,12 +202,12 @@ const lightbox=`<div class="lb" id="lb" role="dialog" aria-modal="true" aria-lab
 <span class="lb-wrap"><img id="lbImg" src="" alt=""></span><button class="lb-btn lb-next" id="lbNext" type="button" aria-label="Next photograph">${chevR}</button></div>`;
 const toTop=`<button class="totop" id="toTop" type="button" aria-label="Back to top"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>`;
 const cookieNotice=`<div class="cookie-notice" id="cookieNotice" role="region" aria-label="Cookie notice" hidden>
-<div class="cookie-inner"><p>We use only essential, functional cookies &mdash; no advertising or tracking. Google Fonts and the optional booking calendar load as described in our <a href="/cookie">Cookie Policy</a>.</p>
+<div class="cookie-inner"><p>We use essential cookies to run the site. Say yes and we also use Google Analytics to count visits and see which pages get read &mdash; never advertising, never cross-site tracking. Choose &ldquo;Only essential&rdquo; and no analytics loads at all. Details in our <a href="/cookie">Cookie Policy</a>.</p>
 <div class="cookie-btns"><button type="button" class="btn btn-gold ck-accept" id="ckAccept">Got it</button><button type="button" class="btn btn-line ck-min" id="ckMin">Only essential</button></div></div></div>
 <script>(function(){try{var K='aura_cookie_choice',n=document.getElementById('cookieNotice');if(!n)return;var stored=null;try{stored=localStorage.getItem(K);}catch(e){}if(!stored){n.hidden=false;}
 function set(v){try{localStorage.setItem(K,v);}catch(e){}n.hidden=true;}
 var a=document.getElementById('ckAccept'),m=document.getElementById('ckMin');
-if(a)a.addEventListener('click',function(){set('accepted');});
+if(a)a.addEventListener('click',function(){set('accepted');if(window.auraAnalytics)window.auraAnalytics();});
 if(m)m.addEventListener('click',function(){window.__AURA_ESSENTIAL_ONLY=true;set('essential');});
 }catch(e){}})();</script>`;
 
@@ -547,7 +561,8 @@ const privacy=legalShell('Privacy Policy',`
 <li><strong>Contact details</strong> you provide: name, email, phone, event date and location.</li>
 <li><strong>Booking information:</strong> package choice, preferences, and correspondence.</li>
 <li><strong>Images</strong> captured during your session.</li>
-<li><strong>Technical data:</strong> like any website, our host (Cloudflare) processes standard technical information such as IP address and browser type to deliver the site and protect it from abuse. We do not use analytics, session recording or tracking tools.</li></ul>
+<li><strong>Technical data:</strong> like any website, our host (Cloudflare) processes standard technical information such as IP address and browser type to deliver the site and protect it from abuse.</li>
+<li><strong>Analytics, only if you accept:</strong> if you accept our cookie notice, Google Analytics 4 records usage &mdash; pages viewed, how you arrived, approximate region, device type. It does not load unless you accept, Google shortens IP addresses before storing them, and we cannot identify you from it. No session recording, no advertising pixels, no cross-site tracking.</li></ul>
 <h2>2. How We Use Your Information</h2><p>To respond to enquiries, prepare quotes and contracts, deliver your session and gallery, process payments, and improve our services. We do not sell your personal information.</p>
 <h2>3. Consent</h2><p>We collect and use your information with your consent, which you may withdraw at any time by contacting us (subject to existing contractual obligations).</p><p>We only send marketing or promotional emails if you have <strong>expressly opted in</strong> (for example, by ticking an optional sign-up box on our website), in line with Canada's Anti-Spam Legislation (CASL). Enquiries you send us are not added to any marketing list. Every promotional email includes an unsubscribe link, and you can opt out at any time.</p>
 <h2>4. Service Providers &amp; Disclosure</h2><p>We share information only with trusted service providers ("processors") needed to run our business and website, and only for that purpose. These currently include:</p>
@@ -561,7 +576,7 @@ const privacy=legalShell('Privacy Policy',`
 <p>Some providers are located outside Canada (including in the United States), so your information may be processed abroad under that country's laws. We share only what is necessary, require providers to protect your data, and <strong>never sell</strong> your personal information. We may also disclose information where required by law.</p>
 <h2>5. Image &amp; Portfolio Use</h2><p>We use images in which you can be identified for our portfolio, website or social media only with the permission you give in your booking agreement. Images of children are used only with a parent or guardian’s express written consent. You can withdraw permission at any time by emailing us, and we will stop any further use and remove the images from our website.</p>
 <h2>6. Storage &amp; Retention</h2><p>Your gallery and files are stored securely and retained for a limited period after delivery (typically 12 months) unless a longer archive is agreed. We retain booking records as required for tax and legal purposes.</p>
-<h2>7. Cookies &amp; Tracking</h2><p>We do <strong>not</strong> use advertising, marketing or analytics cookies, and we do not track you across other websites. The site uses only functional technologies: your cookie-notice choice is stored locally on your device, our fonts are hosted on our own website, and if you close our first-session offer we store a small reminder so it does not reappear, and the optional Calendly booking tool may set its own cookies <em>only</em> if you choose to open it. Full details, and how to control cookies, are in our <a href="cookie" style="color:var(--gold-ink);text-decoration:underline">Cookie Policy</a>.</p>
+<h2>7. Cookies &amp; Tracking</h2><p>We do <strong>not</strong> use advertising or marketing cookies, and we do not track you across other websites. Analytics cookies are used <strong>only if you accept them</strong> in our cookie notice. Otherwise the site uses only functional technologies: your cookie-notice choice is stored locally on your device, our fonts are hosted on our own website, and if you close our first-session offer we store a small reminder so it does not reappear, and the optional Calendly booking tool may set its own cookies <em>only</em> if you choose to open it. Full details, and how to control cookies, are in our <a href="cookie" style="color:var(--gold-ink);text-decoration:underline">Cookie Policy</a>.</p>
 <h2>8. Your Rights</h2><p>You have the right to access the personal information we hold about you, request corrections, and ask that it be deleted where we are not legally required to keep it. Email <a href="mailto:itsaurafilms@gmail.com" style="color:var(--gold-ink);text-decoration:underline">itsaurafilms@gmail.com</a> to make a request.</p>
 <p>If you are located in the <strong>EU or UK</strong>, you also have rights under the GDPR, including access, rectification, erasure, restriction, portability and objection. Our lawful bases for processing are your consent and the performance of our contract with you. You may lodge a complaint with your local data-protection authority. Canadian visitors may contact the Office of the Privacy Commissioner of Canada.</p>
 <h2>9. Children</h2><p>Sessions involving minors are booked and consented to by a parent or guardian. Our website and its forms are intended for adults; we do not knowingly collect personal information online from children. If you believe a child has sent us information, contact us and we will delete it.</p>
@@ -587,15 +602,16 @@ const GI=`style="color:var(--gold-ink);text-decoration:underline"`;
 const cookie=legalShell('Cookie Policy',`
 <p>This Cookie Policy explains the cookies and similar technologies used on the Aura Films website, operated by Albin (a sole proprietorship in Kingston, Ontario, Canada). It supplements our <a href="privacy" ${GI}>Privacy Policy</a>.</p>
 <h2>1. What are cookies?</h2><p>Cookies are small text files a website can store on your device. "Similar technologies" include browser local storage, which works in a comparable way. They can be set by us ("first-party") or by an outside service ("third-party").</p>
-<h2>2. Our approach</h2><p>We keep this to the minimum. <strong>We do not use any advertising, marketing or analytics cookies, and we do not track you across other websites or build a profile of you.</strong></p>
+<h2>2. Our approach</h2><p>We keep this to the minimum. <strong>We use no advertising or marketing cookies, and we do not track you across other websites or build a profile of you.</strong> Analytics is the one non-essential thing we use. It never loads until you accept it, and &ldquo;Only essential&rdquo; keeps it off.</p>
 <h2>3. What we actually use</h2>
 <ul>
 <li><strong>Your cookie-notice choice (local storage, first-party, essential).</strong> When you respond to our cookie notice, we store that choice in your browser so we don't ask again. It stays on your device and is not sent to us.</li>
 <li><strong>Offer reminder (local storage, first-party, functional).</strong> If you close or complete our first-session offer, we store a small note in your browser so it does not appear again for a while. It contains no personal information and is not sent to us.</li>
 <li><strong>Fonts (first-party).</strong> Our typefaces are hosted on our own website, so loading them does not contact any third party.</li>
+<li><strong>Google Analytics 4 (third-party, analytics, only if you accept).</strong> If you choose &ldquo;Got it&rdquo;, Google Analytics sets <code>_ga</code> and <code>_ga_&lt;id&gt;</code> cookies (up to two years) to count visits and tell a returning reader from a new one. We use it to see which pages and photographs people actually look at. Google Consent Mode denies analytics storage by default, so nothing is set unless you accept, and we have not switched on advertising features, Google Signals or data sharing for ads. To withdraw consent, clear this site&rsquo;s data in your browser and choose &ldquo;Only essential&rdquo; when the notice returns.</li>
 <li><strong>Calendly (third-party, functional, on request only).</strong> Our optional booking calendar is <strong>not</strong> loaded when you open the site. It loads only if you click "Book a Date" or "Open booking calendar", at which point Calendly may set its own cookies to run the scheduling tool. See Calendly's own privacy and cookie notices for details.</li>
 </ul>
-<h2>4. What we do NOT use</h2><p>No Google Analytics or other analytics, no Meta/Facebook pixel, and no advertising or re-targeting cookies. Our Instagram and other links are ordinary links; following them takes you to those sites, which have their own policies.</p>
+<h2>4. What we do NOT use</h2><p>No Meta or Facebook pixel, no advertising or re-targeting cookies, no session recording, and no selling or sharing of your data. Our Instagram and other links are ordinary links; following them takes you to those sites, which have their own policies.</p>
 <h2>5. Contact-form submissions</h2><p>Our contact form is delivered by Web3Forms and does not set cookies simply by your browsing the site. Information you submit is handled as described in our <a href="privacy" ${GI}>Privacy Policy</a>.</p>
 <h2>6. Managing cookies</h2><p>You can delete or block cookies, and clear local storage, through your browser settings. Blocking functional items may affect booking or the site's appearance. Your browser's help pages explain how.</p>
 <h2>7. Visitors from the EU/UK</h2><p>Because we occasionally have visitors from the EU and UK, we aim for the higher standard: no non-essential cookies are set without a clear action by you, and no third party is contacted automatically when you browse. Our host, Cloudflare, delivers the site and processes technical data such as IP addresses to keep it secure.</p>
