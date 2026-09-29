@@ -480,22 +480,16 @@
   })();
 
   /* ── the phone in your pocket ──
-     The scroll is never taken away from the reader. The phone turns as it passes,
-     and the film runs only while the section is on screen, rewinding to its first
-     frame the moment they leave it in either direction. */
+     The film simply runs. It is never paused, never rewound and never waits for
+     the reader to arrive; the phone just turns as it passes. */
   (function(){
     var sec=document.getElementById('pocket'),ph=document.getElementById('phoneMock'),v=document.getElementById('phoneFilm');
     if(!sec||!ph||!v) return;
-    var near=false;
-    var play=function(){ if(reduce) return; var p=v.play(); if(p&&p.catch) p.catch(function(){}); };
-    var rewind=function(){ v.pause(); try{ v.currentTime=0; }catch(_){} };
-    if('IntersectionObserver' in window){
-      new IntersectionObserver(function(es){
-        near=es[0].isIntersecting;
-        near?play():rewind();
-      },{threshold:.4}).observe(sec);
-    } else { play(); }
-    document.addEventListener('visibilitychange',function(){ document.hidden?v.pause():(near&&play()); });
+    var play=function(){ var p=v.play(); if(p&&p.catch) p.catch(function(){}); };
+    play();
+    /* some browsers stall a background video, so nudge it back whenever it stops */
+    v.addEventListener('pause',play);
+    document.addEventListener('visibilitychange',function(){ if(!document.hidden) play(); });
 
     if(!useG||reduce||!matchMedia('(max-width:1023px)').matches) return;
     G.set(ph,{transformPerspective:1100,transformOrigin:'50% 55%'});

@@ -432,7 +432,7 @@ ${CHAPTERS.map(chapter).join('')}
 <div class="phone" id="phoneMock">
 <span class="phone-side phone-side--power" aria-hidden="true"></span><span class="phone-side phone-side--up" aria-hidden="true"></span><span class="phone-side phone-side--down" aria-hidden="true"></span>
 <div class="phone-screen">
-<video id="phoneFilm" muted loop playsinline preload="metadata" poster="/images/aura-films-hero-poster.jpg">
+<video id="phoneFilm" autoplay muted loop playsinline preload="auto" poster="/images/aura-films-hero-poster.jpg">
 <source src="/images/aura-films-hero-1080p.webm" type="video/webm">
 <source src="/images/aura-films-hero-1080p.mp4" type="video/mp4">
 </video>
