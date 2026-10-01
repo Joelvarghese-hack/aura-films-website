@@ -439,8 +439,7 @@ ${CHAPTERS.map(chapter).join('')}
 <span class="phone-side phone-side--power" aria-hidden="true"></span><span class="phone-side phone-side--up" aria-hidden="true"></span><span class="phone-side phone-side--down" aria-hidden="true"></span>
 <div class="phone-screen">
 <video id="phoneFilm" muted loop playsinline preload="none" poster="/images/aura-films-hero-poster.jpg">
-<source src="/images/aura-films-hero-1080p.mp4" type="video/mp4">
-<source src="/images/aura-films-hero-1080p.webm" type="video/webm">
+<source src="/images/aura-films-hero-720p.mp4" type="video/mp4">
 </video>
 <span class="phone-island" aria-hidden="true"></span>
 </div>

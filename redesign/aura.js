@@ -501,12 +501,13 @@
      neither is fetched until its own layout box exists. After that: some browsers
      stall a muted loop at the wrap point, or stop it when a tab comes back or the
      device drops into low power. Without this the film plays once and freezes. */
-  function keepLooping(v){
+  function keepLooping(v,lazyFrom){
     if(!v||reduce) return;
-    var shown=function(){ return v.getClientRects().length>0; };
+    var started=!lazyFrom;                         /* nothing is fetched before this flips */
+    var shown=function(){ return started&&v.getClientRects().length>0; };
     var go=function(){
       if(!shown()){ if(!v.paused) v.pause(); return; }
-      if(v.preload!=='auto'){ v.preload='auto'; v.load(); }
+      if(v.preload!=='auto') v.preload='auto';
       var p=v.play(); if(p&&p.catch) p.catch(function(){});
     };
     v.addEventListener('ended',function(){ try{ v.currentTime=0; }catch(_){} go(); });
@@ -523,10 +524,14 @@
       } else stuck=0;
       last=v.currentTime;
     },2000);
-    go();
+    /* a film that is three screens away should not be costing anyone their data */
+    if(lazyFrom&&'IntersectionObserver' in window){
+      new IntersectionObserver(function(es,o){ if(es[0].isIntersecting){ o.disconnect(); started=true; go(); } },
+        {rootMargin:'150% 0px'}).observe(lazyFrom);
+    } else go();
   }
   keepLooping(document.getElementById('heroFilm'));
-  keepLooping(document.getElementById('phoneFilm'));
+  keepLooping(document.getElementById('phoneFilm'),document.getElementById('pocket'));
 
   /* ── depth: the stack, the photographs and the reel respond in 3D ── */
   (function(){
