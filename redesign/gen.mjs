@@ -189,7 +189,7 @@ const footer=`<footer class="footer"><div class="container">
 <div class="foot-brand"><img class="mk mk-on-dark" src="/images/aura-mark-light.png" alt="" width="1539" height="668" loading="lazy"><img class="mk mk-on-light" src="/images/aura-mark-dark.png" alt="" width="1539" height="668" loading="lazy">
 <p>A photography studio in Kingston, Ontario. We shoot weddings, portraits, families and the occasional building, anywhere in the province.</p></div>
 <div class="foot-col"><h3>Explore</h3><a href="/">Home</a><a href="/gallery">Gallery</a><a href="/about">About</a><a href="/investment">Investment</a></div>
-<div class="foot-col"><h3>Work</h3><a href="/gallery#weddings">Weddings</a><a href="/engagements">Engagements</a><a href="/family-maternity">Family &amp; Maternity</a><a href="/gallery#architecture">Architecture</a><a href="/faq">Questions</a></div><div class="foot-col"><h3>Across Ontario</h3><a href="/gananoque">Gananoque</a><a href="/napanee">Napanee</a><a href="/brockville">Brockville</a><a href="/belleville">Belleville</a><a href="/prince-edward-county">Prince Edward County</a><a href="/ottawa">Ottawa</a></div>
+<div class="foot-col"><h3>Work</h3><a href="/weddings">Weddings</a><a href="/engagements">Engagements</a><a href="/portraits">Portraits</a><a href="/events">Events</a><a href="/family-maternity">Family &amp; Maternity</a><a href="/gallery#architecture">Architecture</a><a href="/faq">Questions</a></div><div class="foot-col"><h3>Across Ontario</h3><a href="/gananoque">Gananoque</a><a href="/napanee">Napanee</a><a href="/brockville">Brockville</a><a href="/belleville">Belleville</a><a href="/prince-edward-county">Prince Edward County</a><a href="/ottawa">Ottawa</a></div>
 <div class="foot-col"><h3>Reach us</h3><a href="mailto:itsaurafilms@gmail.com">itsaurafilms@gmail.com</a><a href="tel:+13439894546">343 989 4546</a><a href="https://www.instagram.com/aura.filmsca/" target="_blank" rel="noopener">Instagram, @aura.filmsca</a><a href="https://www.google.com/maps/search/?api=1&amp;query=Kingston%2C+Ontario%2C+Canada" target="_blank" rel="noopener">Kingston, Ontario</a></div>
 </div>
 <div class="foot-bot"><p>© 2026 Aura Films. All rights reserved. <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms &amp; Conditions</a> · <a href="/cookie">Cookie Policy</a> · <a href="/refund">Refund Policy</a> · <a href="/accessibility">Accessibility</a></p>
@@ -317,9 +317,9 @@ Architecture:[
  ['Standard','Full Day',1400,'up to 8 hours on site',['Up to 8 hours on site','40 edited images','Advanced lighting and blending','One-year web, social and print licence'],true],
  ['Premium','Full Day + Extended Licence',1950,'wider usage rights',['Up to 8 hours on site','55 edited images','Twilight exterior set','Unlimited-term licence, advertising included'],false]],
 Portraits:[
- ['Mini','Quick Shoot',85,'30 min',['Up to 30 minutes','15 edited photos','One look','Online gallery'],false],
- ['Standard','Portrait Hour',165,'1 hour',['Up to 1 hour','30 edited photos','Two looks','Gallery + retouching'],true],
- ['Premium','Full Session',250,'session',['Up to 2 hours','55 edited photos','Multiple looks / locations','Editorial retouching'],false]],
+ ['Mini','Quick Shoot',85,'+$15 per extra 30 min',['Up to 30 minutes','15 edited photos','One look','Online gallery'],false],
+ ['Standard','Portrait Hour',165,'+$15 per extra 30 min',['Up to 1 hour','30 edited photos','Two looks','Gallery + retouching'],true],
+ ['Premium','Full Session',250,'+$15 per extra 30 min',['Up to 2 hours','55 edited photos','Multiple looks / locations','Editorial retouching'],false]],
 };
 
 const addons=[['Extra hour of coverage','$195'],['Second shooter for a wedding','$350'],['Engagement session','$325'],['Second location / travel','$50-100'],['Extra edited images (10)','$75'],['Printed photo set (20)','$60'],['Raw / unedited files','$150'],['Album &amp; prints','Custom'],['Rush delivery','$150']];
@@ -475,7 +475,7 @@ function buildGallery(){
 <div class="gal-grid">${files.map(f=>`<figure class="gitem" data-full="images/${f}" tabindex="0" role="button" aria-label="Open ${esc(LABELS[cat])} photograph"><img src="images/${f}" alt="${esc(LABELS[cat])} by Aura Films" loading="lazy"></figure>`).join('')}</div>
 </div></section>`;
   }).join('');
-  return head('Gallery, Aura Films','Browse Aura Films weddings, portraits, family and architecture photography from Kingston and across Ontario.','gallery')+nav('Gallery')+`
+  return head('Wedding &amp; Portrait Photography Gallery, Kingston · Aura Films','Real weddings, portraits, family and architecture photography from Kingston and across Ontario, shot and hand-edited by Albin of Aura Films.','gallery')+nav('Gallery')+`
 <header class="phero" data-c="${T('wed-3.jpg')}"><div class="container">
 <h1 class="h-display">The <em>gallery.</em></h1>
 <p class="phero-sub reveal">Tap any photo to see it full size.</p>
@@ -504,7 +504,7 @@ const STRIP=[
  ['baby-15.jpg','Newborn','family','A newborn asleep on white bedding, in black and white'],
  ['arch-8.jpg','Architecture','architecture','A bathroom with a dark stone vanity and warm lighting'],
 ];
-const about=head('About Albin, Aura Films','Meet Albin, the Kingston photographer behind Aura Films, who shoots weddings, portraits and family sessions and edits every photo by hand.','about')+nav('About')+`
+const about=head('About Albin, Kingston Photographer · Aura Films','Meet Albin, the Kingston photographer behind Aura Films, who shoots weddings, portraits and family sessions and edits every photo by hand.','about')+nav('About')+`
 <header class="ab-hero" data-c="${T('albin-new.jpg')}"><div class="container ab-hero-grid">
 <div class="ab-hero-copy">
 <h1 class="h-display"><span class="ln"><span>Nice to</span></span> <span class="ln"><span><em>meet you.</em></span></span></h1>
@@ -550,7 +550,7 @@ const tier=([tag,name,price,add,feats,feat])=>`<article class="tier${feat?' tier
 const CHIPS=[['An assistant on bigger shoots','Weddings and events get a second pair of hands.'],['Edited by hand','We edit each photo on its own. No batch filters.'],['Quick turnaround','Sneak peeks within a week, full galleries in 10 to 21 days.'],['Clear pricing','Prices in CAD and valid for 30 days. A 30% retainer books your date.']];
 const EXP=[['Consult','We talk through what you want and which moments matter most to you.'],['Plan','We sort out locations, timing and a shot list together.'],['Shoot','A relaxed day with clear direction.'],['Deliver','You get a gallery edited by hand.']];
 
-const investment=head('Investment, Aura Films','Photography packages and prices from Aura Films in Kingston: weddings, events, family and portrait sessions, in CAD.','investment')+nav('Investment')+`
+const investment=head('Photography Prices in Kingston, ON · Aura Films','Published photography prices in Kingston: weddings from $1,195, events from $399, family from $179, portraits from $85. Every package, in CAD.','investment')+nav('Investment')+`
 <header class="phero" data-c="${T('wed-1.jpg')}"><div class="container">
 <h1 class="h-display">The <em>investment.</em></h1>
 <p class="phero-sub reveal">Every package and price is listed here, from a thirty-minute portrait to a full wedding day.</p>
@@ -656,10 +656,10 @@ const refund=legalShell('Refund & Cancellation Policy',`
 /* Home keeps the additive motion layer (home page only). */
 const homeHTML=finalize(home);
 
-const schema=`<script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","additionalType":"https://schema.org/PhotographStore","name":"Aura Films","url":"${SITE}","image":"${SITE}images/wed-3.jpg","description":"Photography studio in Kingston, Ontario. Weddings, portraits, family and architecture, shot and hand graded by Albin.","email":"itsaurafilms@gmail.com","telephone":"+1-343-989-4546","priceRange":"$85 - $2695","address":{"@type":"PostalAddress","addressLocality":"Kingston","addressRegion":"ON","addressCountry":"CA"},"areaServed":{"@type":"State","name":"Ontario"},"founder":{"@type":"Person","name":"Albin"},"sameAs":["https://www.instagram.com/aura.filmsca/"]}</script>`;
+const schema=`<script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","additionalType":"https://schema.org/PhotographStore","name":"Aura Films","url":"${SITE}","image":"${SITE}images/wed-3.jpg","description":"Photography studio in Kingston, Ontario. Weddings, portraits, family and architecture, shot and hand graded by Albin.","email":"itsaurafilms@gmail.com","telephone":"+1-343-989-4546","priceRange":"$85 - $2695","address":{"@type":"PostalAddress","addressLocality":"Kingston","addressRegion":"ON","addressCountry":"CA"},"areaServed":{"@type":"State","name":"Ontario"},"founder":{"@type":"Person","name":"Albin"},"sameAs":["https://www.instagram.com/aura.filmsca/"],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Photography packages","itemListElement":[{"@type":"Offer","priceCurrency":"CAD","price":"1195","itemOffered":{"@type":"Service","name":"Wedding photography","url":"${SITE}weddings"}},{"@type":"Offer","priceCurrency":"CAD","price":"85","itemOffered":{"@type":"Service","name":"Portrait photography","url":"${SITE}portraits"}},{"@type":"Offer","priceCurrency":"CAD","price":"399","itemOffered":{"@type":"Service","name":"Event photography","url":"${SITE}events"}},{"@type":"Offer","priceCurrency":"CAD","price":"179","itemOffered":{"@type":"Service","name":"Family and maternity photography","url":"${SITE}family-maternity"}},{"@type":"Offer","priceCurrency":"CAD","price":"750","itemOffered":{"@type":"Service","name":"Architectural photography","url":"${SITE}investment#pk-architecture"}}]}}</script>`;
 const withSchema=h=>h.replace('</head>',schema+'</head>');
 
-const PAGES=[['',1.0],['gallery',0.9],['about',0.8],['investment',0.9],['faq',0.7],['family-maternity',0.8],['engagements',0.8],['gananoque',0.6],['napanee',0.6],['brockville',0.6],['belleville',0.6],['prince-edward-county',0.7],['ottawa',0.6],['privacy',0.3],['terms',0.3],['cookie',0.3],['refund',0.3],['accessibility',0.3]];
+const PAGES=[['',1.0],['gallery',0.9],['about',0.8],['investment',0.9],['faq',0.7],['weddings',0.9],['portraits',0.8],['events',0.8],['family-maternity',0.8],['engagements',0.8],['gananoque',0.6],['napanee',0.6],['brockville',0.6],['belleville',0.6],['prince-edward-county',0.7],['ottawa',0.6],['privacy',0.3],['terms',0.3],['cookie',0.3],['refund',0.3],['accessibility',0.3]];
 const today=new Date().toISOString().slice(0,10);
 const NL=String.fromCharCode(10);
 if(sharp) await writeFile(TONES_FILE,JSON.stringify(TONES));
@@ -743,6 +743,90 @@ const SERVICE_PAGES=[
   {q:'Can we bring the dog?', a:'Yes, and you should. Bring someone who can hold the lead when they are not in frame.'},
   {q:'Do we have to be getting married?', a:'No. Plenty of these are just couples who wanted decent photographs of themselves.'}],
  links:[['/investment#pk-weddings','Wedding packages'],['/gallery#weddings','Wedding photographs'],['/faq','Questions, answered']]},
+];
+
+/* Hub pages: one per service people search for by name ("Kingston wedding photographer"),
+   each answering the questions that sit behind that search. Facts only from the packages above. */
+const HUB_PAGES=[
+{slug:'weddings', hero:'wed-1.jpg', out:'weddings.html', faqSchema:true,
+ title:'Kingston Wedding Photographer · Aura Films',
+ desc:'Wedding photography in Kingston, Ontario, from $1,195. Three published packages, two photographers on the larger days, every frame edited by hand by Albin.',
+ kicker:'Weddings · Kingston, Ontario',
+ h1:'Wedding photography in Kingston, <em>priced in the open.</em>',
+ heroAlt:'A bride in a deep red saree leans on her groom under spring blossom',
+ lede:'Albin photographs weddings in Kingston and anywhere in Ontario worth driving to. Three packages, from a three-hour micro-wedding to a ten-hour documentary day, and every price is on the site.',
+ sections:[
+  {h:'What a Kingston wedding photographer costs here', p:[
+   'The <b>Micro-wedding</b> is $1,195 for up to three hours and 150 edited photographs. The <b>Full Ceremony</b> is $1,895 for up to six hours with two photographers, 300 photographs and an engagement session included. The <b>Full Day</b> is $2,695 for up to ten hours with two photographers, 450 photographs, the engagement session and help planning the timeline.',
+   'Extra time on the Micro-wedding is $195 an hour. A 30% retainer holds the date and the rest is due on or before the day. Prices are in Canadian dollars and hold for thirty days from a written quote.']},
+  {h:'How many hours do you actually need?', p:[
+   '<b>Three hours</b> covers a ceremony, the family photographs straight after it and a half hour of the two of you. It suits a courthouse wedding, an elopement or a small lunch.',
+   '<b>Six hours</b> starts with the last part of getting ready and runs through the ceremony, portraits and into the reception: entrances, speeches and the first dance. Most weddings fit here.',
+   '<b>Ten hours</b> is preparations through to the dance floor, with nothing missed in between. If your ceremony and reception are at different venues, or the party is the part you care about most, this is the one.']},
+  {h:'One photographer or two?', p:[
+   'Two, on any day with more than one thing happening at once. On the Full Ceremony and Full Day a second photographer is included, so one of us can be with each of you while you get ready, and the ceremony is covered from the front and the back.',
+   'On a Micro-wedding there is rarely more than one thing happening, so Albin on his own is the right number. A second shooter can be added for $350 if you want one.']},
+  {h:'Where we shoot around Kingston', p:[
+   'City Park under the old trees, the waterfront away from the crowds, and the limestone streets downtown, which give you texture in any weather. Further out we work often in <a href="/gananoque">Gananoque</a> and the Thousand Islands, <a href="/prince-edward-county">Prince Edward County</a>, <a href="/napanee">Napanee</a>, <a href="/belleville">Belleville</a>, <a href="/brockville">Brockville</a> and <a href="/ottawa">Ottawa</a>.',
+   'Travel within an hour of Kingston is included. Anything further is agreed in writing before you book, so there is nothing to discover later.']},
+  {h:'What you get afterwards', p:[
+   'A sneak peek within the first week, then the full gallery in seven to fourteen days depending on the package. Every photograph is graded by hand, never run through a preset, and comes with a print release so you can print wherever you like.']}],
+ faqTitle:'Questions couples ask first',
+ faq:[
+  {q:'How far ahead should we book?', a:'As soon as you have a date and a venue. Summer Saturdays go first, and in Prince Edward County a year ahead is not too early.'},
+  {q:'What happens if it rains?', a:'We shoot anyway, because the day is happening either way. We find the indoor and covered options in advance so it is a plan, not a scramble.'},
+  {q:'Is the engagement session really included?', a:'Yes, on the Full Ceremony and the Full Day. Booked on its own it is $325.'},
+  {q:'Can we see a full wedding gallery?', a:'Yes, ask. Highlight reels flatter everyone, so we are happy to send a complete set from a comparable day.'},
+  {q:'Do we get the RAW files?', a:'No. You get every edited photograph at full resolution. The editing is half of the work.'}],
+ links:[['/investment#pk-weddings','Wedding packages in full'],['/engagements','Engagement sessions'],['/gallery#weddings','Wedding photographs'],['/faq','Questions, answered']]},
+
+{slug:'portraits', hero:'por-5.jpg', out:'portraits.html', faqSchema:true,
+ title:'Portrait Photographer in Kingston, Ontario · Aura Films',
+ desc:'Portrait photography in Kingston from $85: headshots, graduation, birthdays and couples. Thirty minutes to two hours, plus $15 for each extra half hour.',
+ kicker:'Portraits · Kingston, Ontario',
+ h1:'Portraits in Kingston, <em>from $85.</em>',
+ heroAlt:'A woman in a wide-brimmed hat stands in a field of sunflowers',
+ lede:'Headshots, graduation, birthdays, couples, or simply photographs of yourself that you like. Thirty minutes, an hour or two, and every frame edited by hand.',
+ sections:[
+  {h:'Three sessions, and what each one is for', p:[
+   'The <b>Quick Shoot</b> is $85 for up to thirty minutes, one look and fifteen edited photographs. It is the right size for a headshot or a profile picture.',
+   'The <b>Portrait Hour</b> is $165 for up to an hour, two looks and thirty photographs with retouching. Most graduation and birthday sessions are this one.',
+   'The <b>Full Session</b> is $250 for up to two hours, several looks or locations and fifty-five photographs with editorial retouching, for when you want a proper set.',
+   'Need longer on the day? Each extra thirty minutes is <b>$15</b>.']},
+  {h:'Where and when', p:[
+   'Anywhere in Kingston that suits you: City Park, the waterfront, downtown, or somewhere that means something to you. Late afternoon, roughly an hour before sunset, is when the light is worth using.',
+   'If the weather rules out an outdoor session, we move it at no cost.']},
+  {h:'What to wear', p:[
+   'Clothes you already feel good in, not something new. Solid colours and textures photograph better than small patterns. If you are unsure, send photos of the options before the day and we will tell you honestly.']}],
+ faqTitle:'Before you book',
+ faq:[
+  {q:'How soon do we get the photographs?', a:'Ten to twenty-one days, in an online gallery with a print release.'},
+  {q:'Can two people share a session?', a:'Yes. Couples and friends book the Portrait Hour or the Full Session so there is time for everyone.'},
+  {q:'Is the Quick Shoot enough for a headshot?', a:'Yes. Thirty minutes and one look is the right size for a headshot or a profile photograph.'}],
+ links:[['/investment#pk-portraits','Portrait packages in full'],['/gallery#portraits','Portrait photographs'],['/engagements','Engagement sessions'],['/faq','Questions, answered']]},
+
+{slug:'events', hero:'baby-12.jpg', out:'events.html', faqSchema:true,
+ title:'Event Photographer in Kingston, Ontario · Aura Films',
+ desc:'Event photography in Kingston from $399: baby showers, birthdays and corporate events. Two to six hours, with a second photographer on the Elite package.',
+ kicker:'Events · Kingston, Ontario',
+ h1:'Events in Kingston, <em>covered properly.</em>',
+ heroAlt:'An expecting mother at her baby shower among blue balloons',
+ lede:'Baby showers, birthdays, anniversaries and corporate events, photographed in Kingston and across Ontario. Three packages from $399.',
+ sections:[
+  {h:'The packages', p:[
+   '<b>Essentials</b>, $399: up to two hours and sixty edited photographs, delivered in fourteen to twenty-one days. Extra time is $120 an hour.',
+   '<b>Signature</b>, $665: up to four hours, 120 photographs, a sneak-peek gallery and a social media kit, delivered in ten to fourteen days. Extra time is $150 an hour.',
+   '<b>Elite</b>, $935: up to six hours with <b>two photographers</b>, 200 photographs, twelve social-ready edits and a highlights gallery, delivered within seven days. Extra time is $175 an hour.']},
+  {h:'Which one fits', p:[
+   'Two hours is enough for a shower or a birthday where everything happens in one room. Four hours suits a party with speeches, a cake and a long evening. Six hours with two photographers is for large or busy events, where the guests are as much the story as the hosts.']},
+  {h:'How it works on the day', p:[
+   'Send the timeline and the names of the people who matter most, and we will make sure they are photographed. We work quietly around the room rather than stopping it, apart from the few group photographs you ask for.']}],
+ faqTitle:'Common questions',
+ faq:[
+  {q:'Do you photograph corporate events?', a:'Yes. Tell us how the photographs will be used and we will make sure the gallery covers it.'},
+  {q:'Can you post photographs quickly for social media?', a:'The Signature and Elite packages include social-ready edits, and Elite is delivered within seven days.'},
+  {q:'Do you travel?', a:'Anywhere in Ontario. Travel within an hour of Kingston is included.'}],
+ links:[['/investment#pk-events','Event packages in full'],['/family-maternity','Family &amp; maternity'],['/gallery','The gallery'],['/faq','Questions, answered']]},
 ];
 
 /* Places worth a page: somewhere people actually search, and near enough to shoot well. */
@@ -842,6 +926,9 @@ const faqPage=finalize(head('Questions, Answered · Aura Films',
 
 await writeFile('../faq.html',faqPage);
 for(const sp of SERVICE_PAGES) await writeFile('../'+sp.out,withSchema(lpShell(sp)));
+const faqLd=o=>'<script type="application/ld+json">'+JSON.stringify({'@context':'https://schema.org','@type':'FAQPage',
+  mainEntity:o.faq.map(f=>({'@type':'Question',name:f.q,acceptedAnswer:{'@type':'Answer',text:f.a.replace(/<[^>]+>/g,'')}}))})+'</script>';
+for(const hp of HUB_PAGES) await writeFile('../'+hp.out,withSchema(lpShell(hp)).replace('</head>',faqLd(hp)+'</head>'));
 for(const x of PLACES) await writeFile('../'+x.slug+'.html',withSchema(placePage(x)));
 
 await writeFile('../sitemap.xml',
@@ -890,6 +977,9 @@ await writeFile('../llms.txt', [
 '- [About](' + SITE + 'about): who Albin is and how he works.',
 '- [Investment](' + SITE + 'investment): every package and price, in full.',
 '- [Questions answered](' + SITE + 'faq): booking, travel, turnaround, second photographers, print releases.',
+'- [Kingston wedding photography](' + SITE + 'weddings): packages, hours, second photographers, travel.',
+'- [Portraits](' + SITE + 'portraits): sessions from $85, plus $15 per extra 30 minutes.',
+'- [Events](' + SITE + 'events): showers, birthdays and corporate events from $399.',
 '- [Family and maternity](' + SITE + 'family-maternity): newborn, maternity and family sessions.',
 '- [Engagement sessions](' + SITE + 'engagements): couples sessions before the wedding day.',
 '',
