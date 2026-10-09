@@ -748,86 +748,76 @@ const SERVICE_PAGES=[
 /* Hub pages: one per service people search for by name ("Kingston wedding photographer"),
    each answering the questions that sit behind that search. Facts only from the packages above. */
 const HUB_PAGES=[
-{slug:'weddings', hero:'wed-1.jpg', out:'weddings.html', faqSchema:true,
+{slug:'weddings', hero:'_DSC8637.jpg', out:'weddings.html', pkg:'Weddings', strip:[['wed-10.jpg','A groom and his bride in a red saree lean their foreheads together under spring blossom'],['wed-11.jpg','A bride in white surrounded by her bridesmaids and flower girls'],['wed-12.jpg','A couple kiss in a white gazebo surrounded by sunflowers']],
  title:'Kingston Wedding Photographer · Aura Films',
  desc:'Wedding photography in Kingston, Ontario, from $1,195. Three published packages, two photographers on the larger days, every frame edited by hand by Albin.',
  kicker:'Weddings · Kingston, Ontario',
  h1:'Wedding photography in Kingston, <em>priced in the open.</em>',
- heroAlt:'A bride in a deep red saree leans on her groom under spring blossom',
- lede:'Albin photographs weddings in Kingston and anywhere in Ontario worth driving to. Three packages, from a three-hour micro-wedding to a ten-hour documentary day, and every price is on the site.',
+ heroAlt:'A bride and groom face each other in front of the officiant during their ceremony',
+ lede:'Albin photographs weddings in Kingston and across Ontario. Three packages, from a three-hour micro-wedding to a ten-hour documentary day, with every price on the page.',
  sections:[
-  {h:'What a Kingston wedding photographer costs here', p:[
-   'The <b>Micro-wedding</b> is $1,195 for up to three hours and 150 edited photographs. The <b>Full Ceremony</b> is $1,895 for up to six hours with two photographers, 300 photographs and an engagement session included. The <b>Full Day</b> is $2,695 for up to ten hours with two photographers, 450 photographs, the engagement session and help planning the timeline.',
-   'Extra time on the Micro-wedding is $195 an hour. A 30% retainer holds the date and the rest is due on or before the day. Prices are in Canadian dollars and hold for thirty days from a written quote.']},
-  {h:'How many hours do you actually need?', p:[
-   '<b>Three hours</b> covers a ceremony, the family photographs straight after it and a half hour of the two of you. It suits a courthouse wedding, an elopement or a small lunch.',
-   '<b>Six hours</b> starts with the last part of getting ready and runs through the ceremony, portraits and into the reception: entrances, speeches and the first dance. Most weddings fit here.',
-   '<b>Ten hours</b> is preparations through to the dance floor, with nothing missed in between. If your ceremony and reception are at different venues, or the party is the part you care about most, this is the one.']},
-  {h:'One photographer or two?', p:[
-   'Two, on any day with more than one thing happening at once. On the Full Ceremony and Full Day a second photographer is included, so one of us can be with each of you while you get ready, and the ceremony is covered from the front and the back.',
-   'On a Micro-wedding there is rarely more than one thing happening, so Albin on his own is the right number. A second shooter can be added for $350 if you want one.']},
-  {h:'Where we shoot around Kingston', p:[
-   'City Park under the old trees, the waterfront away from the crowds, and the limestone streets downtown, which give you texture in any weather. Further out we work often in <a href="/gananoque">Gananoque</a> and the Thousand Islands, <a href="/prince-edward-county">Prince Edward County</a>, <a href="/napanee">Napanee</a>, <a href="/belleville">Belleville</a>, <a href="/brockville">Brockville</a> and <a href="/ottawa">Ottawa</a>.',
-   'Travel within an hour of Kingston is included. Anything further is agreed in writing before you book, so there is nothing to discover later.']},
-  {h:'What you get afterwards', p:[
-   'A sneak peek within the first week, then the full gallery in seven to fourteen days depending on the package. Every photograph is graded by hand, never run through a preset, and comes with a print release so you can print wherever you like.']}],
- faqTitle:'Questions couples ask first',
+  {h:'How many hours do you need?', p:[
+   '<b>Three hours</b> covers the ceremony, family photographs and a short portrait session. Right for a courthouse wedding, an elopement or a small lunch.',
+   '<b>Six hours</b> adds the end of getting ready and the start of the reception: entrances, speeches, the first dance. Most weddings fit here.',
+   '<b>Ten hours</b> runs from preparations to the dance floor. Choose it if the ceremony and reception are at different venues, or the party matters most to you.']},
+  {h:'Where we shoot', p:[
+   'In Kingston: City Park, the waterfront and the limestone streets downtown. Further out, often in <a href="/gananoque">Gananoque</a>, <a href="/prince-edward-county">Prince Edward County</a>, <a href="/napanee">Napanee</a>, <a href="/belleville">Belleville</a>, <a href="/brockville">Brockville</a> and <a href="/ottawa">Ottawa</a>. Travel within an hour of Kingston is included.']}],
+ faqTitle:'What couples ask before booking',
  faq:[
-  {q:'How far ahead should we book?', a:'As soon as you have a date and a venue. Summer Saturdays go first, and in Prince Edward County a year ahead is not too early.'},
-  {q:'What happens if it rains?', a:'We shoot anyway, because the day is happening either way. We find the indoor and covered options in advance so it is a plan, not a scramble.'},
-  {q:'Is the engagement session really included?', a:'Yes, on the Full Ceremony and the Full Day. Booked on its own it is $325.'},
-  {q:'Can we see a full wedding gallery?', a:'Yes, ask. Highlight reels flatter everyone, so we are happy to send a complete set from a comparable day.'},
-  {q:'Do we get the RAW files?', a:'No. You get every edited photograph at full resolution. The editing is half of the work.'}],
- links:[['/investment#pk-weddings','Wedding packages in full'],['/engagements','Engagement sessions'],['/gallery#weddings','Wedding photographs'],['/faq','Questions, answered']]},
+  {q:'How much does a wedding photographer cost in Kingston?', a:'With Aura Films, $1,195 for up to three hours, $1,895 for up to six hours with two photographers, or $2,695 for up to ten hours with two photographers. The things that change the price are hours, a second photographer and travel beyond an hour of Kingston.'},
+  {q:'Do we need a second photographer?', a:'If two things happen at once, yes: both of you getting ready in different places, or a large guest list. It is included on the Full Ceremony and Full Day packages and can be added to a Micro-wedding for $350.'},
+  {q:'When will we get our wedding photos?', a:'A sneak peek within the first week, and the full gallery in seven to fourteen days depending on the package, with a print release.'},
+  {q:'How far ahead should we book?', a:'As soon as you have a date and a venue. Summer Saturdays go first, and for Prince Edward County a year ahead is not too early.'},
+  {q:'How do we hold our date?', a:'A signed agreement and a 30% retainer. The balance is due on or before the wedding day.'},
+  {q:'Can we see a full wedding gallery first?', a:'Yes. Ask and we will send a complete set from a comparable day, not just the highlights.'}],
+ links:[['/investment#pk-weddings','All wedding packages'],['/engagements','Engagement sessions'],['/gallery#weddings','Wedding gallery']]},
 
-{slug:'portraits', hero:'por-5.jpg', out:'portraits.html', faqSchema:true,
+{slug:'portraits', hero:'por-2.jpg', out:'portraits.html', pkg:'Portraits', strip:[['por-5.jpg','A woman in a wide-brimmed hat stands in a field of sunflowers'],['IMG_3437.JPG.jpeg','A woman reads on a park bench under tall summer trees'],['por-3.jpg','A woman in a yellow floral dress sits among potted plants']],
  title:'Portrait Photographer in Kingston, Ontario · Aura Films',
  desc:'Portrait photography in Kingston from $85: headshots, graduation, birthdays and couples. Thirty minutes to two hours, plus $15 for each extra half hour.',
  kicker:'Portraits · Kingston, Ontario',
  h1:'Portraits in Kingston, <em>from $85.</em>',
- heroAlt:'A woman in a wide-brimmed hat stands in a field of sunflowers',
- lede:'Headshots, graduation, birthdays, couples, or simply photographs of yourself that you like. Thirty minutes, an hour or two, and every frame edited by hand.',
+ heroAlt:'A woman in a black off-shoulder dress in front of summer greenery',
+ lede:'Headshots, graduation, birthdays, couples, or simply photographs of yourself you actually like. Every frame edited by hand.',
  sections:[
-  {h:'Three sessions, and what each one is for', p:[
-   'The <b>Quick Shoot</b> is $85 for up to thirty minutes, one look and fifteen edited photographs. It is the right size for a headshot or a profile picture.',
-   'The <b>Portrait Hour</b> is $165 for up to an hour, two looks and thirty photographs with retouching. Most graduation and birthday sessions are this one.',
-   'The <b>Full Session</b> is $250 for up to two hours, several looks or locations and fifty-five photographs with editorial retouching, for when you want a proper set.',
-   'Need longer on the day? Each extra thirty minutes is <b>$15</b>.']},
   {h:'Where and when', p:[
-   'Anywhere in Kingston that suits you: City Park, the waterfront, downtown, or somewhere that means something to you. Late afternoon, roughly an hour before sunset, is when the light is worth using.',
-   'If the weather rules out an outdoor session, we move it at no cost.']},
-  {h:'What to wear', p:[
-   'Clothes you already feel good in, not something new. Solid colours and textures photograph better than small patterns. If you are unsure, send photos of the options before the day and we will tell you honestly.']}],
- faqTitle:'Before you book',
+   'Anywhere in Kingston that suits you: City Park, the waterfront, downtown, or somewhere that means something to you. The hour before sunset gives the softest light.',
+   'Need longer on the day? Each extra thirty minutes is $15.']}],
+ faqTitle:'Before your session',
  faq:[
-  {q:'How soon do we get the photographs?', a:'Ten to twenty-one days, in an online gallery with a print release.'},
-  {q:'Can two people share a session?', a:'Yes. Couples and friends book the Portrait Hour or the Full Session so there is time for everyone.'},
-  {q:'Is the Quick Shoot enough for a headshot?', a:'Yes. Thirty minutes and one look is the right size for a headshot or a profile photograph.'}],
- links:[['/investment#pk-portraits','Portrait packages in full'],['/gallery#portraits','Portrait photographs'],['/engagements','Engagement sessions'],['/faq','Questions, answered']]},
+  {q:'How much is a portrait session in Kingston?', a:'$85 for thirty minutes, $165 for an hour, or $250 for up to two hours with several looks or locations. Extra time is $15 per half hour.'},
+  {q:'What should I wear for my photoshoot?', a:'Clothes you already feel good in. Solid colours and textures photograph better than small patterns. Send photos of your options beforehand and we will help you choose.'},
+  {q:'Which session is right for a headshot?', a:'The thirty-minute Quick Shoot: one look and fifteen edited photographs.'},
+  {q:'What happens if it rains?', a:'We move outdoor sessions to another day at no cost.'},
+  {q:'When do I get my photos?', a:'Ten to twenty-one days, in an online gallery with a print release.'}],
+ links:[['/investment#pk-portraits','All portrait packages'],['/engagements','Engagement sessions'],['/gallery#portraits','Portrait gallery']]},
 
-{slug:'events', hero:'baby-12.jpg', out:'events.html', faqSchema:true,
+{slug:'events', hero:'_DSC1267.jpg', out:'events.html', pkg:'Events', strip:[['baby-12.jpg','An expecting mother at her baby shower among blue balloons'],['baby-19.jpg','A baby girl in pink laughs among pink balloons at her birthday'],['baby-17.jpg','A teddy bear and a basket of red roses decorate an outdoor celebration']],
  title:'Event Photographer in Kingston, Ontario · Aura Films',
  desc:'Event photography in Kingston from $399: baby showers, birthdays and corporate events. Two to six hours, with a second photographer on the Elite package.',
  kicker:'Events · Kingston, Ontario',
  h1:'Events in Kingston, <em>covered properly.</em>',
- heroAlt:'An expecting mother at her baby shower among blue balloons',
- lede:'Baby showers, birthdays, anniversaries and corporate events, photographed in Kingston and across Ontario. Three packages from $399.',
+ heroAlt:'A blue baby shower cake topped with Oh Baby among blue balloons',
+ lede:'Baby showers, birthdays, anniversaries and corporate events, in Kingston and across Ontario. Three packages from $399.',
  sections:[
-  {h:'The packages', p:[
-   '<b>Essentials</b>, $399: up to two hours and sixty edited photographs, delivered in fourteen to twenty-one days. Extra time is $120 an hour.',
-   '<b>Signature</b>, $665: up to four hours, 120 photographs, a sneak-peek gallery and a social media kit, delivered in ten to fourteen days. Extra time is $150 an hour.',
-   '<b>Elite</b>, $935: up to six hours with <b>two photographers</b>, 200 photographs, twelve social-ready edits and a highlights gallery, delivered within seven days. Extra time is $175 an hour.']},
-  {h:'Which one fits', p:[
-   'Two hours is enough for a shower or a birthday where everything happens in one room. Four hours suits a party with speeches, a cake and a long evening. Six hours with two photographers is for large or busy events, where the guests are as much the story as the hosts.']},
-  {h:'How it works on the day', p:[
-   'Send the timeline and the names of the people who matter most, and we will make sure they are photographed. We work quietly around the room rather than stopping it, apart from the few group photographs you ask for.']}],
- faqTitle:'Common questions',
+  {h:'Which package fits', p:[
+   '<b>Two hours</b> suits a shower or birthday that happens in one room. <b>Four hours</b> suits a party with speeches, cake and a long evening. <b>Six hours with two photographers</b> is for large, busy events where the guests are as much the story as the hosts.']}],
+ faqTitle:'Planning your event',
  faq:[
+  {q:'How much does an event photographer cost in Kingston?', a:'$399 for up to two hours, $665 for up to four, or $935 for up to six hours with two photographers. Extra time is $120 to $175 an hour depending on the package.'},
+  {q:'How many hours do I need for a baby shower?', a:'Usually two. Showers tend to happen in one room over a short afternoon, and the Essentials package covers it.'},
+  {q:'How fast can we get the photos?', a:'Fourteen to twenty-one days on Essentials, ten to fourteen on Signature with a sneak peek, and within seven days on Elite.'},
   {q:'Do you photograph corporate events?', a:'Yes. Tell us how the photographs will be used and we will make sure the gallery covers it.'},
-  {q:'Can you post photographs quickly for social media?', a:'The Signature and Elite packages include social-ready edits, and Elite is delivered within seven days.'},
-  {q:'Do you travel?', a:'Anywhere in Ontario. Travel within an hour of Kingston is included.'}],
- links:[['/investment#pk-events','Event packages in full'],['/family-maternity','Family &amp; maternity'],['/gallery','The gallery'],['/faq','Questions, answered']]},
+  {q:'What do you need from us beforehand?', a:'The timeline and the names of the people who matter most, so they are photographed.'}],
+ links:[['/investment#pk-events','All event packages'],['/family-maternity','Family &amp; maternity'],['/gallery','The gallery']]},
 ];
+
+/* Hub page = the shared landing template plus package cards and a photo strip, so it reads as a page, not a wall of text. */
+const hubShell=o=>{
+ const cards=`<section class="hub-pk reveal"><h2 class="h-md">Packages and prices</h2><div class="tiers">${PKG[o.pkg].map(tier).join('').replace(/href="#contact"/g,'href="/about#contact"')}</div></section>`;
+ const strip=`<div class="hub-strip">${o.strip.map(([f,a])=>`<figure class="reveal"><picture><source type="image/webp" srcset="images/${f}.webp"><img src="images/${f}" alt="${a}" loading="lazy"></picture></figure>`).join('')}</div>`;
+ return lpShell({...o,sections:[]}).replace('<div class="container lp-body">','<div class="container hub-wide">'+cards+strip+'</div><div class="container lp-body">'+o.sections.map(x=>`<section class="lp-sec reveal"><h2 class="h-md">${x.h}</h2>${x.p.map(t=>`<p>${t}</p>`).join('')}</section>`).join('')).replace('lp-hero reveal','lp-hero lp-hero--wide reveal');
+};
 
 /* Places worth a page: somewhere people actually search, and near enough to shoot well. */
 const PLACES=[
@@ -928,7 +918,7 @@ await writeFile('../faq.html',faqPage);
 for(const sp of SERVICE_PAGES) await writeFile('../'+sp.out,withSchema(lpShell(sp)));
 const faqLd=o=>'<script type="application/ld+json">'+JSON.stringify({'@context':'https://schema.org','@type':'FAQPage',
   mainEntity:o.faq.map(f=>({'@type':'Question',name:f.q,acceptedAnswer:{'@type':'Answer',text:f.a.replace(/<[^>]+>/g,'')}}))})+'</script>';
-for(const hp of HUB_PAGES) await writeFile('../'+hp.out,withSchema(lpShell(hp)).replace('</head>',faqLd(hp)+'</head>'));
+for(const hp of HUB_PAGES) await writeFile('../'+hp.out,withSchema(hubShell(hp)).replace('</head>',faqLd(hp)+'</head>'));
 for(const x of PLACES) await writeFile('../'+x.slug+'.html',withSchema(placePage(x)));
 
 await writeFile('../sitemap.xml',
