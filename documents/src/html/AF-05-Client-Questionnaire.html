@@ -1,0 +1,73 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Clash;src:url("file:///home/user/aura-films-website/Fonts/Clash%20Display/ClashDisplay-Semibold.woff2") format("woff2");font-weight:600}
+@font-face{font-family:Clash;src:url("file:///home/user/aura-films-website/Fonts/Clash%20Display/ClashDisplay-Medium.woff2") format("woff2");font-weight:500}
+@font-face{font-family:Cabinet;src:url("file:///home/user/aura-films-website/Fonts/Cabinet%20Grotesk/CabinetGrotesk-Regular.woff2") format("woff2");font-weight:400}
+@font-face{font-family:Cabinet;src:url("file:///home/user/aura-films-website/Fonts/Cabinet%20Grotesk/CabinetGrotesk-Medium.woff2") format("woff2");font-weight:500}
+@font-face{font-family:Cabinet;src:url("file:///home/user/aura-films-website/Fonts/Cabinet%20Grotesk/CabinetGrotesk-Bold.woff2") format("woff2");font-weight:700}
+@page{size:8.5in 11in;margin:0}
+:root{--ink:#1B120B;--muted:#5a3e2b;--faint:#8a6a52;--acc:#e8a748;--line:#dccbb0;--fill:#FBF6EC;--ivory:#F9F0E1;--em:#39D599}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#fff}
+body{font-family:Cabinet,sans-serif;color:var(--ink);font-size:11.5px;line-height:1.5;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{position:relative;width:816px;height:1056px;overflow:hidden;padding:0 60px;page-break-after:always;break-after:page}
+.page:last-child{page-break-after:auto;break-after:auto}
+.band{margin:0 -60px 22px;padding:26px 60px 18px;background:var(--ivory);display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1.5px solid var(--acc)}
+.logo{width:118px;height:52px;overflow:hidden;position:relative}
+.logo img{position:absolute;width:152px;left:-18px;top:-60px;mix-blend-mode:multiply}
+.band .t{text-align:right}
+.band h1{font-family:Clash;font-weight:600;font-size:25px;letter-spacing:-.03em;line-height:1.05}
+.band .sub{font-size:10.5px;color:var(--muted);margin-top:4px;letter-spacing:.02em}
+.cont{font-size:10px;color:var(--faint);text-transform:uppercase;letter-spacing:.14em;margin:-8px 0 12px}
+h2{font-family:Clash;font-weight:500;font-size:13.5px;letter-spacing:-.01em;margin:14px 0 7px;display:flex;align-items:center;gap:8px}
+h2::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--acc);flex:none}
+p{margin:0 0 6px}
+.lede{color:var(--muted);font-size:11.5px;margin-bottom:8px}
+.grid{display:grid;gap:7px 16px}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}.g4{grid-template-columns:repeat(4,1fr)}
+.fl{display:flex;flex-direction:column;gap:2px;min-width:0}
+.fl label{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--faint);font-weight:500}
+.f{display:block;height:22px;background:var(--fill);border-bottom:1px solid var(--line);border-radius:3px 3px 0 0}
+.f.m{height:auto}
+.f.sig{height:34px;background:#fff;border-bottom:1.2px solid var(--ink);border-radius:0}
+.checks{display:flex;flex-wrap:wrap;gap:6px 16px;margin:2px 0 10px}
+.ck{display:inline-flex;align-items:center;gap:6px;font-size:11px}
+.fc{display:inline-block;width:12px;height:12px;border:1px solid var(--muted);border-radius:2px;background:#fff;flex:none}
+.clause{display:grid;grid-template-columns:1fr 62px;gap:10px;align-items:start;margin:0 0 7px}
+.clause b{font-weight:700}
+.clause .n{font-family:Clash;font-weight:500;color:var(--acc);margin-right:4px}
+.ini{display:flex;flex-direction:column;align-items:center;gap:2px}
+.ini .f{width:56px;height:22px}
+.ini small{font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.box{border:1px solid var(--line);border-radius:6px;padding:12px 14px;background:#fffdf9}
+.note{font-size:10px;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--faint);font-weight:500;text-align:left;padding:0 6px 5px;border-bottom:1.5px solid var(--acc)}
+td{padding:4px 6px;border-bottom:1px solid #efe4d2}
+td .f{height:20px}
+.tot{margin-left:auto;width:300px;margin-top:10px}
+.tot .r{display:grid;grid-template-columns:1fr 120px;align-items:center;gap:10px;padding:3px 0}
+.tot .r span{text-align:right;color:var(--muted)}
+.tot .big span{font-family:Clash;font-weight:600;color:var(--ink);font-size:14px}
+.stamp{position:absolute;right:66px;top:118px;transform:rotate(-8deg);border:2.5px solid var(--em);color:#1f9e6c;font-family:Clash;font-weight:600;font-size:26px;letter-spacing:.14em;padding:4px 18px;border-radius:8px;opacity:.85}
+.foot{position:absolute;left:60px;right:60px;bottom:22px;display:flex;justify-content:space-between;font-size:9px;color:var(--faint);border-top:1px solid #efe4d2;padding-top:8px;letter-spacing:.03em}
+ul.plain{margin:0 0 6px 16px}ul.plain li{margin-bottom:3px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+</style></head><body><section class="page">
+<div class="band"><div class="logo"><img src="file:///home/user/aura-films-website/logo-black.png" alt=""></div><div class="t"><h1>Client Questionnaire</h1><div class="sub">Help us plan your session · return a week before</div></div></div>
+
+<div class="grid g3"><div class="fl"><label>Your name</label><span class="f" data-n="Name" data-tip="Your name"></span></div><div class="fl"><label>Session date</label><span class="f" data-n="Session_Date" data-tip="Session date"></span></div><div class="fl"><label>Best phone on the day</label><span class="f" data-n="Phone_Day" data-tip="Best phone on the day"></span></div></div>
+<h2>The session</h2>
+<div class="grid g2"><div class="fl"><label>Location(s) and address</label><span class="f" data-n="Locations" data-tip="Location(s) and address"></span></div><div class="fl"><label>Start and finish time</label><span class="f" data-n="Times" data-tip="Start and finish time"></span></div></div>
+<div class="grid" style="margin-top:7px"><div class="fl"><label>Timeline for the day (arrival, ceremony, speeches, cake, sunset, etc.)</label><span class="f m" style="height:90px" data-n="Timeline" data-t="multi" data-tip="Timeline for the day (arrival, ceremony, speeches, cake, sunset, etc.)"></span></div></div>
+<h2>The people</h2>
+<div class="grid g2"><div class="fl"><label>Who will be photographed? (names and relationship)</label><span class="f m" style="height:64px" data-n="People" data-t="multi" data-tip="Who will be photographed? (names and relationship)"></span></div><div class="fl"><label>Key people we must capture, and any family group photos</label><span class="f m" style="height:64px" data-n="Groups" data-t="multi" data-tip="Key people we must capture, and any family group photos"></span></div></div>
+<div class="grid g2" style="margin-top:7px"><div class="fl"><label>On-the-day contact (not you) and phone</label><span class="f" data-n="Day_Contact" data-tip="On-the-day contact (not you) and phone"></span></div><div class="fl"><label>Pets, children or anyone needing extra care</label><span class="f" data-n="Care" data-tip="Pets, children or anyone needing extra care"></span></div></div>
+<h2>Your style</h2>
+<div class="checks"><span class="ck"><span class="fc" data-n="Style_Candid_and_natural" data-t="check" data-tip="Candid and natural"></span>Candid and natural</span><span class="ck"><span class="fc" data-n="Style_Posed_and_classic" data-t="check" data-tip="Posed and classic"></span>Posed and classic</span><span class="ck"><span class="fc" data-n="Style_Editorial" data-t="check" data-tip="Editorial"></span>Editorial</span><span class="ck"><span class="fc" data-n="Style_Warm_and_film_like" data-t="check" data-tip="Warm and film-like"></span>Warm and film-like</span><span class="ck"><span class="fc" data-n="Style_Bright_and_clean" data-t="check" data-tip="Bright and clean"></span>Bright and clean</span><span class="ck"><span class="fc" data-n="Style_Moody" data-t="check" data-tip="Moody"></span>Moody</span></div>
+<div class="grid g2"><div class="fl"><label>Must-have shots or moments</label><span class="f m" style="height:70px" data-n="Must_Have" data-t="multi" data-tip="Must-have shots or moments"></span></div><div class="fl"><label>Anything to avoid (angles, topics, people who should not be photographed together)</label><span class="f m" style="height:70px" data-n="Avoid" data-t="multi" data-tip="Anything to avoid (angles, topics, people who should not be photographed together)"></span></div></div>
+<div class="grid g2" style="margin-top:7px"><div class="fl"><label>Instagram or Pinterest links you love</label><span class="f" data-n="Inspiration" data-tip="Instagram or Pinterest links you love"></span></div><div class="fl"><label>Outfits / number of looks</label><span class="f" data-n="Outfits" data-tip="Outfits / number of looks"></span></div></div>
+<h2>Good to know</h2>
+<div class="grid g2"><div class="fl"><label>Accessibility needs, allergies, cultural or religious customs</label><span class="f m" style="height:50px" data-n="Needs" data-t="multi" data-tip="Accessibility needs, allergies, cultural or religious customs"></span></div><div class="fl"><label>Venue rules (flash, drones, restricted areas), parking</label><span class="f m" style="height:50px" data-n="Venue_Rules" data-t="multi" data-tip="Venue rules (flash, drones, restricted areas), parking"></span></div></div>
+<p class="note" style="margin-top:10px">Email the completed form to itsaurafilms@gmail.com. Anything you are unsure about, leave blank and we will talk it through.</p>
+
+<div class="foot"><span>Aura Films · Albin, sole proprietor · Kingston, Ontario · itsaurafilms@gmail.com · 343 989 4546 · itsaurafilms.com</span><span>AF-05 · Page 1 of 1</span></div></section></body></html>

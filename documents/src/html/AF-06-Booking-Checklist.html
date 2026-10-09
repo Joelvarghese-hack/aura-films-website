@@ -1,0 +1,70 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Clash;src:url("file:///home/user/aura-films-website/Fonts/Clash%20Display/ClashDisplay-Semibold.woff2") format("woff2");font-weight:600}
+@font-face{font-family:Clash;src:url("file:///home/user/aura-films-website/Fonts/Clash%20Display/ClashDisplay-Medium.woff2") format("woff2");font-weight:500}
+@font-face{font-family:Cabinet;src:url("file:///home/user/aura-films-website/Fonts/Cabinet%20Grotesk/CabinetGrotesk-Regular.woff2") format("woff2");font-weight:400}
+@font-face{font-family:Cabinet;src:url("file:///home/user/aura-films-website/Fonts/Cabinet%20Grotesk/CabinetGrotesk-Medium.woff2") format("woff2");font-weight:500}
+@font-face{font-family:Cabinet;src:url("file:///home/user/aura-films-website/Fonts/Cabinet%20Grotesk/CabinetGrotesk-Bold.woff2") format("woff2");font-weight:700}
+@page{size:8.5in 11in;margin:0}
+:root{--ink:#1B120B;--muted:#5a3e2b;--faint:#8a6a52;--acc:#e8a748;--line:#dccbb0;--fill:#FBF6EC;--ivory:#F9F0E1;--em:#39D599}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#fff}
+body{font-family:Cabinet,sans-serif;color:var(--ink);font-size:11.5px;line-height:1.5;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{position:relative;width:816px;height:1056px;overflow:hidden;padding:0 60px;page-break-after:always;break-after:page}
+.page:last-child{page-break-after:auto;break-after:auto}
+.band{margin:0 -60px 22px;padding:26px 60px 18px;background:var(--ivory);display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1.5px solid var(--acc)}
+.logo{width:118px;height:52px;overflow:hidden;position:relative}
+.logo img{position:absolute;width:152px;left:-18px;top:-60px;mix-blend-mode:multiply}
+.band .t{text-align:right}
+.band h1{font-family:Clash;font-weight:600;font-size:25px;letter-spacing:-.03em;line-height:1.05}
+.band .sub{font-size:10.5px;color:var(--muted);margin-top:4px;letter-spacing:.02em}
+.cont{font-size:10px;color:var(--faint);text-transform:uppercase;letter-spacing:.14em;margin:-8px 0 12px}
+h2{font-family:Clash;font-weight:500;font-size:13.5px;letter-spacing:-.01em;margin:14px 0 7px;display:flex;align-items:center;gap:8px}
+h2::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--acc);flex:none}
+p{margin:0 0 6px}
+.lede{color:var(--muted);font-size:11.5px;margin-bottom:8px}
+.grid{display:grid;gap:7px 16px}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}.g4{grid-template-columns:repeat(4,1fr)}
+.fl{display:flex;flex-direction:column;gap:2px;min-width:0}
+.fl label{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--faint);font-weight:500}
+.f{display:block;height:22px;background:var(--fill);border-bottom:1px solid var(--line);border-radius:3px 3px 0 0}
+.f.m{height:auto}
+.f.sig{height:34px;background:#fff;border-bottom:1.2px solid var(--ink);border-radius:0}
+.checks{display:flex;flex-wrap:wrap;gap:6px 16px;margin:2px 0 10px}
+.ck{display:inline-flex;align-items:center;gap:6px;font-size:11px}
+.fc{display:inline-block;width:12px;height:12px;border:1px solid var(--muted);border-radius:2px;background:#fff;flex:none}
+.clause{display:grid;grid-template-columns:1fr 62px;gap:10px;align-items:start;margin:0 0 7px}
+.clause b{font-weight:700}
+.clause .n{font-family:Clash;font-weight:500;color:var(--acc);margin-right:4px}
+.ini{display:flex;flex-direction:column;align-items:center;gap:2px}
+.ini .f{width:56px;height:22px}
+.ini small{font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.box{border:1px solid var(--line);border-radius:6px;padding:12px 14px;background:#fffdf9}
+.note{font-size:10px;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--faint);font-weight:500;text-align:left;padding:0 6px 5px;border-bottom:1.5px solid var(--acc)}
+td{padding:4px 6px;border-bottom:1px solid #efe4d2}
+td .f{height:20px}
+.tot{margin-left:auto;width:300px;margin-top:10px}
+.tot .r{display:grid;grid-template-columns:1fr 120px;align-items:center;gap:10px;padding:3px 0}
+.tot .r span{text-align:right;color:var(--muted)}
+.tot .big span{font-family:Clash;font-weight:600;color:var(--ink);font-size:14px}
+.stamp{position:absolute;right:66px;top:118px;transform:rotate(-8deg);border:2.5px solid var(--em);color:#1f9e6c;font-family:Clash;font-weight:600;font-size:26px;letter-spacing:.14em;padding:4px 18px;border-radius:8px;opacity:.85}
+.foot{position:absolute;left:60px;right:60px;bottom:22px;display:flex;justify-content:space-between;font-size:9px;color:var(--faint);border-top:1px solid #efe4d2;padding-top:8px;letter-spacing:.03em}
+ul.plain{margin:0 0 6px 16px}ul.plain li{margin-bottom:3px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+</style></head><body><section class="page">
+<div class="band"><div class="logo"><img src="file:///home/user/aura-films-website/logo-black.png" alt=""></div><div class="t"><h1>Booking Checklist</h1><div class="sub">Internal · from first enquiry to final gallery</div></div></div>
+
+<div class="grid g3"><div class="fl"><label>Client</label><span class="f" data-n="Client" data-tip="Client"></span></div><div class="fl"><label>Session date</label><span class="f" data-n="Session_Date" data-tip="Session date"></span></div><div class="fl"><label>Package</label><span class="f" data-n="Package" data-tip="Package"></span></div></div>
+<div style="margin-top:12px"></div>
+<div class="clause" style="grid-template-columns:1fr 40px"><div><span class="n">1</span><b>Reply to the enquiry within a few hours</b><ul class="plain" style="margin-top:3px"><li>Confirm the date is free; suggest the best-fit package</li><li>Answer questions; offer a 15-minute call</li><li>Log the lead: name, date, source (Instagram, Google, referral)</li></ul></div><div class="ini"><span class="f" style="width:22px" data-n="Done_1" data-t="check" data-tip="Done"></span><small>Done</small></div></div>
+<div class="clause" style="grid-template-columns:1fr 40px"><div><span class="n">2</span><b>Send the quote</b><ul class="plain" style="margin-top:3px"><li>Package, extras, travel, any offer code</li><li>State that quotes are valid 30 days</li></ul></div><div class="ini"><span class="f" style="width:22px" data-n="Done_2" data-t="check" data-tip="Done"></span><small>Done</small></div></div>
+<div class="clause" style="grid-template-columns:1fr 40px"><div><span class="n">3</span><b>Send AF-01 Agreement and AF-02 Release</b><ul class="plain" style="margin-top:3px"><li>Fill page 1 (fees, date, package) before sending</li><li>Client returns signed PDFs by email; save both to the client folder</li></ul></div><div class="ini"><span class="f" style="width:22px" data-n="Done_3" data-t="check" data-tip="Done"></span><small>Done</small></div></div>
+<div class="clause" style="grid-template-columns:1fr 40px"><div><span class="n">4</span><b>Collect the 30% retainer (AF-03 Invoice)</b><ul class="plain" style="margin-top:3px"><li>Date is held only when signature and retainer are both in</li><li>Send AF-04 Receipt the same day; block the date in your calendar</li></ul></div><div class="ini"><span class="f" style="width:22px" data-n="Done_4" data-t="check" data-tip="Done"></span><small>Done</small></div></div>
+<div class="clause" style="grid-template-columns:1fr 40px"><div><span class="n">5</span><b>Two weeks before</b><ul class="plain" style="margin-top:3px"><li>Send AF-05 Questionnaire; confirm timeline, locations, weather plan</li><li>Invoice the balance (due on or before the session date)</li></ul></div><div class="ini"><span class="f" style="width:22px" data-n="Done_5" data-t="check" data-tip="Done"></span><small>Done</small></div></div>
+<div class="clause" style="grid-template-columns:1fr 40px"><div><span class="n">6</span><b>Two days before</b><ul class="plain" style="margin-top:3px"><li>Confirm start time and meeting point by text</li><li>Charge batteries, format cards, check backups and weather</li></ul></div><div class="ini"><span class="f" style="width:22px" data-n="Done_6" data-t="check" data-tip="Done"></span><small>Done</small></div></div>
+<div class="clause" style="grid-template-columns:1fr 40px"><div><span class="n">7</span><b>Session day</b><ul class="plain" style="margin-top:3px"><li>Arrive 15 minutes early; back up cards the same night to two places</li></ul></div><div class="ini"><span class="f" style="width:22px" data-n="Done_7" data-t="check" data-tip="Done"></span><small>Done</small></div></div>
+<div class="clause" style="grid-template-columns:1fr 40px"><div><span class="n">8</span><b>After the session</b><ul class="plain" style="margin-top:3px"><li>Send a 3 to 5 photo sneak peek within 48 hours</li><li>Deliver the full gallery within the agreed window</li><li>Receipt for the balance; post only images the Release allows</li></ul></div><div class="ini"><span class="f" style="width:22px" data-n="Done_8" data-t="check" data-tip="Done"></span><small>Done</small></div></div>
+<div class="clause" style="grid-template-columns:1fr 40px"><div><span class="n">9</span><b>Follow up</b><ul class="plain" style="margin-top:3px"><li>Ask for a Google review one week after delivery</li><li>Add to the mailing list only if they opted in</li><li>Anniversary or seasonal message in a year</li></ul></div><div class="ini"><span class="f" style="width:22px" data-n="Done_9" data-t="check" data-tip="Done"></span><small>Done</small></div></div>
+
+<div class="foot"><span>Aura Films · Albin, sole proprietor · Kingston, Ontario · itsaurafilms@gmail.com · 343 989 4546 · itsaurafilms.com</span><span>AF-06 · Page 1 of 1</span></div></section></body></html>

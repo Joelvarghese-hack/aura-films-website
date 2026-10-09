@@ -1,0 +1,109 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Clash;src:url("file:///home/user/aura-films-website/Fonts/Clash%20Display/ClashDisplay-Semibold.woff2") format("woff2");font-weight:600}
+@font-face{font-family:Clash;src:url("file:///home/user/aura-films-website/Fonts/Clash%20Display/ClashDisplay-Medium.woff2") format("woff2");font-weight:500}
+@font-face{font-family:Cabinet;src:url("file:///home/user/aura-films-website/Fonts/Cabinet%20Grotesk/CabinetGrotesk-Regular.woff2") format("woff2");font-weight:400}
+@font-face{font-family:Cabinet;src:url("file:///home/user/aura-films-website/Fonts/Cabinet%20Grotesk/CabinetGrotesk-Medium.woff2") format("woff2");font-weight:500}
+@font-face{font-family:Cabinet;src:url("file:///home/user/aura-films-website/Fonts/Cabinet%20Grotesk/CabinetGrotesk-Bold.woff2") format("woff2");font-weight:700}
+@page{size:8.5in 11in;margin:0}
+:root{--ink:#1B120B;--muted:#5a3e2b;--faint:#8a6a52;--acc:#e8a748;--line:#dccbb0;--fill:#FBF6EC;--ivory:#F9F0E1;--em:#39D599}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#fff}
+body{font-family:Cabinet,sans-serif;color:var(--ink);font-size:11.5px;line-height:1.5;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{position:relative;width:816px;height:1056px;overflow:hidden;padding:0 60px;page-break-after:always;break-after:page}
+.page:last-child{page-break-after:auto;break-after:auto}
+.band{margin:0 -60px 22px;padding:26px 60px 18px;background:var(--ivory);display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1.5px solid var(--acc)}
+.logo{width:118px;height:52px;overflow:hidden;position:relative}
+.logo img{position:absolute;width:152px;left:-18px;top:-60px;mix-blend-mode:multiply}
+.band .t{text-align:right}
+.band h1{font-family:Clash;font-weight:600;font-size:25px;letter-spacing:-.03em;line-height:1.05}
+.band .sub{font-size:10.5px;color:var(--muted);margin-top:4px;letter-spacing:.02em}
+.cont{font-size:10px;color:var(--faint);text-transform:uppercase;letter-spacing:.14em;margin:-8px 0 12px}
+h2{font-family:Clash;font-weight:500;font-size:13.5px;letter-spacing:-.01em;margin:14px 0 7px;display:flex;align-items:center;gap:8px}
+h2::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--acc);flex:none}
+p{margin:0 0 6px}
+.lede{color:var(--muted);font-size:11.5px;margin-bottom:8px}
+.grid{display:grid;gap:7px 16px}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}.g4{grid-template-columns:repeat(4,1fr)}
+.fl{display:flex;flex-direction:column;gap:2px;min-width:0}
+.fl label{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--faint);font-weight:500}
+.f{display:block;height:22px;background:var(--fill);border-bottom:1px solid var(--line);border-radius:3px 3px 0 0}
+.f.m{height:auto}
+.f.sig{height:34px;background:#fff;border-bottom:1.2px solid var(--ink);border-radius:0}
+.checks{display:flex;flex-wrap:wrap;gap:6px 16px;margin:2px 0 10px}
+.ck{display:inline-flex;align-items:center;gap:6px;font-size:11px}
+.fc{display:inline-block;width:12px;height:12px;border:1px solid var(--muted);border-radius:2px;background:#fff;flex:none}
+.clause{display:grid;grid-template-columns:1fr 62px;gap:10px;align-items:start;margin:0 0 7px}
+.clause b{font-weight:700}
+.clause .n{font-family:Clash;font-weight:500;color:var(--acc);margin-right:4px}
+.ini{display:flex;flex-direction:column;align-items:center;gap:2px}
+.ini .f{width:56px;height:22px}
+.ini small{font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.box{border:1px solid var(--line);border-radius:6px;padding:12px 14px;background:#fffdf9}
+.note{font-size:10px;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--faint);font-weight:500;text-align:left;padding:0 6px 5px;border-bottom:1.5px solid var(--acc)}
+td{padding:4px 6px;border-bottom:1px solid #efe4d2}
+td .f{height:20px}
+.tot{margin-left:auto;width:300px;margin-top:10px}
+.tot .r{display:grid;grid-template-columns:1fr 120px;align-items:center;gap:10px;padding:3px 0}
+.tot .r span{text-align:right;color:var(--muted)}
+.tot .big span{font-family:Clash;font-weight:600;color:var(--ink);font-size:14px}
+.stamp{position:absolute;right:66px;top:118px;transform:rotate(-8deg);border:2.5px solid var(--em);color:#1f9e6c;font-family:Clash;font-weight:600;font-size:26px;letter-spacing:.14em;padding:4px 18px;border-radius:8px;opacity:.85}
+.foot{position:absolute;left:60px;right:60px;bottom:22px;display:flex;justify-content:space-between;font-size:9px;color:var(--faint);border-top:1px solid #efe4d2;padding-top:8px;letter-spacing:.03em}
+ul.plain{margin:0 0 6px 16px}ul.plain li{margin-bottom:3px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+</style></head><body><section class="page">
+<div class="band"><div class="logo"><img src="file:///home/user/aura-films-website/logo-black.png" alt=""></div><div class="t"><h1>Photography Services Agreement</h1><div class="sub">Weddings · Events · Portraits · Family · Architecture</div></div></div>
+
+<div class="grid g3"><div class="fl"><label>Agreement no.</label><span class="f" data-n="Agreement_No" data-tip="Agreement no."></span></div><div class="fl"><label>Date issued</label><span class="f" data-n="Date_Issued" data-tip="Date issued"></span></div><div class="fl"><label>Quote valid until</label><span class="f" data-n="Quote_Valid_Until" data-tip="Quote valid until"></span></div></div>
+<p class="lede" style="margin-top:10px">This agreement is between <b>Aura Films</b>, a sole proprietorship operated by Albin in Kingston, Ontario ("Aura Films", "we"), and the client named below ("the Client", "you"). It confirms what we will photograph, what it costs, and what each of us has agreed to.</p>
+<h2>The client</h2>
+<div class="grid g2"><div class="fl"><label>Client full name</label><span class="f" data-n="Client_Name" data-tip="Client full name"></span></div><div class="fl"><label>Second client / partner (if any)</label><span class="f" data-n="Client2_Name" data-tip="Second client / partner (if any)"></span></div>
+<div class="fl"><label>Email</label><span class="f" data-n="Client_Email" data-tip="Email"></span></div><div class="fl"><label>Phone</label><span class="f" data-n="Client_Phone" data-tip="Phone"></span></div></div>
+<div class="grid" style="margin-top:7px"><div class="fl"><label>Mailing address</label><span class="f" data-n="Client_Address" data-tip="Mailing address"></span></div></div>
+<h2>The session</h2>
+<div class="checks"><span class="ck"><span class="fc" data-n="Type_Wedding" data-t="check" data-tip="Wedding"></span>Wedding</span><span class="ck"><span class="fc" data-n="Type_Event_shower" data-t="check" data-tip="Event / shower"></span>Event / shower</span><span class="ck"><span class="fc" data-n="Type_Portrait" data-t="check" data-tip="Portrait"></span>Portrait</span><span class="ck"><span class="fc" data-n="Type_Family_maternity" data-t="check" data-tip="Family / maternity"></span>Family / maternity</span><span class="ck"><span class="fc" data-n="Type_Architecture" data-t="check" data-tip="Architecture"></span>Architecture</span><span class="ck"><span class="fc" data-n="Type_Other" data-t="check" data-tip="Other"></span>Other</span></div>
+<div class="grid g3"><div class="fl"><label>Package</label><span class="f" data-n="Package" data-tip="Package"></span></div><div class="fl"><label>Session date</label><span class="f" data-n="Session_Date" data-tip="Session date"></span></div><div class="fl"><label>Start time</label><span class="f" data-n="Start_Time" data-tip="Start time"></span></div>
+<div class="fl"><label>Hours of coverage</label><span class="f" data-n="Hours" data-tip="Hours of coverage"></span></div><div class="fl"><label>Photographers</label><span class="f" data-n="Photographers" data-tip="Photographers"></span></div><div class="fl"><label>Edited images included</label><span class="f" data-n="Images_Included" data-tip="Edited images included"></span></div></div>
+<div class="grid g2" style="margin-top:7px"><div class="fl"><label>Main location / venue</label><span class="f" data-n="Location_1" data-tip="Main location / venue"></span></div><div class="fl"><label>Second location (if any)</label><span class="f" data-n="Location_2" data-tip="Second location (if any)"></span></div></div>
+<div class="grid g2" style="margin-top:7px"><div class="fl"><label>Delivery window (from session date)</label><span class="f" data-n="Delivery_Window" data-tip="Delivery window (from session date)"></span></div><div class="fl"><label>Extra time rate</label><span class="f" data-n="Extra_Time_Rate" data-tip="e.g. +$15 per extra 30 min, or +$150/hr"></span></div></div>
+<div class="grid" style="margin-top:7px"><div class="fl"><label>Add-ons and special requests</label><span class="f m" style="height:44px" data-n="Addons" data-t="multi" data-tip="Add-ons and special requests"></span></div></div>
+<h2>Fees (CAD)</h2>
+<div class="grid g4"><div class="fl"><label>Package fee</label><span class="f" data-n="Fee_Package" data-tip="Package fee"></span></div><div class="fl"><label>Add-ons</label><span class="f" data-n="Fee_Addons" data-tip="Add-ons"></span></div><div class="fl"><label>Travel</label><span class="f" data-n="Fee_Travel" data-tip="Travel"></span></div><div class="fl"><label>Discount</label><span class="f" data-n="Fee_Discount" data-tip="Discount"></span></div>
+<div class="fl"><label>HST (if applicable)</label><span class="f" data-n="Fee_Tax" data-tip="HST (if applicable)"></span></div><div class="fl"><label>Total fee</label><span class="f" data-n="Fee_Total" data-tip="Total fee"></span></div><div class="fl"><label>Retainer (30%)</label><span class="f" data-n="Fee_Retainer" data-tip="Retainer (30%)"></span></div><div class="fl"><label>Balance due</label><span class="f" data-n="Fee_Balance" data-tip="Balance due"></span></div></div>
+<div class="grid g2" style="margin-top:7px"><div class="fl"><label>Balance due date</label><span class="f" data-n="Balance_Due_Date" data-tip="On or before the session date unless agreed otherwise"></span></div><div class="fl"><label>Payment method</label><span class="f" data-n="Payment_Method" data-tip="Interac e-Transfer to itsaurafilms@gmail.com, cash, or card"></span></div></div>
+
+<div class="foot"><span>Aura Films · Albin, sole proprietor · Kingston, Ontario · itsaurafilms@gmail.com · 343 989 4546 · itsaurafilms.com</span><span>AF-01 · Page 1 of 3</span></div></section><section class="page">
+<div class="band"><div class="logo"><img src="file:///home/user/aura-films-website/logo-black.png" alt=""></div><div class="t"><h1>Photography Services Agreement</h1><div class="sub">Weddings · Events · Portraits · Family · Architecture</div></div></div>
+<div class="cont">Photography Services Agreement · continued</div>
+<h2>Terms</h2>
+<p class="note" style="margin-bottom:9px">Please read each term. Where there is an initials box, add your initials to confirm you have read it.</p>
+<div class="clause"><div><span class="n">1</span><b>Booking and retainer.</b> Your date is reserved only when we have <b>both</b> this signed agreement and the 30% retainer. The retainer is <b>non-refundable</b> if you cancel, because we turn away other work to hold your date, except where the law requires otherwise or as set out in clause 6.</div><div class="ini"><span class="f" data-n="Initials_1" data-tip="Client initials"></span><small>Initials</small></div></div>
+<div class="clause"><div><span class="n">2</span><b>Balance.</b> The balance is due on or before the session date unless we agree otherwise in writing. Final images are released once the balance is paid in full. All prices are in Canadian dollars. Quotes are valid for 30 days.</div><div></div></div>
+<div class="clause"><div><span class="n">3</span><b>Extra time.</b> Coverage beyond the hours booked is added only if you ask for it and we are available, at the extra time rate shown on page 1. It is payable with the balance.</div><div></div></div>
+<div class="clause"><div><span class="n">4</span><b>If you cancel.</b> You may cancel at any time by written notice (email is fine). The retainer is kept; anything you paid above the retainer is refunded. If you cancel within <b>7 days</b> of the session, the full fee may remain payable, as the date can rarely be rebooked at short notice.</div><div class="ini"><span class="f" data-n="Initials_4" data-tip="Client initials"></span><small>Initials</small></div></div>
+<div class="clause"><div><span class="n">5</span><b>Rescheduling.</b> You may reschedule once with reasonable notice, subject to availability, and your retainer carries over. Further changes may carry a small administration fee. Outdoor sessions moved because of unsafe weather are always rescheduled free of charge.</div><div></div></div>
+<div class="clause"><div><span class="n">6</span><b>If we cancel.</b> If Aura Films must cancel and we cannot agree an alternative date or, with your agreement, a suitable replacement photographer, you receive a <b>full refund of everything you paid, including the retainer</b>.</div><div></div></div>
+<div class="clause"><div><span class="n">7</span><b>Late arrival and no-show.</b> Time missed through late arrival is not refunded or added on. A no-show without notice is treated as a cancellation under clause 4.</div><div></div></div>
+<div class="clause"><div><span class="n">8</span><b>The finished work.</b> We deliver hand-graded, high-resolution images in our editing style within the delivery window above. We choose which frames to deliver using our professional judgement; the number stated is what you receive. Unedited raw files are not included unless purchased. Every image is a photograph taken by Aura Films: we do not create images with AI. Refunds are not given for differences in personal taste; if a delivered image has a genuine technical fault we will re-edit it or, where reasonably possible, reshoot.</div><div></div></div>
+<div class="clause"><div><span class="n">9</span><b>Copyright and your licence.</b> Aura Films owns the copyright in all images under the Canadian <i>Copyright Act</i>. Once paid in full, you receive a personal, non-exclusive, non-transferable licence to print and share the images for personal, non-commercial use, with credit to @aura.filmsca where practical. Commercial use, resale, editing or applying filters, or entering images in contests needs our written permission. Architecture and business clients receive the licence stated in their package.</div><div class="ini"><span class="f" data-n="Initials_9" data-tip="Client initials"></span><small>Initials</small></div></div>
+<div class="clause"><div><span class="n">10</span><b>Our use of images.</b> We use images in which you or your guests can be identified for our portfolio, website or social media <b>only</b> with the permission given in the separate Model &amp; Image Release (AF-02). Images of children are never used without a parent or guardian’s written consent.</div><div class="ini"><span class="f" data-n="Initials_10" data-tip="Client initials"></span><small>Initials</small></div></div>
+<div class="clause"><div><span class="n">11</span><b>On the day.</b> You will provide a safe working environment and tell us about venue rules in advance. We are not responsible for shots missed because of venue restrictions, guests’ cameras or phones in the aisle, weather, or timeline changes outside our control. For coverage over 5 hours, a short meal break is appreciated. We may end a session, without refund, if the safety of our team or equipment is at risk.</div><div></div></div>
+
+<div class="foot"><span>Aura Films · Albin, sole proprietor · Kingston, Ontario · itsaurafilms@gmail.com · 343 989 4546 · itsaurafilms.com</span><span>AF-01 · Page 2 of 3</span></div></section><section class="page">
+<div class="band"><div class="logo"><img src="file:///home/user/aura-films-website/logo-black.png" alt=""></div><div class="t"><h1>Photography Services Agreement</h1><div class="sub">Weddings · Events · Portraits · Family · Architecture</div></div></div>
+<div class="cont">Photography Services Agreement · continued</div>
+<div class="clause"><div><span class="n">12</span><b>Storage and backups.</b> Your online gallery stays available for at least 12 months after delivery. Please download and back up your images; after that period we may delete them without further notice.</div><div></div></div>
+<div class="clause"><div><span class="n">13</span><b>Events outside our control.</b> Neither of us is responsible for failing to perform because of events beyond reasonable control, such as serious illness, extreme weather, emergencies or equipment failure. We will make reasonable efforts to reschedule or arrange a suitable substitute; if that is not possible, clause 6 applies.</div><div></div></div>
+<div class="clause"><div><span class="n">14</span><b>Limit of liability.</b> If we are unable to deliver, in whole or part, our total liability is limited to a refund of the fees you paid for the affected service. We are not liable for indirect or consequential losses. Nothing in this agreement limits liability that cannot be limited by law.</div><div class="ini"><span class="f" data-n="Initials_14" data-tip="Client initials"></span><small>Initials</small></div></div>
+<div class="clause"><div><span class="n">15</span><b>Privacy.</b> We handle your personal information under our Privacy Policy and PIPEDA, and use it only to deliver this service.</div><div></div></div>
+<div class="clause"><div><span class="n">16</span><b>If something goes wrong.</b> Tell us in writing first at itsaurafilms@gmail.com; we reply within 5 business days and will try to resolve it with you directly. If that does not settle things, we are both willing to try mediation in Kingston, Ontario, each paying our own share. Either of us may then go to court. <b>Nothing here removes any right you have under Ontario or Canadian consumer-protection law.</b> Please contact us before raising a chargeback.</div><div></div></div>
+<div class="clause"><div><span class="n">17</span><b>The whole agreement.</b> This agreement, with our published Terms &amp; Conditions and Refund &amp; Cancellation Policy, is the whole agreement between us. Changes must be in writing (email is fine). It is governed by the laws of Ontario and of Canada. It may be signed electronically and in separate copies, which together form one agreement.</div><div></div></div>
+<h2>Signatures</h2>
+<div class="box" style="margin-top:10px"><span class="ck"><span class="fc" data-n="Client_ESign_Consent" data-t="check" data-tip="I agree to sign this document electronically. Typing my name in the signature box, or drawing my signature, has the same effect as signing by hand."></span>I agree to sign this document electronically. Typing my name in the signature box, or drawing my signature, has the same effect as signing by hand.</span></div>
+<div class="grid g3" style="margin-top:12px"><div class="fl"><label>Client signature</label><span class="f sig" data-n="Client_Signature" data-t="sig" data-tip="Client signature: type your full name to sign"></span></div><div class="fl"><label>Printed name</label><span class="f" data-n="Client_Print_Name" data-tip="Printed name"></span></div><div class="fl"><label>Date</label><span class="f" data-n="Client_Sign_Date" data-tip="Date"></span></div></div>
+<div class="grid g3" style="margin-top:12px"><div class="fl"><label>Second client signature (if any)</label><span class="f sig" data-n="Client2_Signature" data-t="sig" data-tip="Second client signature (if any): type your full name to sign"></span></div><div class="fl"><label>Printed name</label><span class="f" data-n="Client2_Print_Name" data-tip="Printed name"></span></div><div class="fl"><label>Date</label><span class="f" data-n="Client2_Sign_Date" data-tip="Date"></span></div></div>
+<div class="grid g3" style="margin-top:12px"><div class="fl"><label>For Aura Films</label><span class="f sig" data-n="AF_Signature" data-t="sig" data-tip="For Aura Films: type your full name to sign"></span></div><div class="fl"><label>Name</label><span class="f" data-n="AF_Print_Name" data-tip="Name"></span></div><div class="fl"><label>Date</label><span class="f" data-n="AF_Sign_Date" data-tip="Date"></span></div></div>
+<p class="note" style="margin-top:14px">How to sign: open this PDF in Adobe Acrobat Reader (free), Apple Preview or Microsoft Edge, fill in the boxes, tick the e-signature consent, type or draw your signature, save, and email it back to itsaurafilms@gmail.com. Keep a copy for your records.</p>
+
+<div class="foot"><span>Aura Films · Albin, sole proprietor · Kingston, Ontario · itsaurafilms@gmail.com · 343 989 4546 · itsaurafilms.com</span><span>AF-01 · Page 3 of 3</span></div></section></body></html>
