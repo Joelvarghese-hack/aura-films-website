@@ -679,8 +679,8 @@ const lpShell=(o)=>finalize(head(o.title,o.desc,o.slug)+nav('')+`
 <h1 class="h-display reveal">${o.h1}</h1>
 <p class="lp-lede reveal">${o.lede}</p>
 </div></header>
-<div class="container"><figure class="lp-hero reveal"><span class="frame">
-<picture><source type="image/webp" srcset="images/${o.hero}.webp"><img src="images/${o.hero}" alt="${o.heroAlt}" width="1600" height="1067" loading="eager"></picture>
+<div class="container"><figure class="lp-hero${(DIMS[o.hero]||[3,2])[0]/(DIMS[o.hero]||[3,2])[1]<1.2?' lp-hero--tall':''} reveal"><span class="frame">
+<picture><source type="image/webp" srcset="images/${o.hero}.webp"><img src="images/${o.hero}" alt="${o.heroAlt}" width="${(DIMS[o.hero]||[1600])[0]}" height="${(DIMS[o.hero]||[0,1067])[1]}" loading="eager"></picture>
 </span></figure></div>
 <div class="container lp-body">
 ${o.sections.map(x=>`<section class="lp-sec reveal"><h2 class="h-md">${x.h}</h2>${x.p.map(t=>`<p>${t}</p>`).join('')}</section>`).join('')}
@@ -748,7 +748,7 @@ const SERVICE_PAGES=[
 /* Hub pages: one per service people search for by name ("Kingston wedding photographer"),
    each answering the questions that sit behind that search. Facts only from the packages above. */
 const HUB_PAGES=[
-{slug:'weddings', hero:'_DSC8637.jpg', out:'weddings.html', pkg:'Weddings', strip:[['wed-10.jpg','A groom and his bride in a red saree lean their foreheads together under spring blossom'],['wed-11.jpg','A bride in white surrounded by her bridesmaids and flower girls'],['wed-12.jpg','A couple kiss in a white gazebo surrounded by sunflowers']],
+{slug:'weddings', hero:'_DSC8637.jpg', out:'weddings.html', pkg:'Weddings', strip:[['wed-5.jpg','A couple hold hands and laugh together in a sunlit park'],['wed-6.jpg','A bride laughs with her bridesmaids in a garden'],['wed-12.jpg','A couple kiss in a white gazebo surrounded by sunflowers']],
  title:'Kingston Wedding Photographer · Aura Films',
  desc:'Wedding photography in Kingston, Ontario, from $1,195. Three published packages, two photographers on the larger days, every frame edited by hand by Albin.',
  kicker:'Weddings · Kingston, Ontario',
@@ -769,6 +769,9 @@ const HUB_PAGES=[
   {q:'When will we get our wedding photos?', a:'A sneak peek within the first week, and the full gallery in seven to fourteen days depending on the package, with a print release.'},
   {q:'How far ahead should we book?', a:'As soon as you have a date and a venue. Summer Saturdays go first, and for Prince Edward County a year ahead is not too early.'},
   {q:'How do we hold our date?', a:'A signed agreement and a 30% retainer. The balance is due on or before the wedding day.'},
+  {q:'Who will actually photograph our wedding?', a:'Albin, himself, every time. On the Full Ceremony and Full Day he works with a second photographer. Your photographs are never handed to an associate you have not met.'},
+  {q:'Is every photograph edited?', a:'Yes. Every delivered frame is colour graded by hand, not batch-processed with a preset. That is why galleries take days, not hours.'},
+  {q:'What if you are ill on our wedding day?', a:'We arrange an alternative date or, with your agreement, a suitable replacement photographer. If neither works for you, you get a full refund of everything you paid, including the retainer.'},
   {q:'Can we see a full wedding gallery first?', a:'Yes. Ask and we will send a complete set from a comparable day, not just the highlights.'}],
  links:[['/investment#pk-weddings','All wedding packages'],['/engagements','Engagement sessions'],['/gallery#weddings','Wedding gallery']]},
 
@@ -813,58 +816,71 @@ const HUB_PAGES=[
 ];
 
 /* Hub page = the shared landing template plus package cards and a photo strip, so it reads as a page, not a wall of text. */
+const faqLd=o=>'<script type="application/ld+json">'+JSON.stringify({'@context':'https://schema.org','@type':'FAQPage',
+  mainEntity:o.faq.map(f=>({'@type':'Question',name:f.q,acceptedAnswer:{'@type':'Answer',text:f.a.replace(/<[^>]+>/g,'')}}))})+'</script>';
 const hubShell=o=>{
  const cards=`<section class="hub-pk reveal"><h2 class="h-md">Packages and prices</h2><div class="tiers">${PKG[o.pkg].map(tier).join('').replace(/href="#contact"/g,'href="/about#contact"')}</div></section>`;
  const strip=`<div class="hub-strip">${o.strip.map(([f,a])=>`<figure class="reveal"><picture><source type="image/webp" srcset="images/${f}.webp"><img src="images/${f}" alt="${a}" loading="lazy"></picture></figure>`).join('')}</div>`;
- return lpShell({...o,sections:[]}).replace('<div class="container lp-body">','<div class="container hub-wide">'+cards+strip+'</div><div class="container lp-body">'+o.sections.map(x=>`<section class="lp-sec reveal"><h2 class="h-md">${x.h}</h2>${x.p.map(t=>`<p>${t}</p>`).join('')}</section>`).join('')).replace('lp-hero reveal','lp-hero lp-hero--wide reveal');
+ return lpShell({...o,sections:[]}).replace('<div class="container lp-body">','<div class="container hub-wide">'+cards+strip+'</div><div class="container lp-body">'+o.sections.map(x=>`<section class="lp-sec reveal"><h2 class="h-md">${x.h}</h2>${x.p.map(t=>`<p>${t}</p>`).join('')}</section>`).join(''));
 };
 
 /* Places worth a page: somewhere people actually search, and near enough to shoot well. */
 const PLACES=[
-{slug:'gananoque', name:'Gananoque', hero:'wed-3.jpg', drive:'25 minutes',
+{slug:'gananoque', name:'Gananoque', hero:'wed-3.jpg', alt:'A couple exchange vows under a flower-covered arbour beside the lake', drive:'25 minutes',
  blurb:'the Thousand Islands, the river and a main street that photographs better than it has any right to',
  spots:'The waterfront and the marina at the end of the day, Confederation Park, and the stretch of King Street where the light bounces off the shopfronts. The islands themselves if you have a boat organised.',
  note:'Gananoque weddings often run to island venues, which means timings are tied to boats. Tell us that early and we will build the day around it.'},
-{slug:'napanee', name:'Napanee', hero:'por-6.jpg', drive:'35 minutes',
+{slug:'napanee', name:'Napanee', hero:'por-6.jpg', alt:'A young woman in a white and mustard lehenga smiles under autumn trees', drive:'35 minutes',
  blurb:'the river, the conservation land and the quiet that makes portraits easy',
  spots:'Springside Park and the falls, the riverside paths, and the farmland just outside town in the hour before sunset.',
  note:'Napanee is close enough that travel is included, and quiet enough that you are rarely photographing around other people.'},
-{slug:'brockville', name:'Brockville', hero:'arch-3.jpg', drive:'1 hour',
+{slug:'brockville', name:'Brockville', hero:'wed-10.jpg', alt:'A groom and his bride in a red saree lean their foreheads together under spring blossom', drive:'1 hour',
  blurb:'the waterfront, the old stone and the islands beyond it',
  spots:'Blockhouse Island and the harbour, the Victorian streets around Court House Square, and the St Lawrence shoreline east of town.',
  note:'Brockville has some of the best stone architecture between Kingston and Cornwall, which matters more than people expect for a winter wedding when you need somewhere to shoot indoors.'},
-{slug:'belleville', name:'Belleville', hero:'baby-2.jpg', drive:'1 hour',
+{slug:'belleville', name:'Belleville', hero:'baby-7.jpg', alt:'Parents hold their baby daughter in a red dress on a summer lawn', drive:'1 hour',
  blurb:'the Bay of Quinte, the parks and an easy run down into the County',
  spots:'Zwick’s Island and the waterfront, Meyers Pier, and the residential streets north of the river for something quieter.',
  note:'Belleville sits at the top of Prince Edward County, so plenty of days start here and end at a winery half an hour south.'},
-{slug:'prince-edward-county', name:'Prince Edward County', hero:'wed-8.jpg', drive:'1 hour 15',
+{slug:'prince-edward-county', name:'Prince Edward County', hero:'wed-8.jpg', alt:'A couple feed each other wedding cake in front of a red floral arch', drive:'1 hour 15',
  blurb:'wineries, dunes and barns, and more wedding venues per square kilometre than anywhere else in eastern Ontario',
  spots:'The vineyards through the middle of the County, Sandbanks and the dunes, and the barn and farmhouse venues scattered between Bloomfield and Picton.',
  note:'The County books up further ahead than anywhere else we shoot. If you have a summer Saturday in mind, it is worth saying so a year out.'},
-{slug:'ottawa', name:'Ottawa', hero:'wed-11.jpg', drive:'2 hours',
+{slug:'ottawa', name:'Ottawa', hero:'wed-11.jpg', alt:'A bride in white surrounded by her bridesmaids and flower girls', drive:'2 hours',
  blurb:'the river, the stonework and a city that gives you five completely different backdrops inside twenty minutes',
  spots:'Major’s Hill Park and the locks, the Arboretum and Dow’s Lake, the Glebe for something residential, and Gatineau across the river when the trees turn.',
  note:'Ottawa is a full travel day rather than a drive, so it is quoted with travel included and usually booked as a full-day package.'},
 ];
 
-const placePage=(x)=>lpShell({
- slug:x.slug, hero:x.hero, out:x.slug+'.html',
+const PLACE_Q={
+ gananoque:{q:'Can you photograph an island wedding in the Thousand Islands?', a:'Yes. Island venues run on boat times, so tell us early and we will build the photography timeline around the crossings.'},
+ napanee:{q:'Is Napanee too far for a short portrait session?', a:'No. It is thirty-five minutes from Kingston and travel is included, so a thirty-minute Quick Shoot costs the same as it does in town.'},
+ brockville:{q:'Where do you shoot in Brockville in winter?', a:'Indoors among the old stone buildings, which are some of the best between Kingston and Cornwall, and outside when the light allows.'},
+ belleville:{q:'Can you cover a day that starts in Belleville and ends in the County?', a:'Yes. Plenty of days do exactly that, and the drive between them is built into the timeline.'},
+ 'prince-edward-county':{q:'How far ahead should we book a County wedding?', a:'A year for a summer Saturday. The County books up further ahead than anywhere else we work.'},
+ ottawa:{q:'How do Ottawa bookings work?', a:'Ottawa is a full travel day, so it is usually booked as a full-day package with travel quoted in writing before you book.'}};
+const placePage=(x)=>{const near=['gananoque','napanee','brockville','belleville'].includes(x.slug);
+ const o={slug:x.slug, hero:x.hero, out:x.slug+'.html',
  title:'Wedding &amp; Portrait Photographer in '+x.name+', Ontario · Aura Films',
- desc:'Wedding, portrait and family photography in '+x.name+', Ontario, by Albin of Aura Films in Kingston. Prices published openly, every frame edited by hand.',
+ desc:'Wedding, portrait and family photography in '+x.name+', Ontario, by Albin of Aura Films, '+x.drive+' from Kingston. '+(near?'Travel included. ':'')+'Prices published openly.',
  kicker:x.name+', Ontario',
  h1:'Photography in <em>'+x.name+'.</em>',
- heroAlt:'A photograph from an Aura Films session',
- lede:x.name+' is '+x.drive+' from the studio in Kingston, and we shoot there often: '+x.blurb+'.',
+ heroAlt:x.alt,
+ lede:x.name+' is '+x.drive+' from our studio in Kingston: '+x.blurb+'.',
  sections:[
-  {h:'Where we shoot in '+x.name, p:[x.spots, x.note]},
-  {h:'How it works', p:[
-   'The same as it does anywhere else. Albin photographs the session himself and edits every frame by hand, which is why galleries take ten to twenty-one days rather than three.',
-   'Prices are the same in '+x.name+' as they are in Kingston. Portraits from $85, family sessions from $179, events from $399, weddings from $1,195 and architectural work from $750. Travel within an hour of Kingston is included; anything further is agreed in writing before you book.']},
-  {h:'Anywhere else in Ontario', p:[
-   'This page exists because people search for a photographer by the name of their town, not because '+x.name+' is a limit. We work across Ontario and travel for weddings wherever they are.',
-   'If your date is somewhere not listed on this site, ask anyway. The answer is usually yes.']}],
- links:[['/investment','Packages and prices'],['/gallery','The gallery'],['/faq','Questions, answered'],['/about','About Albin']]
-});
+  {h:'Photographing in '+x.name, p:[x.note]},
+  {h:'Prices and travel', p:[
+   'Prices in '+x.name+' are the same as in Kingston: portraits from $85, family sessions from $179, events from $399 and weddings from $1,195. '+(near?'Travel is included, because '+x.name+' is within an hour of the studio.':'Travel is quoted in writing before you book, so there are no surprises later.'),
+   'Albin photographs every session himself and edits every frame by hand, with galleries delivered in ten to twenty-one days.']}],
+ faqTitle:'Questions about '+x.name,
+ faq:[
+  {q:'Do you charge travel to '+x.name+'?', a:near?'No. '+x.name+' is '+x.drive+' from Kingston, and travel within an hour is included in every package.':x.name+' is '+x.drive+' from Kingston, beyond the hour we include, so travel is agreed in writing before you book.'},
+  {q:'Where are the best places for photos in '+x.name+'?', a:x.spots},
+  PLACE_Q[x.slug],
+  {q:'Who will take our photographs?', a:'Albin, the photographer behind Aura Films, at every session. Larger weddings and the Elite event package add a second photographer.'},
+  {q:'What if the weather is bad?', a:'Outdoor portrait and family sessions move to another day at no cost. Weddings go ahead, with covered and indoor options found in advance.'}],
+ links:[['/weddings','Weddings'],['/portraits','Portraits'],['/investment','All packages and prices'],['/faq','More questions']]};
+ return lpShell(o).replace('</head>',faqLd(o)+'</head>');};
 
 /* The FAQ page, and the same questions as structured data so Google can use them. */
 const FAQ=[
@@ -916,8 +932,6 @@ const faqPage=finalize(head('Questions, Answered · Aura Films',
 
 await writeFile('../faq.html',faqPage);
 for(const sp of SERVICE_PAGES) await writeFile('../'+sp.out,withSchema(lpShell(sp)));
-const faqLd=o=>'<script type="application/ld+json">'+JSON.stringify({'@context':'https://schema.org','@type':'FAQPage',
-  mainEntity:o.faq.map(f=>({'@type':'Question',name:f.q,acceptedAnswer:{'@type':'Answer',text:f.a.replace(/<[^>]+>/g,'')}}))})+'</script>';
 for(const hp of HUB_PAGES) await writeFile('../'+hp.out,withSchema(hubShell(hp)).replace('</head>',faqLd(hp)+'</head>'));
 for(const x of PLACES) await writeFile('../'+x.slug+'.html',withSchema(placePage(x)));
 

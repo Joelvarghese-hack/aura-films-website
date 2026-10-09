@@ -677,7 +677,6 @@ html.theme-light .mk-on-light{display:inline-block}
 }
 
 /* ── service hub pages (/weddings, /portraits, /events) ── */
-.lp-hero--wide img{aspect-ratio:3/2;object-position:50% 35%}
 .hub-wide{padding-top:clamp(48px,8vh,96px);display:grid;gap:clamp(28px,4vh,44px)}
 .hub-pk .h-md{margin-bottom:clamp(18px,3vh,28px)}
 .hub-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.4vw,18px)}
@@ -686,7 +685,17 @@ html.theme-light .mk-on-light{display:inline-block}
 .hub-wide ~ .lp-body p a{color:var(--paper);text-decoration:underline;text-decoration-color:var(--line-2);text-underline-offset:3px;transition:color .3s var(--e),text-decoration-color .3s var(--e)}
 .hub-wide ~ .lp-body p a:hover,.hub-wide ~ .lp-body p a:focus-visible{color:var(--acc);text-decoration-color:var(--acc)}
 @media(max-width:700px){
-  .lp-hero--wide img{aspect-ratio:3/2}
   .hub-strip{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
   .hub-strip figure{border-radius:var(--r-sm)}
 }
+
+/* ── landing pages: one centred column, photographs shown whole ── */
+.lp-top .container{text-align:center}
+.lp .h-display{margin-inline:auto}
+.lp-lede{margin-inline:auto}
+.lp-hero img{aspect-ratio:auto;object-fit:contain}
+.lp-hero--tall{max-width:min(560px,100%);margin-inline:auto}
+.lp-body{margin-inline:auto;max-width:calc(760px + 2*var(--g))}
+.lp-next{text-align:center}
+.lp-links{justify-content:center}
+@media(max-width:700px){.lp-hero img{aspect-ratio:auto}}
