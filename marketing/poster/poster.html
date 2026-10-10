@@ -1,0 +1,123 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Clash;src:url("file:///home/user/aura-films-website/Fonts/Clash Display/ClashDisplay-Semibold.woff2");font-weight:600}
+@font-face{font-family:Clash;src:url("file:///home/user/aura-films-website/Fonts/Clash Display/ClashDisplay-Medium.woff2");font-weight:500}
+@font-face{font-family:Cabinet;src:url("file:///home/user/aura-films-website/Fonts/Cabinet Grotesk/CabinetGrotesk-Regular.woff2");font-weight:400}
+@font-face{font-family:Cabinet;src:url("file:///home/user/aura-films-website/Fonts/Cabinet Grotesk/CabinetGrotesk-Medium.woff2");font-weight:500}
+@font-face{font-family:Cabinet;src:url("file:///home/user/aura-films-website/Fonts/Cabinet Grotesk/CabinetGrotesk-Bold.woff2");font-weight:700}
+@font-face{font-family:Playfair;src:url("file:///home/user/aura-films-website/redesign/fonts/playfair-display-latin-500-italic.woff2");font-style:italic;font-weight:500}
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#E8A748;--paper:#F4EFE8;--mute:rgba(244,239,232,.78)}
+body{width:1080px;height:1350px;overflow:hidden;background:#151515;font-family:Cabinet,sans-serif;color:var(--paper);position:relative}
+.bg{position:absolute;inset:-40px;background:url("file:///home/user/aura-films-website/images/IMG_8926.JPG.jpeg") center 30%/cover;filter:grayscale(1) blur(26px) brightness(.32) contrast(1.1);transform:scale(1.08)}
+.vig{position:absolute;inset:0;background:radial-gradient(ellipse 80% 62% at 50% 36%,rgba(40,40,40,.0) 0%,rgba(10,10,10,.55) 70%,rgba(8,8,8,.9) 100%)}
+.grain{position:absolute;inset:0;opacity:.16;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.logo{position:absolute;top:50px;left:50%;transform:translateX(-50%);width:96px;height:96px;border-radius:50%;background:var(--gold);display:grid;place-items:center;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.logo img{width:68px}
+.cam{position:absolute;left:50%;top:170px;transform:translateX(-50%);width:664px}
+.screen{position:absolute;left:157px;top:200px;width:318px;height:212px;overflow:hidden;border-radius:3px}
+.screen img{width:100%;height:100%;object-fit:cover;object-position:50% 35%;filter:grayscale(1) contrast(1.06) brightness(1.04)}
+.screen::after{content:"";position:absolute;inset:0;background:linear-gradient(155deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,0) 38%)}
+h1{position:absolute;left:124px;right:40px;top:690px;font:600 84px/1.0 Clash;letter-spacing:-.035em}
+h1 em{font:italic 500 92px/1 Playfair;letter-spacing:-.01em;color:var(--gold);margin-left:4px}
+.lede{position:absolute;left:128px;width:890px;top:888px;font-size:25px;line-height:1.42;color:var(--mute)}
+.lede::after{content:"";display:inline-block;width:130px;height:2px;background:var(--gold);opacity:.85;vertical-align:middle;margin-left:16px}
+.rule{position:absolute;left:470px;right:470px;top:974px;height:1.5px;background:var(--gold);opacity:.8}
+.svc{position:absolute;left:118px;top:1030px}
+.tag{display:inline-block;background:var(--gold);color:#16120F;font:600 26px/1 Clash;letter-spacing:-.01em;padding:11px 16px 10px}
+.svc ul{list-style:none;margin-top:22px}
+.svc li{font:500 26px/1.5 Cabinet;padding-left:26px;position:relative}
+.svc li::before{content:"";position:absolute;left:2px;top:.72em;width:7px;height:7px;border-radius:50%;background:var(--gold)}
+.ct{position:absolute;left:650px;top:1082px;font:500 26px/1.42 Cabinet}
+.ct p+p{margin-top:16px}
+.ct span{color:var(--mute)}
+.foot{position:absolute;left:0;right:0;bottom:44px;text-align:center;font:500 17px/1 Cabinet;letter-spacing:.14em;color:var(--mute)}
+</style></head><body>
+<div class="bg"></div><div class="vig"></div>
+<div class="logo"><img src="file:///home/user/aura-films-website/images/aura-mark-dark.png" alt="Aura Films"></div>
+<div class="cam">
+<svg viewBox="0 0 640 470" width="664" height="488" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a2a2a"/><stop offset=".45" stop-color="#161616"/><stop offset="1" stop-color="#0b0b0b"/></linearGradient>
+<linearGradient id="h" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#303030"/><stop offset="1" stop-color="#141414"/></linearGradient>
+<linearGradient id="gl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".10"/><stop offset=".4" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<radialGradient id="d" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#3a3a3a"/><stop offset="1" stop-color="#0e0e0e"/></radialGradient>
+<filter id="s" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="26" stdDeviation="26" flood-color="#000" flood-opacity=".6"/></filter>
+</defs>
+<g filter="url(#s)">
+<!-- top plate: mode dial, prism housing, hot shoe -->
+<rect x="58" y="70" width="120" height="40" rx="10" fill="url(#h)"/>
+<g transform="translate(118,62)"><ellipse rx="44" ry="12" fill="#1c1c1c"/><rect x="-44" y="-2" width="88" height="14" fill="#1a1a1a"/><ellipse cy="12" rx="44" ry="12" fill="#121212"/>
+<g stroke="#3b3b3b" stroke-width="2"><line x1='-36' y1='3' x2='-36' y2='16'/>
+<line x1='-27' y1='3' x2='-27' y2='16'/>
+<line x1='-18' y1='3' x2='-18' y2='16'/>
+<line x1='-9' y1='3' x2='-9' y2='16'/>
+<line x1='0' y1='3' x2='0' y2='16'/>
+<line x1='9' y1='3' x2='9' y2='16'/>
+<line x1='18' y1='3' x2='18' y2='16'/>
+<line x1='27' y1='3' x2='27' y2='16'/>
+<line x1='36' y1='3' x2='36' y2='16'/></g></g>
+<path d="M218 98 L250 30 Q256 18 270 18 L370 18 Q384 18 390 30 L422 98 Z" fill="url(#h)"/>
+<rect x="262" y="8" width="116" height="14" rx="3" fill="#202020"/><rect x="272" y="2" width="96" height="8" rx="2" fill="#2b2b2b"/>
+<rect x="470" y="76" width="96" height="30" rx="8" fill="url(#h)"/><circle cx="545" cy="70" r="15" fill="url(#d)"/>
+<!-- body -->
+<rect x="20" y="94" width="600" height="360" rx="40" fill="url(#b)"/>
+<rect x="20.5" y="94.5" width="599" height="359" rx="39.5" fill="none" stroke="#3a3a3a" stroke-opacity=".55"/>
+<path d="M60 96 H580" stroke="#fff" stroke-opacity=".09" stroke-width="2"/>
+<!-- eyepiece -->
+<rect x="250" y="44" width="140" height="112" rx="22" fill="#0d0d0d" stroke="#2c2c2c"/>
+<rect x="276" y="64" width="88" height="66" rx="12" fill="#050505"/>
+<ellipse cx="320" cy="97" rx="30" ry="22" fill="#0b0f12"/><ellipse cx="311" cy="90" rx="9" ry="6" fill="#ffffff" opacity=".07"/>
+<!-- left buttons -->
+<rect x='56' y='196' width='54' height='34' rx='10' fill='#1d1d1d' stroke='#333'/><rect x='72' y='208' width='22' height='10' rx='2' fill='none' stroke='#5c5c5c' stroke-width='2'/>
+<rect x='56' y='250' width='54' height='34' rx='10' fill='#1d1d1d' stroke='#333'/><rect x='72' y='262' width='22' height='10' rx='2' fill='none' stroke='#5c5c5c' stroke-width='2'/>
+<rect x='56' y='304' width='54' height='34' rx='10' fill='#1d1d1d' stroke='#333'/><rect x='72' y='316' width='22' height='10' rx='2' fill='none' stroke='#5c5c5c' stroke-width='2'/>
+<rect x='56' y='358' width='54' height='34' rx='10' fill='#1d1d1d' stroke='#333'/><rect x='72' y='370' width='22' height='10' rx='2' fill='none' stroke='#5c5c5c' stroke-width='2'/>
+<!-- screen bezel -->
+<rect x="128" y="176" width="376" height="260" rx="12" fill="#070707" stroke="#2a2a2a"/>
+<clipPath id="sc"><rect x="142" y="190" width="348" height="232" rx="3"/></clipPath>
+<filter id="gr"><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="linear" slope="1.08" intercept="-0.02"/><feFuncG type="linear" slope="1.08" intercept="-0.02"/><feFuncB type="linear" slope="1.08" intercept="-0.02"/></feComponentTransfer></filter>
+<image href="file:///home/user/aura-films-website/images/wed-10.jpg" x="142" y="190" width="348" height="232" preserveAspectRatio="xMidYMid slice" clip-path="url(#sc)" filter="url(#gr)"/>
+<rect x="142" y="190" width="348" height="232" rx="3" fill="url(#gl)" clip-path="url(#sc)"/>
+<!-- right controls -->
+<circle cx="560" cy="170" r="13" fill="#1d1d1d" stroke="#333"/>
+<text x="560" y="198" fill="#7a7a7a" font-family="Cabinet" font-size="11" text-anchor="middle">AF-ON</text>
+<circle cx="562" cy="262" r="44" fill="url(#d)" stroke="#2e2e2e"/>
+<g stroke="#2f2f2f" stroke-width="2"><line x1='562' y1='222' x2='562' y2='228' transform='rotate(0 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(15 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(30 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(45 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(60 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(75 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(90 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(105 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(120 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(135 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(150 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(165 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(180 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(195 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(210 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(225 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(240 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(255 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(270 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(285 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(300 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(315 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(330 562 262)'/>
+<line x1='562' y1='222' x2='562' y2='228' transform='rotate(345 562 262)'/></g>
+<circle cx="562" cy="262" r="18" fill="#141414" stroke="#3a3a3a"/>
+<rect x="540" y="330" width="44" height="26" rx="8" fill="#1d1d1d" stroke="#333"/>
+<rect x="540" y="372" width="44" height="26" rx="8" fill="#1d1d1d" stroke="#333"/>
+<text x="562" y="389" fill="#7a7a7a" font-family="Cabinet" font-size="11" text-anchor="middle">Q</text>
+<!-- grip highlight -->
+<path d="M600 140 Q614 270 600 420" stroke="#ffffff" stroke-opacity=".06" stroke-width="10" fill="none"/>
+</g></svg>
+</div>
+<h1>Photographs that<br>remember <em>how it felt.</em></h1>
+<p class="lede">One photographer shoots and hand-edits every frame. No presets, no AI. From portraits to full wedding days, in Kingston and across Ontario.</p>
+<div class="svc"><span class="tag">Our Services</span><ul><li>Weddings &amp; Engagements</li><li>Portraits &amp; Couples</li><li>Family, Maternity &amp; Newborn</li><li>Events &amp; Architecture</li></ul></div>
+<div class="ct"><p>343 989 4546<br>itsaurafilms@gmail.com</p><p><span>itsaurafilms.com<br>@aura.filmsca · Kingston, Ontario</span></p></div>
+<div class="foot">BOOK YOUR SESSION AT ITSAURAFILMS.COM — PRICES PUBLISHED OPENLY</div>
+<div class="grain"></div>
+</body></html>
