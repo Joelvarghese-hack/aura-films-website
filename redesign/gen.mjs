@@ -295,7 +295,7 @@ const faqItems=[
  ['How much is the deposit?','A 30% non-refundable retainer secures your booking. The remaining balance is due on or before the day of the session.'],
  ['What is the turnaround time?','10 to 21 business days, depending on the package. Weddings also get a sneak peek within the first week.'],
  ['Do you travel?','Yes. Travel within 20 km is included, and a small fee applies past that. We shoot all over Kingston and Ontario.'],
- ['Do we get the raw files?','Galleries come as edited, high-resolution images. If you want the unedited raw files too, they’re a paid add-on.'],
+ ['Do we get the raw files?','Galleries come as edited, high-resolution images. The unedited raw files are available as an add-on for $150.'],
  ['What if we need to reschedule?','You can reschedule once with reasonable notice. If weather rules out an outdoor shoot, moving it costs nothing.'],
 ];
 
@@ -897,7 +897,7 @@ const FAQ=[
 {q:'Can we print the photographs ourselves?',
  a:'Yes. Every gallery comes with a print release, so you can print wherever you like, at whatever size.'},
 {q:'Do you hand over the RAW files?',
- a:'No. The editing is half of what you are paying for, and an unedited file is not finished work. You get the full set of edited photographs at high resolution.'},
+ a:'Yes, as an add-on for $150. Every gallery already includes the full set of edited photographs at high resolution; the RAW files are the unedited originals, for anyone who wants them as well.'},
 {q:'What should we wear?',
  a:'One colour across the group in two or three shades, textures rather than small patterns, and nothing straight out of the packaging. If you are unsure, send photos of the options and we will tell you honestly.'},
 {q:'Are any of your photographs AI generated?',

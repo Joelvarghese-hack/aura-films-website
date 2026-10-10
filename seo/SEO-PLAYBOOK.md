@@ -5,7 +5,7 @@ Not served on the website (`/seo/*` redirects home).
 
 ---
 
-## 1. Google Business Profile (do this first, about 30 minutes)
+## 1. Google Business Profile (LIVE since 2 Oct: use this to polish it)
 
 The single biggest local-search lever. Go to business.google.com and sign in as itsaurafilms@gmail.com.
 
@@ -34,7 +34,7 @@ Use the **same name, phone and website everywhere**. Mismatches confuse Google.
 
 ---
 
-## 2. Google Search Console (15 minutes, then check monthly)
+## 2. Google Search Console (set up, sitemap submitted: request indexing for /weddings, /portraits, /events and the six town pages, then check monthly)
 
 This is how you see which searches show your site, your position and your clicks.
 
@@ -106,7 +106,7 @@ I'll turn each one into a blog post or a section of the matching town page. This
 
 ## Things I noticed but didn't change (your call)
 
-- The add-ons list on the Investment page sells "Raw / unedited files $150", but the FAQ says RAW files aren't given. Pick one answer.
+- RAW files: settled 10 Oct. They are a $150 add-on, and the FAQ now says so.
 - Links inside paragraphs on the new hub pages use the site's paragraph style, so they're hard to spot. A light underline would help.
 - `/faq` title "Questions, Answered · Aura Films" could become "Photography FAQ: Booking, Prices & Travel · Aura Films". I didn't touch it because it's your recent page.
 - The six town pages share one template. Adding a real shoot to each is the biggest content win (see section 4).
