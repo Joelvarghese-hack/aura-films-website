@@ -1,0 +1,46 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Clash;src:url("file:///home/user/aura-films-website/Fonts/Clash Display/ClashDisplay-Semibold.woff2");font-weight:600}
+@font-face{font-family:Clash;src:url("file:///home/user/aura-films-website/Fonts/Clash Display/ClashDisplay-Medium.woff2");font-weight:500}
+@font-face{font-family:Cabinet;src:url("file:///home/user/aura-films-website/Fonts/Cabinet Grotesk/CabinetGrotesk-Medium.woff2");font-weight:500}
+@font-face{font-family:Cabinet;src:url("file:///home/user/aura-films-website/Fonts/Cabinet Grotesk/CabinetGrotesk-Bold.woff2");font-weight:700}
+@font-face{font-family:Playfair;src:url("file:///home/user/aura-films-website/redesign/fonts/playfair-display-latin-500-italic.woff2");font-style:italic;font-weight:500}
+@font-face{font-family:PlayfairR;src:url("file:///home/user/aura-films-website/redesign/fonts/playfair-display-latin-400-normal.woff2");font-weight:400}
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--paper:#F5ECDD;--ink:#2A1A10;--rust:#B5562B;--gold:#E8A748;--mute:#6B4E3A}
+body{width:1080px;height:1350px;overflow:hidden;background:var(--paper);color:var(--ink);font-family:Cabinet,sans-serif;position:relative}
+.grain{position:absolute;inset:0;opacity:.22;mix-blend-mode:multiply;pointer-events:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .25  0 0 0 0 .15  0 0 0 .5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.top{position:absolute;left:72px;right:72px;top:62px;display:flex;justify-content:space-between;align-items:center;font:500 15px/1 Cabinet;letter-spacing:.26em;text-transform:uppercase;color:var(--mute)}
+.top img{height:46px}
+.arch{position:absolute;right:72px;top:150px;width:470px;height:690px;border-radius:235px 235px 18px 18px;overflow:hidden;box-shadow:0 30px 60px -28px rgba(70,35,10,.45)}
+.arch img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.print{position:absolute;left:330px;top:612px;width:250px;height:330px;padding:12px 12px 44px;background:#FBF6EE;box-shadow:0 22px 40px -16px rgba(60,30,10,.45);transform:rotate(-4deg)}
+.print img{width:100%;height:100%;object-fit:cover;object-position:50% 35%}
+.print span{position:absolute;left:0;right:0;bottom:13px;text-align:center;font:italic 500 19px/1 Playfair;color:var(--mute)}
+.kick{position:absolute;left:72px;top:176px;font:600 17px/1 Clash;letter-spacing:.3em;color:var(--rust);text-transform:uppercase}
+h1{position:absolute;left:62px;top:206px;font:italic 500 236px/.82 Playfair;letter-spacing:-.04em;color:var(--ink)}
+h2{position:absolute;left:76px;top:420px;font:600 54px/1.02 Clash;letter-spacing:.02em;text-transform:uppercase}
+h2 b{display:block;color:var(--rust);font-weight:600}
+.lede{position:absolute;left:76px;top:556px;width:250px;font:500 20px/1.5 Cabinet;color:var(--mute)}
+.rule{position:absolute;left:72px;right:72px;top:1010px;height:1px;background:var(--ink);opacity:.25}
+.who{position:absolute;left:72px;top:1046px;display:flex;gap:46px;font:500 26px/1 Cabinet}
+.who i{font:italic 500 26px/1 Playfair;color:var(--rust);margin-right:10px}
+.when{position:absolute;left:72px;top:1106px;font:500 19px/1.4 Cabinet;color:var(--mute);letter-spacing:.02em}
+.cta{position:absolute;left:72px;right:72px;bottom:72px;display:flex;justify-content:space-between;align-items:center;background:var(--ink);color:var(--paper);border-radius:999px;padding:26px 38px}
+.cta .l{font:600 30px/1 Clash;letter-spacing:-.01em}
+.cta .l em{font:italic 500 33px/1 Playfair;color:var(--gold);font-style:italic}
+.cta .r{text-align:right;font:500 18px/1.35 Cabinet;opacity:.85}
+.leaf{position:absolute;opacity:.9}
+</style></head><body>
+<div class="top"><img src="aura-mark-dark.png" alt="Aura Films"><span>Kingston, Ontario · Autumn 2026</span></div>
+<div class="arch"><img src="file:///home/user/aura-films-website/images/por-6.jpg" alt=""></div>
+<div class="kick">Aura Films presents</div>
+<h1>Fall</h1>
+<h2>Mini<b>Sessions</b></h2>
+<p class="lede">Short outdoor sessions in the last of the autumn light.</p>
+<div class="print"><img src="file:///home/user/aura-films-website/images/IMG_3432.JPG.jpeg" alt=""><span>golden hour</span></div>
+<div class="rule"></div>
+<div class="who"><span><i>for</i>Families</span><span>Couples</span><span>Portraits</span></div>
+<p class="when" id="when">Limited dates this autumn · Details and booking on Instagram</p>
+<div class="cta"><div class="l">DM <em>“FALL”</em> to book</div><div class="r">@aura.filmsca<br>itsaurafilms.com</div></div>
+<div class="grain"></div>
+</body></html>
