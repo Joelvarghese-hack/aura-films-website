@@ -5,8 +5,8 @@
   "description": "Aura Films motion engine (Remotion)",
   "scripts": {
     "dev": "remotion studio",
-    "render:strobe": "remotion render Strobe out/strobe-reel.mp4",
-    "render:glitch": "remotion render Glitch out/glitch-reel.mp4"
+    "render:fall": "remotion render FallMinisReel out/FallMinisReel.mp4",
+    "render:felt": "remotion render FeltReel out/FeltReel.mp4"
   },
   "dependencies": {
     "@remotion/cli": "4.0.539",

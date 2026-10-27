@@ -1,31 +1,31 @@
-/* The Aura Standard: shared tokens, fonts and texture for every composition. */
+/* Aura Films brand layer: palette, fonts, texture and fit-to-box text for every composition. */
 import { useLayoutEffect, useRef, useState } from "react";
-import { AbsoluteFill, Img, continueRender, delayRender, staticFile, useCurrentFrame, random } from "remotion";
+import { AbsoluteFill, Img, continueRender, delayRender, staticFile } from "remotion";
 
+/* Brand palette (CLAUDE.md). */
 export const C = {
-  black: "#000000",
-  white: "#FFFFFF",
-  paper: "#F9F0E1", // brand --bg
-  orange: "#E8A748", // brand --orange: grease pencil, one accent per frame
-  emerald: "#39D599", // brand --emerald: glitch channel only
-  grey: "#A3A3A3", // meta labels on black (8.5:1)
+  cream: "#F9F0E1", // --bg
+  ink: "#1B120B", // --text
+  charcoal: "#212922", // --charcoal
+  orange: "#E8A748", // --orange
+  tea: "#C5EBC3", // --tea-green
+  surface: "#EFE5D2", // --surface
+  muted: "#5A3E2B", // --text-muted
 };
 
 export const F = {
-  wide: "Panchang", // hooks: extended, uppercase
-  cond: "Tanker", // glitch slams
-  grot: "Switzer", // labels, commands
-  serif: "Sentient", // micro-stories, Magnum caption voice
+  display: "Clash Display", // brand headings
+  serif: "Gambetta", // italic accents
+  body: "Satoshi", // body, CTAs
 };
 
 const FACES: [string, string, string, string][] = [
-  [F.wide, "fonts/panchang-800-normal.woff2", "800", "normal"],
-  [F.wide, "fonts/panchang-600-normal.woff2", "600", "normal"],
-  [F.cond, "fonts/tanker-400-normal.woff2", "400", "normal"],
-  [F.grot, "fonts/switzer-500-normal.woff2", "500", "normal"],
-  [F.grot, "fonts/switzer-700-normal.woff2", "700", "normal"],
-  [F.serif, "fonts/sentient-400-normal.woff2", "400", "normal"],
-  [F.serif, "fonts/sentient-400-italic.woff2", "400", "italic"],
+  [F.display, "fonts/clash-display-500-normal.woff2", "500", "normal"],
+  [F.display, "fonts/clash-display-600-normal.woff2", "600", "normal"],
+  [F.serif, "fonts/gambetta-400-italic.woff2", "400", "italic"],
+  [F.serif, "fonts/gambetta-500-italic.woff2", "500", "italic"],
+  [F.body, "fonts/satoshi-500-normal.woff2", "500", "normal"],
+  [F.body, "fonts/satoshi-700-normal.woff2", "700", "normal"],
 ];
 
 const handle = delayRender("Loading Aura fonts");
@@ -37,40 +37,17 @@ export const fontsReady = Promise.all(
 
 export const img = (name: string) => staticFile(`img/${name}`);
 
-/* Film grain: four pre-baked plates, a new plate and offset every frame. */
-export const Grain: React.FC<{ opacity?: number; still?: boolean }> = ({ opacity = 0.16, still = false }) => {
-  const current = useCurrentFrame();
-  const frame = still ? 0 : current;
-  const plate = frame % 4;
-  const dx = Math.floor(random(`gx${frame}`) * 40) - 20;
-  const dy = Math.floor(random(`gy${frame}`) * 40) - 20;
-  return (
-    <AbsoluteFill style={{ pointerEvents: "none", mixBlendMode: "overlay", opacity, zIndex: 90 }}>
-      <Img src={img(`grain-${plate}.png`)} style={{ position: "absolute", left: -20 + dx, top: -20 + dy, width: 1120, height: 1960 }} />
-    </AbsoluteFill>
-  );
-};
-
-/* Hand-drawn grease-pencil loop, the Magnum contact-sheet "this one" mark. */
-export const PencilLoop: React.FC<{ x: number; y: number; w: number; h: number; color?: string; stroke?: number }> = ({ x, y, w, h, color = C.orange, stroke = 9 }) => (
-  <svg style={{ position: "absolute", left: x, top: y, overflow: "visible", zIndex: 20 }} width={w} height={h} viewBox="0 0 100 100" preserveAspectRatio="none">
-    <path
-      d="M58 4 C 86 3, 99 22, 97 50 C 95 80, 74 97, 46 96 C 18 95, 2 78, 3 50 C 4 24, 22 6, 52 5 C 66 5, 80 10, 88 17"
-      fill="none"
-      stroke={color}
-      strokeWidth={stroke}
-      strokeLinecap="round"
-      vectorEffect="non-scaling-stroke"
-    />
-  </svg>
+/* A very light, static film grain: texture without shimmer. */
+export const Grain: React.FC<{ opacity?: number }> = ({ opacity = 0.07 }) => (
+  <AbsoluteFill style={{ pointerEvents: "none", mixBlendMode: "overlay", opacity, zIndex: 90 }}>
+    <Img src={img("grain-0.png")} style={{ width: "100%", height: "100%" }} />
+  </AbsoluteFill>
 );
 
-/* Monospaced-feel meta label used for file numbers, places, frame counts. */
-export const Meta: React.FC<{ children: React.ReactNode; style?: React.CSSProperties }> = ({ children, style }) => (
-  <div style={{ fontFamily: F.grot, fontWeight: 700, fontSize: 24, letterSpacing: "0.18em", textTransform: "uppercase", color: C.grey, ...style }}>{children}</div>
-);
+/* Layered, warm-tinted shadow for photo cards (base → elevated). */
+export const SHADOW = "0 2px 6px rgba(27,18,11,0.10), 0 18px 40px -12px rgba(90,62,43,0.28), 0 50px 90px -40px rgba(27,18,11,0.35)";
 
-/* Text that shrinks from `max` until it fits `width` x `height`, measured after the brand fonts load. */
+/* Text that shrinks from `max` until it fits `width` x `height`, measured after the fonts load. */
 export const FitText: React.FC<{ max: number; min?: number; width: number; height: number; style?: React.CSSProperties; children: React.ReactNode }> = ({ max, min = 24, width, height, style, children }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState(max);
