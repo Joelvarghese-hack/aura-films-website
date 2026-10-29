@@ -11,6 +11,7 @@
 /CLAUDE.md / 301
 /clean-images.mjs / 301
 /diagnose.mjs / 301
+/documents/* / 301
 /fix-categories.mjs / 301
 /fix-contact.mjs / 301
 /fix-pages.mjs / 301
@@ -28,6 +29,7 @@
 /logo-orange.png / 301
 /logo-white.png / 301
 /make-cat-pages.mjs / 301
+/marketing/* / 301
 /mobile-fix.mjs / 301
 /node_modules/* / 301
 /overhaul.mjs / 301
@@ -48,6 +50,7 @@
 /sector-c.mjs / 301
 /sector-d.mjs / 301
 /sector-e.mjs / 301
+/seo/* / 301
 /serve-redesign.mjs / 301
 /serve.mjs / 301
 /shot-detail.mjs / 301
@@ -64,10 +67,7 @@
 /update-pages.mjs / 301
 /verify2.mjs / 301
 /webp.mjs / 301
-/_v.mjs / 301
+/_originals/* / 301
 /redesign/gen.mjs / 301
 /redesign/image-dims.json / 301
 /redesign/tones.json / 301
-/documents/* / 301
-/seo/* / 301
-/marketing/* / 301
