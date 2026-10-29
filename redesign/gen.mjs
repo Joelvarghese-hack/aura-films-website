@@ -656,7 +656,7 @@ const refund=legalShell('Refund & Cancellation Policy',`
 /* Home keeps the additive motion layer (home page only). */
 const homeHTML=finalize(home);
 
-const schema=`<script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","additionalType":"https://schema.org/PhotographStore","name":"Aura Films","url":"${SITE}","image":"${SITE}images/wed-3.jpg","description":"Photography studio in Kingston, Ontario. Weddings, portraits, family and architecture, shot and hand graded by Albin.","email":"itsaurafilms@gmail.com","telephone":"+1-343-989-4546","priceRange":"$85 - $2695","address":{"@type":"PostalAddress","addressLocality":"Kingston","addressRegion":"ON","addressCountry":"CA"},"areaServed":{"@type":"State","name":"Ontario"},"founder":{"@type":"Person","name":"Albin"},"sameAs":["https://www.instagram.com/aura.filmsca/"],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Photography packages","itemListElement":[{"@type":"Offer","priceCurrency":"CAD","price":"1195","itemOffered":{"@type":"Service","name":"Wedding photography","url":"${SITE}weddings"}},{"@type":"Offer","priceCurrency":"CAD","price":"85","itemOffered":{"@type":"Service","name":"Portrait photography","url":"${SITE}portraits"}},{"@type":"Offer","priceCurrency":"CAD","price":"399","itemOffered":{"@type":"Service","name":"Event photography","url":"${SITE}events"}},{"@type":"Offer","priceCurrency":"CAD","price":"179","itemOffered":{"@type":"Service","name":"Family and maternity photography","url":"${SITE}family-maternity"}},{"@type":"Offer","priceCurrency":"CAD","price":"750","itemOffered":{"@type":"Service","name":"Architectural photography","url":"${SITE}investment#pk-architecture"}}]}}</script>`;
+const schema=`<script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","additionalType":"https://schema.org/PhotographStore","name":"Aura Films","alternateName":"Aura Films Kingston","url":"${SITE}","image":"${SITE}images/wed-3.jpg","description":"Photography studio in Kingston, Ontario. Weddings, portraits, family and architecture, shot and hand graded by Albin.","email":"itsaurafilms@gmail.com","telephone":"+1-343-989-4546","priceRange":"$85 - $2695","address":{"@type":"PostalAddress","addressLocality":"Kingston","addressRegion":"ON","addressCountry":"CA"},"areaServed":{"@type":"State","name":"Ontario"},"founder":{"@type":"Person","name":"Albin"},"sameAs":["https://www.instagram.com/aura.filmsca/","https://www.google.com/maps?cid=4306328524087559587"],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Photography packages","itemListElement":[{"@type":"Offer","priceCurrency":"CAD","price":"1195","itemOffered":{"@type":"Service","name":"Wedding photography","url":"${SITE}weddings"}},{"@type":"Offer","priceCurrency":"CAD","price":"85","itemOffered":{"@type":"Service","name":"Portrait photography","url":"${SITE}portraits"}},{"@type":"Offer","priceCurrency":"CAD","price":"399","itemOffered":{"@type":"Service","name":"Event photography","url":"${SITE}events"}},{"@type":"Offer","priceCurrency":"CAD","price":"179","itemOffered":{"@type":"Service","name":"Family and maternity photography","url":"${SITE}family-maternity"}},{"@type":"Offer","priceCurrency":"CAD","price":"750","itemOffered":{"@type":"Service","name":"Architectural photography","url":"${SITE}investment#pk-architecture"}}]}}</script>`;
 const withSchema=h=>h.replace('</head>',schema+'</head>');
 
 const PAGES=[['',1.0],['gallery',0.9],['about',0.8],['investment',0.9],['faq',0.7],['weddings',0.9],['portraits',0.8],['events',0.8],['family-maternity',0.8],['engagements',0.8],['gananoque',0.6],['napanee',0.6],['brockville',0.6],['belleville',0.6],['prince-edward-county',0.7],['ottawa',0.6],['privacy',0.3],['terms',0.3],['cookie',0.3],['refund',0.3],['accessibility',0.3]];
@@ -935,11 +935,24 @@ for(const sp of SERVICE_PAGES) await writeFile('../'+sp.out,withSchema(lpShell(s
 for(const hp of HUB_PAGES) await writeFile('../'+hp.out,withSchema(hubShell(hp)).replace('</head>',faqLd(hp)+'</head>'));
 for(const x of PLACES) await writeFile('../'+x.slug+'.html',withSchema(placePage(x)));
 
+/* lastmod = the day a page's content last really changed, not the build date: a sitemap that
+   marks every page as new on every build teaches Google to ignore its dates. Each page is
+   fingerprinted without its cache-busting ?v= stamps; the date moves only when the print does. */
+const LM_FILE=new URL('./lastmod.json',import.meta.url);
+let LM={}; try{ LM=JSON.parse(await readFile(LM_FILE,'utf8')); }catch(e){}
+const lastmod=p=>{
+  const file='../'+(p===''?'index':p.replace(/\/$/,''))+'.html';
+  let html=''; try{ html=readFileSync(new URL(file,import.meta.url),'utf8'); }catch(e){ return today; }
+  const print=createHash('sha1').update(html.replace(/\?v=[0-9a-z.]+/gi,'')).digest('hex').slice(0,16);
+  if(!LM[p]||LM[p].hash!==print) LM[p]={hash:print,date:today};
+  return LM[p].date;
+};
 await writeFile('../sitemap.xml',
   ['<?xml version="1.0" encoding="UTF-8"?>','<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
     .concat(PAGES.map(([p,pr])=>{const imgs=PAGE_IMAGES[p];
-      return '  <url><loc>'+SITE+p+'</loc><lastmod>'+today+'</lastmod><priority>'+pr.toFixed(1)+'</priority>'+(imgs?NL+imgs.join(NL)+NL+'  ':'')+'</url>';}))
+      return '  <url><loc>'+SITE+p+'</loc><lastmod>'+lastmod(p)+'</lastmod><priority>'+pr.toFixed(1)+'</priority>'+(imgs?NL+imgs.join(NL)+NL+'  ':'')+'</url>';}))
     .concat(['</urlset>','']).join(NL));
+await writeFile(LM_FILE,JSON.stringify(LM,null,1)+NL);
 /* ── minify the stylesheet and the script; if esbuild is missing, ship the source ── */
 {
   const { execFileSync } = await import('node:child_process');
