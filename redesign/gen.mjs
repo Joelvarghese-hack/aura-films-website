@@ -172,7 +172,7 @@ const head=(title,desc,path='')=>`<!DOCTYPE html><html lang="en"><head>
 <link rel="stylesheet" href="/redesign/aura.min.css?v=${V('aura.css')}">${CALENDLY?`<link rel="preconnect" href="https://assets.calendly.com"><link rel="dns-prefetch" href="https://calendly.com">`:''}${HCAPTCHA?`<script src="https://js.hcaptcha.com/1/api.js" async defer></script>`:''}<script>window.AURA_CALENDLY=${JSON.stringify(CALENDLY)};</script>${analytics}</head><body><a href="#main" class="skip-link">Skip to content</a><div class="progress" id="progress" aria-hidden="true"></div><div class="pt" id="pt" aria-hidden="true"></div>`;
 
 /* ── nav ── */
-const nav=(active)=>{const L=[['/','Home'],['/gallery','Gallery'],['/about','About'],['/investment','Investment']];
+const nav=(active)=>{const L=[['/','Home'],['/gallery','Gallery'],['/seasonal','Seasonal'],['/about','About'],['/investment','Investment']];
 return `<nav class="nav" id="nav" aria-label="Primary"><div class="nav-inner">
 <a href="/" class="brand" aria-label="Aura Films, home"><img class="mk mk-on-dark" src="/images/aura-mark-light.png" alt="" width="1539" height="668"><img class="mk mk-on-light" src="/images/aura-mark-dark.png" alt="" width="1539" height="668"></a>
 <div class="nav-links">${L.map(([h,t])=>`<a href="${h}" class="nav-link${active===t?' active':''}"${active===t?' aria-current="page"':''}>${t}</a>`).join('')}</div>
@@ -188,7 +188,7 @@ const footer=`<footer class="footer"><div class="container">
 <div class="foot-grid">
 <div class="foot-brand"><img class="mk mk-on-dark" src="/images/aura-mark-light.png" alt="" width="1539" height="668" loading="lazy"><img class="mk mk-on-light" src="/images/aura-mark-dark.png" alt="" width="1539" height="668" loading="lazy">
 <p>A photography studio in Kingston, Ontario. We shoot weddings, portraits, families and the occasional building, anywhere in the province.</p></div>
-<div class="foot-col"><h3>Explore</h3><a href="/">Home</a><a href="/gallery">Gallery</a><a href="/about">About</a><a href="/investment">Investment</a></div>
+<div class="foot-col"><h3>Explore</h3><a href="/">Home</a><a href="/gallery">Gallery</a><a href="/seasonal">Seasonal minis</a><a href="/about">About</a><a href="/investment">Investment</a></div>
 <div class="foot-col"><h3>Work</h3><a href="/weddings">Weddings</a><a href="/engagements">Engagements</a><a href="/portraits">Portraits</a><a href="/events">Events</a><a href="/family-maternity">Family &amp; Maternity</a><a href="/gallery#architecture">Architecture</a><a href="/faq">Questions</a></div><div class="foot-col"><h3>Across Ontario</h3><a href="/gananoque">Gananoque</a><a href="/napanee">Napanee</a><a href="/brockville">Brockville</a><a href="/belleville">Belleville</a><a href="/prince-edward-county">Prince Edward County</a><a href="/ottawa">Ottawa</a></div>
 <div class="foot-col"><h3>Reach us</h3><a href="mailto:itsaurafilms@gmail.com">itsaurafilms@gmail.com</a><a href="tel:+13439894546">343 989 4546</a><a href="https://www.instagram.com/aura.filmsca/" target="_blank" rel="noopener">Instagram, @aura.filmsca</a><a href="https://www.google.com/maps/search/?api=1&amp;query=Kingston%2C+Ontario%2C+Canada" target="_blank" rel="noopener">Kingston, Ontario</a></div>
 </div>
@@ -556,7 +556,7 @@ const investment=head('Photography Prices in Kingston, ON · Aura Films','Publis
 <p class="phero-sub reveal">Every package and price is listed here, from a thirty-minute portrait to a full wedding day.</p>
 <div class="chips">${CHIPS.map(([b,t])=>`<div class="chip reveal">${tick}<p><b>${b}.</b> ${t}</p></div>`).join('')}</div>
 </div></header>
-<div class="jump-bar"><div class="container"><nav class="jump" aria-label="Package categories">${Object.keys(PKG).map(k=>`<a href="#${PKINFO[k][0]}">${k}</a>`).join('')}</nav></div></div>
+<div class="jump-bar"><div class="container"><nav class="jump" aria-label="Package categories">${Object.keys(PKG).map(k=>`<a href="#${PKINFO[k][0]}">${k}</a>`).join('')}<a href="/seasonal">Seasonal minis</a></nav></div></div>
 ${Object.entries(PKG).map(([k,arr],i)=>`<section class="pk${i%2?' pk--flip':''}" id="${PKINFO[k][0]}" data-c="${T(PKINFO[k][1])}"><div class="container">
 <div class="pk-head"><div class="pk-copy"><h2 class="h-xl reveal">${k}</h2><p class="lede reveal">${PKINFO[k][3]}</p></div>${pkStack(k)}</div>
 <div class="tiers">${arr.map(tier).join('')}</div>
@@ -576,6 +576,143 @@ ${Object.entries(PKG).map(([k,arr],i)=>`<section class="pk${i%2?' pk--flip':''}"
 ${faqBlock()}
 ${contactBlock()}
 `+foot();
+
+/* ════════ SEASONAL ════════ */
+/* A few set days a year, timed to the light and to the weather Kingston actually gets.
+   Snow odds come from Environment and Climate Change Canada's daily snow-on-ground record for
+   the Kingston Climate station (6104142), winters 2009-10 to 2025-26; 2012-13 has no snow data.
+   Slot times run back from sunset (NOAA algorithm, 44.23N 76.49W) so the last two catch golden hour. */
+const MINI={price:129,mins:20,photos:12,people:4};
+const SZ_TIMES={fall:['2:05','2:35','3:05','3:35','4:05','4:35'],holiday:['1:45','2:15','2:45','3:15','3:45','4:15'],snow:['2:20','2:50','3:20','3:50','4:20','4:50']};
+const SZ_DAYS=[
+ {key:'Fall Minis, Sat Nov 7',set:'fall',day:'Sat',date:'Nov 7',sunset:'4:47 pm'},
+ {key:'Fall Minis, Sun Nov 8',set:'fall',day:'Sun',date:'Nov 8',sunset:'4:46 pm'},
+ {key:'Holiday Minis, Sat Dec 12',set:'holiday',day:'Sat',date:'Dec 12',sunset:'4:26 pm'},
+ {key:'Holiday Minis, Sun Dec 13',set:'holiday',day:'Sun',date:'Dec 13',sunset:'4:26 pm'},
+ {key:'Snow Minis, Sat Jan 23',set:'snow',day:'Sat',date:'Jan 23',sunset:'5:02 pm'},
+ {key:'Snow Minis, Sun Jan 24',set:'snow',day:'Sun',date:'Jan 24',sunset:'5:04 pm'},
+];
+/* share of days with at least 1 cm of snow on the ground, in the week that starts on each date */
+const SNOW_WEEKS=[['Nov 7',5],['Nov 14',8],['Nov 21',14],['Nov 28',22],['Dec 5',31],['Dec 12',46],['Dec 19',53],['Dec 26',53],['Jan 2',65],['Jan 9',71],['Jan 16',93],['Jan 23',100],['Jan 30',96],['Feb 6',84],['Feb 13',89],['Feb 20',84]];
+const SZ_MARK={'Nov 7':'Fall','Dec 12':'Holiday','Jan 23':'Snow'};
+const end20=t=>{let [h,m]=t.split(':').map(Number);m+=MINI.mins;if(m>=60){h+=1;m-=60;}return h+':'+String(m).padStart(2,'0');};
+const szDay=d=>`<div class="sz-day"><p class="sz-day-h"><b>${d.day}</b> ${d.date}</p><ol class="sz-slots">${SZ_TIMES[d.set].map((t,i,a)=>`<li${i>=a.length-2?' class="gold"':''}><span>${t}</span>&ndash;${end20(t)}</li>`).join('')}</ol><p class="sz-sun">Sunset ${d.sunset}</p></div>`;
+const szIncl=[`${MINI.mins} minutes, one location`,`${MINI.photos} photographs, edited by hand`,`Up to ${MINI.people} people`,'Online gallery within 10 days'];
+const szCard=(o)=>`<article class="sz-card reveal${o.cls?' '+o.cls:''}">
+<div class="sz-card-top"><p class="sz-badge">${o.badge}</p><h3 class="sz-name">${o.name}</h3><p class="sz-when">${o.when}</p></div>
+<div class="sz-price"><p class="tier-price"><span>$</span>${MINI.price}</p><p class="tier-note">per session, everything below included</p></div>
+<ul class="tier-list">${szIncl.map(x=>`<li>${tick}<span>${x}</span></li>`).join('')}</ul>
+<div class="sz-days">${o.days.map(szDay).join('')}</div>
+<p class="sz-legend"><i aria-hidden="true"></i> Golden-hour slots. They go first.</p>
+<p class="sz-rain">${o.weather}</p>
+<a class="btn btn-solid sz-book" href="#book" data-session="${o.days[0].key}">Request a ${o.short} slot ${arrow}</a>
+</article>`;
+const szChart=`<figure class="sz-chart reveal" aria-labelledby="szChartCap">
+<div class="sz-bars" role="img" aria-label="Chance of at least 1 cm of snow on the ground in Kingston, by week: about 5% in the week of Nov 7, 46% in the week of Dec 12, and 100% in the week of Jan 23.">${SNOW_WEEKS.map(([w,p])=>`<div class="sz-bar${SZ_MARK[w]?' is-on':''}" style="--h:${Math.max(p,3)}%"><span class="sz-pct">${p}%</span><i></i><span class="sz-wk">${w}</span>${SZ_MARK[w]?`<b class="sz-flag">${SZ_MARK[w]}</b>`:''}</div>`).join('')}</div>
+<figcaption id="szChartCap"><b>How often Kingston has snow on the ground, week by week.</b> Share of days with at least 1&nbsp;cm, from Environment and Climate Change Canada's daily records for the Kingston Climate station, sixteen winters from 2009 to 2026. In a typical year, the first day with snow on the ground has come around <b>November 21</b>.</figcaption>
+</figure>`;
+const SZ_FAQ=[
+ {q:'How much is a mini session?', a:'$129 for twenty minutes, with twelve photographs edited by hand and up to four people. It is the same price for the fall, holiday and snow dates. If you love more of the gallery, ten more edited photographs are $75.'},
+ {q:'How do I book a slot?', a:'Pick a date and a time in the form below. We confirm by email within a day, with the payment details. Your slot is held once it is paid, first come, first served. Each day has six slots.'},
+ {q:'Where are the sessions?', a:'In Kingston. Albin picks one spot for each day, the week before, based on where the light and the season look best. You get the exact location and parking with your confirmation.'},
+ {q:'Will there be snow?', a:'For the January dates, almost certainly. In all sixteen winters with records since 2009, Kingston had snow on the ground every day of that week. For the December dates, it is closer to a coin toss, which is why those are holiday sessions first and snow sessions only if the weather obliges.'},
+ {q:'What if the weather is bad?', a:'If it rains, or Environment Canada issues a cold or freezing-rain warning for Kingston, we move your session to the weather date at the same time, free. Ordinary cold is not a reason to move: dress for it and we keep the session moving.'},
+ {q:'Can I bring more than four people, or a dog?', a:'Minis are built for up to four people. For a bigger group, book a regular family session. Ask about a dog when you book and we will tell you whether the location suits one.'},
+ {q:'What if I cannot make it?', a:'You can hand your slot to a friend. Slots are not refundable, because each one is a set time on a set day that we cannot resell at short notice.'},
+ {q:'When do we get the photos?', a:'Within ten days, in an online gallery. Sessions on December 12 and 13 come back to you before Christmas.'}];
+
+const seasonal=head('Seasonal Mini Sessions in Kingston, ON · Aura Films','Fall, holiday and snow mini sessions in Kingston, Ontario: $129 for 20 minutes and 12 edited photos, up to 4 people. Nov 7–8, Dec 12–13 and Jan 23–24.','seasonal')+nav('Seasonal')+`
+<main id="main" class="lp sz" data-c="${T('_DSC1655.jpg')}">
+<header class="lp-top"><div class="container">
+<div class="kicker reveal">Seasonal mini sessions · Kingston, Ontario</div>
+<h1 class="h-display reveal">Twenty minutes, <em>made for the season.</em></h1>
+<p class="lp-lede reveal">A handful of set days a year, timed to the light and the weather Kingston actually gets. $${MINI.price} for twenty minutes and twelve photographs edited by hand.</p>
+<nav class="sz-jump reveal" aria-label="Seasons on this page"><a href="#fall"><span>Fall</span><b>Nov 7 &amp; 8</b></a><a href="#winter"><span>Winter</span><b>Dec 12 &amp; 13 · Jan 23 &amp; 24</b></a><a href="#book"><span>Booking</span><b>Request a slot</b></a></nav>
+</div></header>
+<div class="container"><div class="sz-trio reveal">
+<figure><img src="images/_DSC1655.jpg" alt="A couple share a maple leaf among yellow autumn trees" loading="eager"></figure>
+<figure><img src="images/IMG_9906.JPG.jpeg" alt="A man in a leather jacket stands among bare late-autumn trees" loading="eager"></figure>
+<figure><img src="images/_DSC2521.jpg" alt="Parents in warm brown sweaters cuddle their newborn" loading="eager"></figure>
+</div></div>
+
+<section class="sz-season" id="fall" data-c="${T('_DSC1460.jpg')}"><div class="container">
+<div class="sz-head">
+<div class="sz-copy">
+<p class="sz-status reveal"><i aria-hidden="true"></i> Final weekend of the season</p>
+<h2 class="h-xl reveal">Fall <em>Minis.</em></h2>
+<p class="lede reveal">By November the maples are mostly done, so the last weekend of fall is about what stays: golden grass, oak leaves that hang on, low sun and knitwear. Two days, six slots each, and then fall is over until next year.</p>
+</div>
+<div class="sz-pair reveal"><figure><img src="images/_DSC1460.jpg" alt="A woman rides piggyback on her partner in an autumn wood" loading="lazy"></figure><figure><img src="images/_DSC1841.jpg" alt="A couple in pumpkin masks stand in fallen leaves" loading="lazy"></figure></div>
+</div>
+<div class="sz-cards sz-cards--one">${szCard({name:'Last of the Fall',short:'fall',badge:'Fall Minis',when:'Saturday November 7 and Sunday November 8, 2026',days:SZ_DAYS.slice(0,2),weather:'<b>Weather date:</b> Saturday November 14, same time.'})}</div>
+</div></section>
+
+<section class="sz-season sz-season--winter" id="winter" data-c="24,30,40"><div class="container">
+<div class="sz-head">
+<div class="sz-copy">
+<p class="sz-status sz-status--cool reveal"><i aria-hidden="true"></i> Booking now for December and January</p>
+<h2 class="h-xl reveal">Winter <em>Minis.</em></h2>
+<p class="lede reveal">We set the winter dates from Kingston's own snow records rather than a guess. The first snow on the ground usually comes in late November, and through mid-December it is a coin toss. By the fourth week of January it has been there every day, in every winter with records since 2009.</p>
+</div>
+${szChart}
+</div>
+<div class="sz-cards">
+${szCard({name:'Holiday Minis',short:'holiday',badge:'Galleries before Christmas',when:'Saturday December 12 and Sunday December 13, 2026',days:SZ_DAYS.slice(2,4),weather:'<b>Weather date:</b> Saturday December 19, same time; galleries from that day arrive after Christmas. Snow is a bonus on these dates, not a promise.'})}
+${szCard({name:'Snow Minis',short:'snow',badge:'Snow on the ground, 16 winters of 16',when:'Saturday January 23 and Sunday January 24, 2027',days:SZ_DAYS.slice(4,6),weather:'<b>Weather date:</b> Saturday January 30, same time. Dress warm: January here averages −7&nbsp;°C.',cls:'sz-card--snow'})}
+</div>
+</div></section>
+
+<section class="sec sz-how" data-c="22,18,16"><div class="container">
+<h2 class="h-xl reveal">How a mini <em>works.</em></h2>
+<ol class="steps steps--4">${[['Request','Choose a date and a time below. Six slots a day, first come, first served.'],['Confirm','We reply within a day with payment details. Paid means the slot is yours.'],['Shoot','Twenty relaxed minutes. Albin tells you where to stand and when to move.'],['Gallery','Twelve photographs, each edited by hand, in your online gallery within ten days.']].map(([t,d],i)=>`<li class="step reveal"><span class="step-n">0${i+1}</span><h3 class="h-md">${t}</h3><p>${d}</p></li>`).join('')}</ol>
+</div></section>
+
+<div class="container lp-body sz-faq">
+<section class="lp-sec lp-faq reveal"><h2 class="h-md">Questions about the minis</h2>
+<dl>${SZ_FAQ.map(f=>`<dt>${f.q}</dt><dd>${f.a}</dd>`).join('')}</dl></section>
+</div>
+
+<section class="sec contact sz-booking" id="book" data-c="22,18,16"><div class="container"><div class="contact-grid">
+<div class="contact-copy">
+<h2 class="h-xl reveal">Request <em>your slot.</em></h2>
+<p class="lede reveal">Tell us the day and the time you want. We confirm by email within a day, and the slot is held once it is paid. Want a full session instead? <a href="/investment">See every package</a>.</p>
+<ul class="contact-list reveal">
+<li><span>Email</span><a href="mailto:itsaurafilms@gmail.com">itsaurafilms@gmail.com</a></li>
+<li><span>Phone</span><a href="tel:+13439894546">343 989 4546</a></li>
+<li><span>Instagram</span><a href="https://www.instagram.com/aura.filmsca/" target="_blank" rel="noopener">@aura.filmsca</a></li>
+</ul>
+</div>
+<div class="contact-panel reveal"><div class="cform-wrap">
+<form class="cform" id="cform" action="https://api.web3forms.com/submit" method="POST">
+<input type="hidden" name="access_key" value="${ACCESS_KEY}">
+<input type="hidden" name="subject" value="Seasonal mini session request">
+<input type="hidden" name="from_name" value="Aura Films Website">
+<input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
+<div><label class="fl" for="sz-name">Your Name</label><input class="fi" id="sz-name" name="name" required autocomplete="name" placeholder="What should we call you?"></div>
+<div><label class="fl" for="sz-email">Email</label><input class="fi" id="sz-email" type="email" name="email" required autocomplete="email" placeholder="you@email.com"></div>
+<div><label class="fl" for="sz-session">Date</label><select class="fi" id="sz-session" name="session" required><option value="">Choose a date</option>${SZ_DAYS.map(d=>`<option value="${d.key}" data-set="${d.set}">${d.key}</option>`).join('')}</select></div>
+<div><label class="fl" for="sz-time">Preferred time</label><select class="fi" id="sz-time" name="preferred_time" required><option value="">Choose a date first</option></select></div>
+<div><label class="fl" for="sz-people">How many people</label><select class="fi" id="sz-people" name="people" required>${[1,2,3,4].map(n=>`<option value="${n}"${n===2?' selected':''}>${n}</option>`).join('')}</select></div>
+<div><label class="fl" for="sz-phone">Phone <span class="fl-opt">(optional)</span></label><input class="fi" id="sz-phone" type="tel" name="phone" autocomplete="tel" placeholder="For day-of updates"></div>
+<div class="full"><label class="fl" for="sz-msg">Anything we should know? <span class="fl-opt">(optional)</span></label><textarea class="fi" id="sz-msg" name="message" placeholder="Who is coming, a backup time, a dog, anything."></textarea></div>
+<div class="full consent-row"><label class="consent" for="sz-consent"><input type="checkbox" id="sz-consent" name="privacy_consent" value="I agree" required> <span>I've read the <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a> and consent to Aura Films storing the details I've entered so they can respond to my request. <span aria-hidden="true">*</span></span></label></div>
+<div class="full"><button class="btn btn-dark" id="cf-btn" type="submit">Request my slot ${arrow}</button></div>
+</form>
+<div class="cform-thanks" id="cformThanks">
+<div class="ct-ico"><svg viewBox="0 0 52 52" width="58" height="58" fill="none" stroke="currentColor" stroke-width="2"><circle cx="26" cy="26" r="24"/><path d="M16 27l7 7 13-14" stroke-width="2.4"/></svg></div>
+<h3 class="serif">Request received.</h3>
+<p>We’ll confirm your slot by email within a day, with the payment details.</p>
+</div></div></div>
+</div></div></section>
+</main>
+<script>(function(){var T=${JSON.stringify(Object.fromEntries(Object.entries(SZ_TIMES).map(([k,v])=>[k,v.map((t,i)=>t+'–'+end20(t)+' pm'+(i>=v.length-2?' (golden hour)':''))])))};
+var s=document.getElementById('sz-session'),t=document.getElementById('sz-time');if(!s||!t)return;
+function fill(){var o=s.options[s.selectedIndex],k=o&&o.getAttribute('data-set');t.innerHTML='';
+ if(!k){t.add(new Option('Choose a date first',''));return;}
+ t.add(new Option('Any time that day','Any time'));T[k].forEach(function(x){t.add(new Option(x,x));});}
+s.addEventListener('change',fill);
+document.querySelectorAll('[data-session]').forEach(function(a){a.addEventListener('click',function(){s.value=a.getAttribute('data-session');fill();});});
+})();</script>`+foot();
 
 /* ════════ LEGAL ════════ */
 const legalShell=(title,body)=>head(title+', Aura Films','Aura Films '+title.toLowerCase()+'.',title.split(/[ &]/)[0].toLowerCase())+nav('')+`<main class="legal"><div class="container" style="max-width:860px"><h1 class="serif">${title}</h1><p class="updated">Last updated · September 2026</p>${body}</div></main>`+foot();
@@ -659,7 +796,7 @@ const homeHTML=finalize(home);
 const schema=`<script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","additionalType":"https://schema.org/PhotographStore","name":"Aura Films","url":"${SITE}","image":"${SITE}images/wed-3.jpg","description":"Photography studio in Kingston, Ontario. Weddings, portraits, family and architecture, shot and hand graded by Albin.","email":"itsaurafilms@gmail.com","telephone":"+1-343-989-4546","priceRange":"$85 - $2695","address":{"@type":"PostalAddress","addressLocality":"Kingston","addressRegion":"ON","addressCountry":"CA"},"areaServed":{"@type":"State","name":"Ontario"},"founder":{"@type":"Person","name":"Albin"},"sameAs":["https://www.instagram.com/aura.filmsca/"],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Photography packages","itemListElement":[{"@type":"Offer","priceCurrency":"CAD","price":"1195","itemOffered":{"@type":"Service","name":"Wedding photography","url":"${SITE}weddings"}},{"@type":"Offer","priceCurrency":"CAD","price":"85","itemOffered":{"@type":"Service","name":"Portrait photography","url":"${SITE}portraits"}},{"@type":"Offer","priceCurrency":"CAD","price":"399","itemOffered":{"@type":"Service","name":"Event photography","url":"${SITE}events"}},{"@type":"Offer","priceCurrency":"CAD","price":"179","itemOffered":{"@type":"Service","name":"Family and maternity photography","url":"${SITE}family-maternity"}},{"@type":"Offer","priceCurrency":"CAD","price":"750","itemOffered":{"@type":"Service","name":"Architectural photography","url":"${SITE}investment#pk-architecture"}}]}}</script>`;
 const withSchema=h=>h.replace('</head>',schema+'</head>');
 
-const PAGES=[['',1.0],['gallery',0.9],['about',0.8],['investment',0.9],['faq',0.7],['weddings',0.9],['portraits',0.8],['events',0.8],['family-maternity',0.8],['engagements',0.8],['gananoque',0.6],['napanee',0.6],['brockville',0.6],['belleville',0.6],['prince-edward-county',0.7],['ottawa',0.6],['privacy',0.3],['terms',0.3],['cookie',0.3],['refund',0.3],['accessibility',0.3]];
+const PAGES=[['',1.0],['gallery',0.9],['about',0.8],['investment',0.9],['seasonal',0.8],['faq',0.7],['weddings',0.9],['portraits',0.8],['events',0.8],['family-maternity',0.8],['engagements',0.8],['gananoque',0.6],['napanee',0.6],['brockville',0.6],['belleville',0.6],['prince-edward-county',0.7],['ottawa',0.6],['privacy',0.3],['terms',0.3],['cookie',0.3],['refund',0.3],['accessibility',0.3]];
 const today=new Date().toISOString().slice(0,10);
 const NL=String.fromCharCode(10);
 if(sharp) await writeFile(TONES_FILE,JSON.stringify(TONES));
@@ -718,7 +855,7 @@ const SERVICE_PAGES=[
   {q:'How old should a newborn be?', a:'Between five and fifteen days is easiest, because they sleep through most of it. Older is still fine, it just becomes a different and slightly livelier set of photographs.'},
   {q:'What should we wear?', a:'One colour across the family in two or three shades, and textures rather than patterns. Anything new, wear it for an hour first so it stops looking new.'},
   {q:'Do you travel outside Kingston?', a:'Yes, anywhere in Ontario. Travel inside an hour of Kingston is included; beyond that we agree it in writing before you book.'}],
- links:[['/investment#pk-family','Family packages and prices'],['/gallery#family','Family photographs'],['/faq','Questions, answered']]},
+ links:[['/investment#pk-family','Family packages and prices'],['/seasonal','Seasonal mini sessions'],['/gallery#family','Family photographs'],['/faq','Questions, answered']]},
 
 {slug:'engagements', hero:'wed-4.jpg', out:'engagements.html',
  title:'Engagement Photography, Kingston &amp; Ontario · Aura Films',
@@ -793,7 +930,7 @@ const HUB_PAGES=[
   {q:'Which session is right for a headshot?', a:'The thirty-minute Quick Shoot: one look and fifteen edited photographs.'},
   {q:'What happens if it rains?', a:'We move outdoor sessions to another day at no cost.'},
   {q:'When do I get my photos?', a:'Ten to twenty-one days, in an online gallery with a print release.'}],
- links:[['/investment#pk-portraits','All portrait packages'],['/engagements','Engagement sessions'],['/gallery#portraits','Portrait gallery']]},
+ links:[['/investment#pk-portraits','All portrait packages'],['/seasonal','Seasonal mini sessions'],['/engagements','Engagement sessions'],['/gallery#portraits','Portrait gallery']]},
 
 {slug:'events', hero:'_DSC1267.jpg', out:'events.html', pkg:'Events', strip:[['baby-12.jpg','An expecting mother at her baby shower among blue balloons'],['baby-19.jpg','A baby girl in pink laughs among pink balloons at her birthday'],['baby-17.jpg','A teddy bear and a basket of red roses decorate an outdoor celebration']],
  title:'Event Photographer in Kingston, Ontario · Aura Films',
@@ -921,7 +1058,7 @@ const faqPage=finalize(head('Questions, Answered · Aura Films',
 <div class="container lp-body">
 <section class="lp-sec lp-faq reveal"><dl>${FAQ.map(f=>`<dt>${f.q}</dt><dd>${f.a}</dd>`).join('')}</dl></section>
 <section class="lp-next reveal"><h2 class="h-md">Where to next</h2>
-<div class="lp-links">${[['/investment','Packages and prices'],['/gallery','The gallery'],['/about','About Albin'],['/family-maternity','Family &amp; maternity'],['/engagements','Engagement sessions']].map(l=>`<a href="${l[0]}">${l[1]} ${arrow}</a>`).join('')}</div>
+<div class="lp-links">${[['/investment','Packages and prices'],['/seasonal','Seasonal minis'],['/gallery','The gallery'],['/about','About Albin'],['/family-maternity','Family &amp; maternity'],['/engagements','Engagement sessions']].map(l=>`<a href="${l[0]}">${l[1]} ${arrow}</a>`).join('')}</div>
 <a class="btn btn-solid lp-cta" href="/about#contact">Book a date ${arrow}</a>
 </section>
 </div></main>`+foot())
@@ -972,6 +1109,7 @@ await writeFile('../llms.txt', [
 '- [Family and maternity](' + SITE + 'investment#pk-family): from $179. Newborns, bumps and growing families, at home or on location.',
 '- [Events and showers](' + SITE + 'investment#pk-events): from $399. Two to six hours; the top tier includes a second photographer.',
 '- [Weddings](' + SITE + 'investment#pk-weddings): from $1,195. Micro-weddings to full documentary days; the two upper tiers include a second photographer.',
+'- [Seasonal mini sessions](' + SITE + 'seasonal): $129 for 20 minutes, 12 edited photos, up to 4 people. Fall Nov 7-8 2026, Holiday Dec 12-13 2026, Snow Jan 23-24 2027.',
 '- [Architecture](' + SITE + 'investment#pk-architecture): from $750. Interiors and exteriors, half or full day, with a usage licence.',
 '',
 '## Pages',
@@ -1024,13 +1162,14 @@ await writeFile('../404.html',finalize(head('Page not found, Aura Films','That p
 <p>The link may be old, or the page may have moved. Everything is still here:</p>
 <p style="margin-top:26px"><a class="btn btn-gold" href="/">Back to home</a> <a class="btn btn-line" href="/gallery" style="margin-left:8px">See the gallery</a></p>
 <h2>Or jump straight to</h2>
-<ul><li><a href="/gallery">The full gallery</a></li><li><a href="/investment">Packages and pricing</a></li><li><a href="/about">About Albin</a></li><li><a href="/about#contact">Get in touch</a></li></ul>
+<ul><li><a href="/gallery">The full gallery</a></li><li><a href="/investment">Packages and pricing</a></li><li><a href="/seasonal">Seasonal mini sessions</a></li><li><a href="/about">About Albin</a></li><li><a href="/about#contact">Get in touch</a></li></ul>
 </div></main>`+foot()));
 
 await writeFile('../index.html',withSchema(homeHTML));
 await writeFile('../gallery.html',withSchema(finalize(buildGallery())));
 await writeFile('../about.html',withSchema(finalize(about)));
 await writeFile('../investment.html',withSchema(finalize(investment)));
+await writeFile('../seasonal.html',withSchema(finalize(seasonal)).replace('</head>',faqLd({faq:SZ_FAQ})+'</head>'));
 await writeFile('../privacy.html',finalize(privacy));
 await writeFile('../terms.html',finalize(terms));
 await writeFile('../cookie.html',finalize(cookie));
@@ -1058,4 +1197,4 @@ const accessibility=legalShell('Accessibility',`
 <h2>3. Known limitations</h2><p>Our optional booking calendar is provided by Calendly, and we do not control its accessibility. If it does not work for you, email or call us and we will book you directly.</p>
 <h2>4. Feedback and other formats</h2><p>If anything on this site is hard to use, or you would like information in another format, contact us at <a href="mailto:itsaurafilms@gmail.com">itsaurafilms@gmail.com</a> or <a href="tel:+13439894546">343 989 4546</a>. We reply within 24 to 48 hours.</p>`);
 await writeFile('../accessibility.html',finalize(accessibility));
-console.log('✓ generated 8 pages + 404, sitemap.xml, robots.txt');
+console.log('✓ generated 9 pages + 404, sitemap.xml, robots.txt');
