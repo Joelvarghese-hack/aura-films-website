@@ -582,7 +582,8 @@ ${contactBlock()}
    Snow odds come from Environment and Climate Change Canada's daily snow-on-ground record for
    the Kingston Climate station (6104142), winters 2009-10 to 2025-26; 2012-13 has no snow data.
    Slot times run back from sunset (NOAA algorithm, 44.23N 76.49W) so the last two catch golden hour. */
-const MINI={price:129,mins:20,photos:12,people:4};
+const MINI={mins:20,photos:12,people:4};
+const SZ_PRICE={fall:85,holiday:100,snow:100};
 const SZ_TIMES={fall:['2:05','2:35','3:05','3:35','4:05','4:35'],holiday:['1:45','2:15','2:45','3:15','3:45','4:15'],snow:['2:20','2:50','3:20','3:50','4:20','4:50']};
 const SZ_DAYS=[
  {key:'Fall Minis, Sat Nov 7',set:'fall',day:'Sat',date:'Nov 7',sunset:'4:47 pm'},
@@ -600,7 +601,7 @@ const szDay=d=>`<div class="sz-day"><p class="sz-day-h"><b>${d.day}</b> ${d.date
 const szIncl=[`${MINI.mins} minutes, one location`,`${MINI.photos} photographs, edited by hand`,`Up to ${MINI.people} people`,'Online gallery within 10 days'];
 const szCard=(o)=>`<article class="sz-card reveal${o.cls?' '+o.cls:''}">
 <div class="sz-card-top"><p class="sz-badge">${o.badge}</p><h3 class="sz-name">${o.name}</h3><p class="sz-when">${o.when}</p></div>
-<div class="sz-price"><p class="tier-price"><span>$</span>${MINI.price}</p><p class="tier-note">per session, everything below included</p></div>
+<div class="sz-price"><p class="tier-price"><span>$</span>${SZ_PRICE[o.days[0].set]}</p><p class="tier-note">per session, everything below included</p></div>
 <ul class="tier-list">${szIncl.map(x=>`<li>${tick}<span>${x}</span></li>`).join('')}</ul>
 <div class="sz-days">${o.days.map(szDay).join('')}</div>
 <p class="sz-legend"><i aria-hidden="true"></i> Golden-hour slots. They go first.</p>
@@ -612,7 +613,7 @@ const szChart=`<figure class="sz-chart reveal" aria-labelledby="szChartCap">
 <figcaption id="szChartCap"><b>How often Kingston has snow on the ground, week by week.</b> Share of days with at least 1&nbsp;cm, from Environment and Climate Change Canada's daily records for the Kingston Climate station, sixteen winters from 2009 to 2026. In a typical year, the first day with snow on the ground has come around <b>November 21</b>.</figcaption>
 </figure>`;
 const SZ_FAQ=[
- {q:'How much is a mini session?', a:'$129 for twenty minutes, with twelve photographs edited by hand and up to four people. It is the same price for the fall, holiday and snow dates. If you love more of the gallery, ten more edited photographs are $75.'},
+ {q:'How much is a mini session?', a:'$85 for the fall dates and $100 for the holiday and snow dates. Either way you get twenty minutes, twelve photographs edited by hand and up to four people. If you love more of the gallery, ten more edited photographs are $75.'},
  {q:'How do I book a slot?', a:'Pick a date and a time in the form below. We confirm by email within a day, with the payment details. Your slot is held once it is paid, first come, first served. Each day has six slots.'},
  {q:'Where are the sessions?', a:'In Kingston. Albin picks one spot for each day, the week before, based on where the light and the season look best. You get the exact location and parking with your confirmation.'},
  {q:'Will there be snow?', a:'For the January dates, almost certainly. In all sixteen winters with records since 2009, Kingston had snow on the ground every day of that week. For the December dates, it is closer to a coin toss, which is why those are holiday sessions first and snow sessions only if the weather obliges.'},
@@ -621,12 +622,12 @@ const SZ_FAQ=[
  {q:'What if I cannot make it?', a:'You can hand your slot to a friend. Slots are not refundable, because each one is a set time on a set day that we cannot resell at short notice.'},
  {q:'When do we get the photos?', a:'Within ten days, in an online gallery. Sessions on December 12 and 13 come back to you before Christmas.'}];
 
-const seasonal=head('Seasonal Mini Sessions in Kingston, ON · Aura Films','Fall, holiday and snow mini sessions in Kingston, Ontario: $129 for 20 minutes and 12 edited photos, up to 4 people. Nov 7–8, Dec 12–13 and Jan 23–24.','seasonal')+nav('Seasonal')+`
+const seasonal=head('Seasonal Mini Sessions in Kingston, ON · Aura Films','Fall, holiday and snow mini sessions in Kingston, Ontario: 20 minutes and 12 edited photos for up to 4 people, $85 in fall and $100 in winter. Nov 7–8, Dec 12–13 and Jan 23–24.','seasonal')+nav('Seasonal')+`
 <main id="main" class="lp sz" data-c="${T('_DSC1655.jpg')}">
 <header class="lp-top"><div class="container">
 <div class="kicker reveal">Seasonal mini sessions · Kingston, Ontario</div>
 <h1 class="h-display reveal">Twenty minutes, <em>made for the season.</em></h1>
-<p class="lp-lede reveal">A handful of set days a year, timed to the light and the weather Kingston actually gets. $${MINI.price} for twenty minutes and twelve photographs edited by hand.</p>
+<p class="lp-lede reveal">A handful of set days a year, timed to the light and the weather Kingston actually gets. Twenty minutes and twelve photographs edited by hand: $${SZ_PRICE.fall} in the fall, $${SZ_PRICE.snow} in winter.</p>
 <nav class="sz-jump reveal" aria-label="Seasons on this page"><a href="#fall"><span>Fall</span><b>Nov 7 &amp; 8</b></a><a href="#winter"><span>Winter</span><b>Dec 12 &amp; 13 · Jan 23 &amp; 24</b></a><a href="#book"><span>Booking</span><b>Request a slot</b></a></nav>
 </div></header>
 <div class="container"><div class="sz-trio reveal">
@@ -1109,7 +1110,7 @@ await writeFile('../llms.txt', [
 '- [Family and maternity](' + SITE + 'investment#pk-family): from $179. Newborns, bumps and growing families, at home or on location.',
 '- [Events and showers](' + SITE + 'investment#pk-events): from $399. Two to six hours; the top tier includes a second photographer.',
 '- [Weddings](' + SITE + 'investment#pk-weddings): from $1,195. Micro-weddings to full documentary days; the two upper tiers include a second photographer.',
-'- [Seasonal mini sessions](' + SITE + 'seasonal): $129 for 20 minutes, 12 edited photos, up to 4 people. Fall Nov 7-8 2026, Holiday Dec 12-13 2026, Snow Jan 23-24 2027.',
+'- [Seasonal mini sessions](' + SITE + 'seasonal): 20 minutes, 12 edited photos, up to 4 people. Fall $85 (Nov 7-8 2026); Holiday $100 (Dec 12-13 2026); Snow $100 (Jan 23-24 2027).',
 '- [Architecture](' + SITE + 'investment#pk-architecture): from $750. Interiors and exteriors, half or full day, with a usage licence.',
 '',
 '## Pages',
