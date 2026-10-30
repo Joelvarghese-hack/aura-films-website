@@ -1,86 +1,90 @@
 {
  "": {
-  "hash": "6749ad4f0223d562",
-  "date": "2026-10-28"
+  "hash": "c2e0bc0b4b352d95",
+  "date": "2026-10-30"
  },
  "gallery": {
-  "hash": "9fd87d6f9ea3c6cd",
-  "date": "2026-10-28"
+  "hash": "f345ec606925c6f9",
+  "date": "2026-10-30"
  },
  "about": {
-  "hash": "fe2ac91f1788ba5a",
-  "date": "2026-10-29"
+  "hash": "4426b690043d0593",
+  "date": "2026-10-30"
  },
  "investment": {
-  "hash": "4a9e554d075ab40c",
-  "date": "2026-10-29"
+  "hash": "2a2a86465626f962",
+  "date": "2026-10-30"
  },
  "faq": {
-  "hash": "c0f00f57201e03d7",
-  "date": "2026-10-29"
+  "hash": "c3080423c64f421c",
+  "date": "2026-10-30"
  },
  "weddings": {
-  "hash": "097c64e4ce4ddfd8",
-  "date": "2026-10-28"
+  "hash": "f31c6fdfc8e9d223",
+  "date": "2026-10-30"
  },
  "portraits": {
-  "hash": "312988a2c75e56cc",
-  "date": "2026-10-28"
+  "hash": "36c89b749fa0940d",
+  "date": "2026-10-30"
  },
  "events": {
-  "hash": "d03b22ff470f5331",
-  "date": "2026-10-28"
+  "hash": "de1b72f35d051c06",
+  "date": "2026-10-30"
  },
  "family-maternity": {
-  "hash": "008de879a7d15001",
-  "date": "2026-10-28"
+  "hash": "0628eb4a11a9a742",
+  "date": "2026-10-30"
  },
  "engagements": {
-  "hash": "aebdc0b34cdcb115",
-  "date": "2026-10-28"
+  "hash": "12a1c3f369a67580",
+  "date": "2026-10-30"
  },
  "gananoque": {
-  "hash": "e09d7c30287c68b3",
-  "date": "2026-10-28"
+  "hash": "0f0c2adbb515e0fb",
+  "date": "2026-10-30"
  },
  "napanee": {
-  "hash": "9e6ee564918950e4",
-  "date": "2026-10-28"
+  "hash": "7d63976c1f48ca1d",
+  "date": "2026-10-30"
  },
  "brockville": {
-  "hash": "079f304d7108c533",
-  "date": "2026-10-28"
+  "hash": "a0d3071b53b18846",
+  "date": "2026-10-30"
  },
  "belleville": {
-  "hash": "4218e893f3515176",
-  "date": "2026-10-28"
+  "hash": "f39bc3418a659652",
+  "date": "2026-10-30"
  },
  "prince-edward-county": {
-  "hash": "a17cbc4643e06fce",
-  "date": "2026-10-28"
+  "hash": "c01561d01dd6d8d9",
+  "date": "2026-10-30"
  },
  "ottawa": {
-  "hash": "7170c69055aefefa",
-  "date": "2026-10-28"
+  "hash": "8f979dc59e23d444",
+  "date": "2026-10-30"
  },
  "privacy": {
-  "hash": "097a42c763940f16",
-  "date": "2026-10-28"
+  "hash": "31bd6dfd603c6554",
+  "date": "2026-10-30"
  },
  "terms": {
-  "hash": "63c89336c2a92ea1",
-  "date": "2026-10-28"
+  "hash": "7261475b592acf57",
+  "date": "2026-10-30"
  },
  "cookie": {
-  "hash": "1d93eb3514ed059a",
-  "date": "2026-10-28"
+  "hash": "a02df2674a92aa71",
+  "date": "2026-10-30"
  },
  "refund": {
-  "hash": "8d110be6222110c9",
-  "date": "2026-10-28"
+  "hash": "8b43795faf00ddc7",
+  "date": "2026-10-30"
  },
  "accessibility": {
-  "hash": "05c666e0e60c636f",
-  "date": "2026-10-28"
+  "hash": "479429581b0216bc",
+  "date": "2026-10-30"
+ },
+ "seasonal": {
+  "hash": "6c65cc1a452799b8",
+  "date": "2026-10-30"
  }
 }
