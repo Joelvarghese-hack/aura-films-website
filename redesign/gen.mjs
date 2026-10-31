@@ -283,7 +283,7 @@ ${MARKETING?`<div class="full consent-row"><label class="consent" for="cf-market
 /* ════════ CONTENT KEPT FROM THE LIVE SITE ════════ */
 const GAL={
  weddings:['wed-1.jpg','wed-2.jpg','wed-3.jpg','wed-4.jpg','wed-5.jpg','wed-6.jpg','wed-7.jpg','wed-8.jpg','wed-9.jpg','wed-10.jpg','wed-11.jpg','wed-12.jpg','wed-13.jpg','_DSC8307.jpg','IMG_9548.JPG.jpeg','_DSC8637.jpg','_DSC8672.jpg','_DSC8231.jpg','_DSC8243.jpg','IMG_9356.JPG.jpeg','_DSC8034.jpg','_DSC8577.jpg','_DSC8016.jpg','_DSC8021.jpg','_DSC8238.jpg','_DSC8239.jpg','_DSC8241.jpg','IMG_9115.jpg','IMG_8926.JPG.jpeg','_DSC7542.jpg','_DSC7545.jpg','_DSC1460.jpg','_DSC1513.jpg','_DSC1655.jpg','_DSC1841.jpg','_DSC1894.jpg','_DSC2012.jpg','_DSC2024.jpg'],
- portraits:['por-1.jpg','por-2.jpg','por-3.jpg','por-4.jpg','por-5.jpg','por-6.jpg','por-7.jpg','por-8.jpg','por-9.jpg','por-10.jpg','por-11.jpg','por-12.jpg','por-13.jpg','por-14.jpg','IMG_3431.JPG.jpeg','IMG_3432.JPG.jpeg','IMG_3437.JPG.jpeg','IMG_3438.JPG.jpeg','IMG_7777.JPG.jpeg','IMG_9906.JPG.jpeg','IMG_9907.JPG.jpeg','_DSC8015.jpg','_DSC8049.jpg','_DSC8215.jpg'],
+ portraits:['por-snow-1.jpg','por-1.jpg','por-2.jpg','por-3.jpg','por-4.jpg','por-5.jpg','por-stairs-1.jpg','por-6.jpg','por-7.jpg','por-8.jpg','por-9.jpg','por-10.jpg','por-snow-trio.jpg','por-11.jpg','por-12.jpg','por-13.jpg','por-14.jpg','IMG_3431.JPG.jpeg','por-stairs-2.jpg','IMG_3432.JPG.jpeg','IMG_3437.JPG.jpeg','IMG_3438.JPG.jpeg','IMG_7777.JPG.jpeg','IMG_9906.JPG.jpeg','por-snow-2.jpg','IMG_9907.JPG.jpeg','_DSC8015.jpg','_DSC8049.jpg','_DSC8215.jpg'],
  family:['baby-1.jpg','baby-2.jpg','baby-3.jpg','baby-4.jpg','baby-5.jpg','baby-6.jpg','baby-7.jpg','baby-8.jpg','baby-9.jpg','baby-10.jpg','baby-11.jpg','baby-12.jpg','baby-13.jpg','baby-14.jpg','baby-15.jpg','baby-16.jpg','baby-17.jpg','baby-18.jpg','baby-19.jpg','_DSC7794.jpeg','_DSC7798.jpeg','_DSC7883.jpeg','_DSC1248.jpg','_DSC1267.jpg','_DSC1347.jpg','_DSC1351.jpg','_DSC1352.jpg','_DSC1487.jpg','_DSC1500.jpg','_DSC1534.jpg','IMG_8816.JPG.jpeg','IMG_8829.JPG.jpeg','_DSC2163.jpg','_DSC2175.jpg','_DSC2313.jpg','_DSC2394.jpg','_DSC2521.jpg','_DSC2571.jpg','_DSC2667.jpg','IMG_1265.jpg'],
  architecture:['arch-1.jpg','arch-2.jpg','arch-3.jpg','arch-4.jpg','arch-5.jpg','arch-6.jpg','arch-7.jpg','arch-8.jpg','arch-9.jpg'],
 };
@@ -656,6 +656,11 @@ const seasonal=head('Seasonal Mini Sessions in Kingston, ON · Aura Films','Fall
 <p class="lede reveal">We set the winter dates from Kingston's own snow records rather than a guess. The first snow on the ground usually comes in late November, and through mid-December it is a coin toss. By the fourth week of January it has been there every day, in every winter with records since 2009.</p>
 </div>
 ${szChart}
+</div>
+<div class="sz-snow reveal">
+<figure><img src="images/por-snow-trio.jpg" alt="Three close portraits of a woman with long dark hair against bare, frosted trees" loading="lazy"></figure>
+<figure><img src="images/por-snow-1.jpg" alt="A woman in a plum knit dress stands on a snowy trail in a winter wood" loading="lazy"></figure>
+<figure><img src="images/por-snow-2.jpg" alt="A woman in a plum sweater looks across a snowy wood, tucking her hair behind her ear" loading="lazy"></figure>
 </div>
 <div class="sz-cards">
 ${szCard({name:'Holiday Minis',short:'holiday',badge:'Galleries before Christmas',when:'Saturday December 12 and Sunday December 13, 2026',days:SZ_DAYS.slice(2,4),weather:'<b>Weather date:</b> Saturday December 19, same time; galleries from that day arrive after Christmas. Snow is a bonus on these dates, not a promise.'})}
