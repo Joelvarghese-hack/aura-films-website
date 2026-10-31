@@ -715,6 +715,12 @@ html.theme-light .mk-on-light{display:inline-block}
 .sz-trio figure:nth-child(2) img{aspect-ratio:4/4.6}
 .sz-trio figure:nth-child(1){transform:translateY(8%) rotate(-2.5deg)}
 .sz-trio figure:nth-child(3){transform:translateY(8%) rotate(2.5deg)}
+/* winter photographs, shown whole (no crop), the middle one a touch larger */
+.sz-snow{display:grid;grid-template-columns:1fr 1.18fr 1fr;gap:clamp(10px,1.6vw,22px);align-items:center;max-width:1120px;margin:0 auto clamp(36px,6vh,64px)}
+.sz-snow figure{margin:0;border-radius:var(--r-lg);overflow:hidden;box-shadow:0 46px 90px -50px rgba(0,0,0,.8),0 10px 24px -16px rgba(169,214,236,.18)}
+.sz-snow img{display:block;width:100%;height:auto}
+.sz-snow figure:nth-child(1){transform:rotate(-1.6deg)}
+.sz-snow figure:nth-child(3){transform:rotate(1.6deg)}
 
 .sz-season{padding-block:clamp(90px,14vh,170px) clamp(40px,6vh,70px)}
 .sz-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(30px,6vw,96px);align-items:center;margin-bottom:clamp(36px,6vh,64px)}
@@ -807,6 +813,9 @@ select.fi option{background:#16120F;color:#F6F1EA}
 @media(max-width:700px){
   .sz-trio{grid-template-columns:1fr 1.2fr 1fr;gap:8px}
   .sz-trio figure{border-radius:var(--r-sm)}
+  .sz-snow{grid-template-columns:1fr 1fr;gap:10px;align-items:start}
+  .sz-snow figure{border-radius:var(--r-sm)}
+  .sz-snow figure:nth-child(2){grid-column:1/-1;grid-row:1;max-width:420px;justify-self:center}
   .sz-card .tier-list{grid-template-columns:1fr}
   .sz-days{grid-template-columns:1fr 1fr;gap:8px}
   .sz-day{padding:12px 10px}
